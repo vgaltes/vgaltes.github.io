@@ -1,0 +1,55 @@
+---
+layout: post
+status: publish
+published: true
+title: 'Microsoft Release Management – Part 2: Configuring the environment'
+author:
+  display_name: vgaltesc
+  login: vgaltesc
+  email: vincentredrum@gmail.com
+  url: ''
+author_login: vgaltesc
+author_email: vincentredrum@gmail.com
+wordpress_id: 128
+wordpress_url: http://vgaltes.com/?p=128
+date: '2013-12-18 09:37:30 +0000'
+date_gmt: '2013-12-18 09:37:30 +0000'
+categories:
+- ALM
+tags:
+- Team Foundation Server
+- Release Management
+- Continuous Deployment
+- TFS 2013
+comments: []
+---
+<p>In the <a title="Microsoft Release Management – Part 1: Installation" href="http://vgaltes.com/index.php/2013/12/07/microsoft-release-management-part-1-installation/" target="_blank">previous</a> article we have seen how to install Microsoft Release Management. In this article we are going to see how to configure environments and release paths.</p>
+<p>To start, we need to define the stage types. The stage types are the logical steps required to bring a build from development to production. Go to Administration -&gt; Manage Pick Lists -&gt; Stage Type and add three stages: DEV, QA and PROD.</p>
+<p>[caption id="attachment_132" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Manage-Pick-Lists.png"><img class="size-full wp-image-132" alt="Manage Pick Lists" src="http://vgaltes.com/wp-content/uploads/2013/12/Manage-Pick-Lists.png" width="1036" height="780" /></a> Manage Pick Lists[/caption]</p>
+<p>The next step is to add a new server to Release Management. A server is a machine where a deployment agent is installed. Go to Configure Paths -&gt; Servers, expand the New button and click on Scan for new.</p>
+<p>[caption id="attachment_135" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Scan-for-new-server.png"><img class="size-full wp-image-135" alt="Scan for new server" src="http://vgaltes.com/wp-content/uploads/2013/12/Scan-for-new-server.png" width="1036" height="780" /></a> Scan for new server[/caption]</p>
+<p>A list of unregistered servers will be shown. Select the server and click on Register</p>
+<p>[caption id="attachment_137" align="alignnone" width="882"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Unregistered-serves.png"><img class="size-full wp-image-137" alt="Unregistered servers" src="http://vgaltes.com/wp-content/uploads/2013/12/Unregistered-serves.png" width="882" height="601" /></a> Unregistered servers[/caption]</p>
+<p>The next step is to create the different environments to be used in the release path we will define later. Go to Configure Paths -&gt; Environments and click on New</p>
+<p>[caption id="attachment_129" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Environment-1.png"><img class="size-full wp-image-129" alt="Create Environment" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Environment-1.png" width="1036" height="780" /></a> Create Environment[/caption]</p>
+<p>Fill the general information form. Now, we have to link this environment to a server (remember, a server is a machine with the deployment agent installed). Click on Link existing.</p>
+<p>[caption id="attachment_131" align="alignnone" width="882"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Link-server.png"><img class="size-full wp-image-131" alt="Link server" src="http://vgaltes.com/wp-content/uploads/2013/12/Link-server.png" width="882" height="601" /></a> Link server[/caption]</p>
+<p>Select the server and click on Link. Save the environment and repeat the operation for the QA and PROD environments.</p>
+<p>[caption id="attachment_130" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Environments.png"><img class="size-full wp-image-130" alt="Environments" src="http://vgaltes.com/wp-content/uploads/2013/12/Environments.png" width="1036" height="780" /></a> Environments[/caption]</p>
+<p>We are ready to configure the release path. A release path is the path used for distributing the software. We can define as many paths as we need (standard, customer emergency, etc). Go to Configure Paths -&gt; Release Paths and click on New.</p>
+<p>[caption id="attachment_133" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Release-Path1.png"><img class="size-full wp-image-133" alt="Release Path" src="http://vgaltes.com/wp-content/uploads/2013/12/Release-Path1.png" width="1036" height="780" /></a> Release Path[/caption]</p>
+<p>After filling the name and description of the release path, we are ready to configure the stages. Click on Add. Select the stage type from the Stage dropdown. Select the environment associated to the stage from the Environment dropdown. Each step is composed of 3 sequential steps:</p>
+<ul>
+<li><strong>Acceptance step</strong>: the user selected as the approver in the Approver dropdown will be the responsible for approving or rejecting the deployment of the release in the stage. This step can be automated by selecting the Automated check box.</li>
+<li><strong>Deployment step</strong>: is composed of 2 parts:
+<ul>
+<li><em>Deployment of the components</em>: the user selected as the approver in the Approver dropdown will have the responsibility of the deployment and he will be notified about it.</li>
+<li><em>Validation of the deployment</em>: the user selected as the validator in the Validator dropdown will have the reponsibility to validate that the components have been deployed correctly.</li>
+</ul>
+</li>
+<li><strong>Apporval step</strong>: the users added to the Approvers list will have the responsibility to aprove or reject the release.</li>
+</ul>
+<p>Repeat these steps for all three stages.</p>
+<p>[caption id="attachment_134" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Release-Path2.png"><img class="size-full wp-image-134" alt="Release Path Complete" src="http://vgaltes.com/wp-content/uploads/2013/12/Release-Path2.png" width="1036" height="780" /></a> Release Path Complete[/caption]</p>
+<p>And that's all for today. In the next article we will see how to configure the deployment of a web site using this release path.</p>
+<p>See you soon!</p>

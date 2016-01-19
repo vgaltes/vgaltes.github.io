@@ -1,0 +1,116 @@
+---
+layout: post
+status: publish
+published: true
+title: Comparing image with a capture with CasperJS
+author:
+  display_name: vgaltesc
+  login: vgaltesc
+  email: vincentredrum@gmail.com
+  url: ''
+author_login: vgaltesc
+author_email: vincentredrum@gmail.com
+wordpress_id: 100
+wordpress_url: http://vgaltes.com/?p=100
+date: '2013-07-09 16:33:07 +0100'
+date_gmt: '2013-07-09 16:33:07 +0100'
+categories:
+- Uncategorized
+tags: []
+comments:
+- id: 26562
+  author: Hristiyian
+  author_email: hristovhrsiti@gmail.com
+  author_url: ''
+  date: '2014-09-16 10:29:24 +0100'
+  date_gmt: '2014-09-16 09:29:24 +0100'
+  content: "I did everything as described but when i run casperjs, i got \"unable
+    to open file '/plainconceptsold.png'\r\nAny suggestions?"
+- id: 32083
+  author: vgaltesc
+  author_email: vincentredrum@gmail.com
+  author_url: ''
+  date: '2014-12-08 22:11:29 +0000'
+  date_gmt: '2014-12-08 21:11:29 +0000'
+  content: "Hi,\r\n\r\nplainconceptsold.png is an image you must create on your own.
+    Is an image used as a reference to compare with the current capture."
+- id: 32095
+  author: The Zag
+  author_email: zagzigga@yahoo.com
+  author_url: ''
+  date: '2015-03-30 16:40:00 +0100'
+  date_gmt: '2015-03-30 16:40:00 +0100'
+  content: |-
+    Hi, I tried this script and it passes inconsistently. A visual comparison of my baseline screenshot and the one captured by the script does not reveal any differences. Is there a way to specify an additional parameter so that casper is more forgiving towards minute differences?
+    Something similar to what phantom provides:
+     phantomcss: {
+            options: {
+              mismatchTolerance: 0.05,
+              screenshots: 'baselines',
+              results: 'results',
+              viewportSize: [1280, 800],
+              },
+              src: [
+                 'phantomcss.js'
+              ]
+          },
+- id: 32096
+  author: Vicenç García-Altés
+  author_email: vgaltes@gmail.com
+  author_url: ''
+  date: '2015-05-03 14:36:00 +0100'
+  date_gmt: '2015-05-03 14:36:00 +0100'
+  content: |-
+    Hi,
+
+    sorry for the late response. I don't think you can use this functionality due to the simplistic approach we are using here. But maybe you can try to parse the PNG files using something like https://github.com/arian/pngjs and try to find out how many pixels are different.
+
+
+
+    Cheers,
+    Vicenc
+---
+<p>Last thursday I had the pleasure to give a workshop about <a title="CasperJS" href="http://casperjs.org" target="_blank">CasperJS </a>at <a title="SpainJS" href="http://spainjs.org" target="_blank">SpainJS</a>. You could get the presentation and the code samples <a title="Workshop at SpainJS" href="https://github.com/vgaltes/spainjs" target="_blank">here</a>. At the end of the workshop an attendant asked me if it's possible to compare a capture with a reference image. My first answer was no. I was wrong. In this article we will see how we can accomplish this.</p>
+<p>The idea, and the code, is super simple. Read both images and compare the bytes. Let's <a title="Start function" href="http://casperjs.org/api.html#casper.start" target="_blank">start </a>casper, include the file system library and go to the page we want to capture:</p>
+<pre class="brush:javascript">var casper = require('casper').create({
+	viewportSize: {
+		width: 1024,
+		height: 768
+	}
+});
+
+var fs = require('fs'); 
+
+casper.start('http://www.plainconcepts.com');</pre>
+<p>Now, we have to read the reference image, make a <a title="Capture function" href="http://casperjs.org/api.html#casper.capture" target="_blank">capture </a>of the page and read the captured image to be able to compare with the reference one:</p>
+<pre class="brush:javascript">casper.then(function(){
+	var referenceImageContent = fs.read('./plainconceptsOld.png');
+
+	this.capture('plainconcepts.png');
+	var newImageContent = fs.read('./plainconcepts.png');
+
+	this.test.assert(newImageContent == referenceImageContent);
+});</pre>
+<p>And finally, call to <a title="Run function" href="http://casperjs.org/api.html#casper.run" target="_blank">run </a>function:</p>
+<pre class="brush:javascript">casper.run(function(){
+	this.echo('finished');
+	this.test.done(1);
+	this.test.renderResults(true);
+});</pre>
+<p>If you execute the code with the right reference image you will get this result:</p>
+<p>[caption id="attachment_101" align="alignleft" width="720"]<a href="http://vgaltes.com/wp-content/uploads/2013/07/ok.png"><img class="size-full wp-image-101" alt="test passed" src="http://vgaltes.com/wp-content/uploads/2013/07/ok.png" width="720" height="123" /></a> test passed[/caption]</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>If you make a change in a single pixel of the image, then you will get this result:</p>
+<p>[caption id="attachment_102" align="alignleft" width="719"]<a href="http://vgaltes.com/wp-content/uploads/2013/07/nok.png"><img class=" wp-image-102  " style="clear:both" title="test faiiled" alt="test faiiled" src="http://vgaltes.com/wp-content/uploads/2013/07/nok.png" width="719" height="236" /></a> test failed[/caption]</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>And that's all! Now you could compare a capture with a reference image. Remember that you can also capture a selector using <a title="captureSelector" href="http://casperjs.org/api.html#casper.captureSelector" target="_blank">captureSelector</a> function.</p>
+<p>&nbsp;</p>

@@ -1,0 +1,175 @@
+---
+layout: post
+status: publish
+published: true
+title: Create a Team Foundation Server event handler
+author:
+  display_name: vgaltesc
+  login: vgaltesc
+  email: vincentredrum@gmail.com
+  url: ''
+author_login: vgaltesc
+author_email: vincentredrum@gmail.com
+wordpress_id: 91
+wordpress_url: http://vgaltes.com/?p=91
+date: '2013-04-14 21:12:33 +0100'
+date_gmt: '2013-04-14 21:12:33 +0100'
+categories:
+- ALM
+tags:
+- Team Foundation Server
+- C#
+- extensibility
+comments:
+- id: 23654
+  author: Konstantin
+  author_email: simplevolk@gmail.com
+  author_url: ''
+  date: '2014-03-03 11:10:13 +0000'
+  date_gmt: '2014-03-03 11:10:13 +0000'
+  content: "And how to use this class? I am talking about use ProcessEvent().\r\nHow
+    to fill this parameters?"
+- id: 23656
+  author: vgaltesc
+  author_email: vincentredrum@gmail.com
+  author_url: ''
+  date: '2014-03-26 14:08:05 +0000'
+  date_gmt: '2014-03-26 14:08:05 +0000'
+  content: |-
+    Hi Konstantin,
+
+    the class is called by TFS, you don't have to call it. Follow the instructions to install the event handler and it will be called by TFS.
+- id: 23663
+  author: Jonlondon
+  author_email: email.john@free.fr
+  author_url: ''
+  date: '2014-05-19 14:55:11 +0100'
+  date_gmt: '2014-05-19 14:55:11 +0100'
+  content: "Hi,\r\n\r\nI guess to remove the event handler simply delete the DLL in
+    the \"Plugins\" directory. In my case, I wanted to rename the namespaces of my
+    DLL. So I removed the old one and added a new. The new one works fine but the
+    old one is still working. Is there a way to \"clear\" it? Or check what plugins
+    are installed on the server side?\r\n\r\nThanks"
+- id: 23685
+  author: vgaltesc
+  author_email: vincentredrum@gmail.com
+  author_url: ''
+  date: '2014-07-11 19:23:19 +0100'
+  date_gmt: '2014-07-11 19:23:19 +0100'
+  content: Have you tried to restart TFS?
+- id: 24018
+  author: sudhir
+  author_email: san.thanki@gmail.com
+  author_url: ''
+  date: '2014-07-15 04:53:27 +0100'
+  date_gmt: '2014-07-15 04:53:27 +0100'
+  content: "Hi i have developed a tfs plugin in 2010. and then migrate it to 2012
+    where it was working fine. but after migrating from 2012 to tfs 2013, it is no
+    longer working. looking at the logs in event viewer i found following exception:\r\n<code>\r\nTF30059:
+    Fatal error while initializing web service.\r\nTF53010: The following error has
+    occurred in a Team Foundation component or extension:\r\nDate (UTC): 7/14/2014
+    1:43:44 PM\r\nMachine: RND-TFS2013\r\nApplication Domain: /LM/W3SVC/2/ROOT/tfs-14-130498190190213468\r\nAssembly:
+    Microsoft.TeamFoundation.Framework.Server, Version=12.0.0.0, Culture=neutral,
+    PublicKeyToken=b03f5f7f11d50a3a; v4.0.30319\r\nService Host:\r\nProcess Details:\r\n
+    \ Process Name: w3wp\r\n  Process Id: 4840\r\n  Thread Id: 4728\r\n  Account name:
+    NT AUTHORITY\\NETWORK SERVICE\r\n\r\nDetailed Message: TF30059: Fatal error while
+    initializing web service\r\n\r\nWeb Request Details\r\n    Url: http://mytfserver:8080/tfs/DefaultCollection/Services/v1.0/TeamConfigurationService.asmx
+    [method: POST]\r\n    User Agent: Team Foundation (devenv.exe, 12.0.21005.1, TE,
+    SKU:14)\r\n    Headers: Connection=Keep-Alive&amp;Content-Length=359&amp;Content-Type=application%2fsoap%2bxml%3b+charset%3dutf-8&amp;Accept-Encoding=gzip&amp;Accept-Language=en-US&amp;Expect=100-continue&amp;Host=rnd-tfs2013%3a8080&amp;User-Agent=Team+Foundation+(devenv.exe%2c+12.0.21005.1%2c+TE%2c+SKU%3a14)&amp;X-TFS-Version=1.0.0.0&amp;X-TFS-Session=e485c555-8eee-4e0b-a8d0-9854ecb3625b%2c+GetTeamConfigurationsForUser&amp;X-VSS-Agent=TFS%3a+b1a8d5f0-6650-4f08-931c-004721f26a5f&amp;SOAPAction=%22http%3a%2f%2fschemas.microsoft.com%2fTeamFoundation%2f2005%2f06%2fServices%2fTeamConfiguration%2f01%2fGetTeamConfigurationsForUser%22\r\n
+    \   Path: /tfs/DefaultCollection/Services/v1.0/TeamConfigurationService.asmx\r\n
+    \   Local Request: True\r\n    Host Address: fe80::418d:cf6a:7d6d:656f%12\r\n
+    \   User: not available [authentication type: not available]\r\n\r\nException
+    Message: A route named 'Location:ConnectionData' is already in the route collection.
+    Route names must be unique.\r\nParameter name: name (type ArgumentException)\r\nException
+    Stack Trace:    at Microsoft.TeamFoundation.Framework.Server.TeamFoundationApplicationCore.ApplicationStart()\r\n
+    \  at Microsoft.TeamFoundation.Framework.Server.TeamFoundationModule.Module_BeginRequest(Object
+    sender, EventArgs e)\r\n</code>"
+- id: 32097
+  author: Paul Abrams
+  author_email: john.paul.abrams@gmail.com
+  author_url: ''
+  date: '2015-05-14 20:12:00 +0100'
+  date_gmt: '2015-05-14 20:12:00 +0100'
+  content: "Event Viewer throws errors about what appears to be local service account
+    trying to connect to sql database:\n\n- \n\n- \n\n   \n\n  18456 \n\n  0 \n\n
+    \ 4 \n\n  0x90000000000000 \n\n   \n\n  276953 \n\n  Application \n\n  HOSTNAME.FULLYQUALIFIEDDOMAIN
+    \n\n   \n\n  \n\n- \n\n  DOMAINHOSTNAME$ \n\n  Reason: Could not find a login
+    matching the name provided."
+- id: 32098
+  author: Vicenç García-Altés
+  author_email: vgaltes@gmail.com
+  author_url: ''
+  date: '2015-05-14 21:25:00 +0100'
+  date_gmt: '2015-05-14 21:25:00 +0100'
+  content: |-
+    Hi Paul,
+
+
+    can you try to add access to that user on the database? I'm not sure if the event handler access the database, but taking a look at the references that should be included I bet yes.
+
+
+    Thanks,
+- id: 32099
+  author: Paul Abrams
+  author_email: john.paul.abrams@gmail.com
+  author_url: ''
+  date: '2015-05-19 22:00:00 +0100'
+  date_gmt: '2015-05-19 22:00:00 +0100'
+  content: Nevermind, the event notification I posted was an error about something
+    else.  Thanks anyway.
+---
+<p>Sometimes you need to do special stuff when a work item, build, etc changes in your <a title="Team Foundation Server" href="http://www.microsoft.com/visualstudio/eng#products/visual-studio-team-foundation-server-2012" target="_blank">Team Foundation Server</a>. The best option that you have is to create a server event handler. To do that you need to follow this steps:</p>
+<p>1.- Create a new Class Library project</p>
+<p>[caption id="attachment_92" align="alignnone" width="955"]<a href="http://vgaltes.com/wp-content/uploads/2013/04/CreateClassLibrary.png"><img class="size-full wp-image-92" alt="Create Class Library" src="http://vgaltes.com/wp-content/uploads/2013/04/CreateClassLibrary.png" width="955" height="515" /></a> Create Class Library[/caption]</p>
+<p>2.- Add reference to those libraries</p>
+<p>[caption id="attachment_93" align="alignnone" width="447"]<a href="http://vgaltes.com/wp-content/uploads/2013/04/libraries.png"><img class="size-full wp-image-93" alt="libraries" src="http://vgaltes.com/wp-content/uploads/2013/04/libraries.png" width="447" height="131" /></a> libraries[/caption]</p>
+<p>You could add the first three ones from Assemblies -&gt; Extensions in the add reference window:</p>
+<p>[caption id="attachment_94" align="alignnone" width="790"]<a href="http://vgaltes.com/wp-content/uploads/2013/04/addreference.png"><img class="size-full wp-image-94" alt="add reference" src="http://vgaltes.com/wp-content/uploads/2013/04/addreference.png" width="790" height="408" /></a> add reference[/caption]</p>
+<p>You have to add the other two libraries from C:\Program Files\Microsoft Team Foundation Server 11.0\Application Tier\Web Services\bin</p>
+<p>3.- Create a class that implements the ISubscriber interface</p>
+<pre class="brush:csharp">public class WorkItemChangedEventHandler : ISubscriber</pre>
+<p>4.- Implement the interface. To do that you have to implement the SubscribedTypes method:</p>
+<pre class="brush:csharp">public Type[] SubscribedTypes()
+{
+    return new Type[1] { typeof(WorkItemChangedEvent) };
+}</pre>
+<p>The name property</p>
+<pre class="brush:csharp">public string Name
+{
+    get { return "WorkItemChangedEventHandler"; }
+}</pre>
+<p>The priority property</p>
+<pre class="brush:csharp">public SubscriberPriority Priority
+{
+    get { return SubscriberPriority.Normal; }
+}</pre>
+<p>And the ProcessEvent method</p>
+<pre class="brush:csharp">public EventNotificationStatus ProcessEvent(TeamFoundationRequestContext requestContext, NotificationType notificationType,
+                                                    object notificationEventArgs, out int statusCode, out string statusMessage,
+                                                    out ExceptionPropertyCollection properties)
+{
+    statusCode = 0;
+    properties = null;
+    statusMessage = String.Empty;
+    try
+    {
+        if (notificationType == NotificationType.Notification &amp;&amp; notificationEventArgs is WorkItemChangedEvent)
+        {
+            var ev = notificationEventArgs as WorkItemChangedEvent;
+            // Do what you want
+        }
+    }
+    catch (Exception exception)
+    {
+        TeamFoundationApplicationCore.LogException("Error processing event", exception);
+    }
+    return EventNotificationStatus.ActionPermitted;
+}</pre>
+<p>In this example we are only subscribing to WorkItemChangedEvent. But you can subscribe to another events. To do that, just add more event types in SubscribedTypes method. You could find a list of available events <a title="available server events" href="http://blog.hinshelwood.com/tfs-event-handler-for-team-foundation-server-2010/" target="_blank">here</a>.</p>
+<p><strong>Can I debug the library?</strong></p>
+<p>Yes you can, and it's easy. First of all, change the output path in the project settings window and put C:\Program Files\Microsoft Team Foundation Server 11.0\Application Tier\Web Services\bin\Plugins\.</p>
+<p>[caption id="attachment_95" align="alignnone" width="809"]<a href="http://vgaltes.com/wp-content/uploads/2013/04/projectproperties.png"><img class="size-full wp-image-95" alt="project properties" src="http://vgaltes.com/wp-content/uploads/2013/04/projectproperties.png" width="809" height="666" /></a> project properties[/caption]</p>
+<p>And after that, attach your Visual Studio 2012 to the w3wp.exe process.</p>
+<p><strong>Conclusion</strong></p>
+<p>In this article we have seen how to develop a <a title="Team Foundation Server" href="http://www.microsoft.com/visualstudio/eng#products/visual-studio-team-foundation-server-2012" target="_blank">Team Foundation Server</a> event handler and how to debug it. A very usefull technique in some scenarios.</p>
+<p>See you soon!</p>

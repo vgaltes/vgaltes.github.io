@@ -1,0 +1,93 @@
+---
+layout: post
+status: publish
+published: true
+title: Acceptance tests in a Nodejs application
+author:
+  display_name: vgaltesc
+  login: vgaltesc
+  email: vincentredrum@gmail.com
+  url: ''
+author_login: vgaltesc
+author_email: vincentredrum@gmail.com
+wordpress_id: 196
+wordpress_url: http://vgaltes.com/?p=196
+date: '2014-07-22 11:34:23 +0100'
+date_gmt: '2014-07-22 10:34:23 +0100'
+categories:
+- Code
+tags:
+- bdd
+- javascript
+- nodejs
+- protractor
+comments: []
+---
+<p>I'm a big fan of the BDD or ATDD way of developing software, although I'm not clear about the difference between them. You can find a kind of explanation <a title="BDD vs ATDD" href="http://assertselenium.com/2012/11/05/difference-between-tdd-bdd-atdd/" target="_blank">here</a>. So, now that I'm starting to learn <a title="Nodejs" href="http://nodejs.org/" target="_blank">Nodejs</a> and <a title="AngularJS" href="https://angularjs.org/" target="_blank">AngularJS</a> one of the first things I want to make is discover how can I make acceptance tests with these technologies. This tests can include doing several things like start a node server, fill a database with sample data, etc. I'm following the fantastic <a title="Let's code javascript" href="http://www.letscodejavascript.com/" target="_blank">Let's code: Test-Driven Javascript</a> from James Shore. In this serie of tutorials, he does end to end tests too. He first uses <a title="PhantomJS" href="http://phantomjs.org/" target="_blank">Phantomjs</a> directly, and after that he makes the same tests using <a title="CasperJs" href="http://casperjs.org/" target="_blank">Casperjs</a>. At the end, he prefers <a title="CasperJS" href="http://casperjs.org/" target="_blank">Caperjs</a> but the infrastructure for making both kind of tests is the same. Let's take a look. In the <a title="nodeunit" href="https://github.com/caolan/nodeunit" target="_blank">nodeunit</a> tests you have to spawn a start a child process calling <a title="CasperJS" href="http://casperjs.org/" target="_blank">Casperjs</a> test function, and passing the files with the tests as a parameter.</p>
+<pre class="brush:javascript">var casperJsProcess = child_process.spawn("./node_modules/.bin/casperjs", [ "test", "./src/features/shouldShowToDoItems.js" ], {
+            stdio: "inherit",
+            env: { "PHANTOMJS_EXECUTABLE": "./node_modules/phantomjs/lib/phantom/bin/phantomjs" }
+        });
+        casperJsProcess.on("exit", function(code) {
+            test.equals(code, 0, "CasperJS test failures");
+            test.done();
+        });</pre>
+<p>And make all the tests you want in the file you pass as a parameter. For example:</p>
+<pre class="brush:javascript">casper.test.begin("simple test", function(test){
+        casper.start("http://localhost:8090");
+        test.assertTitle("Angular ToDo List", "The title is not the one expected");
+
+        casper.waitForSelector('#todoItemsList', function() {
+            test.assertEval(function() {
+                return __utils__.findAll(".todoItem").length == 10;
+            }, "There aren't 10 results");
+
+        });
+
+        casper.run(function()
+        {
+            test.done();
+        });
+    });</pre>
+<p>The problem with this solution is that, if you have a node module to, for example, fill the database with some sample data, you have to put in the <a title="nodeunit" href="https://github.com/caolan/nodeunit" target="_blank">nodeunit</a> test file. That's because Casperjs is not a node module. There is a <a href="https://github.com/WaterfallEngineering/SpookyJS" target="_blank">library</a> to drive <a title="CasperJS" href="http://casperjs.org/" target="_blank">Casperjs</a> from <a title="Nodejs" href="http://nodejs.org/" target="_blank">Nodejs</a>, but the last update is 10 months old. So, if you need to do something with node modules before your tests are launched, you need to put in the external test file. This implies that, if you need to do something before each test, you have to have a separate file for each <a title="CasperJS" href="http://casperjs.org/" target="_blank">Casperjs</a> test and your code could become a mess very quickly. I don't like this approximation, so I tried <a title="Protractor" href="https://github.com/angular/protractor" target="_blank">Protractor</a>, the end-to-end test framework for <a title="AngularJS" href="https://angularjs.org/" target="_blank">AngularJS</a> applications. Protractor is a <a title="Nodejs" href="http://nodejs.org/" target="_blank">Node</a> program so, it seems more suitable for what I want to do. If you follow the <a title="Protractor tutorial" href="https://github.com/angular/protractor/blob/master/docs/tutorial.md" target="_blank">tutorial</a>, you can see that you need a <a title="Selenium" href="http://docs.seleniumhq.org/" target="_blank">Selenium</a> Server running in order to be able to pass the tests. It has to be a way to automate this. Yes, the solution is gulp and <a title="gulp-protractor" href="https://github.com/mllrsohn/gulp-protractor" target="_blank">gulp-protractor</a>. Let's see what we have to do. First, install <a title="Gulp" href="http://gulpjs.com/" target="_blank">gulp</a> and <a title="gulp-protractor" href="https://github.com/mllrsohn/gulp-protractor" target="_blank">gulp-protractor</a> for your project:</p>
+<pre class="brush:bash">npm install --save-dev gulp-protractor protractor</pre>
+<p>Now we need to install the web driver server. Let's do this with this command:</p>
+<pre class="brush:bash">node_modules/protractor/bin/webdriver-manager update</pre>
+<p>Then, make a gulp task to pass this kind of tests. You have to create a file called gulpfile.js in your project root with this contents.</p>
+<pre class="brush:javascript">var gulp = require('gulp'),
+    protractor = require('gulp-protractor').protractor;
+
+gulp.task('acceptanceTests', function(){
+   return gulp.src('src/features/protractor.js')
+       .pipe(protractor({
+           configFile: 'protractorConf.js'
+       }))
+       .on('error', function(e){throw e});
+});
+
+gulp.task('default', [], function () {
+    gulp.start('acceptanceTests');
+});</pre>
+<p>In this snippet, you are telling protractor which are the test files you want to run, and which is its configuration file. As you can imagine, you need a protractorConf.js file. Create it with this content.</p>
+<pre class="brush:javascript">exports.config = {
+    seleniumServerJar: 'node_modules/protractor/selenium/selenium-server-standalone-2.42.2.jar'
+}</pre>
+<p>With this configuration you are telling protractor to start the <a title="Selenium" href="http://docs.seleniumhq.org/" target="_blank">Selenium</a> Server automatically. The server will stop once your tests are done. That's great! And now we can write our tests. Something like this:</p>
+<pre class="brush:javascript">describe('simple test', function () {
+
+    //1.- Fill database with data (recreate database or tables if needed)
+    var databaseHelper = require('./helpers/databaseHelper');
+    databaseHelper.ensureDataBaseIsFilledWithSampleData();
+
+    it('should have a title', function () {
+        browser.get('http://juliemr.github.io/protractor-demo/');
+
+        expect(browser.getTitle()).toEqual('Super Calculator');
+    });
+});</pre>
+<p>Notice that we are requiring a <a title="Nodejs" href="http://nodejs.org/" target="_blank">Node</a> module and we are using it. We cannot do this in a phantom or casper test (or, at least, I don't know how). To run the test just write this in your terminal.</p>
+<pre class="brush:bash">gulp</pre>
+<p>And you will see your tests passing. That's great! I thing I will use this approximation for my projects. I will keep you up to date with any news. See you soon!</p>
+<h1 style="font-weight: inherit; color: white;">Let’s Code: Test-Driven JavaScript</h1>
+<h1 style="font-weight: inherit; color: white;">Let’s Code: Test-Driven JavaScript</h1>
+<p>&nbsp;</p>

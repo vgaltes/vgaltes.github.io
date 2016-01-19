@@ -1,0 +1,303 @@
+---
+layout: post
+status: publish
+published: true
+title: 'Microsoft Release Management – Part 3: Configuring the release'
+author:
+  display_name: vgaltesc
+  login: vgaltesc
+  email: vincentredrum@gmail.com
+  url: ''
+author_login: vgaltesc
+author_email: vincentredrum@gmail.com
+wordpress_id: 139
+wordpress_url: http://vgaltes.com/?p=139
+date: '2013-12-23 12:03:01 +0000'
+date_gmt: '2013-12-23 12:03:01 +0000'
+categories:
+- ALM
+tags:
+- Team Foundation Server
+- Release Management
+- Continuous Deployment
+- TFS 2013
+comments:
+- id: 23655
+  author: Ray
+  author_email: raymund.cuadra@sungard.com
+  author_url: ''
+  date: '2014-03-26 13:29:38 +0000'
+  date_gmt: '2014-03-26 13:29:38 +0000'
+  content: Awesome article, this really help me setup my demo environment.
+- id: 23658
+  author: wildanr
+  author_email: wildan.rahman@gmail.com
+  author_url: ''
+  date: '2014-04-15 08:03:00 +0100'
+  date_gmt: '2014-04-15 08:03:00 +0100'
+  content: "Hi, thank you for the post. However, i have two question\r\n\r\n1. What
+    exactly do you mean by \"In order to deploy correctly our website, we need to
+    make one more step. We need to copy a folder from its original location to another
+    one.\" \r\nCorrect me if i'm wrong, did xcopy already copy the website to target
+    location directly? Why we need another copy process?\r\n\r\n2. I try to rename
+    \"web.config.token\" just like your instruction, but it never work in my case.
+    The token file did not deployed to TFS Build Drop Location and off course its
+    never processed by release management. any advice? \r\n\r\nThank you very much."
+- id: 23659
+  author: vgaltesc
+  author_email: vincentredrum@gmail.com
+  author_url: ''
+  date: '2014-04-15 09:50:55 +0100'
+  date_gmt: '2014-04-15 09:50:55 +0100'
+  content: |-
+    1.- It's an "issue" with the sample project I'm using. In order to have the database initializer working I need to have the Images directory in a specific path. For that reason I copy this folder.
+
+    2.- Ensure that the "Copy to Output folder" in file properties is set to true.
+
+    Thank you for your comment!
+    Vicenç
+- id: 23660
+  author: wildanr
+  author_email: wildan.rahman@gmail.com
+  author_url: ''
+  date: '2014-04-15 11:18:41 +0100'
+  date_gmt: '2014-04-15 11:18:41 +0100'
+  content: "Oh my God.. you made my day!! Thank you very much!\r\n\r\nJust want to
+    share some information in my case:\r\nweb.config.token  -- Build Action: Content,
+    Copy to Output Directory: Copy always\r\nweb.config -- same as web.config.token
+    \r\n\r\nIf i only set web.config.token's property, build will result in error.
+    Anyway, its finally working after full day of frustration, thanks to your advice
+    and your blog article. Have a good day!"
+- id: 23661
+  author: vgaltesc
+  author_email: vincentredrum@gmail.com
+  author_url: ''
+  date: '2014-04-15 11:21:15 +0100'
+  date_gmt: '2014-04-15 11:21:15 +0100'
+  content: You are welcome! Thanks for reading!
+- id: 23673
+  author: bsykes
+  author_email: bsykes.dev@gmail.com
+  author_url: ''
+  date: '2014-06-20 17:04:13 +0100'
+  date_gmt: '2014-06-20 17:04:13 +0100'
+  content: Thanks for this post! Especially the details on variable replacement /
+    Config transformation...much appreciated.
+- id: 23682
+  author: Drew Clarke
+  author_email: drewclarke@benefex.co.uk
+  author_url: ''
+  date: '2014-07-10 11:06:09 +0100'
+  date_gmt: '2014-07-10 11:06:09 +0100'
+  content: did you find a way to insert variables into the parameters/arguments of
+    a step?  e.g.  IstallationPath = c:\%DATE%\Web\
+- id: 23687
+  author: vgaltesc
+  author_email: vincentredrum@gmail.com
+  author_url: ''
+  date: '2014-07-11 19:25:55 +0100'
+  date_gmt: '2014-07-11 19:25:55 +0100'
+  content: Thank you!
+- id: 23688
+  author: vgaltesc
+  author_email: vincentredrum@gmail.com
+  author_url: ''
+  date: '2014-07-11 19:27:58 +0100'
+  date_gmt: '2014-07-11 19:27:58 +0100'
+  content: Yes, is what I'm doing when I configure the variables. What do you want
+    to do not covered there?
+- id: 30580
+  author: Julio Arruda
+  author_email: julio.arruda@outlook.com
+  author_url: http://www.julioarruda.com.br
+  date: '2014-10-27 13:13:35 +0000'
+  date_gmt: '2014-10-27 12:13:35 +0000'
+  content: "Hi,\r\n\r\nI can not schedule an approval in RM as you show in prints,
+    as did this?"
+- id: 31770
+  author: bmyc
+  author_email: brachim@3base.co.il
+  author_url: http://a
+  date: '2014-12-01 14:04:58 +0000'
+  date_gmt: '2014-12-01 13:04:58 +0000'
+  content: "Hi!\r\nI want to insert the environment value into Configuration Variables
+    . for ex: Installation Path = C:/%environment%/folder\r\n\r\nHow can I do it?"
+- id: 31890
+  author: gkbinary
+  author_email: gkopparam@hotmail.com
+  author_url: ''
+  date: '2014-12-04 01:02:44 +0000'
+  date_gmt: '2014-12-04 00:02:44 +0000'
+  content: "Is it possible to trigger the deployment only on the QA alone and not
+    starting from Dev?\r\nI tried it on my set up(different than your example) but
+    it always starts accessing the servers that are listed for the DEV stage rather
+    than the QA. \r\nThank you"
+- id: 32080
+  author: vgaltesc
+  author_email: vincentredrum@gmail.com
+  author_url: ''
+  date: '2014-12-08 21:59:04 +0000'
+  date_gmt: '2014-12-08 20:59:04 +0000'
+  content: What is your problem? What version of RM are you using?
+- id: 32081
+  author: vgaltesc
+  author_email: vincentredrum@gmail.com
+  author_url: ''
+  date: '2014-12-08 22:05:01 +0000'
+  date_gmt: '2014-12-08 21:05:01 +0000'
+  content: "Hi!\r\n\r\nI think you can use the Environment system variable (http://msdn.microsoft.com/en-us/library/dn834972.aspx).
+    Haven't tested it though."
+- id: 32082
+  author: vgaltesc
+  author_email: vincentredrum@gmail.com
+  author_url: ''
+  date: '2014-12-08 22:09:22 +0000'
+  date_gmt: '2014-12-08 21:09:22 +0000'
+  content: "I don't think you can do that. These kind of tools are designed to use
+    the whole pipeline.\r\n\r\nThanks,"
+- id: 32089
+  author: Emilio
+  author_email: er_tito9@hotmail.com
+  author_url: ''
+  date: '2015-02-19 10:22:00 +0000'
+  date_gmt: '2015-02-19 10:22:00 +0000'
+  content: |-
+    Hi all,
+    I'm working with vNext environments and trying to deploy on two stages, but when I trigger the deploy from the build, release management only deploy on the first stage, and do nothing with the second one... Any idea?. Cheers.
+- id: 32090
+  author: Vicenç García-Altés
+  author_email: vgaltes@gmail.com
+  author_url: ''
+  date: '2015-02-19 12:53:00 +0000'
+  date_gmt: '2015-02-19 12:53:00 +0000'
+  content: |-
+    Hi Emilio,
+
+
+    sorry I haven't played with the vNext environments...
+- id: 32091
+  author: Emilio
+  author_email: er_tito9@hotmail.com
+  author_url: ''
+  date: '2015-02-19 14:41:00 +0000'
+  date_gmt: '2015-02-19 14:41:00 +0000'
+  content: I found the solution. I was triggering my deploy from InitiateReleaseFromBuild
+    (http://blogs.msdn.com/b/visualstudioalm/archive/2014/10/10/trigger-release-from-build-with-release-management-for-visual-studio-2013-update-3.aspx).
+    If you don't populate $targetStageName parameter it will deploy all stages. Thanks
+    All.
+- id: 32092
+  author: Vicenç García-Altés
+  author_email: vgaltes@gmail.com
+  author_url: ''
+  date: '2015-02-19 18:35:00 +0000'
+  date_gmt: '2015-02-19 18:35:00 +0000'
+  content: Thank you Emilio!
+- id: 32100
+  author: "בועז לוינסון"
+  author_email: boaz.mymail@gmail.com
+  author_url: ''
+  date: '2015-05-21 12:53:00 +0100'
+  date_gmt: '2015-05-21 12:53:00 +0100'
+  content: "All is nice indeed but one issue came up to my mind - \nDoes it mean we
+    need to tell our fellow developer to maintain 2 config files - 1 is the regular
+    web.config and the other web.config.token ?? really ??"
+- id: 32101
+  author: Vicenç García-Altés
+  author_email: vgaltes@gmail.com
+  author_url: ''
+  date: '2015-05-21 13:36:00 +0100'
+  date_gmt: '2015-05-21 13:36:00 +0100'
+  content: |-
+    As far as I know yes, but take into account that this article is a little bit old and maybe they've changed the way they deal with config files. I haven't worked with Release Management since long time ago.
+
+
+    Thanks!
+- id: 32102
+  author: Azzabi Ahmed
+  author_email: ahmed.arcan@gmail.com
+  author_url: ''
+  date: '2015-05-22 15:17:00 +0100'
+  date_gmt: '2015-05-22 15:17:00 +0100'
+  content: Hi nice article but i have a senario let`s assume the release takes time
+    (configuring provisioning then running acceptance tests for example), on the meanwhile
+    other checkins and builds were generated by TFS, will release managment take the
+    latest build or queue every precedent build for each checkin ? because it seems
+    to be triggered for each generated build right ? and of course i dont want that,
+    i want it when it finishes all the path take the latest build and start again,
+    is this possible ?
+- id: 32103
+  author: Vicenç García-Altés
+  author_email: vgaltes@gmail.com
+  author_url: ''
+  date: '2015-05-22 15:49:00 +0100'
+  date_gmt: '2015-05-22 15:49:00 +0100'
+  content: "Hi Azzabi, thanks for your comment. \n\n\nAs far as I know, there's no
+    rolling builds in Release Manager, so I think it will take all builds, which I
+    think it's not bad, because if you make 10 commits, and only the last one breaks
+    the build, you want the other 9 commits to be deployed, not just try to deploy
+    the last one and if it fails don't deploy anything.\n\n\nThanks,"
+- id: 32104
+  author: Azzabi Ahmed
+  author_email: ahmed.arcan@gmail.com
+  author_url: ''
+  date: '2015-05-25 15:59:00 +0100'
+  date_gmt: '2015-05-25 15:59:00 +0100'
+  content: Ok i understand your point, currently i have an  issue with RM i cant see
+    build defintion im able to see build project but not build defintion on the dropdowns,
+    im blocked because i cant save the template without that. Im using TFS 2015 and
+    RM 2015 RC is it related to the new type of build definitions in TFS 2015 ? are
+    they not supported by RM 2015 RC ? or it is another issue
+---
+<p>In previous posts (<a title="Microsoft Release Management – Part 1: Installation" href="http://vgaltes.com/index.php/2013/12/07/microsoft-release-management-part-1-installation/" target="_blank">I</a> and <a title="Microsoft Release Management – Part 2: Configuring the environment" href="http://vgaltes.com/index.php/2013/12/18/microsoft-release-management-part-2-configuring-the-environment/" target="_blank">II</a>) we have seen how to configure Release Management and an environment to work with. Now it's time to configure our first release to see how a modification in the code could travel from our Visual Studio to production.</p>
+<p>Go to Configure Apps -&gt; Release Templates.</p>
+<p>[caption id="attachment_140" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-1.png"><img class="size-full wp-image-140" alt="Create Release Template - 1" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-1.png" width="1036" height="780" /></a> Create Release Template - 1[/caption]</p>
+<p>Click on New and fill the basic information.</p>
+<p>[caption id="attachment_141" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-2.png"><img class="size-full wp-image-141" alt="Create Release Template - 2" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-2.png" width="1036" height="780" /></a> Create Release Template - 2[/caption]</p>
+<p>Click on Edit button next to Build Definition textbox and select the build that the release will use.</p>
+<p>[caption id="attachment_142" align="alignnone" width="632"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-3.png"><img class="size-full wp-image-142" alt="Create Release Template - 3" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-3.png" width="632" height="221" /></a> Create Release Template - 3[/caption]</p>
+<p>As you could see, you have an empty release template. You could see the three stages defined in our release path (see <a title="Microsoft Release Management – Part 2: Configuring the environment" href="http://vgaltes.com/index.php/2013/12/18/microsoft-release-management-part-2-configuring-the-environment/" target="_blank">II</a>) with an empty deployment sequence. Our work now is to fill this deployment sequence to be able to deploy the website we've created using Visual Studio.</p>
+<p>To do this we will need to create a new component. We will use components to deploy an application. In our case, we are going to create a component to copy the files of the web site from build folder to IIS folder. So, right click on components and click on Add.</p>
+<p>[caption id="attachment_145" align="alignnone" width="1032"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-6.png"><img class="size-full wp-image-145" alt="Create Release Template - 6" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-6.png" width="1032" height="781" /></a> Create Release Template - 6[/caption]</p>
+<p>Choose a meaningful name for the component and select XCopy deployer tool. As you can see, there are a lot of options to be able to deploy correctly your application. Choose the right one for your project.</p>
+<p>[caption id="attachment_143" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-4.png"><img class="size-full wp-image-143" alt="Create Release Template - 4" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-4.png" width="1036" height="780" /></a> Create Release Template - 4[/caption]</p>
+<p>Click on Configuration Variables. As we will see later, we can tokenize our deployment. We can define some tokens in some files of our project (in web.config in our case) that will be overwritten by the values defined in the release template. For example, we will change the server IP and the database connection for all three environments.</p>
+<p>So, let's create two configuration variables, one for server and one for connection string. Choose <em>after installation</em> as replacement mode and limit the file extension filter to *.config.</p>
+<p>[caption id="attachment_144" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-5.png"><img class="size-full wp-image-144" alt="Create Release Template - 5" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-5.png" width="1036" height="780" /></a> Create Release Template - 5[/caption]</p>
+<p>Let's start configuring the deployment sequence for Dev stage. Drag the server node and drop into deployment sequence. Then, drag the brand-new component into the server.</p>
+<p>[caption id="attachment_147" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-8.png"><img class="size-full wp-image-147" alt="Create Release Template - 8" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-8.png" width="1036" height="780" /></a> Create Release Template - 8[/caption]</p>
+<p>Double click on the component to view it. The configuration variables will be shown in order to be filled. Fill them with the right information. In our case we have three websites configured in IIS, each of them with a different port and a different folder. We also want to create three different databases.</p>
+<p>[caption id="attachment_148" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-9.png"><img class="size-full wp-image-148" alt="Create Release Template - 9" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-9.png" width="1036" height="780" /></a> Create Release Template - 9[/caption]</p>
+<p>In order to deploy correctly our website, we need to make one more step. We need to copy a folder from its original location to another one. To do that, we will use an item of release toolbox called Copy File or Folder.</p>
+<p>Go to the toolbox and expand Windows OS node. Drag Copy File or Folder node and drop after the component just configured.</p>
+<p>[caption id="attachment_149" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-10.png"><img class="size-full wp-image-149" alt="Create Release Template - 10" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-10.png" width="1036" height="780" /></a> Create Release Template - 10[/caption]</p>
+<p>Double click on the item and configure the variables.</p>
+<p>[caption id="attachment_150" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-11.png"><img class="size-full wp-image-150" alt="Create Release Template - 11" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-11.png" width="1036" height="780" /></a> Create Release Template - 11[/caption]</p>
+<p>So now we've created the deployment sequence for Dev environment. In our case, the deployment sequences for the next two environments will be pretty the same, only the configuration variables will change.</p>
+<p>Right click on Dev stage and select <em>Copy Deployment Sequence</em>.</p>
+<p>[caption id="attachment_151" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-12.png"><img class="size-full wp-image-151" alt="Create Release Template - 12" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-12.png" width="1036" height="780" /></a> Create Release Template - 12[/caption]</p>
+<p>Right click on QA stage and select <em>Paste Deployment Sequence</em>.</p>
+<p>[caption id="attachment_152" align="alignnone" width="1033"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-13.png"><img class="size-full wp-image-152" alt="Create Release Template - 13" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-13.png" width="1033" height="780" /></a> Create Release Template - 13[/caption]</p>
+<p>We will be asked to map servers when we paste a deployment sequence from one stage to another. In our case, we only have one server, so the mapping is very easy.</p>
+<p>[caption id="attachment_153" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-14.png"><img class="size-full wp-image-153" alt="Create Release Template - 14" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-14.png" width="1036" height="780" /></a> Create Release Template - 14[/caption]</p>
+<p>We are close to deploy the application! We only need to create the token file and to configure a build that fires a deploy. Let's start with the token file.</p>
+<p>Go to your solution and copy web.config file. Rename the file to web.config.token. Change the string you want to tokenize to the configuration variable's name, starting and ending with a double underscore.</p>
+<p>[caption id="attachment_160" align="alignnone" width="1920"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-21.png"><img class="size-full wp-image-160" alt="Create Release Template - 21" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-21.png" width="1920" height="1048" /></a> Create Release Template - 21[/caption]</p>
+<p>Before creating the new build definition, we have to upload an specific Build Template to TFS. You could find the template in this location: <em>C:\Program Files (x86)\ Microsoft Visual Studio 12.0\ReleaseManagement\bin.</em> If you want add the release management features in an existing build template, please refer to Release Management User Guide.</p>
+<p>We could create now the new build. Create a new Continuous Integration build based on ReleaseDefaultTemplate template and with Release Build parameter set to true.</p>
+<p>[caption id="attachment_154" align="alignnone" width="1920"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-15.png"><img class="size-full wp-image-154" alt="Create Release Template - 15" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-15.png" width="1920" height="1048" /></a> Create Release Template - 15[/caption]</p>
+<p>And that's all we have to do. Make a change in your code, check in pending changes and when the build finishes we can see how our application is travelling through the release path.</p>
+<p>Go to Releases -&gt; Traffic Overview. Take a look to your release path. You could see there's one App in traffic. Depending on how you have configured the release path, you will need to accept some steps or not. In our case we have to accept all the intermediate steps.</p>
+<p>[caption id="attachment_155" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-16.png"><img class="size-full wp-image-155" alt="Create Release Template - 16" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-16.png" width="1036" height="780" /></a> Create Release Template - 16[/caption]</p>
+<p>Go to Releases -&gt; My Approval Requests. Refresh the view until you see an approval request. If you have configured mail notifications, the approver will receive an email.</p>
+<p>[caption id="attachment_156" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-17.png"><img class="size-full wp-image-156" alt="Create Release Template - 17" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-17.png" width="1036" height="780" /></a> Create Release Template - 17[/caption]</p>
+<p>Approve all the notifications.</p>
+<p>[caption id="attachment_157" align="alignnone" width="738"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-18.png"><img class="size-full wp-image-157" alt="Create Release Template - 18" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-18.png" width="738" height="172" /></a> Create Release Template - 18[/caption]</p>
+<p>When the notification to deploy to production arrive (all the other deployments are automatic) you have to specify a little more information.</p>
+<p>[caption id="attachment_158" align="alignnone" width="762"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-19.png"><img class="size-full wp-image-158" alt="Create Release Template - 19" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-19.png" width="762" height="247" /></a> Create Release Template - 19[/caption]</p>
+<p>And finally the traffic overview will look like this.</p>
+<p>[caption id="attachment_159" align="alignnone" width="1036"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-20.png"><img class="size-full wp-image-159" alt="Create Release Template - 20" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-20.png" width="1036" height="780" /></a> Create Release Template - 20[/caption]</p>
+<p>As you can see, the application has traveled through all the release path. Now we can open our favorite web browser and take a look at the three web sites.</p>
+<p>[caption id="attachment_161" align="alignnone" width="931"]<a href="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-22.png"><img class="size-full wp-image-161" alt="Create Release Template - 22" src="http://vgaltes.com/wp-content/uploads/2013/12/Create-Release-Template-22.png" width="931" height="989" /></a> Create Release Template - 22[/caption]</p>
+<p>Voilà!!</p>
+<p>And that's all for today. Enjoy your holidays!!</p>
+<p>&nbsp;</p>

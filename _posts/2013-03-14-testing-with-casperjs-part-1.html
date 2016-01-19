@@ -1,0 +1,84 @@
+---
+layout: post
+status: publish
+published: true
+title: Testing with CasperJS - Part 1
+author:
+  display_name: vgaltesc
+  login: vgaltesc
+  email: vincentredrum@gmail.com
+  url: ''
+author_login: vgaltesc
+author_email: vincentredrum@gmail.com
+wordpress_id: 29
+wordpress_url: http://vgaltes.com/?p=29
+date: '2013-03-14 23:23:36 +0000'
+date_gmt: '2013-03-14 23:23:36 +0000'
+categories:
+- Code
+tags:
+- javascript
+- casperjs
+- web
+- testing
+comments:
+- id: 5
+  author: Testing with CasperJS &#8211; Part 3 | VGALTES.COM
+  author_email: ''
+  author_url: http://vgaltes.com/index.php/2013/03/23/testing-with-casperjs-part-3/
+  date: '2013-03-23 09:50:18 +0000'
+  date_gmt: '2013-03-23 09:50:18 +0000'
+  content: "[...] the previous tutorials ( 1 and 2 ) we have seen how to install CasperJS
+    and make our first script. Today we are going to start [...]"
+---
+<p>Today we will start a serie of tutorials about testing websites using CasperJS. We will cover installation and basic error detection, integration with a Team Foundation Server build and executing tests.</p>
+<h2>What is CasperJS?</h2>
+<p>In words of its creators, <a title="CasperJS" href="http://casperjs.org/" target="_blank">CasperJS</a> is an open source navigation scripting &amp; testing utility written in Javascript and based on <a title="PhantomJS" href="http://www.phantomjs.org/" target="_blank">PhantomJS</a> — the scriptable headless <a title="WebKit" href="http://www.webkit.org/" target="_blank">WebKit</a> engine. It eases the process of defining a full navigation scenario and provides useful high-level functions, methods &amp; syntactic sugar for doing common tasks.</p>
+<h2>Installation</h2>
+<p>First of all we have to download the latest version of <a title="Download PhantomJS" href="http://phantomjs.googlecode.com/files/phantomjs-1.8.2-windows.zip" target="_blank">PhantomJS</a> and extract the contact where you want. After that it's recommended to add this path to your PATH environment variable.</p>
+<p>Now you can download the tag 1.0.2 of <a title="CasperJS repository" href="https://github.com/n1k0/casperjs" target="_blank">CasperJS</a> repository on <a title="GitHub" href="https://github.com/" target="_blank">GitHub</a>. You can clone the repository and checkout this tag:</p>
+<pre><code>$ git clone git://github.com/n1k0/casperjs.git
+$ cd casperjs
+$ git checkout tags/1.0.2</code></pre>
+<p>or you can download directly from <a title="CasperJS tag 1.0.2" href="https://github.com/n1k0/casperjs/archive/1.0.2.zip" target="_blank">here</a>.</p>
+<p>As before, it's recommended to add the path where you have downloaded CasperJS to your PATH environment variable. But don't add the base path, add the batchbin folder.</p>
+<h2>First steps</h2>
+<p>To test CasperJS we will use the web site created by the MVC internet application template of Visual Studio 2012. If you are not a .Net developer, please create a simple website with your prefered technology, and skip this step.</p>
+<p>For .Net developers, open your VS2012 in administrator mode and create a new project with the MVC4 application project type</p>
+<p>[caption id="attachment_32" align="alignnone" width="300"]<a href="http://vgaltes.com/wp-content/uploads/2013/03/ProjectCreation1.png"><img class="size-medium wp-image-32 " alt="Project template" src="http://vgaltes.com/wp-content/uploads/2013/03/ProjectCreation1-300x207.png" width="300" height="207" /></a> Project template[/caption]</p>
+<p>And now chose the internet application template</p>
+<p><a href="http://vgaltes.com/wp-content/uploads/2013/03/ProjectCreation2.png"><img class=" wp-image-34 alignnone" alt="ProjectCreation2" src="http://vgaltes.com/wp-content/uploads/2013/03/ProjectCreation2.png" width="683" height="619" /></a></p>
+<p>&nbsp;</p>
+<p>In order to facilitate our job, we will create a new web site on IIS and link it to our brand-new project. So please, open IIS manager and create a new website</p>
+<p>[caption id="attachment_35" align="alignnone" width="599"]<a href="http://vgaltes.com/wp-content/uploads/2013/03/webSiteCreation.png"><img class="size-full wp-image-35 " alt="Web site creation" src="http://vgaltes.com/wp-content/uploads/2013/03/webSiteCreation.png" width="599" height="576" /></a> Web site creation[/caption]</p>
+<p>And now open the properties window of the web site application project in VS2012 and associate the project to the new web site we've just created</p>
+<p>[caption id="attachment_36" align="alignnone" width="1199"]<a href="http://vgaltes.com/wp-content/uploads/2013/03/projectProperties.png"><img class="size-full wp-image-36" alt="project properties" src="http://vgaltes.com/wp-content/uploads/2013/03/projectProperties.png" width="1199" height="900" /></a> project properties[/caption]</p>
+<p>Now, add a folder under the Scripts folder and create a new JavaScript file called testCasperJS.js.</p>
+<h2>Working with CasperJS</h2>
+<p>All the scripts start with a call to 'create' method. The simplest way to do it is this:</p>
+<pre class="brush:javascript">var casper = require('casper').create();</pre>
+<p>You can pass a javascript settings object to this method with several parameters. For example, we could set the viewport size:</p>
+<pre class="brush:javascript">var casper = require('casper').create({
+    viewportSize: {width: 1024, height: 768}
+});</pre>
+<p>The next function we need to call is 'start'. This call could be without parameters or we could pass an Url and the function that will be called after the page downloading.</p>
+<pre class="brush:javascript">casper.start('http://localhost:8000/', function () {
+    this.echo('page downloaded: ' + this.getCurrentUrl());
+});</pre>
+<p>Now, we only need one more code block to end our first CasperJS script</p>
+<pre class="brush:javascript">casper.run(function () {
+    this.echo("Done.").exit();
+});</pre>
+<p>With this code, we are indicating to CasperJS that we want to run our script and that, when it finishes we  want to write 'Done' in the console and exit CasperJS.</p>
+<p>Right now, we could save our script, open a Command Prompt, go where the script is located and write</p>
+<pre class="brush:bash">casperjs testCasperJs.js</pre>
+<p>And we will see the result of our script</p>
+<p>[caption id="attachment_42" align="alignnone" width="677"]<a href="http://vgaltes.com/wp-content/uploads/2013/03/scriptResult.png"><img class="size-full wp-image-42" alt="script result" src="http://vgaltes.com/wp-content/uploads/2013/03/scriptResult.png" width="677" height="343" /></a> script result[/caption]</p>
+<h2>Conclusions</h2>
+<p>In this post we have seen how to install CasperJS and how to make a very simple script. In the next posts of this series, we will see more operations to use and how to integrate all these scripts in a build for our Team Foundation Server.</p>
+<p>See you soon!</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
