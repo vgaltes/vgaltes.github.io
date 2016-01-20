@@ -27,7 +27,7 @@ comments: []
 <p>Let's start extracting some useful statistics from it.</p>
 <p>The first thing that can come into our mind is to know how many commits we have done to the repository. That's pretty easy to do:</p>
 <p>https://gist.github.com/vgaltes/515d66194678e9e1265c</p>
-<p>As you can see, we are using the <a href="http://theburningmonk.com/2011/09/fsharp-pipe-forward-and-pipe-backward/" target="_blank">pipe forward operator</a> (|&gt;) and the <a href="https://msdn.microsoft.com/en-us/library/ee370275.aspx" target="_blank">Array.length</a> function to extract this information.</p><!–break–>
+<p>As you can see, we are using the <a href="http://theburningmonk.com/2011/09/fsharp-pipe-forward-and-pipe-backward/" target="_blank">pipe forward operator</a> (|&gt;) and the <a href="https://msdn.microsoft.com/en-us/library/ee370275.aspx" target="_blank">Array.length</a> function to extract this information.</p><!--more-->
 <p>Now it's time to calculate the number of entities changed, that is the number of times that we commited a change in an entity:</p>
 <p>https://gist.github.com/vgaltes/fadb9dd377e27f629c13</p>
 <p>As you can see, we are using <a href="https://msdn.microsoft.com/en-us/library/ee353905.aspx" target="_blank">Array.collect</a> to concatenate the arrays of Files inside each Commit and count them.</p>
