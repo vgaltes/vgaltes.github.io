@@ -5,11 +5,11 @@ reading_time:     true
 words_per_minute: 200
 # Your site's domain goes here (eg: //mmistakes.github.io, http://mademistakes.com, etc)
 # When testing locally leave blank or use http://localhost:4000
-url:
+url: http://vgaltes.com
 
 # Owner/author information
 owner:
-  name:           Vicenc Garcia Altes
+  name:           Vicenç García Altés
   avatar:         avatar.jpg
   bio:            "Sorftware Developer trying to learn things every day."
   email:          vgaltes@gmail.com
@@ -74,6 +74,8 @@ post_layout: post
 page_layout: page
 # Format titles with titlecase?
 titlecase: true
+
+excerpt_separator: <!–break–>
 
 include: [".htaccess"]
 exclude: ["lib", "config.rb", "Capfile", "config", "Gemfile", "Gemfile.lock", "README.md", "LICENSE", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules"]
