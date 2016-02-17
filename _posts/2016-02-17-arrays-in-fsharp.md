@@ -1,7 +1,7 @@
 Arrays in FSharp
 ================
 
-Arrays are one of the basic data structures in [F#](url). In this article we're going to see an introduction of what can we do with them.
+Arrays are one of the basic data structures in [F#](http://fsharp.org/). In this article we're going to see an introduction of what can we do with them.
 
 Creation
 --------
@@ -10,7 +10,7 @@ There are several ways to create an array in F#
 
 ### Create from a literal
 
-We can create an array with a predefined set of values. To do that, we just need to specify the values separated by semicolons and wrapped between [| and |]
+We can create an array with a predefined set of values. To do that, we just need to specify the values separated by semicolons and wrapped between `[|` and `|]`
 
     >let numbers = [|1;2;3;4|]
     val numbers : int [] = [|1; 2; 3; 4|]
@@ -188,4 +188,56 @@ Given an array, returns the array sorted by the element. If we use sortBy, we ca
     [|"1C8K1Z5UO58A"; "63XOR0DL4ANJKUS"; "FT9O8MDAVGFO4"; "G85O8P1NSLE6HX";
         "JV6VQW09FPRHUUH4"; "ZEQNA1HUXS3"|]
         
-****
+**Array.reduce**
+
+Given an array, uses the supplied function to calculate a value that is used as accumulator for the next calculation. Throws an exception in an empty input list.
+
+    >let strings = [|"This"; "is"; "a"; "sentence"|]
+     let sentence =
+     strings
+        |> Array.reduce (fun acc s -> acc + " " + s)
+        
+   val sentence : string = "This is a sentence"
+   
+
+**Array.fold**
+
+Same as reduce, but takes as a parameter the first value of the accumulator.
+
+    >let strings = [|"This"; "is"; "a"; "sentence"|]
+     let sentence =
+        strings
+        |> Array.fold  (fun acc s -> acc + " " + s) "Fold:"
+        
+        
+**Array.scan**        
+        
+Like fold, but returns each intermediate result
+
+    >let strings = [|"This"; "is"; "a"; "sentence"|]
+     let sentence =
+        strings
+        |> Array.scan  (fun acc s -> acc + " " + s) "Scan:"
+        
+    val sentence : string [] =
+        [|"Scan:"; "Scan: This"; "Scan: This is"; "Scan: This is a";
+            "Scan: This is a sentence"|]
+            
+            
+ **Array.zip**
+ 
+ Takes two arrays of the same size and produce another array of the same size with tuples of elements from each input array.
+ 
+    >let colorNames = [|"red";"green";"blue"|]
+     let colorCodes = [|"FF0000"; "00FF00"; "0000FF"|]
+     let colors =
+        Array.zip colorNames colorCodes
+        
+    val colors : (string * string) [] =
+        [|("red", "FF0000"); ("green", "00FF00"); ("blue", "0000FF")|]
+        
+ There's a very similar function called zip3, wich take three array as inputs, and another call unzip (and unzip3) with takes an array of tuples and decomposes it in two arrays of single values.
+ 
+ ###Summary
+ 
+ We've seen the basics of the Array module. We've seen how to create arrays and some of the most used functions in the Array module.
