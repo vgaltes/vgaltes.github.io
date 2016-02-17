@@ -1,3 +1,21 @@
+---
+layout: post
+status: publish
+published: true
+title: 'Arrays in F#'
+author:
+  display_name: vgaltesc
+  email: vincentredrum@gmail.com
+  url: 'vgaltes.com'
+author_login: vgaltesc
+author_email: vincentredrum@gmail.com
+categories:
+- F#
+tags:
+- data structures
+- F#
+comments: []
+---
 Arrays are one of the basic data structures in [F#](http://fsharp.org/). In this article we're going to see an introduction of what can we do with them.
 
 Creation
