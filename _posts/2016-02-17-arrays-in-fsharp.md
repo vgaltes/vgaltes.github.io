@@ -1,6 +1,3 @@
-Arrays in FSharp
-================
-
 Arrays are one of the basic data structures in [F#](http://fsharp.org/). In this article we're going to see an introduction of what can we do with them.
 
 Creation
@@ -238,6 +235,6 @@ Like fold, but returns each intermediate result
         
  There's a very similar function called zip3, wich take three array as inputs, and another call unzip (and unzip3) with takes an array of tuples and decomposes it in two arrays of single values.
  
- ###Summary
+ ### Summary
  
  We've seen the basics of the Array module. We've seen how to create arrays and some of the most used functions in the Array module.
