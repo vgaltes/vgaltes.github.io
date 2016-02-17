@@ -239,20 +239,20 @@ Like fold, but returns each intermediate result
             "Scan: This is a sentence"|]
             
             
- **Array.zip**
+**Array.zip**
  
- Takes two arrays of the same size and produce another array of the same size with tuples of elements from each input array.
+Takes two arrays of the same size and produce another array of the same size with tuples of elements from each input array.
  
-    >let colorNames = [|"red";"green";"blue"|]
-     let colorCodes = [|"FF0000"; "00FF00"; "0000FF"|]
-     let colors =
-        Array.zip colorNames colorCodes
+   >let colorNames = [|"red";"green";"blue"|]
+    let colorCodes = [|"FF0000"; "00FF00"; "0000FF"|]
+    let colors =
+       Array.zip colorNames colorCodes
         
-    val colors : (string * string) [] =
-        [|("red", "FF0000"); ("green", "00FF00"); ("blue", "0000FF")|]
+   val colors : (string * string) [] =
+       [|("red", "FF0000"); ("green", "00FF00"); ("blue", "0000FF")|]
         
- There's a very similar function called zip3, wich take three array as inputs, and another call unzip (and unzip3) with takes an array of tuples and decomposes it in two arrays of single values.
+There's a very similar function called zip3, wich take three array as inputs, and another call unzip (and unzip3) with takes an array of tuples and decomposes it in two arrays of single values.
  
- ### Summary
+### Summary
  
- We've seen the basics of the Array module. We've seen how to create arrays and some of the most used functions in the Array module.
+We've seen the basics of the Array module. We've seen how to create arrays and some of the most used functions in the Array module.
