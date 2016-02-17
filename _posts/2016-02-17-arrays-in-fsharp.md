@@ -28,7 +28,8 @@ There are several ways to create an array in F#
 We can create an array with a predefined set of values. To do that, we just need to specify the values separated by semicolons and wrapped between `[|` and `|]`
 
 ``` fsharp
-    >let numbers = [|1;2;3;4|]
+    let numbers = [|1;2;3;4|]
+    
     val numbers : int [] = [|1; 2; 3; 4|]
 ```
 
