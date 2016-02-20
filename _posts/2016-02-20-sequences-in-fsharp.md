@@ -21,7 +21,7 @@ A sequence is a list of potential values (all of them of the same type) computed
 
 ### Sequence creation
 
-As with [arrays](http://vgaltes.com/f%23/arrays-in-fsharp/) there are several ways to create a sequence. 
+As with [arrays](http://vgaltes.com/fsharp/arrays-in-fsharp/) there are several ways to create a sequence. 
 
 **Create from a range expression**
 
