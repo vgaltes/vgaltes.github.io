@@ -1,4 +1,21 @@
-# A Premier League team will win the Champions League this year
+---
+layout: post
+status: publish
+published: true
+title: 'A Premier League team will win the Champions League this year'
+author:
+  display_name: Vicenç García Altés
+  email: vincentredrum@gmail.com
+  url: 'vgaltes.com'
+author_login: vgaltesc
+author_email: vincentredrum@gmail.com
+categories:
+- FSharp
+tags:
+- April's fools day
+- F#
+comments: []
+---
 
 Spain and Germany are dominating with an iron fist last Champions League editions. After a lot of investment, a Premier League team is ready to conquer the longed for trophy. In this article we'll demonstrate this fact.
 
