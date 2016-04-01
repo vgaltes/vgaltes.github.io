@@ -143,11 +143,11 @@ No, they've never played before. Let's take a look at PSG games in quarter final
 
     "Paris" |> gamesInRound 4
     
- PSG has played three times in quarter finals. Two against Barcelona (2013 and 2015) and one against Chelsea (2014). They have lost the three of them, so it could be a good team to play against.
+PSG has played three times in quarter finals. Two against Barcelona (2013 and 2015) and one against Chelsea (2014). They have lost the three of them, so it could be a good team to play against.
  
- ## Semifinals
+## Semifinals
  
- Let's imagine Manchester City wins PSG at quarter-final round. Which team could be the best rival to play against? Let's see if anyone of those teams have never played a semi-final round.
+Let's imagine Manchester City wins PSG at quarter-final round. Which team could be the best rival to play against? Let's see if anyone of those teams have never played a semi-final round.
  
     let rivals = ["Barcelona"; "Real Madrid"; "Atletico"; "Wolfsburg"; "Bayern"; "Benfica"]
 
