@@ -46,7 +46,7 @@ And therefore, when we do
     
 As you can see, we are applying the first function (add1) to 3 and then apply the second function to the result ( ( 3 + 1 ) * 2 = 8 )
 
-Preparing my talk at [FSharp eXchange](link to fsharp exchange), Visual Studio Powertools warn me about replacing a pipeline by a function composition. The code (simplified version) is this one.
+Preparing my talk at [FSharp eXchange](https://skillsmatter.com/conferences/7145-f-exchange-2016), Visual Studio Powertools warn me about replacing a pipeline by a function composition. The code (simplified version) is this one.
 
     let tuples = [|("a", [|1|]);("b", [|1;2|]);("c", [|1;2;3|]);("d", [|1;2;3;4|])|]
     tuples
