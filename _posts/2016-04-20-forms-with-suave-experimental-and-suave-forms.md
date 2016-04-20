@@ -10,9 +10,9 @@ author:
 author_login: vgaltesc
 author_email: vincentredrum@gmail.com
 categories:
-- FSharp
+- Suave
 tags:
-- F# Suave Forms
+- F#, Suave, Forms
 comments: []
 ---
 
@@ -127,4 +127,4 @@ As you can see, we only need to access the fields of the Forms.Human type.
 
 ## Summary ##
 
-I hope you enjoyed this introduction to Forms in Suave. You can get the full solution [here](https://github.com/vgaltes/FSharpForms)
+We have seen an introduction to Forms in Suave. In following articles we'll see how to do the same with other view engines. You can get the full solution [here](https://github.com/vgaltes/FSharpForms)
