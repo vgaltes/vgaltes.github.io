@@ -53,7 +53,7 @@ comments:
 <p>So, I've decided to improve my F# skills using it to do some of the analysis that Adam does in his book using his own tool <a href="https://github.com/adamtornhill/code-maat" target="_blank">code-maat</a>.</p>
 <h2>Creating a useful log</h2>
 <p>The first thing we need is to create a log that we can parse easily and that has all the information we need. So please, use your favorite git command line tool to navigate to the base folder of the repository that you want to analyze and type the following command:</p>
-<p><script src="https://gist.github.com/vgaltes/d650d511b60de637b662</p>
+<p><script src="https://gist.github.com/vgaltes/d650d511b60de637b662"></script></p>
 <p>This command will write into gitLog.log something similar to this</p>
 <p><script src="https://gist.github.com/vgaltes/39d0896e92a59a775e64"></script></p>
 <p>The basic structure here is that we have each commit separated by a line break. In every commit, we have a line with the commit information (hash, author, date and message) and several lines with the files that have changed (additions, deletions, file path). If the commit is a merge, all this structure is preceeded by another commit information line with the merge information.</p>
