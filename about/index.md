@@ -21,7 +21,7 @@ comments: false
 ---
 
 <div style="text-align: left; width:300; height:300">
-    [Vgaltes](../images/vgaltes.jpg)
+    ![Vgaltes](../images/vgaltes.jpg)
 </div>
 
 I'm a software developer with more than 10 years of experience developing commercial products. I want to be honest with you, I spent some of these years developing crap: no tests, horrible design, bad performance. Fortunately I realized that I could improve in so many ways. From that day my professional goal is to work with people far more brilliant than me and to learn as much as I can. Following that goal, I've been fortunate to have worked at [Plain Concepts](http://www.plainconcepts.com) and [Valtech](http://www.valtech.com) (my current employer).
@@ -33,7 +33,8 @@ My current interests are DDD and functional programming in general, and F# in pa
 I think that my best quality is that I'm a good team player, and I consider myself a good professional, trying to do my best every day.
 
 If you found this (maybe too much) sincere description interesting you can find me at:
- - Mail: [vgaltes@vgaltes.com](mailto:vgaltes@vgaltes.com)
- - Twitter: [vgaltes](http://twitter.com/vgaltes)
- - Blog: [vgaltes.com](http://vgaltes.com)
- - Linkedin: [vgaltes](http://es.linkedin.com/in/vgaltes/)
+
+- Mail: [vgaltes@vgaltes.com](mailto:vgaltes@vgaltes.com)
+- Twitter: [vgaltes](http://twitter.com/vgaltes)
+- Blog: [vgaltes.com](http://vgaltes.com)
+- Linkedin: [vgaltes](http://es.linkedin.com/in/vgaltes/)
