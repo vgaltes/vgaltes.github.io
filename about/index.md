@@ -20,8 +20,6 @@ tags: []
 comments: false
 ---
 
-![Vgaltes](../images/vgaltes.jpg)
-
 I'm a software developer with more than 10 years of experience developing commercial products. I want to be honest with you, I spent some of these years developing crap: no tests, horrible design, bad performance. Fortunately I realized that I could improve in so many ways. From that day my professional goal is to work with people far more brilliant than me and to learn as much as I can. Following that goal, I've been fortunate to have worked at [Plain Concepts](http://www.plainconcepts.com) and [Valtech](http://www.valtech.com) (my current employer).
 
 The majority of my career I've been developing using C#, but currently I'm very interested in F#. I try to not be part of any language war and I'm more than happy to learn new languages and platforms.
