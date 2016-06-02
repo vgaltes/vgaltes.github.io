@@ -66,13 +66,13 @@ So, it's a function that takes a string (in this case the message) and returns u
 
 If we call this function with a string, we get the following result:
 
-    decoratedWriter "Hello world!" |> ignore
+    decoratedWriter "Hello world!"
     > Console logger -> Hello world!
       Console writer -> Hello world!
       
 And if we call it using an empty string we get the follogins result:
 
-    decoratedWriter "" |> ignore
+    decoratedWriter ""
     > Validation error
     
 ## Summary ##
