@@ -27,17 +27,17 @@ A couple of weeks ago I saw these tweets (in Spanish):
 
 As I respect enormously [Modesto](https://twitter.com/msanjuan) and [Xabi](https://twitter.com/ziraco)'s opinion and I trust on the skills of a [Carlos Ble](https://twitter.com/carlosble)'s [apprentice](https://twitter.com/SuuiGD), I decided to do the [kata](http://www.slideshare.net/DanielOjedaLoisel/rpg-combat-kata) at home. And as I keep trying to learn F#, that would be the chosen language.
 
-I recomend you to do the kata, is a very interesting one. In case you want to do it, please stop reading now and come back when you have finished it, as I'm going to explain how I solved it.
+I recommend you to do the kata, is a very interesting one. In case you want to do it, please stop reading now and come back when you have finished it, as I'm going to explain how I solved it.
 
 ![Spoiler alert](images/Spoiler-Alert.jpg)
 
-The kata starts pretty simple: you are modelling a combat between two characters of an RPG game. First you start with simple rules and in every iteration you add a bit more complex rule. At the end of the 4th iteration I ended up with a code like this:
+The kata starts pretty simple: you have to  model a combat system between two characters of a RPG game. First you start with simple rules and in every iteration you add a slightly more complex one. At the end of the 4th iteration I ended up with a code like this:
 
 <script src="https://gist.github.com/vgaltes/c7050947af0670cef422d19861689417.js"></script>
 
-As you can see, I have a list of rules that should be applied when attacking and a list of rules that should be applied when healing. I have two functions to traverse a list of rules and apply them, depending if it's a heal rule or an attack one, and the rules are quite small and focused in one thing. I was quite happy with the design (remember, I'm learning Functional Programming, I can be totally wrong :) )
+As you can see, I have a list of rules that should be applied when attacking and a list of rules that should be applied when healing. I have a function to traverse a list of rules and apply them, and the rules are quite small and focused in one thing. I was quite happy with the design (remember, I'm learning Functional Programming, I can be totally wrong :) )
 
-The real fun starts in the last iteration. In this iteration a new element of the game is introduced: a thing. A thing is an element that has health but nothing else. It can't heal anyone, it doesn't belong to any faction and it can't attack. Is just something that everybody can attack.
+The real fun starts in the last iteration. In this iteration a new element of the game is introduced: a Thing. A Thing is an element that has health but nothing else. It can't heal anyone, it doesn't belong to any faction and it can't attack. Is just something that everybody can attack.
 
 Looks like a simple change but introduces quite a bit of complexity in the design. I decided to use a discriminated union to model a Player, so that a player can be either a Character of a Thing.
 
