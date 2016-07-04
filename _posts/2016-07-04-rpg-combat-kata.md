@@ -17,7 +17,7 @@ tags:
 comments: []
 ---
 
-A couple of weeks ago I saw these tweets:
+A couple of weeks ago I saw these tweets (in Spanish):
 
 <blockquote class="twitter-tweet" data-lang="en"><p lang="es" dir="ltr">Hoy en la ofi hemos empezado la mañana con la RPG Combat kata de <a href="https://twitter.com/SuuiGD">@SuuiGD</a> que hicimos en el <a href="https://twitter.com/hashtag/scpna?src=hash">#scpna</a> :-D <a href="https://t.co/vsK0OucncD">https://t.co/vsK0OucncD</a></p>&mdash; Xabi Sáez de Ocáriz (@ziraco) <a href="https://twitter.com/ziraco/status/745540286441349125">June 22, 2016</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -25,7 +25,7 @@ A couple of weeks ago I saw these tweets:
 <blockquote class="twitter-tweet" data-lang="en"><p lang="es" dir="ltr"><a href="https://twitter.com/SuuiGD">@SuuiGD</a> <a href="https://twitter.com/ziraco">@ziraco</a> a mi me flipó tanto que estoy haciendo la versión &quot;Extended&quot;.si sigo así, le pongo UI y al store! ;)</p>&mdash; Modesto San Juan (@msanjuan) <a href="https://twitter.com/msanjuan/status/745640741737758720">June 22, 2016</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-As I respect enormously [Modesto](https://twitter.com/msanjuan)] and [Xabi](https://twitter.com/ziraco)'s opinion and I trust on the skills of a [Carlos Ble](https://twitter.com/carlosble)'s apprentice, I decided to do the [kata](http://www.slideshare.net/DanielOjedaLoisel/rpg-combat-kata) at home. And as I keep trying to learn F#, that would be the chosen language.
+As I respect enormously [Modesto](https://twitter.com/msanjuan)] and [Xabi](https://twitter.com/ziraco)'s opinion and I trust on the skills of a [Carlos Ble](https://twitter.com/carlosble)'s [apprentice](https://twitter.com/SuuiGD), I decided to do the [kata](http://www.slideshare.net/DanielOjedaLoisel/rpg-combat-kata) at home. And as I keep trying to learn F#, that would be the chosen language.
 
 I recomend you to do the kata, is a very interesting one. In case you want to do it, please stop reading now and come back when you have finished it, as I'm going to explain how I solved it.
 
