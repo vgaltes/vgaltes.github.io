@@ -10,7 +10,7 @@ author:
 author_login: vgaltesc
 author_email: vincentredrum@gmail.com
 categories:
-- F#
+- FSharp
 - Unit Testing
 - CI
 tags:
