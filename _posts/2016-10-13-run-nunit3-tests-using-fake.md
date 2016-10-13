@@ -2,7 +2,7 @@
 layout: post
 status: publish
 published: true
-title: 'Run NUnit3 tests using fake'
+title: 'Running NUnit3 tests using fake'
 author:
   display_name: Vicenç García Altés
   email: vincentredrum@gmail.com
