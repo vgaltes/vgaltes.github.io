@@ -11,8 +11,6 @@ author_login: vgaltesc
 author_email: vincentredrum@gmail.com
 categories:
 - FSharp
-- Unit Testing
-- CI
 tags:
 - F#
 - Unit Testing
