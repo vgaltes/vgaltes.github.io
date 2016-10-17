@@ -49,4 +49,4 @@ match 10 with
 | _ -> printfn "No remainder"
 ```
 
-The difficult part here is to see that the value in the match sentence is passed as the last argument of the active pattern. For example, in our case 3 is the divisor (first argument), 10 is the dividend (second argument) and r is what the pattern returns inside the Option type (the remainder). Once you understand that, there will be no secrets for you to create and use this kind of active pattern! 
+The difficult part here is to see that the value in the match sentence is passed as the last argument of the active pattern. For example, in our case 3 is the divisor (first argument), 10 is the dividend (second argument) and r is what the pattern returns inside the Option type, in this case the remainder (is not the Option type, is the value itself). Once you understand that, there will be no secrets for you to create and use this kind of active pattern! 
