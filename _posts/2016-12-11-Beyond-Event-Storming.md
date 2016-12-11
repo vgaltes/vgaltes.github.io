@@ -29,17 +29,20 @@ Imagine that you want to produce something that helps you to make tea (a teabag,
 ![teabag](/images/teabag.png)
 
 Let's say we want to drink some tea. What are the needs we want to fulfil? Could be a bunch of them like:
+
  - because the user wants to be warm
  - because the user is thirsty
  - because it's a social activity
  - because it's a habit
 
 Those needs can be different for different users. We need to study which segments of users we have because maybe we want to focus in one of them:
+
  - commuters
  - friends
  - old ladies
 
 And finally we have to study which business value we want to get from our product:
+
  - money 
  - engagement
 
