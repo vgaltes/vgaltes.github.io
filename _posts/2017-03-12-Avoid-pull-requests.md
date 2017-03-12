@@ -26,6 +26,8 @@ The poor team member that takes responsibility of merging the pull request spend
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">10 lines of code = 10 issues.<br><br>500 lines of code = &quot;looks fine.&quot;<br><br>Code reviews.</p>&mdash; I Am Devloper (@iamdevloper) <a href="https://twitter.com/iamdevloper/status/397664295875805184">November 5, 2013</a></blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
+Another problem you can have with pull requests is that you can review easily the changes that the sender has made but, what if he missed making a change? Imagine that you are changing the actions of a controller to async methods and you miss a couple of them. When the reviewer reviews the pull request, she will see all the actions that you've changed (or added or removed) but it won't be easy to spot those actions you missed to update.
+
 So, what can you do to improve this situation?
 
 The first option is to avoid the necessity of reviewing changes. Work in pairs when you develop a new story. I know that you can't [pair](https://www.thoughtworks.com/insights/blog/pairing-are-you-doing-it-wrong) all the time but use this tool as much as you can. The results will be much better because pairing is much better than reviewing. Talking with your partner about design decisions, naming, etc. is much better than just reviewing some code with much less context.
