@@ -34,4 +34,4 @@ If you can't pair, at least review the code with its creator. Take a seat next t
 
 If for some inexplicable reason you can't pair or review the code with its creator, use tiny pull requests. Obviously, this is a general advice, please define small and incremental stories that involve the less code possible. The code will be better and the life of the teammate that will review the pull request will be much happier.
 
-![I approve this pull request](chuck-norris-pull-request.jpg)
+![I approve this pull request](/images/chuck-norris-pull-request.jpg)
