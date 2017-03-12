@@ -15,7 +15,7 @@ tags:
 - Teamwork
 comments: []
 ---
-[Pull requests](https://help.github.com/articles/about-pull-requests/) are a common way to integrate your changes in another repository or branch in an Open Source project. They allow the receiver of the pull request to easily view and review the changes you made. Pull requests are great, especially when your team is not event not colocated, but in different time zones. It seems that their popularity has extended to enterprise projects as well, even when the team is co-located. Is in this situation when I consider pull requests a bad smell of team dynamics.
+[Pull requests](https://help.github.com/articles/about-pull-requests/) are a common way to integrate your changes in another repository or branch in an Open Source project. They allow the receiver of the pull request to easily view and review the changes you made. Pull requests are great, especially when your team is not colocated, but also in different time zones. It seems that their popularity has extended to enterprise projects as well, even when the team is co-located. Is in this situation when I consider pull requests a bad smell of team dynamics.
 
 Our story starts after the sprint planning. Every member of the team chooses a story to begin working on and creates a branch. After several days working in this branch (and maybe in other ones), he decides is a good time to create a pull request. The pull request can be something like this:
 
