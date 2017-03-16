@@ -1,7 +1,7 @@
 ---
 layout: post
 status: publish
-published: false
+published: true
 title: 'Cargo cult'
 author:
   display_name: Vicenç García Altés
