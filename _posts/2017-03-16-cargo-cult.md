@@ -32,6 +32,6 @@ Our case is much worse than that of those islanders. At least, they had seen som
 
 If you spend some time in one activity at work, whatever it is, you must get something of it. If you don't, don't pretend you're something that you don't really are. Agility doesn't have to be your goal. Your goal should be to deliver the maximum value to your customers. And by doing agile practices you'll probably achieve that. But if by doing an activity you're not improving the way you work and you're working exactly in the same way (or worse) that you use to, please don't do it. If at the end you're working in exactly the same way, don't waste your time. I strongly believe that agile, and especially XP, will help you so much in delivering the maximum possible value to your customers. But you will need to work hard, improve step by step, analyse your results, tweak your process.
 
-By just pretending following some practices, your not going to improve. 
+By just pretending following some practices, you're not going to improve. 
 
 ![Agile meme](/images/agilememe.png)
