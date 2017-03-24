@@ -4,3 +4,8 @@
 <meta name="twitter:title" content="{{ page.title }}" />
 <meta name="twitter:description" content="{{ page.excerpt | escape }}" />
 <meta name="twitter:url" content="{{ page.url }}" />
+{% if page.image %}
+  <meta name="twitter:image:src" content="{{ site.url }}/images/{{ page.thumbnail }}">
+{% else %}
+  <meta name="twitter:image:src" content="{{ site.url }}/images/avatar.jpg">
+{% endif %}
