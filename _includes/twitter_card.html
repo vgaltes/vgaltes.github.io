@@ -5,7 +5,7 @@
 <meta name="twitter:description" content="{{ page.excerpt | escape }}" />
 <meta name="twitter:url" content="{{ page.url }}" />
 {% if page.thumbnail %}
-  <meta name="twitter:image:src" content="{{ site.url }}/images/{{ page.thumbnail }}">
+  <meta name="twitter:image:src" content="{{ site.url }}{{ page.thumbnail }}">
 {% else %}
   <meta name="twitter:image:src" content="{{ site.url }}/images/avatar.jpg">
 {% endif %}
