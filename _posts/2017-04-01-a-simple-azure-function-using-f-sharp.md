@@ -30,10 +30,10 @@ If we want to develop locally we'll need to install the [Azure Functions CLI](ht
 
 To install the Azure Functions CLI you need to follow the folowwing steps:
   - Install [nodejs](https://docs.npmjs.com/getting-started/installing-node)
-  - Update npm: ```npm install npm@latest -g```
-  - Install Azure Functions npm package: `npm i -g azure-functions-cli`
+  - Update npm: npm install npm@latest -g
+  - Install Azure Functions npm package: npm i -g azure-functions-cli
 
-Now we can create the Azure function folder. Create the folder where you want to work and type `func init ManOrWoman`. This will create a git repository with some files inside. ![Func Init](/images/func-init.png)Now you can push the repo to Github.
+Now we can create the Azure function folder. Create the folder where you want to work and type func init ManOrWoman. This will create a git repository with some files inside. ![Func Init](/images/func-init.png)Now you can push the repo to Github.
 
 ## Continuous deployment
 
@@ -50,14 +50,14 @@ When Azure finishes creating the function you can set up the continuous deployme
    ![Start from source control](/images/start-from-source-control.png)
  - Follow the steps to set up a new github deployment
 
-Now we're ready to create the function itself. Go to your console (to your work folder) type `- func new` and follow the following steps:
+Now we're ready to create the function itself. Go to your console (to your work folder) type func new and follow the following steps:
  - Select a language -> choose F#
  - Select a template -> httptrigger
  - FunctionName -> ManOrWoman
 
-Push the changes and wait until they are deployed. Don't worry, only takes few seconds. Now we're ready to test the test function using a browser. If we try to execute the function using the browser and going to the URL https://manorwoman.azurewebsites.net/api/ManOrWoman?name=Vicenc we're going to get a 401 Unauthorised as a response. This is because we have the authorisation set as `function` and therefore we need to provide a code (key) to be able to run this function. Something like this: `https://manorwoman.azurewebsites.net/api/ManOrWoman?code=<the_code>&name=Vicenc` You can find your code in the Azure Portal under Manage inside your function.
+Push the changes and wait until they are deployed. Don't worry, only takes few seconds. Now we're ready to test the test function using a browser. If we try to execute the function using the browser and going to the URL https://manorwoman.azurewebsites.net/api/ManOrWoman?name=Vicenc we're going to get a 401 Unauthorised as a response. This is because we have the authorisation set as function and therefore we need to provide a code (key) to be able to run this function. Something like this: `https://manorwoman.azurewebsites.net/api/ManOrWoman?code=<the_code>&name=Vicenc` You can find your code in the Azure Portal under Manage inside your function.
 
-If we'd like to make this function public, we should go to our function.json file and change the authLevel from `function` to `anonymous`. Let's change it, push the changes and try to access the function in this way: https://manorwoman.azurewebsites.net/api/ManOrWoman?name=Vicenc We're good now and we don't need to provide any key.
+If we'd like to make this function public, we should go to our function.json file and change the authLevel from function to anonymous. Let's change it, push the changes and try to access the function in this way: https://manorwoman.azurewebsites.net/api/ManOrWoman?name=Vicenc We're good now and we don't need to provide any key.
 
 ## Code
 
@@ -173,7 +173,7 @@ In this piece of code, we're just parsing the input, calling our code, and retur
 
 I think the second option is the best one because we keep our media type as "application/json". So, let's make some changes:
 In types.fs: 
- - Add `open System.Runtime.Serialization`
+ - Add: open System.Runtime.Serialization
  - Change the result type to:
      [<DataContract>]
      type Result = {
@@ -186,7 +186,7 @@ In types.fs:
      }
 
 In run.fsx:
- - Add `#r "System.Runtime.Serialization"`
+ - Add: #r "System.Runtime.Serialization"
  - Change the way we create the response to:
      match statistics with
          | Some y -> 
@@ -195,7 +195,7 @@ In run.fsx:
 
 ## Dependencies
 
-Our last step is to specify the dependencies of the function. In our case, we just need the FSharp.Data dependency. Open the project.json file and add `"FSharp.Data": "2.3.2"` inside the dependencies node.
+Our last step is to specify the dependencies of the function. In our case, we just need the FSharp.Data dependency. Open the project.json file and add "FSharp.Data": "2.3.2" inside the dependencies node.
 
 Push the changes and... voilà!!
 
