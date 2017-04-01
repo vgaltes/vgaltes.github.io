@@ -30,7 +30,7 @@ If we want to develop locally we'll need to install the [Azure Functions CLI](ht
 
 To install the Azure Functions CLI you need to follow the folowwing steps:
   - Install [nodejs](https://docs.npmjs.com/getting-started/installing-node)
-  - Update npm: `npm install npm@latest -g`
+  - Update npm: ```npm install npm@latest -g```
   - Install Azure Functions npm package: `npm i -g azure-functions-cli`
 
 Now we can create the Azure function folder. Create the folder where you want to work and type `func init ManOrWoman`. This will create a git repository with some files inside. ![Func Init](/images/func-init.png)Now you can push the repo to Github.
