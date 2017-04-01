@@ -9,7 +9,7 @@ author:
   url: 'vgaltes.com'
 author_login: vgaltesc
 author_email: vincentredrum@gmail.com
-thumbnail: https://raw.githubusercontent.com/Azure/azure-functions-cli/master/src/Azure.Functions.Cli/npm/assets/azure-functions-logo-color-raster.png
+thumbnail: /images/azure-functions-logo.png
 categories:
 - fsharp
 tags:
