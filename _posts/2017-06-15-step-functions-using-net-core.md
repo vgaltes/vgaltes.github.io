@@ -2,7 +2,7 @@
 layout: post
 status: publish
 published: true
-title: 'Develop and deploy .Net Core step functions'
+title: 'Develop and deploy AWS Step functions using .Net Core'
 author:
   display_name: Vicenç García Altés
   email: vincentredrum@gmail.com
