@@ -84,18 +84,26 @@ We're good to go now. Let's restore the dependencies
 
     dotnet restore
 
+![dotnet restore](/images/netcoreaws/dotnetrestore.png)
+
 Build the project
 
     dotnet build
+
+![dotnet build](/images/netcoreaws/dotnetbuild.png)
 
 And publish it
 
     dotnet publish
 
+![dotnet publish](/images/netcoreaws/dotnetpublish.png)
+
 What we need to be able to publish the lambda function is to create a zip file with all the files needed to execute the function. We'll need to create the zip in a folder we can reference later, so let's create the folder and the zip:
 
     mkdir bin/Debug/netcoreapp1.0/package
     zip -Xrj bin/Debug/netcoreapp1.0/package/UpperCaseLambda.zip bin/Debug/netcoreapp1.0/publish/
+
+![zip](/images/netcoreaws/zip.png)
 
 As you can see, we're creating a zip with the contents of the publish folder.
 
@@ -127,6 +135,8 @@ We're prepared to deploy the function. We just need to run the following command
 
     sls deploy -v
 
+![sls deploy uppercase](/images/netcoreaws/deployUppercase.png)
+
 The -v flag is to have a verbose output. If everything is configured well we're going to see how the lambda is correctly deployed in the account.
 
 We can now try the lambda to see if it's been correctly deployed. To do that, just run
@@ -134,6 +144,8 @@ We can now try the lambda to see if it's been correctly deployed. To do that, ju
     sls invoke -f Uppercase --data "asdf"
 
 We should see "ASDF" as the output.
+
+![sls invoke uppercase](/images/netcoreaws/invokeUppercase.png)
 
 ## A basic step function
 Now that we have a lambda function, we can use it inside a Step Function. A Step Function is a nice way to orchestrate Lambda functions. You can learn more here https://aws.amazon.com/step-functions/
@@ -179,13 +191,17 @@ And that's all! We can now deploy the Step function. Just type:
 
     sls deploy -v
 
+![sls deploy step function](/images/netcoreaws/deployStepFunction.png)
+
 We should see the step function deployed correctly. It's time to invoke the Step Function and see it working:
 
     sls invoke stepf --name testStepFunction --data '"asdf"'
 
+![sls invoke step function](/images/netcoreaws/invokeStepFunction1.png)
+
 Voilà!!
 
-## A bit of F#
+## A bit of FSharp
 We've seen how to develop a Lambda function using C#. As we've seen, at the end we're compiling the code and publishing it so we can do the same with an F# project. Let's do it!
 
 First of all, let's create a new F# project. Go to your root folder and type
@@ -244,6 +260,8 @@ Our Lambda function developed in F# is deployed now. Let's try it:
 
     sls invoke -f SayHello --data "Vicenç"
 
+![sls invoke sayHello](/images/netcoreaws/invokeSayHello.png)
+
 Great! The F# Lambda function is working now! Time to add the lambda to our Step function. Let's start adding a new custom variable:
 
     custom:
@@ -275,6 +293,9 @@ And test it:
     sls invoke stepf --name testStepFunction --data '"asdf"'
 
 You should see "Hello ASDF" as output.
+
+
+![sls invoke step function](/images/netcoreaws/invokeStepFunction2.png)
 
 # Summary
 We've seen quite a few things in this article. We've discovered Step functions, which are a nice way to orchestrate Lambda functions. We've seen as well how we can develop Lambda functions using C# or F# thanks to .Net Core. As a side effect, we've seen how we can develop all of this using a Mac laptop and not a Windows machine. Hope you enjoyed it!
