@@ -153,3 +153,16 @@ We can now deploy the lambdas and the step function and invoke it:
 And see that we have the expected result:
 
 ![step function result](/images/netcoreparallel/step-function-result.png)
+
+## A couple of remarks
+
+### A branch can be a state machine by itself
+A branch is not limited to have just one task inside it. It can have several tasks. The only limitation is that the last task must have a final one (have `End:true`)
+
+![branch with several tasks](/images/netcoreparallel/parallel-with-several-tasks.png)
+
+### The results always come in order
+The order of the results in the array on the step after a parallel step always come in the same order, and that order is the order that the branches are defined. So, although ParallelOne ends later than ParallelTwo, the result of ParallelOne will come in the first position of the array.
+
+## Summary
+We've seen on of the more powerful states of a State Function, the parallel steep. We've seen how we can add more than one task inside each of its branches and how to collect the results.
