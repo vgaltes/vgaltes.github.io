@@ -2,7 +2,7 @@
 layout: post
 status: publish
 published: true
-title: 'Wait state in AWS Step Functions using .Net Core'
+title: 'Wait state in AWS Step Functions using the serverless framework'
 author:
   display_name: Vicenç García Altés
   email: vincentredrum@gmail.com

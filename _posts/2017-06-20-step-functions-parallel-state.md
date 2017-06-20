@@ -16,6 +16,7 @@ tags:
 - step functions
 - aws
 - serverless
+- net core
 comments: []
 ---
 In the [last article](http://vgaltes.com/serverless/step-functions-using-net-core/) we've seen how to create a very basic step function using .Net Core and the [serverless framework](http://serverless.com). Today we'll see how to create one of the more useful states in a Step Function: the parallel state.

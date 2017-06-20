@@ -17,6 +17,7 @@ tags:
 - aws
 - serverless
 - step functions
+- net core
 comments: []
 ---
 If my good friend Alan Gorton is right
