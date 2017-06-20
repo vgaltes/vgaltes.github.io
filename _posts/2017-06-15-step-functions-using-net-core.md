@@ -16,6 +16,7 @@ tags:
 - fsharp
 - aws
 - serverless
+- step functions
 comments: []
 ---
 If my good friend Alan Gorton is right
