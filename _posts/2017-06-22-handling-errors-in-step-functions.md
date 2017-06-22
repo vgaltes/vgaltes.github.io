@@ -70,7 +70,7 @@ Let's create a Step Function that catches errors. As always, create the serverle
 
 We can split what we're doing here in two parts. At the end of the definition we're defining the steps that we'll run after we catch an error. In this case, we'll define three types of errors and three different next states.
 
-First, we defined our catchers. In this case we defined three different catchers. The first one is to catch exceptions that we throw from our Lambda. The string that help us to filter the error is the name of the class of the exception we want to catch. In the second and third catchers, we're using predefined error codes. We know that they are predefined error codes because they start with `States.` The possible values for a predifined error codes are `States.ALL`, `States.Timeout`, `States.TaskFailed`, `States.Permissions`. You can read more about them [here](http://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-errors.html#amazon-states-language-error-names)
+First, we defined our catchers. In this case we defined three different catchers. The first one is to catch exceptions that we throw from our Lambda. The string that help us to filter the error is the name of the class of the exception we want to catch. In the second and third catchers, we're using predefined error codes. We know that they are predefined error codes because they start with *States.* The possible values for a predifined error codes are *States.ALL*, *States.Timeout*, *States.TaskFailed*, *States.Permissions*. You can read more about them [here](http://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-errors.html#amazon-states-language-error-names)
 
 If we now deploy the step function, run it, and we go to the AWS console we'll see the representation of it
 
@@ -82,14 +82,14 @@ If we click in one of the catchers and inspect the input, we'll see the type of 
 
     {
         "Error":"CustomException",
-        "Cause":"{
+        "Cause":{
             "errorType": "CustomException",
             "errorMessage": "an error",
             "stackTrace": [
                 "at StepFunctionsHandleErrors.ErrorLambda.Error(String input) in /StepFunctionsHandleErrors/ErrorLambda/ErrorLambda.cs:line 12",
                     "at lambda_method(Closure , Stream , Stream , ContextInfo )"
                     ]
-        }"
+        }
     }
 
 The string in the errorType field is the one that you have to use in the definition of the catcher.
