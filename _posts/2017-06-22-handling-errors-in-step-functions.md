@@ -95,7 +95,7 @@ If we click in one of the catchers and inspect the input, we'll see the type of 
 The string in the errorType field is the one that you have to use in the definition of the catcher.
 
 ### Retrying
-It's possible that when you detect an error (or an specific type of error) you want to retry a lambda to see if the error was a transient one. Configuring retries is a very simple step in Step Functions, you just need to add the following code just before the `Catch` element:
+It's possible that when you detect an error (or an specific type of error) you want to retry a lambda to see if the error was a transient one. Configuring retries is a very simple step in Step Functions, you just need to add the following code just before the *Catch* element:
 
     Retry:
         - ErrorEquals: [ "CustomException" ]
@@ -105,9 +105,9 @@ It's possible that when you detect an error (or an specific type of error) you w
         - ErrorEquals: [ "States.ALL" ]
           IntervalSeconds: 5
 
-In this case we're specifying that, if we get a `CustomException` error we're going to retry 4 times at most (default 3), with an initial interval of 1 second (default 1) and a back-off rate of 2.0 (default 2.0).
+In this case we're specifying that, if we get a *CustomException* error we're going to retry 4 times at most (default 3), with an initial interval of 1 second (default 1) and a back-off rate of 2.0 (default 2.0).
 
-If we want, we can specify a list of errors in the `ErrorEquals` field. If we want to specify a `States.ALL` retrier, it must appear alone and as the last retrier.
+If we want, we can specify a list of errors in the *ErrorEquals* field. If we want to specify a *States.ALL* retrier, it must appear alone and as the last retrier.
 
 ## Summary
 We've seen how easy is to deal with errors and retries using Step Functions and, as always, how the [serverless](http://serverless.com) framework help us in deploying them.
