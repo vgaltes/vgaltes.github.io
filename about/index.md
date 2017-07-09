@@ -6,10 +6,10 @@ title: About me
 author:
   display_name: vgaltesc
   login: vgaltesc
-  email: vincentredrum@gmail.com
+  email: vgaltes@gmail.com
   url: ''
 author_login: vgaltesc
-author_email: vincentredrum@gmail.com
+author_email: vgaltes@gmail.com
 wordpress_id: 14
 wordpress_url: http://vgaltes.com/?page_id=14
 date: '2013-03-13 22:51:52 +0000'
@@ -20,7 +20,7 @@ tags: []
 comments: false
 ---
 
-I'm a software developer with more than 10 years of experience developing commercial products. But I want to be honest with you, I spent some of these years developing crap: no tests, horrible design, bad performance. Fortunately I realized that I could improve in so many ways. From that day my professional goal is to work with people far more brilliant than me and to learn as much as I can. Following that goal, I've been fortunate to have worked at [Plain Concepts](http://www.plainconcepts.com) and [Valtech](http://www.valtech.com) (my current employer).
+I'm a software developer with more than 10 years of experience developing commercial products. But I want to be honest with you, I spent some of these years developing crap: no tests, horrible design, bad performance. Fortunately I realized that I could improve in so many ways. From that day my professional goal is to work with people far more brilliant than me and to learn as much as I can. Following that goal, I've been fortunate to have worked at [Plain Concepts](http://www.plainconcepts.com) and [Valtech](http://www.valtech.com) and now I'm working at ThoughtWorks (http://thoughtworks.com).
 
 The majority of my career I've been developing using C#, but currently I'm very interested in F#. I try to not be part of any language war and I'm more than happy to learn new languages and platforms.
 
