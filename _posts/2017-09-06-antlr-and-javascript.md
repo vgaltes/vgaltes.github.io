@@ -60,13 +60,15 @@ In this case this command will generate CSharpParser.js, CSharpParser.tokens and
 
 ### Prepare a nodejs project
 We're going to create a nodejs project to use all this stuff. Let's add antlr4 to it:
+
 ```
 npm install antlr4 --save
 ```
 
 Create a file called index.js and import the neccessary modules:
+
 ```
-onst antlr4 = require('antlr4/index');
+const antlr4 = require('antlr4/index');
 const fs = require('fs');
 const CSharpParser = require('./CSharpParser.js');
 const CSharpLexer = require('./CSharpLexer.js');
