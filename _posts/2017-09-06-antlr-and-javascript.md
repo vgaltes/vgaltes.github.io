@@ -26,7 +26,7 @@ To answer the first question, what we could do is rely on the *git log -L:functi
 
 The name of the file is the easy part. We have the names of the files in the original git log (see the [README.md](https://github.com/vgaltes/CrystalGazer/blob/master/README.md) of Crytal Gazer to know how it works) and we can always ask the user to input it. But given a file, we'd like to list the different functions with their statistics. So we need an automated way to extract the name of the functions from a source code file (we're going to work with .cs files).
 
-## First attempt
+## First attempt
 
 My first approximation was to try to code something by myself. A combination of Regex, a couple of ifs, maybe some split... That didn't worked well. The number of cases to take into account is big enough to be very difficult to write such function.
 
