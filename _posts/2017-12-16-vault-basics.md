@@ -9,7 +9,7 @@ author:
   url: 'vgaltes.com'
 author_login: vgaltesc
 author_email: vgaltes@gmail.com
-thumbnail:
+thumbnail: /images/server.vault.up.png
 categories:
 - devops
 tags:
@@ -49,7 +49,7 @@ services:
     entrypoint: vault server -config="/mnt/vault/config/config.hcl"
 ```
 
-This will bring up a new container named vault.server from the vault image. We're defining the three volumes that vault will use, we're exposing the address of the server in case we want to access it within the container, exposing the port vault is using and, finally, setting the entry point to the command use to start a vault server. As you can see, the command needs a configuration file that we don't have yet. Let's go to *<base_folder>/etc/vault.server/confg* and create the config.hcl file with the following content:
+This will bring up a new container named vault.server from the vault image. We're defining the three volumes that vault will use, we're exposing the address of the server in case we want to access it within the container, exposing the port vault is using and, finally, setting the entry point to the command use to start a vault server. As you can see, the command needs a configuration file that we don't have yet. Let's go to *\<base_folder\>/etc/vault.server/config* and create the config.hcl file with the following content:
 
 ```
 storage "file" {
@@ -133,7 +133,7 @@ Awesome. It's time to configure Vault!
 
 You can use different [authentication backends](https://www.vaultproject.io/docs/auth/index.html) in Vault, like GitHub, Okta or LDAP. In this example, we're going to use username & password.
 
-To make any action in this stage, we need to use the root token. Let's grab it from the result of the init command and use it: *vault auth <token>*
+To make any action in this stage, we need to use the root token. Let's grab it from the result of the init command and use it: *vault auth \<token\>*
 
 ```
 MacBook-Pro:TestVault vga$ vault auth f1682479-2a28-d577-c3de-521431116581
@@ -172,7 +172,7 @@ MacBook-Pro:TestVault vga$ vault write sys/policy/admins policy=@"adminpolicy.hc
 Success! Data written to: sys/policy/admins
 ```
 
-As we already said, everything is a path in Vault, policies not being an exception. To write a new policy, we need to write in the path *sys/policy/<name>*. If we want, we can read the recently created policy:
+As we already said, everything is a path in Vault, policies not being an exception. To write a new policy, we need to write in the path *sys/policy/\<name\>*. If we want, we can read the recently created policy:
 
 ```
 MacBook-Pro:TestVault vga$ vault read sys/policy/admins
@@ -216,7 +216,7 @@ token_policies: [admins default]
 MacBook-Pro:TestVault vga$ 
 ```
 
-Time to create a new user. We'd like to create a user with permissions to write secrets in his private space and secretes in a team space. Create a file called *<username>.hcl* (in my case username = vgaltes) with the following content (replace vgaltes with your username and team with your team name):
+Time to create a new user. We'd like to create a user with permissions to write secrets in his private space and secretes in a team space. Create a file called *\<username\>.hcl* (in my case username = vgaltes) with the following content (replace vgaltes with your username and team with your team name):
 
 ```
 #user authentication
@@ -317,7 +317,7 @@ refresh_interval	768h0m0s
 value           	world
 ```
 
-Cool! We can do the same with the team space. Just change <username> for <teamname>.
+Cool! We can do the same with the team space. Just change \<username\> for \<teamname\>.
 
 Let's try to write to someone else's space:
 
