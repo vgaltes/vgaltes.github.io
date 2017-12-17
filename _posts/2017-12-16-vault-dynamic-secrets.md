@@ -182,7 +182,7 @@ Successfully mounted 'database' at 'mysql1'!
 Awesome, we've mounted the database backend in the path mysql1. Now it's time to configure the role we'll be using in this example. Configuring the role we are defining a couple of things: first, the name of the credentials we're going to read in order to create the user. And second, the query Vault will use to create the user. Let's run the following command:
 
 ```
-MacBook-Pro:TestVault vga$ vault write mysql1/roles/readonly db_name=mysql creation_statements="CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT SELECT ON *.* TO '{{name}}'@'%';" default_ttl="1h" max_ttl="24h"
+MacBook-Pro:TestVault vga$ vault write mysql1/roles/readonly db_name=mysql creation_statements="CREATE USER '\{\{name\}\}'@'%' IDENTIFIED BY '{{password}}';GRANT SELECT ON *.* TO '{{name}}'@'%';" default_ttl="1h" max_ttl="24h"
 Success! Data written to: mysql1/roles/readonly
 ```
 
@@ -232,8 +232,3 @@ mysql>
 ## Summary
 
 Magic!!!! It worked! We can connect to the MySQL instance using the temporary user Vault has created for us. We no longer have to maintain users for different applications or usages, we just need to give our clients access to this endpoint. And thanks to the power of policies, we can give access to this endpoint only to the users we want. Also, the user used to create users, is only accessible via the Vault IP, so it's quite secure.
-
-In the next article we'll see how we can make this even more secure and rotate the password of the user responsible of creating the users in MySQL.
-
-
-
