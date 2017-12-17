@@ -2,7 +2,7 @@
 layout: post
 status: publish
 published: true
-title: 'Dynamic secrets with Vatul'
+title: 'Dynamic secrets with Vault'
 author:
   display_name: Vicenç García Altés
   email: vgaltes@gmail.com
