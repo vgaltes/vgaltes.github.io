@@ -184,7 +184,7 @@ Successfully mounted 'database' at 'mysql1'!
 Awesome, we've mounted the database backend in the path mysql1. Now it's time to configure the role we'll be using in this example. Configuring the role we are defining a couple of things: first, the name of the credentials we're going to read in order to create the user. And second, the query Vault will use to create the user. Let's run the following command:
 
 ```
-MacBook-Pro:TestVault vga$ vault write mysql1/roles/readonly db_name=mysql creation_statements="CREATE USER '{{page.lcb}}name{{page.rcb}}'@'%' IDENTIFIED BY '{{ password }}';GRANT SELECT ON *.* TO '{{ name }}'@'%';" default_ttl="1h" max_ttl="24h"
+MacBook-Pro:TestVault vga$ vault write mysql1/roles/readonly db_name=mysql creation_statements="CREATE USER '{{page.lcb}}name{{page.rcb}}'@'%' IDENTIFIED BY '{{page.lcb}}password{{page.rcb}}';GRANT SELECT ON *.* TO '{{page.lcb}}name{{page.rcb}}'@'%';" default_ttl="1h" max_ttl="24h"
 Success! Data written to: mysql1/roles/readonly
 ```
 
