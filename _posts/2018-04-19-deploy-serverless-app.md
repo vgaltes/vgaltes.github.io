@@ -22,7 +22,7 @@ lcb: "{{"
 rcb: "}}"
 ---
 
-Starting with AWS Lambda is really easy. You can even write a function in the browser! But that's not how you should work on a daily basis. You must have a CI/CD pipeline set up, you probably have two accounts (one for production and another one for development), you need a repeatable and reliable way to create your infrastructure and so on. In this article we'll show how to create a simple continuous delivery pipeline that brings us closer to a professional application development.
+Starting with AWS Lambda is really easy. You can even write a function in the browser! But that's not how you should work on a daily basis. You must have a CI/CD pipeline set up, you probably have two accounts (one for production and another one for development), you need a repeatable and reliable way to create your infrastructure and so on. In this article I'll show you how to create a simple continuous delivery pipeline that brings us closer to a professional application development.
 
 ## Disclaimer
 
@@ -79,7 +79,7 @@ We're now very close to be able to run the test. Just add the following line ins
 
 Run *npm test* and you should see a test passing
 
-![A test](images/CDServerlessArticle-1.png)
+![A test](/images/CDServerlessArticle-1.png)
 
 And that's all! As I told you, we're not going to be famous for writing a super-complex application.
 
@@ -139,19 +139,19 @@ First of all, go to *Add projects* and click on the *Set Up Project* button of t
 
 Now, click on the settings button of the builds page, on the top right corner. On the left hand side of the screen, there's a section called permissions. Click the *AWS Permissions* button.
 
-![Project permissions](images/ProjectPermissions.png)
+![Project permissions](/images/ProjectPermissions.png)
 
 Set the keypair of your CI user there.
 
-![AWS Permissions](images/AWSPermissions.png)
+![AWS Permissions](/images/AWSPermissions.png)
 
 It's time to push and see what happens in CircleCI.
 
-![CircleCI Build](images/CDServerlessArticle-2.png)
+![CircleCI Build](/images/CDServerlessArticle-2.png)
 
 Everything looks good. Let's take a look at our development account in AWS.
 
-![AWS Lambda console](images/CDServerlessArticle-3.png)
+![AWS Lambda console](/images/CDServerlessArticle-3.png)
 
 Voilà!
 
@@ -163,15 +163,15 @@ First of all we need to get the account id of our dev account. Go to support -> 
 
 Now we need to create a role in the production account, so log in there with your administrator account and go to the IAM service and create a new role. The type should be "Another AWS Accound" and you must provide the dev account id.
 
-![Create new role - step 1](images/CDServerlessArticle-4.png)
+![Create new role - step 1](/images/CDServerlessArticle-4.png)
 
 Clicking next we will provide the permissions for the role. Let's choose administrative permissions for now to check that all works well and we'll change that later.
 
-![Create new role - step 1](images/CDServerlessArticle-5.png)
+![Create new role - step 1](/images/CDServerlessArticle-5.png)
 
 And finally let's set a name for the role, in our case circleci_role
 
-![Create new role - step 1](images/CDServerlessArticle-6.png)
+![Create new role - step 1](/images/CDServerlessArticle-6.png)
 
 We now have the role created. We now have to change user accounts (or groups) in our dev account to allow them to switch to this role and hence, access the production account.
 
@@ -189,7 +189,7 @@ So, go to your dev account, go to IAM service and select the user you want to gi
 }
 ```
 
-![Create new policy](images/CDServerlessArticle-7.png)
+![Create new policy](/images/CDServerlessArticle-7.png)
 
 Click on review and set a name for the policy, for example *allow-assume-circleci-role-production*
 
@@ -198,11 +198,11 @@ It's time to test it that works. We can do 4 types of tests:
 ### Test 1 - Using the UI
 We can assume a role using the website UI. Click on your username and then "Switch Role". Fill the following form with the required data: the production account id and the production role we've just created.
 
-![Assume role](images/AssumeRoleUI-1.png)
+![Assume role](/images/AssumeRoleUI-1.png)
 
 Now, you should see the indicator on the place where your name previously was. You're now in your production account and you can take a look at your S3 buckets there.
 
-![Assume role](images/AssumeRoleUI-2.png)
+![Assume role](/images/AssumeRoleUI-2.png)
 
 ### Test 2 - CLI Using profiles
 We can assume a role configuring properly an AWS named profile. As you might now, profiles are a way to have more than one account credentials, accessible by name.
@@ -348,15 +348,15 @@ jobs:
 
 Let's push this change and see if it works! (Note: the bill might take a bit more time to run now, as it has to install the AWS CLI. A possible workaround is to use a Docker image with the CLI already installed. Check the CircleCI documentation to know how to do this.)
 
-![Production build](images/BuildProd-1)
+![Production build](/images/BuildProd-1)
 
 Build looks promising, let's take a look at our production account:
 
-![Lamda deployed in production](images/BuildProd-2)
+![Lamda deployed in production](/images/BuildProd-2)
 
 Voilà! Look what's there!!
 
 ## Final touch
 We're using and administrator account to deploy to production, which is not a very good idea. We should restrict the permissions of that account by setting the appropiate permissions to it creating a custom policy. In order to know which permissions you need to set, you can use the [Serverless Policy Generator](https://github.com/dancrumb/generator-serverless-policy). Another option is to go to Cloud Trail in your development account and look for the event history of your ci user, in my case *circleci*.
 
-![Cloud trail for circleci user](images/CloudTrail.png)
+![Cloud trail for circleci user](/images/CloudTrail.png)
