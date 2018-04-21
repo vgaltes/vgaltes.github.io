@@ -9,7 +9,7 @@ author:
   url: 'vgaltes.com'
 author_login: vgaltesc
 author_email: vgaltes@gmail.com
-thumbnail:
+thumbnail: /images/BuildProd-2.png
 categories:
 - serverless
 tags:
@@ -348,11 +348,11 @@ jobs:
 
 Let's push this change and see if it works! (Note: the bill might take a bit more time to run now, as it has to install the AWS CLI. A possible workaround is to use a Docker image with the CLI already installed. Check the CircleCI documentation to know how to do this.)
 
-![Production build](/images/BuildProd-1)
+![Production build](/images/BuildProd-1.png)
 
 Build looks promising, let's take a look at our production account:
 
-![Lamda deployed in production](/images/BuildProd-2)
+![Lamda deployed in production](/images/BuildProd-2.png)
 
 Voilà! Look what's there!!
 
