@@ -22,15 +22,15 @@ lcb: "{{"
 rcb: "}}"
 ---
 
-In the [previous article](./deploy-serverless-app/) we saw how to create a basic deployment pipeline for a serverless application. In this article we're going to enrich the deployment by allowing to have different values for configuration settings in each stage. 
+In the [previous article](./deploy-serverless-app/) we saw how to create a basic deployment pipeline for a serverless application. In this article, we're going to enrich the deployment by allowing to have different values for configuration settings in each stage. 
 
 ## Background
 
-The moment your application starts to be a little bit more complex, you need to use configuration settings. These settings can be things like the log level, addresses of external services, usernames and (encrypted) passwords, etc. But we don't want to use the same settings in all the environmets, as we don't want to access production services while doing tests in dev. Let's see how we can do this in a serverless application.
+The moment your application starts to be a little bit more complex, you need to use configuration settings. These settings can be things like the log level, addresses of external services, usernames and (encrypted) passwords, etc. But we don't want to use the same settings in all the environments, as we don't want to access production services while doing tests in dev. Let's see how we can do this in a serverless application.
 
 ## Serverless framework as a dev dependency
 
-In the previous article we installed the serverless framework as a global dependency. Although this is quite convenient, it can be a problem. Different versions of the framework can behave in a different way, or introduce breaking changes and it's not practical that every member of the team has its own version installed. So, a good practice is to install the framework as a dev dependency and always use the version inside node_modules to deploy. 
+In the previous article, we installed the serverless framework as a global dependency. Although this is quite convenient, it can be a problem. Different versions of the framework can behave in a different way, or introduce breaking changes and it's not practical that every member of the team has its own version installed. So, a good practice is to install the framework as a dev dependency and always use the version inside node_modules to deploy. 
 
 So let's install the framework as dev dependency:
 ```
@@ -45,7 +45,7 @@ and create some scripts in the package.json file to make our live easier:
 "deploy:prod": "./node_modules/.bin/serverless deploy --stage prod"
 ```
 
-Now we should change the CircleCI config.yml file to use the new way to deploy. We're also going to change how we install the packages in the CI pipeline. So, go to the section named "Install Serverless CLI and dependencies" and substitue the "npm install" line with the following ones:
+Now we should change the CircleCI config.yml file to use the new way to deploy. We're also going to change how we install the packages in the CI pipeline. So, go to the section named "Install Serverless CLI and dependencies" and substitute the "npm install" line with the following ones:
 
 ```
 # update npm
@@ -88,10 +88,10 @@ prod:
   message: "Environment variable from prod"
 ```
 
-We're creating a configuration setting called message which will have different values in each environment. We're here defining a stage for the user (more on this later), a stage for pre and stage for prod. What we want is that the developers on their machines use the dev-user settings, and that the CI environment uses the pre settings when deploying to pre and the prod settings when deploying to prod.
+We're creating a configuration setting called message which will have different values in each environment. We're here defining a stage for the user (more on this later), a stage for pre and stage for prod. What we want is that the developers on their machines use the dev-user settings and that the CI environment uses the pre settings when deploying to pre and the prod settings when deploying to prod.
 
 ## Loading the settings
-We need now to use this setting on the serverless.yml file. The first thing we need to do is to define the default stage where we want to deploy the application. This will be the user stage. But we want each of our devs to have their own stage, so they can make tests independently of each other. The serverless framewok makes this easy, as it already creates the functions and resources with the stage as a part of the name. So what we just need is to provide a different stage name for each user. Let's do this by adding this line to the provider section of the serverless.yaml:
+We need now to use this setting on the serverless.yml file. The first thing we need to do is to define the default stage where we want to deploy the application. This will be the user stage. But we want each of our devs to have their own stage, so they can make tests independently of each other. The serverless framework makes this easy, as it already creates the functions and resources with the stage as a part of the name. So what we just need is to provide a different stage name for each user. Let's do this by adding this line to the provider section of the serverless.yaml:
 
 ```
 stage: dev${env:SLSUSER}
@@ -112,7 +112,7 @@ The second one is to define the default stage inside the vars.yml file we want t
 And finally, we're loading the variables in the vars.yml file. If the user provides the stage argument in the deploy command, we'll use that stage. If not, we'll use the default one, which is the dev-user.
 
 ## Using the settings
-To demonstrate how we can use those settings, we're going to define an environment variable in the hello function that we'll print. We're also going to define an http event so the invocation will be easier. Let's create the environment variable in the function:
+To demonstrate how we can use those settings, we're going to define an environment variable in the hello function that we'll print. We're also going to define an HTTP event so the invocation will be easier. Let's create the environment variable in the function:
 
 ```
 environment:
@@ -183,7 +183,7 @@ If you click on the link, you will see a response like:
 {"message":"The message is: Environment variable from dev-user",...
 ```
 
-This looks good. Lets push everything and see the result of the deployment using CircleCI. Once the deployment is successful, go to the result of the deployment on pre and the result of the deployment on prod and click on the links. For pre, you should see that the response is:
+This looks good. Let's push everything and see the result of the deployment using CircleCI. Once the deployment is successful, go to the result of the deployment on pre and the result of the deployment on prod and click on the links. For pre, you should see that the response is:
 
 ```
 {"message":"The message is: Environment variable from pre",...
@@ -196,4 +196,4 @@ And for prod the response should be:
 ```
 
 ## Summary
-In this article we've seen how we can set different values for a configuration variable per environment. Hope it helps!
+In this article, we've seen how we can set different values for a configuration variable per environment. Hope it helps!
