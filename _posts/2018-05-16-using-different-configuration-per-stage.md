@@ -196,4 +196,7 @@ And for prod the response should be:
 ```
 
 ## Summary
-In this article, we've seen how we can set different values for a configuration variable per environment. Hope it helps!
+In this article, we've seen how we can set different values for a configuration variable per environment. Another option you have is to use [AWS Systems Manager Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html). You can see how to do this in [this article](https://theburningmonk.com/2017/09/you-should-use-ssm-parameter-store-over-lambda-env-variables/) from [Yan Cui](https://twitter.com/theburningmonk).
+
+
+Hope it helps!
