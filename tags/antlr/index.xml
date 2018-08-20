@@ -13,10 +13,10 @@
     
     <item>
       <title>ANTLR and JavaScript</title>
-      <link>http://example.org/post/2017-09-06-antlr-and-javascript/</link>
+      <link>http://example.org/post/antlr-and-javascript/</link>
       <pubDate>Wed, 06 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/2017-09-06-antlr-and-javascript/</guid>
+      <guid>http://example.org/post/antlr-and-javascript/</guid>
       <description>In the last few weeks I&amp;rsquo;ve been working on Crystal Gazer, a nodejs console application to gather information from your Git repository. You can find it on GitHub and on NPM.
 One of the things I&amp;rsquo;d like to do is to track the evolution of a function. Has it been modified a lot? How many people has been working on it? Is the function too long?
 To answer the first question, what we could do is rely on the git log -L:function:file command to give us all the changes a function has suffered.</description>

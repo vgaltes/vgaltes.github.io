@@ -13,10 +13,10 @@
     
     <item>
       <title>Running NUnit3 tests using fake</title>
-      <link>http://example.org/post/2016-10-13-run-nunit3-tests-using-fake/</link>
+      <link>http://example.org/post/run-nunit3-tests-using-fake/</link>
       <pubDate>Thu, 13 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/2016-10-13-run-nunit3-tests-using-fake/</guid>
+      <guid>http://example.org/post/run-nunit3-tests-using-fake/</guid>
       <description>When you have some unit tests developed using NUnit 2.x your FAKE script looks like something like this:
 Target &amp;quot;RunUnitTests&amp;quot; (fun _ -&amp;gt; !! (testDir + &amp;quot;/*.Tests.dll&amp;quot;) |&amp;gt; NUnit (fun p -&amp;gt; {p with ToolPath = &amp;quot;packages/NUnit.Runners/tools/&amp;quot;})  )
 But NUnit3 works slightly different. Instead of having a single NUnit.Runners package, that package references some other packages (runner, extensions, etc). One of those packages is NUnit.ConsoleRunner that has the exe inside the tools folder.</description>

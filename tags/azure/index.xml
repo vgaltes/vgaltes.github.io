@@ -13,10 +13,10 @@
     
     <item>
       <title>A simple Azure Function using F#</title>
-      <link>http://example.org/post/2017-04-01-a-simple-azure-function-using-f-sharp/</link>
+      <link>http://example.org/post/a-simple-azure-function-using-f-sharp/</link>
       <pubDate>Sat, 01 Apr 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/2017-04-01-a-simple-azure-function-using-f-sharp/</guid>
+      <guid>http://example.org/post/a-simple-azure-function-using-f-sharp/</guid>
       <description>The other day my friend Jero wrote an article explaining how to write a Google Function using Javascript. The goal of this article is to do the same exercise but using Azure Functions and F#.
 First steps First of all, you will need to set up a couple of things. Don&amp;rsquo;t worry, both of them are free. First of all you&amp;rsquo;ll need an Azure account. You can create one for free and have £150 credit (and you&amp;rsquo;re not going to spend a single pound doing this exercise).</description>
     </item>

@@ -13,10 +13,10 @@
     
     <item>
       <title>Agile Dev Practices</title>
-      <link>http://example.org/post/2013-03-13-agile-dev-practices/</link>
+      <link>http://example.org/post/agile-dev-practices/</link>
       <pubDate>Wed, 13 Mar 2013 22:36:01 +0000</pubDate>
       
-      <guid>http://example.org/post/2013-03-13-agile-dev-practices/</guid>
+      <guid>http://example.org/post/agile-dev-practices/</guid>
       <description>Last week I attended to Agile Dev Practices, a brand-new conference done in Postdam, organized by Diaz Hilterscheid, the people behind the renowned Agile Testing Days. It was my third international conference (the first outside Spain) and the first one I have gone as a speaker.
 I had the good fortune to assist to Carlos Blé tutorial about “Practical BDD for RIAs with JavaScript”. It was a great tutorial, more suitable to do in two days (or at least, one and a half) but equally great.</description>
     </item>

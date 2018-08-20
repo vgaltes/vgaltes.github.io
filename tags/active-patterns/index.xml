@@ -13,10 +13,10 @@
     
     <item>
       <title>Partial classification active pattern</title>
-      <link>http://example.org/post/2016-10-17-partial-classification-active-pattern/</link>
+      <link>http://example.org/post/partial-classification-active-pattern/</link>
       <pubDate>Mon, 17 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/2016-10-17-partial-classification-active-pattern/</guid>
+      <guid>http://example.org/post/partial-classification-active-pattern/</guid>
       <description>Pattern matching is a powerful and amazing characteristic of F#. Actually, is so amazing that Microsoft is starting to port it to C#.
 There are different kinds of pattern matching. In this post we&amp;rsquo;re going to take a look at a partial classification active pattern that takes an argument and returns a value.
 As its name denotes, is a pattern that partially classificates what you match with it. That means that doesn&amp;rsquo;t try to define all possible options but just one.</description>

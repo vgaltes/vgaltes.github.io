@@ -13,10 +13,10 @@
     
     <item>
       <title>Extracting information from your code repository using F# - Part 1: parsing the log file</title>
-      <link>http://example.org/post/2015-12-13-extracting-information-from-your-code-repository-using-fsharp-part-1-parsing-the-log-file/</link>
+      <link>http://example.org/post/extracting-information-from-your-code-repository-using-fsharp-part-1-parsing-the-log-file/</link>
       <pubDate>Sun, 13 Dec 2015 12:16:30 +0000</pubDate>
       
-      <guid>http://example.org/post/2015-12-13-extracting-information-from-your-code-repository-using-fsharp-part-1-parsing-the-log-file/</guid>
+      <guid>http://example.org/post/extracting-information-from-your-code-repository-using-fsharp-part-1-parsing-the-log-file/</guid>
       <description>I&#39;ve recently read the excellent book Your Code as Crime Scene by Adam Tornhill. In this book, Adam explain several techniques to extract very useful information from the commits in the code repository to help you to understand your code, your dependencies and your organisation. If you haven&#39;t read the book, please do yourself a favor and get a copy as a Christmas present.
 On the othe hand, this week I&#39;ve attended the fantastic Progressive F# Tutorials at Skills Matter.</description>
     </item>
