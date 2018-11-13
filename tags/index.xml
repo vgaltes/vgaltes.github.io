@@ -104,9 +104,18 @@
     <item>
       <title>Azure</title>
       <link>http://example.org/tags/azure/</link>
-      <pubDate>Sat, 01 Apr 2017 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/tags/azure/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Azure Functions</title>
+      <link>http://example.org/tags/azure-functions/</link>
+      <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/tags/azure-functions/</guid>
       <description></description>
     </item>
     
@@ -221,7 +230,7 @@
     <item>
       <title>Devops</title>
       <link>http://example.org/tags/devops/</link>
-      <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/tags/devops/</guid>
       <description></description>
@@ -247,10 +256,10 @@
     
     <item>
       <title>F#</title>
-      <link>http://example.org/tags/f#/</link>
+      <link>http://example.org/tags/f/</link>
       <pubDate>Mon, 17 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/tags/f#/</guid>
+      <guid>http://example.org/tags/f/</guid>
       <description></description>
     </item>
     

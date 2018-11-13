@@ -24,7 +24,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.40.1" />
+<meta name="generator" content="Hugo 0.51" />
 
 
 <link rel="canonical" href="http://example.org/" />
@@ -53,19 +53,7 @@
 <meta property="og:description" content="VGALTES blog." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://example.org/" />
-
-
-
-<meta property="og:updated_time" content="2016-08-18T00:00:00&#43;00:00"/>
-
-
-
-
-
-
-
-
-
+<meta property="og:updated_time" content="2016-10-13T00:00:00&#43;00:00"/>
 
 <meta itemprop="name" content="VGALTES blog">
 <meta itemprop="description" content="VGALTES blog.">
@@ -139,6 +127,34 @@
     
       <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/run-nunit3-tests-using-fake/">Running NUnit3 tests using fake</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 13-10-2016 </span>
+      <div class="post-category">
+          
+            <a href="/categories/fsharp/"> FSharp </a>
+          
+        </div>
+      <span class="more-meta"> 146 words </span>
+      <span class="more-meta"> 1 min read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      When you have some unit tests developed using NUnit 2.x your FAKE script looks like something like this:
+Target &quot;RunUnitTests&quot; (fun _ -&gt; !! (testDir + &quot;/*.Tests.dll&quot;) |&gt; NUnit (fun p -&gt; {p with ToolPath = &quot;packages/NUnit.Runners/tools/&quot;})  )
+But NUnit3 works slightly different. Instead of having a single NUnit.Runners package, that package references some other packages (runner, extensions, etc). One of those packages is NUnit.ConsoleRunner that has the exe inside the tools folder.
+    </div>
+    <div class="read-more">
+      <a href="/post/run-nunit3-tests-using-fake/" class="read-more-link">Read more..</a>
+    </div>
+  </div>
+</article>
+
+    
+      <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/deadlines-are-not-that-bad/">Deadlines are not that bad</a></h1>
     <div class="post-meta">
       <span class="post-time"> 18-08-2016 </span>
@@ -204,7 +220,7 @@ Hoy en la ofi hemos empezado la mañana con la RPG Combat kata de @SuuiGD que hi
             <a href="/categories/f/"> F# </a>
           
         </div>
-      <span class="more-meta"> 464 words </span>
+      <span class="more-meta"> 465 words </span>
       <span class="more-meta"> 3 mins read </span>
     </div>
   </header>
@@ -387,33 +403,6 @@ In this piece of code we can see some of the functional characteristics of F# we
     </div>
     <div class="read-more">
       <a href="/post/fsharp-by-example-discriminated-unions-record-types-tuples-and-operators/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    
-      <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/f-example-fizzbuzz-kata/">F# by example: FizzBuzz Kata</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 24-04-2015 </span>
-      <div class="post-category">
-          
-            <a href="/categories/code/"> Code </a>
-          
-        </div>
-      <span class="more-meta"> 1137 words </span>
-      <span class="more-meta"> 6 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Last Tuesday I started a book club with my friends Samir Talwar and Pedro Moreira Santos (both of them working at Codurance). The book we've choseen is "The book of F#", because we want to learn F#.
-After reading the first three chapters we decided to make the FizzBuzz kata to start practicing. In this article I'm going to explain you how we solved the kata trying to explain all the F# syntax we use.
-    </div>
-    <div class="read-more">
-      <a href="/post/f-example-fizzbuzz-kata/" class="read-more-link">Read more..</a>
     </div>
   </div>
 </article>
