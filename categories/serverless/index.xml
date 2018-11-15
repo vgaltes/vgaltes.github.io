@@ -6,10 +6,20 @@
     <description>Recent content in Serverless on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 12 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 15 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://example.org/categories/serverless/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Deploying Azure Functions using CircleCI</title>
+      <link>http://example.org/post/deploying-azure-functions-using-cirecleci/</link>
+      <pubDate>Thu, 15 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/deploying-azure-functions-using-cirecleci/</guid>
+      <description>In the last article we saw how to deploy an azure function from the CLI. In this article we&amp;rsquo;ll see how we can use the same script to deploy the function from a continuous integration environment. In this case we&amp;rsquo;ll use CircleCI.
+Creating a new docker image As we saw, if we want to deploy the Function App using the same script we&amp;rsquo;d need to use the Azure CLI and the Azure Functions Core Tools.</description>
+    </item>
     
     <item>
       <title>Deploying Azure Functions, an introduction</title>

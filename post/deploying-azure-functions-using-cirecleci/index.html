@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Deploying Azure Functions using CircleCI - VGALTES blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Vicenç García" />
+  <meta name="description" content="In the last article we saw how to deploy an azure function from the CLI. In this article we&amp;rsquo;ll see how we can use the same script to deploy the function from a continuous integration environment. In this case we&amp;rsquo;ll use CircleCI.
+Creating a new docker image As we saw, if we want to deploy the Function App using the same script we&amp;rsquo;d need to use the Azure CLI and the Azure Functions Core Tools." />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51" />
+
+
+<link rel="canonical" href="http://example.org/post/deploying-azure-functions-using-cirecleci/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="Deploying Azure Functions using CircleCI" />
+<meta property="og:description" content="In the last article we saw how to deploy an azure function from the CLI. In this article we&rsquo;ll see how we can use the same script to deploy the function from a continuous integration environment. In this case we&rsquo;ll use CircleCI.
+Creating a new docker image As we saw, if we want to deploy the Function App using the same script we&rsquo;d need to use the Azure CLI and the Azure Functions Core Tools." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/post/deploying-azure-functions-using-cirecleci/" /><meta property="article:published_time" content="2018-11-15T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2018-11-15T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="Deploying Azure Functions using CircleCI">
+<meta itemprop="description" content="In the last article we saw how to deploy an azure function from the CLI. In this article we&rsquo;ll see how we can use the same script to deploy the function from a continuous integration environment. In this case we&rsquo;ll use CircleCI.
+Creating a new docker image As we saw, if we want to deploy the Function App using the same script we&rsquo;d need to use the Azure CLI and the Azure Functions Core Tools.">
+
+
+<meta itemprop="datePublished" content="2018-11-15T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-11-15T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1288">
+
+
+
+<meta itemprop="keywords" content="devops,azure functions,azure," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Deploying Azure Functions using CircleCI"/>
+<meta name="twitter:description" content="In the last article we saw how to deploy an azure function from the CLI. In this article we&rsquo;ll see how we can use the same script to deploy the function from a continuous integration environment. In this case we&rsquo;ll use CircleCI.
+Creating a new docker image As we saw, if we want to deploy the Function App using the same script we&rsquo;d need to use the Azure CLI and the Azure Functions Core Tools."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">VGALTES</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">VGALTES</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Deploying Azure Functions using CircleCI</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 15-11-2018 </span>
+        <div class="post-category">
+            
+              <a href="/categories/serverless/"> serverless </a>
+            
+          </div>
+        <span class="more-meta"> 1288 words </span>
+        <span class="more-meta"> 7 mins read </span>
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#creating-a-new-docker-image">Creating a new docker image</a></li>
+<li><a href="#create-a-new-service-principal">Create a new Service Principal</a></li>
+<li><a href="#create-a-new-build-definition">Create a new build definition</a></li>
+<li><a href="#adding-settings">Adding settings</a></li>
+<li><a href="#adding-local-settings-json">Adding local.settings.json</a></li>
+<li><a href="#summary">Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      
+
+<p>In the last <a href="https://vgaltes.com/post/deploying-azure-functions-an-introduction/">article</a> we saw how to deploy an azure function from the CLI. In this article we&rsquo;ll see how we can use the same script to deploy the function from a continuous integration environment. In this case we&rsquo;ll use <a href="https://circleci.com">CircleCI</a>.</p>
+
+<h2 id="creating-a-new-docker-image">Creating a new docker image</h2>
+
+<p>As we saw, if we want to deploy the Function App using the same script we&rsquo;d need to use the Azure CLI and the Azure Functions Core Tools. We will need the .Net Core SDK to be installed to be able to build the solution. Currently there isn&rsquo;t any <a href="https://circleci.com/docs/2.0/circleci-images/">pre-built CircleCI Docker Images</a> with all of that installed, so we&rsquo;ll need to create our own image. Fortunately, the CircleCI people makes this easy to do. What we&rsquo;ll need to do is follow the instructions that you can find <a href="https://github.com/circleci-public/dockerfile-wizard">here</a>.</p>
+
+<p>Let&rsquo;s start forking the repository into our account. The next step is to add your <a href="https://hub.docker.com/">Docker Hub</a> username (DOCKER_USERNAME) and password (DOCKER_PASSWORD) to CircleCI (yes, you need to creat an account there). I&rsquo;ve added this into the project specific environment variables. After that, run the <code>make ready</code> and <code>make setup</code> to prepare the different files that we&rsquo;ll use to create the Docker image and publish it to Docker Hub. I&rsquo;ve selected UBUNTU_XENIAL as the image base, and selected to install Python version 3.7.1. Now it&rsquo;s time to commit and push your changes and see what happens.</p>
+
+<p>What will happen is that the build will not work. It will complain that the <code>org-global</code> context doesn&rsquo;t exist. What do you need to do is to create this context. So, go <code>Settings -&gt; Contexts</code> and add a new context.</p>
+
+<p><img src="/images/AddContext.png" alt="Add context" /></p>
+
+<p>Now, if you rebuild the workflow it won&rsquo;t work either, because the file has some errors. Let&rsquo;s fix this errors replacing the current content of the file by this (feel free to change the name of the image and the tag, but if you do this, remember to change the name of the image in the test_image job):</p>
+
+<pre><code>image_config: &amp;image_config
+
+  IMAGE_NAME: azurefunctionsbuildanddeploy
+
+  IMAGE_TAG: &quot;1.0&quot;
+
+  LINUX_VERSION: UBUNTU_XENIAL
+
+  PYTHON_VERSION_NUM: 3.7.1
+
+  JAVA: false
+
+  MYSQL_CLIENT: false
+
+  POSTGRES_CLIENT: false
+
+  DOCKERIZE: false
+
+  BROWSERS: false
+
+version: 2
+jobs:
+  build:
+    machine: true
+    environment:
+      &lt;&lt;: *image_config
+
+    steps:
+      - checkout
+
+      - run: bash scripts/generate.sh &gt; Dockerfile
+
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+      - run: docker build -t $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG .
+
+      - run: docker push $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG &amp;&amp; sleep 10
+
+      - store_artifacts:
+          path: Dockerfile
+
+  test_image:
+    docker:
+      - image: $DOCKER_USERNAME/azurefunctionsbuildanddeploy:1.0
+        environment:
+          &lt;&lt;: *image_config
+
+    steps:
+      - checkout
+
+      - run:
+          name: bats tests
+          command: |
+            mkdir -p test_results/bats
+            bats scripts/tests.bats | \
+            perl scripts/tap-to-junit.sh &gt; \
+            test_results/bats/results.xml
+
+      - store_test_results:
+          path: test_results
+
+      - store_artifacts:
+          path: test_results
+
+workflows:
+  version: 2
+  dockerfile_wizard:
+    jobs:
+      - build:
+          context: org-global
+
+      - test_image:
+          context: org-global
+          requires:
+            - build
+
+</code></pre>
+
+<p>So, let&rsquo;s commit and push and see this working.</p>
+
+<p>The next step is to install the tools we need. How this works, is that CircleCI will create the Dockerfile running the <code>generate.sh</code> script. If you take a look at the script you will see that is creating a Dockerfile using echo&rsquo;s. So, what we need to do is update this script to install what we need. Take into account that if you change your base image (Ubuntu Xenial) you might need to change some of the following instructinos. Let&rsquo;s start adding what we need to install the AzureCLI:</p>
+
+<pre><code>echo &quot;# install Azure CLI
+RUN apt-get update \
+  &amp;&amp; apt-get install apt-transport-https -y \
+  &amp;&amp; echo 'deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ xenial main' | tee /etc/apt/sources.list.d/azure-cli.list \
+  &amp;&amp; apt-get install curl -y \
+  &amp;&amp; curl -L https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+  &amp;&amp; apt-get update \
+  &amp;&amp; apt-get install libssl-dev libffi-dev python-dev apt-transport-https azure-cli -y&quot;
+</code></pre>
+
+<p>The next step is to install the .Net Core SDK:</p>
+
+<pre><code>echo &quot;#dotnet sdk
+RUN apt-get install wget \
+  &amp;&amp; wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb \
+  &amp;&amp; dpkg -i packages-microsoft-prod.deb \
+  &amp;&amp; apt-get update \
+  &amp;&amp; apt-get install dotnet-sdk-2.1 -y&quot;
+</code></pre>
+
+<p>And finally let&rsquo;s install the Azure Functions Core Tools:</p>
+
+<pre><code>echo &quot;#Azure Functions core tools
+RUN apt-get install azure-functions-core-tools -y&quot;
+</code></pre>
+
+<p>Next step is to add some tests to check that everything is correctly installed. This project is using <a href="https://github.com/bats-core/bats-core">BATS</a> to perform the tests. So, let&rsquo;s add some tests to make sure we&rsquo;ve installed everything correctly. Edit the tests.bats file and add the following lines at the end of the file:</p>
+
+<pre><code>@test &quot;dotnet&quot; {
+  dotnet --version
+}
+
+@test &quot;azure cli&quot; {
+  az --version
+}
+
+@test &quot;azure functions core tools&quot; {
+  func --version
+}
+</code></pre>
+
+<p>Cool, you can now commit and push and hopefully you&rsquo;ll see the build passing a new docker image in your Docker Hub account. It&rsquo;s time to create a build definition for our Azure Functions project.</p>
+
+<h2 id="create-a-new-service-principal">Create a new Service Principal</h2>
+
+<p>When we deployed the Function App from our local environment, we used <code>az login</code> with a username and a password. From our CI agent we will use a service principal. So, the first thing we need is to create a new one. Open a new terminal session and type <code>az ad sp create-for-rbac --name &lt;ServicePrincipalName&gt; --password &lt;PASSWORD&gt;</code>. You can find more information about how to create a service principal <a href="https://docs.microsoft.com/en-gb/cli/azure/create-an-azure-service-principal-azure-cli?toc=%2Fazure%2Fazure-resource-manager%2Ftoc.json&amp;view=azure-cli-latest">here</a>.</p>
+
+<h2 id="create-a-new-build-definition">Create a new build definition</h2>
+
+<p>Let&rsquo;s go to your Azure Functions project (the one we created in the last article) and create a folder called <code>.circleci</code> with a file called <code>config.yml</code> inside. This is our build definition file.</p>
+
+<p>First thing we need to do is to specify that we want to use our newly created image to build this project. So, add this as the first lines of your config.yml file:</p>
+
+<pre><code>version: 2
+jobs:
+  build:
+    docker:
+      - image: vicencgarcia/azurefunctionsbuildanddeploy:1.0
+
+    working_directory: ~/repo
+</code></pre>
+
+<p>Next, we need to specify the different steps of our build. The first one is to checkout the code:</p>
+
+<pre><code>   steps:
+      - checkout
+</code></pre>
+
+<p>Then, we need to login into our Azure account:</p>
+
+<pre><code>      - run:
+          name: Login into azure
+          command: az login --service-principal -u $azPrincipal -p $azPassword -t $azTenant
+</code></pre>
+
+<p>As you can see, we&rsquo;re using three environment variables. So, you&rsquo;ll need to add them to the project settings. You&rsquo;ll have the information from the step where you&rsquo;ve created the Service Principal.</p>
+
+<p>And finally, we need to deploy the Function App:</p>
+
+<pre><code>      - run:
+          name: Deploy
+          command: ./deploy.sh AFTestDeploy westeurope uat
+</code></pre>
+
+<p>Feel free to change the service name, the location and the stage.</p>
+
+<p>Let&rsquo;s commit, push and see if we&rsquo;ve deployed the Function App.</p>
+
+<h2 id="adding-settings">Adding settings</h2>
+
+<p>The build is green, which is good, but if we go to the portal we&rsquo;ll see that everything has beed deployed but the HelloWorld function. What has happened? Let&rsquo;s take a look at the build output:</p>
+
+<pre><code>  Restore completed in 2.12 sec for /root/repo/TestDeploy.csproj.
+  TestDeploy -&gt; /root/repo/bin/Debug/netcoreapp2.1/bin/TestDeploy.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:04.92
+Publisihng function to Azure
+Getting site publishing info...
+Preparing archive...
+Uploading content...
+Upload completed successfully.
+Deployment completed successfully.
+Syncing triggers...
+Functions in AFTestDeploy-uat:
+</code></pre>
+
+<p>Weird. The .Net SDK is not publishing anything in the /root/repo/bin/Debug/netcoreapp2.1/publish folder, and therefore nothing is deployed to Azure. What&rsquo;s happening?</p>
+
+<h2 id="adding-local-settings-json">Adding local.settings.json</h2>
+
+<p>It turns out that the Azure Functions Core Tools needs a parameter that exists on the local.settings.json file. But this file is on the .gitignore file and it&rsquo;s not safe to upload it to the repository. What can we do? Well, we can create the minimum file that we need in order to be able to deploy the function. Let&rsquo;s add this step to our build configuration file, just before the deploy step:</p>
+
+<pre><code>      - run:
+          name: Create local.settings.json
+          command: |
+            cat &gt; local.settings.json &lt;&lt; EOF
+            {
+              &quot;IsEncrypted&quot;: false,
+              &quot;Values&quot;: {
+                &quot;AzureWebStorage&quot;: &quot;&quot;,
+                &quot;FUNCTIONS_WORKER_RUNTIME&quot;: &quot;dotnet&quot;
+              }
+            }
+            EOF
+</code></pre>
+
+<p>Let&rsquo;s commit and push and see if the function is deployed&hellip;</p>
+
+<p><img src="/images/AddContext.png" alt="Deployment" /></p>
+
+<p>Voilà! Here it is!</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this article we&rsquo;ve seen how we can use CircleCI to deploy and Function App. We had to create a new Docker image and create a build definition file that uses it.</p>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Vicenç García</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">15-11-2018</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/devops/">devops</a>
+          
+          <a href="/tags/azure-functions/">azure functions</a>
+          
+          <a href="/tags/azure/">azure</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/deploying-azure-functions-an-introduction/">
+            <span class="next-text nav-default">Deploying Azure Functions, an introduction</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'vgaltes';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:vgaltes@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://linkedin.com/in/vgaltes" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="https://twitter.com/vgaltes" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/vgaltes" class="iconfont icon-github" title="github"></a>
+  <a href="http://example.org/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2013 - 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Vicenç García</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
