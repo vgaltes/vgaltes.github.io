@@ -66,7 +66,7 @@ Building the package What Terraform is going to do is take advantage of the Zip 
 
 <meta itemprop="datePublished" content="2018-11-16T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2018-11-16T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="493">
+<meta itemprop="wordCount" content="494">
 
 
 
@@ -147,7 +147,7 @@ Building the package What Terraform is going to do is take advantage of the Zip 
               <a href="/categories/serverless/"> serverless </a>
             
           </div>
-        <span class="more-meta"> 493 words </span>
+        <span class="more-meta"> 494 words </span>
         <span class="more-meta"> 3 mins read </span>
         
       </div>
@@ -166,6 +166,8 @@ Building the package What Terraform is going to do is take advantage of the Zip 
 <li><a href="#prerequisites">Prerequisites</a></li>
 <li><a href="#building-the-package">Building the package</a></li>
 <li><a href="#create-the-terraform-script">Create the Terraform script</a></li>
+<li><a href="#deploying">Deploying</a></li>
+<li><a href="#summary">Summary</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -305,14 +307,17 @@ resource &quot;azurerm_storage_blob&quot; &quot;sb-testDeployTF&quot; {
 }
 </code></pre>
 
+<h2 id="deploying">Deploying</h2>
+
 <p>It&rsquo;s time to cd into the infrastructure folder, login into azure using <code>az login</code> and type <code>terraform apply</code>.</p>
 
 <p><img src="/images/AzureFunctionTerraform.png" alt="Azure Function Terraform" /></p>
 
 <p>Here it is! The Function App deployed into Azure :-)</p>
 
-<p>##Summary
-In this article we&rsquo;ve seen how we can deploy a Function App using Terraform.</p>
+<h2 id="summary">Summary</h2>
+
+<p>In this article we&rsquo;ve seen how we can deploy a Function App using Terraform.</p>
 
     </div>
 
