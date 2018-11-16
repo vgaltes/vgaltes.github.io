@@ -6,10 +6,21 @@
     <description>Recent content in Devops on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 15 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 16 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://example.org/tags/devops/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Deploying Azure Functions using Terraform</title>
+      <link>http://example.org/post/deploying-azure-functions-using-terraform/</link>
+      <pubDate>Fri, 16 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/deploying-azure-functions-using-terraform/</guid>
+      <description>In previous articles (I, II) we&amp;rsquo;ve seen how to deploy an Azure Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to deploy it using Terraform.
+Prerequisites In order to follow this article you will need the .Net SDK 2.1, the Azure CLI and Terraform installed in your laptop/container/VM/whatever.
+Building the package What Terraform is going to do is take advantage of the Zip deployment capability (More on this in a future article).</description>
+    </item>
     
     <item>
       <title>Deploying Azure Functions using CircleCI</title>
