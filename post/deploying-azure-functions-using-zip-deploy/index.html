@@ -17,7 +17,7 @@
 
 
 <meta name="author" content="Vicenç García" />
-  <meta name="description" content="In a [previous article]() we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
+  <meta name="description" content="In a previous article we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
 #!/bin/bash location=$2 stage=$3 serviceName=$1-$stage resourceGroupName=$serviceName&amp;quot;-rg&amp;quot; serviceNameToLower=&amp;quot;$(echo $serviceName | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&amp;quot; storageAccountName=&amp;quot;$(echo ${serviceNameToLower//&amp;quot;-&amp;quot;/&amp;quot;&amp;quot;})&amp;quot; echo &amp;quot;Creating resource group&amp;quot; az group create --name $resourceGroupName --location $location echo &amp;quot;Creating storage account&amp;quot; az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRS echo &amp;quot;Creating function app&amp;quot; az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupName echo &amp;quot;Publishing function locally&amp;quot; dotnet build echo &amp;quot;Publisihng function to Azure&amp;quot; func azure functionapp publish $serviceName  What are we going to do is to change the last two steps." />
 
@@ -51,7 +51,7 @@ Fixing the script. We already have a deployment script. It is something like thi
 
 
 <meta property="og:title" content="Deploying Azure Functions using Zip Deploy" />
-<meta property="og:description" content="In a [previous article]() we&rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
+<meta property="og:description" content="In a previous article we&rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
 #!/bin/bash location=$2 stage=$3 serviceName=$1-$stage resourceGroupName=$serviceName&quot;-rg&quot; serviceNameToLower=&quot;$(echo $serviceName | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&quot; storageAccountName=&quot;$(echo ${serviceNameToLower//&quot;-&quot;/&quot;&quot;})&quot; echo &quot;Creating resource group&quot; az group create --name $resourceGroupName --location $location echo &quot;Creating storage account&quot; az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRS echo &quot;Creating function app&quot; az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupName echo &quot;Publishing function locally&quot; dotnet build echo &quot;Publisihng function to Azure&quot; func azure functionapp publish $serviceName  What are we going to do is to change the last two steps." />
 <meta property="og:type" content="article" />
@@ -59,7 +59,7 @@ Fixing the script. We already have a deployment script. It is something like thi
 <meta property="article:modified_time" content="2018-11-17T00:00:00&#43;00:00"/>
 
 <meta itemprop="name" content="Deploying Azure Functions using Zip Deploy">
-<meta itemprop="description" content="In a [previous article]() we&rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
+<meta itemprop="description" content="In a previous article we&rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
 #!/bin/bash location=$2 stage=$3 serviceName=$1-$stage resourceGroupName=$serviceName&quot;-rg&quot; serviceNameToLower=&quot;$(echo $serviceName | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&quot; storageAccountName=&quot;$(echo ${serviceNameToLower//&quot;-&quot;/&quot;&quot;})&quot; echo &quot;Creating resource group&quot; az group create --name $resourceGroupName --location $location echo &quot;Creating storage account&quot; az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRS echo &quot;Creating function app&quot; az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupName echo &quot;Publishing function locally&quot; dotnet build echo &quot;Publisihng function to Azure&quot; func azure functionapp publish $serviceName  What are we going to do is to change the last two steps.">
 
@@ -73,7 +73,7 @@ Fixing the script. We already have a deployment script. It is something like thi
 <meta itemprop="keywords" content="devops,azure functions,azure," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Deploying Azure Functions using Zip Deploy"/>
-<meta name="twitter:description" content="In a [previous article]() we&rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
+<meta name="twitter:description" content="In a previous article we&rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
 #!/bin/bash location=$2 stage=$3 serviceName=$1-$stage resourceGroupName=$serviceName&quot;-rg&quot; serviceNameToLower=&quot;$(echo $serviceName | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&quot; storageAccountName=&quot;$(echo ${serviceNameToLower//&quot;-&quot;/&quot;&quot;})&quot; echo &quot;Creating resource group&quot; az group create --name $resourceGroupName --location $location echo &quot;Creating storage account&quot; az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRS echo &quot;Creating function app&quot; az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupName echo &quot;Publishing function locally&quot; dotnet build echo &quot;Publisihng function to Azure&quot; func azure functionapp publish $serviceName  What are we going to do is to change the last two steps."/>
 
@@ -184,7 +184,7 @@ Fixing the script. We already have a deployment script. It is something like thi
     <div class="post-content">
       
 
-<p>In a [previous article]() we&rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to get rid of the help of the latter and use the <a href="https://docs.microsoft.com/en-us/azure/azure-functions/deployment-zip-push">Zip Deploy</a> feauture.</p>
+<p>In a <a href="http://vgaltes.com/post/deploying-azure-functions-an-introduction/">previous article</a> we&rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to get rid of the help of the latter and use the <a href="https://docs.microsoft.com/en-us/azure/azure-functions/deployment-zip-push">Zip Deploy</a> feauture.</p>
 
 <h2 id="fixing-the-script">Fixing the script.</h2>
 
