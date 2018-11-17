@@ -6,10 +6,21 @@
     <description>Recent content on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 16 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 17 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Deploying Azure Functions using Zip Deploy</title>
+      <link>http://example.org/post/deploying-azure-functions-using-zip-deploy/</link>
+      <pubDate>Sat, 17 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/deploying-azure-functions-using-zip-deploy/</guid>
+      <description>In a [previous article]() we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
+Fixing the script. We already have a deployment script. It is something like this:
+#!/bin/bash location=$2 stage=$3 serviceName=$1-$stage resourceGroupName=$serviceName&amp;quot;-rg&amp;quot; serviceNameToLower=&amp;quot;$(echo $serviceName | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&amp;quot; storageAccountName=&amp;quot;$(echo ${serviceNameToLower//&amp;quot;-&amp;quot;/&amp;quot;&amp;quot;})&amp;quot; echo &amp;quot;Creating resource group&amp;quot; az group create --name $resourceGroupName --location $location echo &amp;quot;Creating storage account&amp;quot; az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRS echo &amp;quot;Creating function app&amp;quot; az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupName echo &amp;quot;Publishing function locally&amp;quot; dotnet build echo &amp;quot;Publisihng function to Azure&amp;quot; func azure functionapp publish $serviceName  What are we going to do is to change the last two steps.</description>
+    </item>
     
     <item>
       <title>Deploying Azure Functions using Terraform</title>
