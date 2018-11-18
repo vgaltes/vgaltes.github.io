@@ -6,10 +6,20 @@
     <description>Recent content in Azure on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 17 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 18 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://example.org/tags/azure/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Deploying Azure Functions using slots</title>
+      <link>http://example.org/post/deploying-azure-functions-using-slots/</link>
+      <pubDate>Sun, 18 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/deploying-azure-functions-using-slots/</guid>
+      <description>In previous articles we&amp;rsquo;ve seen how to deploy a Function App using Azure Functions Core Tools, Terraform and Azure CLI with Zip Deploy. In this article we&amp;rsquo;re going to take a look on how to deploy Function apps using deployment slots.
+Why deployment slots Being able to deploy into slots and decide which slot you use in production has many benefits. To name some of them: - Enable A/B testing - Enable blue/green deployments - No downtime deployments - Easy rollback system</description>
+    </item>
     
     <item>
       <title>Deploying Azure Functions using Zip Deploy</title>
