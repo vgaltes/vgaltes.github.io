@@ -6,10 +6,21 @@
     <description>Recent content in Azure on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 18 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 20 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://example.org/tags/azure/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Deploying Azure Functions - Enabling Application Insights</title>
+      <link>http://example.org/post/enabling-application-insights/</link>
+      <pubDate>Tue, 20 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/enabling-application-insights/</guid>
+      <description>In our previous articles we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI or Terraform. Once we have a function deployed and accepting traffic, the next obvious thing to do is to monitor it.
+Adding some logs to the function is fairly easy. If you take a look at the signature of the function
+[FunctionName(&amp;quot;HelloWorld&amp;quot;)] public static async Task&amp;lt;IActionResult&amp;gt; Run( [HttpTrigger(AuthorizationLevel.Anonymous, &amp;quot;get&amp;quot;, &amp;quot;post&amp;quot;, Route = null)] HttpRequest req, ILogger log)  you&amp;rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.</description>
+    </item>
     
     <item>
       <title>Deploying Azure Functions using slots</title>
