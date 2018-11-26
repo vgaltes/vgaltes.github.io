@@ -6,10 +6,20 @@
     <description>Recent content on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 20 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 23 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Securing Azure Functions</title>
+      <link>http://example.org/post/securing-azure-functions/</link>
+      <pubDate>Fri, 23 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/securing-azure-functions/</guid>
+      <description>(Thanks to Francesc Ribera, Alex Casquete and Jerry Liu for their guidance on this topic)
+As far as I know (correct me in the comments if I&amp;rsquo;m wrong, please), when you create a brand new Azure Function, it has access to everything in your subscription as a contributor. That&amp;rsquo;s really not great. When you develop a new Lambda function you have to specify all the permissions that the function has to have.</description>
+    </item>
     
     <item>
       <title>Deploying Azure Functions - Enabling Application Insights</title>

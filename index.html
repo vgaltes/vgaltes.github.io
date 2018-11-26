@@ -53,7 +53,7 @@
 <meta property="og:description" content="VGALTES blog." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="http://example.org/" />
-<meta property="og:updated_time" content="2018-11-20T00:00:00&#43;00:00"/>
+<meta property="og:updated_time" content="2018-11-23T00:00:00&#43;00:00"/>
 
 <meta itemprop="name" content="VGALTES blog">
 <meta itemprop="description" content="VGALTES blog.">
@@ -124,6 +124,33 @@
   <section id="posts" class="posts">
     
     
+    
+      <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/securing-azure-functions/">Securing Azure Functions</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 23-11-2018 </span>
+      <div class="post-category">
+          
+            <a href="/categories/serverless/"> serverless </a>
+          
+        </div>
+      <span class="more-meta"> 1140 words </span>
+      <span class="more-meta"> 6 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      (Thanks to Francesc Ribera, Alex Casquete and Jerry Liu for their guidance on this topic)
+As far as I know (correct me in the comments if I&rsquo;m wrong, please), when you create a brand new Azure Function, it has access to everything in your subscription as a contributor. That&rsquo;s really not great. When you develop a new Lambda function you have to specify all the permissions that the function has to have.
+    </div>
+    <div class="read-more">
+      <a href="/post/securing-azure-functions/" class="read-more-link">Read more..</a>
+    </div>
+  </div>
+</article>
+
     
       <article class="post">
   <header class="post-header">
@@ -364,33 +391,6 @@ First of all we&rsquo;ll need a MySQL server connected to the same network than 
     </div>
     <div class="read-more">
       <a href="/post/vault-dynamic-secrets/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    
-      <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/vault-basics/">Vault basics</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 16-12-2017 </span>
-      <div class="post-category">
-          
-            <a href="/categories/devops/"> devops </a>
-          
-        </div>
-      <span class="more-meta"> 1747 words </span>
-      <span class="more-meta"> 9 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Vault from HashiCorp is an amazing tool to manage the secrets on your organisation. It not only can help you to manage what they call static secrets that you can write and read, but also allows you to manage dynamic secrets to, for example, create temporary users in a MySQL database with certain permissions. It helps you to have a more secure organization.
-Today we&rsquo;re going to see how can we configure and use the basics of Vault.
-    </div>
-    <div class="read-more">
-      <a href="/post/vault-basics/" class="read-more-link">Read more..</a>
     </div>
   </div>
 </article>

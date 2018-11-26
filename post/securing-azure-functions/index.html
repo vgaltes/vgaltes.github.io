@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Securing Azure Functions - VGALTES blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Vicenç García" />
+  <meta name="description" content="(Thanks to Francesc Ribera, Alex Casquete and Jerry Liu for their guidance on this topic)
+As far as I know (correct me in the comments if I&amp;rsquo;m wrong, please), when you create a brand new Azure Function, it has access to everything in your subscription as a contributor. That&amp;rsquo;s really not great. When you develop a new Lambda function you have to specify all the permissions that the function has to have." />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51" />
+
+
+<link rel="canonical" href="http://example.org/post/securing-azure-functions/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="Securing Azure Functions" />
+<meta property="og:description" content="(Thanks to Francesc Ribera, Alex Casquete and Jerry Liu for their guidance on this topic)
+As far as I know (correct me in the comments if I&rsquo;m wrong, please), when you create a brand new Azure Function, it has access to everything in your subscription as a contributor. That&rsquo;s really not great. When you develop a new Lambda function you have to specify all the permissions that the function has to have." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/post/securing-azure-functions/" /><meta property="article:published_time" content="2018-11-23T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2018-11-23T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="Securing Azure Functions">
+<meta itemprop="description" content="(Thanks to Francesc Ribera, Alex Casquete and Jerry Liu for their guidance on this topic)
+As far as I know (correct me in the comments if I&rsquo;m wrong, please), when you create a brand new Azure Function, it has access to everything in your subscription as a contributor. That&rsquo;s really not great. When you develop a new Lambda function you have to specify all the permissions that the function has to have.">
+
+
+<meta itemprop="datePublished" content="2018-11-23T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-11-23T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1140">
+
+
+
+<meta itemprop="keywords" content="devops,azure functions,azure," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Securing Azure Functions"/>
+<meta name="twitter:description" content="(Thanks to Francesc Ribera, Alex Casquete and Jerry Liu for their guidance on this topic)
+As far as I know (correct me in the comments if I&rsquo;m wrong, please), when you create a brand new Azure Function, it has access to everything in your subscription as a contributor. That&rsquo;s really not great. When you develop a new Lambda function you have to specify all the permissions that the function has to have."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">VGALTES</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">VGALTES</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Securing Azure Functions</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 23-11-2018 </span>
+        <div class="post-category">
+            
+              <a href="/categories/serverless/"> serverless </a>
+            
+          </div>
+        <span class="more-meta"> 1140 words </span>
+        <span class="more-meta"> 6 mins read </span>
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#shared-access-policy-to-the-rescue">Shared Access Policy to the rescue</a></li>
+<li><a href="#creating-the-event-hub">Creating the Event Hub</a></li>
+<li><a href="#writing-to-the-event-hub-using-the-net-library">Writing to the event hub using the .Net library</a></li>
+<li><a href="#writing-to-the-event-hub-using-an-output-binding">Writing to the event hub using an output binding</a></li>
+<li><a href="#imperative-binding">Imperative binding</a></li>
+<li><a href="#summary">Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      
+
+<p>(Thanks to Francesc Ribera, <a href="https://acasquete.github.io/">Alex Casquete</a> and <a href="https://stackoverflow.com/questions/53434852/securing-an-azure-function">Jerry Liu</a> for their guidance on this topic)</p>
+
+<p>As far as I know (correct me in the comments if I&rsquo;m wrong, please), when you create a brand new Azure Function, it has access to everything in your subscription as a contributor. That&rsquo;s really not great. When you develop a new Lambda function you have to specify all the permissions that the function has to have. For example, if you need to query and put items into a DynamoDB table (and you&rsquo;re using the serverless framework), you have to do something like this:</p>
+
+<pre><code>functions:
+  watchStream:
+    handler: src/functions/user/watchStream.handler
+    events:
+      - http:
+          path: user/{user_id}/stream
+          method: post
+    environment:
+      videoStreamsTableName: ${self:custom.videoStreamsTableName}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+          - dynamodb:PutItem
+        Resource: &quot;arn:aws:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.videoStreamsTableName}&quot;
+</code></pre>
+
+<p>This is great for many reasons. By default you function doesn&rsquo;t have access to anything, which makes easier to control it. The level of detail that you get is great, as you&rsquo;ve seen, you can define permissions at a table level. And this way of assigning permissions makes easier to follow the [Least Privilege Principle]().</p>
+
+<p>But it looks like that the Role Base Security in Azure is still on preview and not available in all the regions, so we need to use some other system to try to access the permissions of our functions.</p>
+
+<h2 id="shared-access-policy-to-the-rescue">Shared Access Policy to the rescue</h2>
+
+<p>The Shared Access Policy is a way to grant access to our resources by adding a signature to the connection string. This will tell the resource which operations to accept. In this example we&rsquo;ll try to write to an Event Hub from a function. We&rsquo;ll do this using the .Net client library and an output binding.</p>
+
+<h2 id="creating-the-event-hub">Creating the Event Hub</h2>
+
+<p>We need to update our deployment script with the following content:</p>
+
+<pre><code>#Create the event hub
+echo -e &quot;${BLUE}Creating the Event Hub${NC}&quot;
+eventHubNamespaceName=$serviceName&quot;-ehnamespace&quot;
+eventHubName=pings
+az eventhubs namespace create --name $eventHubNamespaceName --resource-group $resourceGroupName --location $location --sku Basic
+az eventhubs eventhub create --name $eventHubName --namespace-name $eventHubNamespaceName --resource-group $resourceGroupName --message-retention 1
+az eventhubs eventhub authorization-rule create --resource-group $resourceGroupName --namespace-name $eventHubNamespaceName --eventhub-name $eventHubName --name Send --rights Send
+ehConnectionString=&quot;$(az eventhubs eventhub authorization-rule keys list --resource-group $resourceGroupName --namespace-name $eventHubNamespaceName --eventhub-name $eventHubName --name Send --query primaryConnectionString)&quot;
+ehConnectionString=&quot;${ehConnectionString%\&quot;}&quot;
+ehConnectionString=&quot;${ehConnectionString#\&quot;}&quot;
+az functionapp config appsettings set -g $resourceGroupName -n $serviceName --settings TestQueueConnectionString=$ehConnectionString
+</code></pre>
+
+<p>First, we need to create the namespace, which is where we&rsquo;ll specify the pricing tier, in this case Basic. Then, we create the event hub. Here, we need to specify the message retention value, because the defuault is 7 and that&rsquo;s a value not supporting in the Basic princing tier. The last step is to create the shared access policy. In this case, we say that we want to call it <code>Send</code> and that it will have just <code>Send</code> rights.</p>
+
+<h2 id="writing-to-the-event-hub-using-the-net-library">Writing to the event hub using the .Net library</h2>
+
+<p>Let&rsquo;s start writing a message using the .Net library. First of all, add the necessary package:</p>
+
+<pre><code>dotnet add package Microsoft.Azure.EventHubs
+</code></pre>
+
+<p>Import the package</p>
+
+<pre><code>using Microsoft.Azure.EventHubs;
+</code></pre>
+
+<p>Get the configuration setting (in the V2 of Azure Functions we need to use the new <a href="https://blog.jongallant.com/2018/01/azure-function-config/">ConfigurationBuilder</a> class):</p>
+
+<pre><code>var config = new ConfigurationBuilder()
+        .SetBasePath(context.FunctionAppDirectory)
+        .AddJsonFile(&quot;local.settings.json&quot;, optional: true, reloadOnChange: true)
+        .AddEnvironmentVariables()
+        .Build();
+</code></pre>
+
+<p>Get the connection string:</p>
+
+<pre><code>var ehConnectionString = config[&quot;TestQueueConnectionString&quot;];
+</code></pre>
+
+<p>And finally write a message into the event hub:</p>
+
+<pre><code>var ehClient = EventHubClient.CreateFromConnectionString(ehConnectionString);
+      await ehClient.SendAsync(new EventData(Encoding.UTF8.GetBytes(&quot;This is a message&quot;)));
+      await ehClient.CloseAsync();
+</code></pre>
+
+<p>Now it&rsquo;s time to deploy and test our function. As always, run the deployment script:</p>
+
+<pre><code>./deploy.sh TestAuth westeurope dev
+</code></pre>
+
+<p>If we now go to the event hub we&rsquo;ll see that we&rsquo;ve received a message</p>
+
+<p><img src="/images/MessageReceived.png" alt="A message" /></p>
+
+<p>Let&rsquo;s see what happens if we change the policy. Instead of Read as right, change it to Listen and redeploy. Call the function and you&rsquo;ll see that you&rsquo;re not getting anything back. That&rsquo;s because you&rsquo;ve got an error. If you check the status code you&rsquo;ll see that you&rsquo;ve got a 500.</p>
+
+<p>Go to your function monitor and you&rsquo;ll see that you&rsquo;ve got an <code>Unauthorised access</code> error.</p>
+
+<p><img src="/images/UnauthorisedAccess.png" alt="Unauthorised Access" /></p>
+
+<h2 id="writing-to-the-event-hub-using-an-output-binding">Writing to the event hub using an output binding</h2>
+
+<p>An <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-triggers-bindings">output binding</a> is a declarative way to connect to data from our code. I still haven&rsquo;t worked in anger with them, but I have mixed feelings about them. My first impression is that it&rsquo;s too much magic. But let&rsquo;s see and example of how to use them.</p>
+
+<p>First of all, add the necessary package and import it:</p>
+
+<pre><code>dotnet add package Microsoft.Azure.WebJobs.Extensions.EventHubs
+</code></pre>
+
+<pre><code>using Microsoft.Azure.WebJobs;
+</code></pre>
+
+<p>Change the signature of the function to something like:</p>
+
+<pre><code>public static ActionResult Run(
+        [HttpTrigger(AuthorizationLevel.Anonymous, &quot;get&quot;, &quot;post&quot;, Route = null)] CustomObject req,
+        [EventHub(&quot;pings&quot;, Connection = &quot;TestQueueConnectionString&quot;)] out string ehMessage,
+        ILogger log)
+    {
+</code></pre>
+
+<p>And finally write the message to the event hub by just writing it into the out parameter:</p>
+
+<pre><code>ehMessage = &quot;Message from output binding&quot;;
+</code></pre>
+
+<p>Let&rsquo;s deploy and test the function. You should see a new message in the event hub (remember to change the configuration of the Shared Access Policy to Send)</p>
+
+<p>You should see a 200 response..</p>
+
+<p><img src="/images/EventHubBinding.png" alt="Event Hub binding" /></p>
+
+<p>and a new message in the event hub</p>
+
+<p><img src="/images/EventHubBindingMessage.png" alt="Event Hub binding message" /></p>
+
+<h2 id="imperative-binding">Imperative binding</h2>
+
+<p>One of the problems with this approach is that we&rsquo;re storing the connection string in the application settings, which is not a <a href="https://jan-v.nl/post/working-with-azure-key-vault-in-azure-functions">great</a> idea. Fortunately, we have another option, which are the imperative bindings. Obviously, we can achieve the same results using directly the .Net library.</p>
+
+<p>So, let&rsquo;s say that we don&rsquo;t want to store the connection string in the application settings. We should store them in something like Key Vault, or Hashicorp Vault, or whatever your organization has. The problem is that we can&rsquo;t use that with a normal binding, so we need to use imperative bindings.</p>
+
+<p>Note: we&rsquo;re going to explain how to use Key Vault in another article. For now, imagine that we have the connection string in a variable called ehConnectionString.</p>
+
+<p>First, we need to change the signature of the function to include the Binder object:</p>
+
+<pre><code>[FunctionName(&quot;HelloWorld&quot;)]
+    public async static Task&lt;ActionResult&gt; Run(
+        [HttpTrigger(AuthorizationLevel.Anonymous, &quot;get&quot;, &quot;post&quot;, Route = null)] CustomObject req,
+        ExecutionContext context,
+        Binder binder,
+        ILogger log)
+    {
+</code></pre>
+
+<p>Then, we need to update the get the settings object:</p>
+
+<pre><code>var config = new ConfigurationBuilder()
+        .SetBasePath(context.FunctionAppDirectory)
+        .AddJsonFile(&quot;local.settings.json&quot;, optional: true, reloadOnChange: true)
+        .AddEnvironmentVariables()
+        .Build();
+</code></pre>
+
+<p>Now, we need to update the setting the binder is going to use:</p>
+
+<pre><code>config[&quot;TestQueueConnectionString&quot;] = ehConnectionString;
+</code></pre>
+
+<p>It&rsquo;s time to create the binding:</p>
+
+<pre><code>var output = await binder.BindAsync&lt;IAsyncCollector&lt;string&gt;&gt;(new EventHubAttribute(&quot;pings&quot;)
+    {
+      Connection = &quot;TestQueueConnectionString&quot;
+    });
+</code></pre>
+
+<p>Note that (I don&rsquo;t know why) we can&rsquo;t use directly a string with the binder, we need to use a collector or an async collector.</p>
+
+<p>And finally, add the message:</p>
+
+<pre><code>await output.AddAsync(&quot;A new message using imperative binding.&quot;);
+</code></pre>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this article we&rsquo;ve seen how to limit what an Azure Function can access. We&rsquo;ve implemented that using Shared Access Policies and we&rsquo;ve seen an example with an Event Hub. We&rsquo;ve also learned how to deploy an event hub using the Azure CLI. We learned how to publish a message into an event hub using the .Net library, an output binding and an imperative binding.</p>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Vicenç García</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">23-11-2018</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/devops/">devops</a>
+          
+          <a href="/tags/azure-functions/">azure functions</a>
+          
+          <a href="/tags/azure/">azure</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/enabling-application-insights/">
+            <span class="next-text nav-default">Deploying Azure Functions - Enabling Application Insights</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'vgaltes';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:vgaltes@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://linkedin.com/in/vgaltes" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="https://twitter.com/vgaltes" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/vgaltes" class="iconfont icon-github" title="github"></a>
+  <a href="http://example.org/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2013 - 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Vicenç García</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
