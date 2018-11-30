@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Using Key Vault secrets in AppSettings - VGALTES blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Vicenç García" />
+  <meta name="description" content="In the last article we talked about securing Azure Functions and we saw how to insert a message into an Event Hub. To insert the message, we needed the connection string to be in an application setting. This is not the most secure way to store a connection string. We talked that it would be a much better option to store it in Key Vault. Until a couple of days ago, to do that we needed to use a library to get the secret from Key Vault and then use an imperative binding to be able to insert the message into the Event Hub." />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.51" />
+
+
+<link rel="canonical" href="http://example.org/post/using-key-vault-secret-in-appsettings/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="Using Key Vault secrets in AppSettings" />
+<meta property="og:description" content="In the last article we talked about securing Azure Functions and we saw how to insert a message into an Event Hub. To insert the message, we needed the connection string to be in an application setting. This is not the most secure way to store a connection string. We talked that it would be a much better option to store it in Key Vault. Until a couple of days ago, to do that we needed to use a library to get the secret from Key Vault and then use an imperative binding to be able to insert the message into the Event Hub." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/post/using-key-vault-secret-in-appsettings/" /><meta property="article:published_time" content="2018-11-30T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2018-11-30T00:00:00&#43;00:00"/>
+
+<meta itemprop="name" content="Using Key Vault secrets in AppSettings">
+<meta itemprop="description" content="In the last article we talked about securing Azure Functions and we saw how to insert a message into an Event Hub. To insert the message, we needed the connection string to be in an application setting. This is not the most secure way to store a connection string. We talked that it would be a much better option to store it in Key Vault. Until a couple of days ago, to do that we needed to use a library to get the secret from Key Vault and then use an imperative binding to be able to insert the message into the Event Hub.">
+
+
+<meta itemprop="datePublished" content="2018-11-30T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-11-30T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="972">
+
+
+
+<meta itemprop="keywords" content="devops,azure functions,azure," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Using Key Vault secrets in AppSettings"/>
+<meta name="twitter:description" content="In the last article we talked about securing Azure Functions and we saw how to insert a message into an Event Hub. To insert the message, we needed the connection string to be in an application setting. This is not the most secure way to store a connection string. We talked that it would be a much better option to store it in Key Vault. Until a couple of days ago, to do that we needed to use a library to get the secret from Key Vault and then use an imperative binding to be able to insert the message into the Event Hub."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">VGALTES</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">VGALTES</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Using Key Vault secrets in AppSettings</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 30-11-2018 </span>
+        <div class="post-category">
+            
+              <a href="/categories/serverless/"> serverless </a>
+            
+          </div>
+        <span class="more-meta"> 972 words </span>
+        <span class="more-meta"> 5 mins read </span>
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#creating-the-key-vault">Creating the Key Vault</a></li>
+<li><a href="#summary">Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      
+
+<p>In the <a href="http://vgaltes.com/post/securing-azure-functions/">last article</a> we talked about securing Azure Functions and we saw how to insert a message into an Event Hub. To insert the message, we needed the connection string to be in an application setting. This is not the most secure way to store a connection string. We talked that it would be a much better option to store it in Key Vault. Until a couple of days ago, to do that we needed to use a library to get the secret from Key Vault and then use an imperative binding to be able to insert the message into the Event Hub.</p>
+
+<p>But on Wednesday the Azure Functions team released a bunch of <a href="https://azure.microsoft.com/en-us/blog/simplifying-security-for-serverless-and-web-apps-with-azure-functions-and-app-service/">security related features</a>. One of them, is that you can use a secret stored in Key Vault as a value for an application settings. So, we can use Key Vault as the source of our secrets for the declarative bindings without making any change in our code. Let&rsquo;s see how we can do it.</p>
+
+<h2 id="creating-the-key-vault">Creating the Key Vault</h2>
+
+<p>As usual, we can do this using the Azure Portal, but we don&rsquo;t really want to use it, so we&rsquo;ll continue using the Azure CLI. Open your preferred terminal and type:</p>
+
+<pre><code>keyVaultName=$serviceName-kv
+az keyvault create --name $keyVaultName --resource-group $resourceGroupName --location $location
+</code></pre>
+
+<p>Next, we need to create a key to encrypt all our passwords. By now we&rsquo;ll tell Key Vault to create it for us.</p>
+
+<pre><code>keyVaultKeyName=$keyVaultName-key
+az keyvault key create --vault-name $keyVaultName --name $keyVaultKeyName --protection software
+</code></pre>
+
+<p>The next thing we need to know is to create the Service Managed Identity of our Function App. We will need it to be able to set a police on the Key Vault so our function can read secrets from there. Let&rsquo;s do this, step by step. First, create the SMI and get the service principal id:</p>
+
+<pre><code>spn=&quot;$(az webapp identity assign --name $serviceName --resource-group $resourceGroupName --query principalId)&quot;
+spn=&quot;${spn%\&quot;}&quot;
+spn=&quot;${spn#\&quot;}&quot;
+</code></pre>
+
+<p>And second, create the policy in the Key Vault:</p>
+
+<pre><code>az keyvault set-policy --name $keyVaultName --object-id $spn --secret-permissions get
+</code></pre>
+
+<p>We now need to create the secret and get its id:</p>
+
+<pre><code>secretId=&quot;$(az keyvault secret set --name EventHubConnectionString --vault-name $keyVaultName --value $ehConnectionString --query id)&quot;
+secretId=&quot;${secretId%\&quot;}&quot;
+secretId=&quot;${secretId#\&quot;}&quot;
+</code></pre>
+
+<p>And finally we need to set the application setting in our function. The setting has to have this format: <code>@Microsoft.KeyVault(SecretUri=&lt;the_uri_of_the_secret_including_the_version&gt;)</code></p>
+
+<pre><code>ehConnectionString=&quot;@Microsoft.KeyVault(SecretUri=$secretId)&quot;
+az functionapp config appsettings set -g $resourceGroupName -n $serviceName --settings TestQueueConnectionString=$ehConnectionString
+
+</code></pre>
+
+<p>And now we can use this setting in the biding of our function, the same way we used it in the first example of the previous post:</p>
+
+<pre><code>[FunctionName(&quot;HelloWorld&quot;)]
+public static ActionResult Run(
+    [HttpTrigger(AuthorizationLevel.Anonymous, &quot;get&quot;, &quot;post&quot;, Route = null)] CustomObject req,
+    [EventHub(&quot;pings&quot;, Connection = &quot;TestQueueConnectionString&quot;)] out string ehMessage,
+    ILogger log)
+{
+  string name = req?.name;
+
+  ehMessage = &quot;Message from output binding from key vault&quot;;
+
+  return name != null
+      ? (ActionResult)new OkObjectResult($&quot;Hello again, this time with custom request object, {name}&quot;)
+      : new BadRequestObjectResult(&quot;Please pass a name on the query string or in the request body&quot;);
+}
+</code></pre>
+
+<p>And that&rsquo;s all. This is how we used a secret stored in Key Vault in a declarative binding.</p>
+
+<p>For the record, this is how our deploy.sh script looks like:</p>
+
+<pre><code>#!/bin/bash
+location=$2
+stage=$3
+serviceName=$1-$stage
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+resourceGroupName=$serviceName&quot;-rg&quot;
+appInsightsName=$serviceName&quot;-ai&quot;
+serviceNameToLower=&quot;$(echo $serviceName | tr '[:upper:]' '[:lower:]')&quot;
+storageAccountName=&quot;$(echo ${serviceNameToLower//&quot;-&quot;/&quot;&quot;})&quot;
+echo -e &quot;${BLUE}Creating resource group${NC}&quot;
+az group create --name $resourceGroupName --location $location
+echo -e &quot;${BLUE}Creating storage account${NC}&quot;
+az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRS
+echo -e &quot;${BLUE}Creating function app${NC}&quot;
+az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location $location --resource-group $resourceGroupName
+echo -e &quot;${BLUE}Creating the app insights resource${NC}&quot;
+az resource create --resource-group $resourceGroupName --resource-type &quot;Microsoft.Insights/components&quot; --name $appInsightsName --location $location --properties '{&quot;ApplicationType&quot;:&quot;web&quot;}'
+appInsightsInstrumentationKey=&quot;$(az resource show -g $resourceGroupName -n $appInsightsName --resource-type 'Microsoft.Insights/components' --query properties.InstrumentationKey)&quot;
+appInsightsInstrumentationKey=&quot;${appInsightsInstrumentationKey%\&quot;}&quot;
+appInsightsInstrumentationKey=&quot;${appInsightsInstrumentationKey#\&quot;}&quot;
+echo -e &quot;${BLUE}Instrumentation key = $appInsightsInstrumentationKey${NC}&quot;
+echo -e &quot;${BLUE}Publishing function locally${NC}&quot;
+mkdir publish
+rm -rf publish/*
+dotnet publish
+pushd bin/Debug/netcoreapp2.1/publish
+zip -r -X ../../../../publish/$serviceName.zip *
+popd
+echo -e &quot;${BLUE}Publisihng function to Azure${NC}&quot;
+az webapp deployment source config-zip -g $resourceGroupName -n $serviceName --src ./publish/$serviceName.zip
+#config app settings
+echo -e &quot;${BLUE}Configuring the instrumentation key${NC}&quot;
+az functionapp config appsettings set -g $resourceGroupName -n $serviceName --settings APPINSIGHTS_INSTRUMENTATIONKEY=$appInsightsInstrumentationKey
+
+#Create the event hub
+echo -e &quot;${BLUE}Creating the Event Hub${NC}&quot;
+eventHubNamespaceName=$serviceName&quot;-ehnamespace&quot;
+eventHubName=pings
+az eventhubs namespace create --name $eventHubNamespaceName --resource-group $resourceGroupName --location $location --sku Basic
+az eventhubs eventhub create --name $eventHubName --namespace-name $eventHubNamespaceName --resource-group $resourceGroupName --message-retention 1
+az eventhubs eventhub authorization-rule create --resource-group $resourceGroupName --namespace-name $eventHubNamespaceName --eventhub-name $eventHubName --name Send --rights Send
+ehConnectionString=&quot;$(az eventhubs eventhub authorization-rule keys list --resource-group $resourceGroupName --namespace-name $eventHubNamespaceName --eventhub-name $eventHubName --name Send --query primaryConnectionString)&quot;
+ehConnectionString=&quot;${ehConnectionString%\&quot;}&quot;
+ehConnectionString=&quot;${ehConnectionString#\&quot;}&quot;
+
+#Create the Key Vault
+echo -e &quot;${BLUE}Creating the Key vault${NC}&quot;
+keyVaultName=$serviceName-kv
+keyVaultKeyName=$keyVaultName-key
+az keyvault create --name $keyVaultName --resource-group $resourceGroupName --location $location
+az keyvault key create --vault-name $keyVaultName --name $keyVaultKeyName --protection software
+spn=&quot;$(az webapp identity assign --name $serviceName --resource-group $resourceGroupName --query principalId)&quot;
+spn=&quot;${spn%\&quot;}&quot;
+spn=&quot;${spn#\&quot;}&quot;
+az keyvault set-policy --name $keyVaultName --object-id $spn --secret-permissions get
+secretId=&quot;$(az keyvault secret set --name EventHubConnectionString --vault-name $keyVaultName --value $ehConnectionString --query id)&quot;
+secretId=&quot;${secretId%\&quot;}&quot;
+secretId=&quot;${secretId#\&quot;}&quot;
+ehConnectionString=&quot;@Microsoft.KeyVault(SecretUri=$secretId)&quot;
+az functionapp config appsettings set -g $resourceGroupName -n $serviceName --settings TestQueueConnectionString=$ehConnectionString
+</code></pre>
+
+<p>You can call it in this way:</p>
+
+<pre><code>./deploy.sh TestKeyVault westeurope dev
+</code></pre>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this article we&rsquo;ve seen how we can use one of the new security related features of Azure Functions and use a secret stored in Key Vault in a declarative binding. I think it&rsquo;s great news if you use this kind of bindings. Still has room to improve, like that you have to put the version of the secret, but they are working on it. In my opinion, although it will need code changes in your function, it would be better if you can say in the binding that the data come from Key Vault, instead of going through the indirection of the application settings. Maybe something like:</p>
+
+<pre><code>FunctionName(&quot;HelloWorld&quot;)]
+public static ActionResult Run(
+    [HttpTrigger(AuthorizationLevel.Anonymous, &quot;get&quot;, &quot;post&quot;, Route = null)] CustomObject req,
+    [EventHub(&quot;pings&quot;, Connection = &quot;EventHubConnectionString&quot; VaultName = &quot;TestKeyVault-kv&quot;)] out string ehMessage,
+    ILogger log)
+{
+</code></pre>
+
+<p>What do you think?</p>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Vicenç García</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">30-11-2018</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/devops/">devops</a>
+          
+          <a href="/tags/azure-functions/">azure functions</a>
+          
+          <a href="/tags/azure/">azure</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/securing-azure-functions/">
+            <span class="next-text nav-default">Securing Azure Functions</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'vgaltes';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:vgaltes@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://linkedin.com/in/vgaltes" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="https://twitter.com/vgaltes" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/vgaltes" class="iconfont icon-github" title="github"></a>
+  <a href="http://example.org/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2013 - 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Vicenç García</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
