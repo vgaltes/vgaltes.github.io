@@ -27,7 +27,7 @@ Fixing the script. We already have a deployment script. It is something like thi
 
 
 
-<meta name="generator" content="Hugo 0.51" />
+<meta name="generator" content="Hugo 0.40.1" />
 
 
 <link rel="canonical" href="http://example.org/post/deploying-azure-functions-using-zip-deploy/" />
@@ -55,8 +55,23 @@ Fixing the script. We already have a deployment script. It is something like thi
 Fixing the script. We already have a deployment script. It is something like this:
 #!/bin/bash location=$2 stage=$3 serviceName=$1-$stage resourceGroupName=$serviceName&quot;-rg&quot; serviceNameToLower=&quot;$(echo $serviceName | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&quot; storageAccountName=&quot;$(echo ${serviceNameToLower//&quot;-&quot;/&quot;&quot;})&quot; echo &quot;Creating resource group&quot; az group create --name $resourceGroupName --location $location echo &quot;Creating storage account&quot; az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRS echo &quot;Creating function app&quot; az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupName echo &quot;Publishing function locally&quot; dotnet build echo &quot;Publisihng function to Azure&quot; func azure functionapp publish $serviceName  What are we going to do is to change the last two steps." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/post/deploying-azure-functions-using-zip-deploy/" /><meta property="article:published_time" content="2018-11-17T00:00:00&#43;00:00"/>
+<meta property="og:url" content="http://example.org/post/deploying-azure-functions-using-zip-deploy/" />
+
+
+
+<meta property="article:published_time" content="2018-11-17T00:00:00&#43;00:00"/>
+
 <meta property="article:modified_time" content="2018-11-17T00:00:00&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
 
 <meta itemprop="name" content="Deploying Azure Functions using Zip Deploy">
 <meta itemprop="description" content="In a previous article we&rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
@@ -343,7 +358,7 @@ az webapp deployment source config-zip -g $resourceGroupName -n $serviceName --s
     &copy; 
     
       2013 - 
-    2018
+    2019
     <span class="heart">
       <i class="iconfont icon-heart"></i>
     </span>
