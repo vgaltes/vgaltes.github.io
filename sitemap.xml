@@ -3,6 +3,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://example.org/post/random-stuff-june/</loc>
+    <lastmod>2019-06-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/post/mentoring/</loc>
+    <lastmod>2019-05-31T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/using-key-vault-secret-in-appsettings/</loc>
     <lastmod>2018-11-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -666,6 +680,13 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/mentoring/</loc>
+    <lastmod>2019-05-31T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/tags/mvc/</loc>
     <lastmod>2015-12-06T22:12:40+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -755,14 +776,35 @@
   
   <url>
     <loc>http://example.org/post/</loc>
-    <lastmod>2018-11-30T00:00:00+00:00</lastmod>
+    <lastmod>2019-06-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/random-stuff/</loc>
+    <lastmod>2019-06-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/random-stuff/</loc>
+    <lastmod>2019-06-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/random-thoughts/</loc>
+    <lastmod>2019-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://example.org/categories/random-thoughts/</loc>
-    <lastmod>2015-02-27T17:23:12+00:00</lastmod>
+    <lastmod>2019-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -918,7 +960,7 @@
   
   <url>
     <loc>http://example.org/</loc>
-    <lastmod>2018-11-30T00:00:00+00:00</lastmod>
+    <lastmod>2019-06-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
