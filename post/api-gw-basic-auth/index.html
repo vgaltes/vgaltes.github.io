@@ -17,7 +17,7 @@
 
 
 <meta name="author" content="Vicenç García" />
-  <meta name="description" content="In many occasions you don&amp;rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated. In this article we&amp;rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&amp;rsquo;s start!
+  <meta name="description" content="In many occasion,s you don&amp;rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated users. In this article we&amp;rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&amp;rsquo;s start!
 Amazon Cognito User Pools As the documentation says, a user pool is a user directory in Amazon Cognito. You can allow your users to sign-up, sign-in, etc." />
 
 
@@ -50,7 +50,7 @@ Amazon Cognito User Pools As the documentation says, a user pool is a user direc
 
 
 <meta property="og:title" content="Basic API Gateway endpoint authentication with Cognito User Pools" />
-<meta property="og:description" content="In many occasions you don&rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated. In this article we&rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&rsquo;s start!
+<meta property="og:description" content="In many occasion,s you don&rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated users. In this article we&rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&rsquo;s start!
 Amazon Cognito User Pools As the documentation says, a user pool is a user directory in Amazon Cognito. You can allow your users to sign-up, sign-in, etc." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://example.org/post/api-gw-basic-auth/" />
@@ -72,20 +72,20 @@ Amazon Cognito User Pools As the documentation says, a user pool is a user direc
 
 
 <meta itemprop="name" content="Basic API Gateway endpoint authentication with Cognito User Pools">
-<meta itemprop="description" content="In many occasions you don&rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated. In this article we&rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&rsquo;s start!
+<meta itemprop="description" content="In many occasion,s you don&rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated users. In this article we&rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&rsquo;s start!
 Amazon Cognito User Pools As the documentation says, a user pool is a user directory in Amazon Cognito. You can allow your users to sign-up, sign-in, etc.">
 
 
 <meta itemprop="datePublished" content="2019-10-18T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2019-10-18T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1372">
+<meta itemprop="wordCount" content="1375">
 
 
 
 <meta itemprop="keywords" content="authentication,serverless framework,cognito,amplify," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Basic API Gateway endpoint authentication with Cognito User Pools"/>
-<meta name="twitter:description" content="In many occasions you don&rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated. In this article we&rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&rsquo;s start!
+<meta name="twitter:description" content="In many occasion,s you don&rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated users. In this article we&rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&rsquo;s start!
 Amazon Cognito User Pools As the documentation says, a user pool is a user directory in Amazon Cognito. You can allow your users to sign-up, sign-in, etc."/>
 
 <!--[if lte IE 9]>
@@ -158,7 +158,7 @@ Amazon Cognito User Pools As the documentation says, a user pool is a user direc
               <a href="/categories/serverless/"> serverless </a>
             
           </div>
-        <span class="more-meta"> 1372 words </span>
+        <span class="more-meta"> 1375 words </span>
         <span class="more-meta"> 7 mins read </span>
         
       </div>
@@ -191,7 +191,7 @@ Amazon Cognito User Pools As the documentation says, a user pool is a user direc
     <div class="post-content">
       
 
-<p>In many occasions you don&rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated. In this article we&rsquo;re going to see how to do that using <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html">Amazon Cognito User Pools</a> and AWS Amplify. Let&rsquo;s start!</p>
+<p>In many occasion,s you don&rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated users. In this article we&rsquo;re going to see how to do that using <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html">Amazon Cognito User Pools</a> and <a href="https://aws.amazon.com/amplify/">AWS Amplify</a>. Let&rsquo;s start!</p>
 
 <h2 id="amazon-cognito-user-pools">Amazon Cognito User Pools</h2>
 
@@ -250,7 +250,7 @@ resources:
   }
 </code></pre>
 
-<p>(In my case, I have a profile on my machine called serverless-local. Check the serverless framework documentation to see how you can set it up).</p>
+<p>(In my case, I have a profile on my machine called serverless-local. Check the serverless framework <a href="https://serverless.com/framework/docs/providers/aws/guide/credentials/">documentation</a> to see how you can set it up).</p>
 
 <p>Now, we can finally deploy:</p>
 
@@ -412,7 +412,7 @@ Amplify.configure({
 });
 </code></pre>
 
-<p>As you can see we need to call the signUp method, passing an object with the username and password. If you use other attributes, you&rsquo;ll need to pass them too, but we&rsquo;ll see that in another article.</p>
+<p>As you can see, we need to call the signUp method, passing an object with the username and password. If you use other attributes, you&rsquo;ll need to pass them too, but we&rsquo;ll see that in another article.</p>
 
 <p>When the user signs up, she will receive an email with a confirmation number. This is configurable (you can receive an SMS, for example), but the default is an email. If you go to the browsers console, you will see the user object with the field confirmed as false.</p>
 
@@ -427,7 +427,7 @@ Amplify.configure({
 });
 </code></pre>
 
-<p>Great, the user is now confirm, we can sign her in:</p>
+<p>Great, the user is now confirmed, we can sign her in:</p>
 
 <pre><code>SignInButton.addEventListener('click', async (evt) =&gt; {
   const username = document.getElementById('SignInLogin').value;
@@ -453,8 +453,8 @@ async function SignIn(username, password) {
 
 <p>Easy peasy. Now, you can get the logged user whenever you want:</p>
 
-<pre><code>let refreshAuthenticatedUserInfo = () =&gt; {
-  Auth.currentAuthenticatedUser({
+<pre><code>let refreshAuthenticatedUserInfo = async () =&gt; {
+  await Auth.currentAuthenticatedUser({
     bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
   }).then(user =&gt; {
     UserLoggedInSpan.innerText = user.attributes[&quot;email&quot;]
@@ -478,7 +478,7 @@ async function SignIn(username, password) {
 });
 </code></pre>
 
-<p>But before logging out we want to make a call to our secured and unsecured endpoints. To do that, we can let Amplify help us again, by using the API module. Let&rsquo;s change the import to:</p>
+<p>But before logging out, we want to make a call to our secured and unsecured endpoints. To do that, we can let Amplify help us again, by using the API module. Let&rsquo;s change the import to:</p>
 
 <pre><code>import Amplify, { Auth, API } from 'aws-amplify';
 </code></pre>
