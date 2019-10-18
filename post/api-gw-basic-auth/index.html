@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Basic API Gateway endpoint authentication with Cognito User Pools - VGALTES blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Vicenç García" />
+  <meta name="description" content="In many occasions you don&amp;rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated. In this article we&amp;rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&amp;rsquo;s start!
+Amazon Cognito User Pools As the documentation says, a user pool is a user directory in Amazon Cognito. You can allow your users to sign-up, sign-in, etc." />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.40.1" />
+
+
+<link rel="canonical" href="http://example.org/post/api-gw-basic-auth/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="Basic API Gateway endpoint authentication with Cognito User Pools" />
+<meta property="og:description" content="In many occasions you don&rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated. In this article we&rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&rsquo;s start!
+Amazon Cognito User Pools As the documentation says, a user pool is a user directory in Amazon Cognito. You can allow your users to sign-up, sign-in, etc." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/post/api-gw-basic-auth/" />
+
+
+
+<meta property="article:published_time" content="2019-10-18T00:00:00&#43;00:00"/>
+
+<meta property="article:modified_time" content="2019-10-18T00:00:00&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Basic API Gateway endpoint authentication with Cognito User Pools">
+<meta itemprop="description" content="In many occasions you don&rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated. In this article we&rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&rsquo;s start!
+Amazon Cognito User Pools As the documentation says, a user pool is a user directory in Amazon Cognito. You can allow your users to sign-up, sign-in, etc.">
+
+
+<meta itemprop="datePublished" content="2019-10-18T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-10-18T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1372">
+
+
+
+<meta itemprop="keywords" content="authentication,serverless framework,cognito,amplify," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Basic API Gateway endpoint authentication with Cognito User Pools"/>
+<meta name="twitter:description" content="In many occasions you don&rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated. In this article we&rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&rsquo;s start!
+Amazon Cognito User Pools As the documentation says, a user pool is a user directory in Amazon Cognito. You can allow your users to sign-up, sign-in, etc."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">VGALTES</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">VGALTES</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Basic API Gateway endpoint authentication with Cognito User Pools</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 18-10-2019 </span>
+        <div class="post-category">
+            
+              <a href="/categories/serverless/"> serverless </a>
+            
+          </div>
+        <span class="more-meta"> 1372 words </span>
+        <span class="more-meta"> 7 mins read </span>
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#amazon-cognito-user-pools">Amazon Cognito User Pools</a></li>
+<li><a href="#secured-endpoint">Secured endpoint</a></li>
+<li><a href="#client-app">Client App</a></li>
+<li><a href="#summary">Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      
+
+<p>In many occasions you don&rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated. In this article we&rsquo;re going to see how to do that using <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html">Amazon Cognito User Pools</a> and AWS Amplify. Let&rsquo;s start!</p>
+
+<h2 id="amazon-cognito-user-pools">Amazon Cognito User Pools</h2>
+
+<p>As the documentation says, a user pool is a user directory in Amazon Cognito. You can allow your users to sign-up, sign-in, etc. You can also implement social sign-in with other identity providers, but we&rsquo;ll see that another day. Today we&rsquo;re going to create a simple user pool to allow users to sign-up and sign-in using their email.</p>
+
+<p>We can create a user pool using the console, but as we like Infrastructure as Code, we&rsquo;re going to use the serverless framework to create it. So, go to your preferred terminal, create a folder called, for example, TestCognitoUserPool, and start a new nodejs project. I&rsquo;m going to use yarn this time.</p>
+
+<pre><code>yarn init
+</code></pre>
+
+<p>Now install the serverless framework as dev dependency</p>
+
+<pre><code>yarn add serverless --dev
+</code></pre>
+
+<p>Now, create a file called serverless.yml and copy the following content</p>
+
+<pre><code>service: testcognitouserpool
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: ${opt:region, self:custom.defaultRegion}
+  stage: ${opt:stage, self:custom.defaultStage}
+
+custom:
+  defaultRegion: eu-west-1
+  defaultStage: dev${env:SLSUSER, &quot;&quot;}
+
+resources:
+  Resources:
+    CognitoUserPool:
+      Type: AWS::Cognito::UserPool
+      Properties:
+        UserPoolName: ${self:provider.stage}-testauthsls-user-pool
+        UsernameAttributes:
+          - email
+        AutoVerifiedAttributes:
+          - email
+
+    CognitoUserPoolClient:
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+        ClientName: ${self:provider.stage}-testauthsls--user-pool-client
+        UserPoolId:
+          Ref: CognitoUserPool
+        GenerateSecret: false
+</code></pre>
+
+<p>We&rsquo;re here creating a basic user pool, where the user will sign-in using her email as username. We&rsquo;re also creating an app client, specifying to not create the client secret, as the Javascript SDK doesn&rsquo;t have support for it.</p>
+
+<p>Let&rsquo;s deploy this. Create a script on your package.json file:</p>
+
+<pre><code>&quot;scripts&quot;: {
+    &quot;deploy&quot;: &quot;serverless deploy --aws-profile serverless-local&quot;
+  }
+</code></pre>
+
+<p>(In my case, I have a profile on my machine called serverless-local. Check the serverless framework documentation to see how you can set it up).</p>
+
+<p>Now, we can finally deploy:</p>
+
+<pre><code>yarn run deploy
+</code></pre>
+
+<p>Now, go to the AWS console and take note of the of the user pool id and the app client id.</p>
+
+<h2 id="secured-endpoint">Secured endpoint</h2>
+
+<p>It&rsquo;s time now to create an api with an unsecured endpoint and a secured one. Return to your terminal and create another folder. Do the same node initializtion we did before and install the serverless-pseudo-prameters plugin, as we&rsquo;ll need it.</p>
+
+<pre><code>yarn add serverless-pseudo-parameters --dev
+</code></pre>
+
+<p>Now create the serverless.yml file with the following content:</p>
+
+<pre><code>service: testauthsls
+
+plugins:
+  - serverless-pseudo-parameters
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: ${opt:region, self:custom.defaultRegion}
+  stage: ${opt:stage, self:custom.defaultStage}
+
+custom:
+  defaultRegion: eu-west-1
+  defaultStage: dev${env:SLSUSER, &quot;&quot;}
+
+functions:
+  helloWorld:
+    handler: src/functions/helloWorld.handler
+    events:
+      - http:
+          path: api/helloWorld
+          method: get
+          cors: true
+  helloWorldSecured:
+    handler: src/functions/helloWorldSecured.handler
+    events:
+      - http:
+          path: api/helloWorldSecured
+          method: get
+          cors: true
+          authorizer:
+            name: authorizer
+            arn: arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/&lt;theUserPoolId&gt;
+
+## to add cors to the API GW errors
+resources:
+  Resources:
+    GatewayResponseDefault4XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: &quot;'*'&quot;
+          gatewayresponse.header.Access-Control-Allow-Headers: &quot;'*'&quot;
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
+    GatewayResponseDefault5XX:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: &quot;'*'&quot;
+          gatewayresponse.header.Access-Control-Allow-Headers: &quot;'*'&quot;
+        ResponseType: DEFAULT_5XX
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
+
+</code></pre>
+
+<p>Nothing too strange here. First, we&rsquo;re creating a couple endpoints, both with CORS activated. In the secured one, we&rsquo;re saying that the authorizer will be our recently created user pool. In the resources section we&rsquo;re telling API Gateway to add CORS headers when it&rsquo;s failing for any reason, for example for a 401 unauthorized. This way, debugging errors from the client will be easier.</p>
+
+<p>Let&rsquo;s create the files that will hold our functions. Start with <code>src/functions/helloWorld.js</code>:</p>
+
+<pre><code>module.exports.handler = async event =&gt; {
+    const res = {
+        statusCode: 200,
+        headers: {
+            &quot;Access-Control-Allow-Origin&quot;: &quot;*&quot;
+        },
+        body: JSON.stringify('Hello from an unsecured endpoint')
+    };
+
+    return res;
+};
+</code></pre>
+
+<p>And now it&rsquo;s time for <code>src/functions/helloWorldSecured.js</code>:</p>
+
+<pre><code>module.exports.handler = async event =&gt; {
+    const userEmail = event.requestContext.authorizer.claims.email;
+
+    const res = {
+        statusCode: 200,
+        headers: {
+            &quot;Access-Control-Allow-Origin&quot;: &quot;*&quot;,
+            'Access-Control-Allow-Credentials': true
+        },
+        body: JSON.stringify(`Hello from an secured endpoint -&gt; ${userEmail}`)
+    };
+
+    return res;
+};
+</code></pre>
+
+<p>As you can see, we&rsquo;re taking the user email from the event, as it will come with the user information.</p>
+
+<p>Let&rsquo;s deploy this (assuming you have the same script as before in the package.json file):</p>
+
+<pre><code>yarn run deploy
+</code></pre>
+
+<p>take note of the endpoint address, as we&rsquo;ll need it in the next step.</p>
+
+<h2 id="client-app">Client App</h2>
+
+<p>It&rsquo;s now time to create a client App. For now, we&rsquo;re going to create a basic web site with HTML and Javascrip. I&rsquo;m not going to copy here the HTML that I&rsquo;m using because it&rsquo;s long and awful, but it&rsquo;s just a buch of inputs and buttons.</p>
+
+<p>Let&rsquo;s see how we can deal with users. First of all you will need to configure the Authentication part of AWS Amplify:</p>
+
+<pre><code>import Amplify, { Auth } from 'aws-amplify';
+
+Amplify.configure({
+    Auth: {
+        // REQUIRED - Amazon Cognito Region
+        region: 'eu-west-1',
+
+        // OPTIONAL - Amazon Cognito User Pool ID
+        userPoolId: 'eu-west-XXXXX',
+
+        // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
+        userPoolWebClientId: 'YYYYYYYYYYYYYYYYYYYYYYYYYY',
+
+        // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
+        mandatorySignIn: false
+    }
+});
+</code></pre>
+
+<p>Let&rsquo;s see what we need to call in order to sign-up a new user:</p>
+
+<pre><code>SignUpButton.addEventListener('click', async (evt) =&gt; {
+  const email = document.getElementById('SignUpEmail').value;
+  const password = document.getElementById('SignUpPassword').value;
+
+  await Auth.signUp({
+    username: email,
+    password
+    })
+    .then(data =&gt; {
+      console.log(data);
+    })
+    .catch(err =&gt; console.log(err));
+});
+</code></pre>
+
+<p>As you can see we need to call the signUp method, passing an object with the username and password. If you use other attributes, you&rsquo;ll need to pass them too, but we&rsquo;ll see that in another article.</p>
+
+<p>When the user signs up, she will receive an email with a confirmation number. This is configurable (you can receive an SMS, for example), but the default is an email. If you go to the browsers console, you will see the user object with the field confirmed as false.</p>
+
+<p>So, go to your email, copy the confirmation number and call this function:</p>
+
+<pre><code>ConfirmUserButton.addEventListener('click', async (evt) =&gt; {
+  const username = document.getElementById('ConfirmationCodeUser').value;
+  const code = document.getElementById('ConfirmationCodeCode').value;
+
+  await Auth.confirmSignUp(username, code).then(data =&gt; console.log(data))
+    .catch(err =&gt; console.log(err));
+});
+</code></pre>
+
+<p>Great, the user is now confirm, we can sign her in:</p>
+
+<pre><code>SignInButton.addEventListener('click', async (evt) =&gt; {
+  const username = document.getElementById('SignInLogin').value;
+  const password = document.getElementById('SignInPassword').value;
+
+  await SignIn(username, password);
+});
+
+async function SignIn(username, password) {
+  try {
+      const user = await Auth.signIn(username, password);
+  } catch (err) {
+    if (err.code === 'UserNotConfirmedException') {
+      } else if (err.code === 'PasswordResetRequiredException') {
+      } else if (err.code === 'NotAuthorizedException') {
+      } else if (err.code === 'UserNotFoundException') {
+      } else {
+          console.log(err);
+      }
+  }
+}
+</code></pre>
+
+<p>Easy peasy. Now, you can get the logged user whenever you want:</p>
+
+<pre><code>let refreshAuthenticatedUserInfo = () =&gt; {
+  Auth.currentAuthenticatedUser({
+    bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
+  }).then(user =&gt; {
+    UserLoggedInSpan.innerText = user.attributes[&quot;email&quot;]
+  })
+  .catch(err =&gt; {
+    UserLoggedInSpan.innerText = '';
+    console.log(err)
+  });
+}
+</code></pre>
+
+<p>And finally, you can log out if you want:</p>
+
+<pre><code>LogOutButton.addEventListener('click', async (evt) =&gt; {
+  await Auth.signOut()
+    .then(data =&gt; {
+      console.log(data);
+      refreshAuthenticatedUserInfo();
+    })
+    .catch(err =&gt; console.log(err));
+});
+</code></pre>
+
+<p>But before logging out we want to make a call to our secured and unsecured endpoints. To do that, we can let Amplify help us again, by using the API module. Let&rsquo;s change the import to:</p>
+
+<pre><code>import Amplify, { Auth, API } from 'aws-amplify';
+</code></pre>
+
+<p>And add the following code to the configuration object we pass to the configure function:</p>
+
+<pre><code>API: {
+    endpoints: [
+        {
+            name: &quot;MyAPIGatewayAPI&quot;,
+            endpoint: &quot;https://xxxxxx.execute-api.eu-west-1.amazonaws.com&quot; // your API GW base url
+        }
+    ]
+}
+</code></pre>
+
+<p>Let&rsquo;s make a call to an non-secured endpoint:</p>
+
+<pre><code>RequestToNonSecuredEndpointButton.addEventListener('click', async evt =&gt; {
+  await API.get(&quot;MyAPIGatewayAPI&quot;, '/dev/api/helloWorld').then(response =&gt; {
+    console.log(response);
+  }).catch(error =&gt; {
+      console.log(JSON.stringify(error))
+  });
+});
+</code></pre>
+
+<p>And finally let&rsquo;s make a call to a secured endpoint:</p>
+
+<pre><code>RequestToSecuredEndpointButton.addEventListener('click', async evt =&gt; {
+  let myInit = { 
+    headers: { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
+}
+  await API.get(&quot;MyAPIGatewayAPI&quot;, '/dev/api/helloWorldSecured', myInit).then(response =&gt; {
+      console.log(response);
+  }).catch(error =&gt; {
+      console.log(JSON.stringify(error))
+  });
+});
+</code></pre>
+
+<p>As you can see, we&rsquo;re constructing the authorization header with Amplify&rsquo;s help. In case all your endpoint is secured, you can put that in the endpoint configuration, doing something like:</p>
+
+<pre><code>{
+    name: &quot;MyAPIGatewayAPI&quot;,
+    endpoint: &quot;https://XXXXXXX.execute-api.eu-west-1.amazonaws.com&quot;,
+    custom_header: async () =&gt; { 
+        return { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
+    }
+}
+</code></pre>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this article we&rsquo;ve seen how we can secure an endpoint using Cognito User Pools. We&rsquo;ve also seen how can we access those endpoints using Amplify and how we can use Amplify to creat and sign in users. Hope you find it useful!</p>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Vicenç García</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">18-10-2019</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/authentication/">authentication</a>
+          
+          <a href="/tags/serverless-framework/">serverless framework</a>
+          
+          <a href="/tags/cognito/">cognito</a>
+          
+          <a href="/tags/amplify/">amplify</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/random-stuff-june/">
+            <span class="next-text nav-default">Interesting reads - June 2019</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'vgaltes';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:vgaltes@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://linkedin.com/in/vgaltes" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="https://twitter.com/vgaltes" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/vgaltes" class="iconfont icon-github" title="github"></a>
+  <a href="http://example.org/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2013 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Vicenç García</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

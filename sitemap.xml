@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://example.org/post/api-gw-basic-auth/</loc>
+    <lastmod>2019-10-18T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/random-stuff-june/</loc>
     <lastmod>2019-06-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -380,6 +387,13 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/amplify/</loc>
+    <lastmod>2019-10-18T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/tags/antipatterns/</loc>
     <lastmod>2017-03-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -422,6 +436,13 @@
   <url>
     <loc>http://example.org/categories/asp.net/</loc>
     <lastmod>2015-12-06T22:12:40+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/authentication/</loc>
+    <lastmod>2019-10-18T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -492,6 +513,13 @@
   <url>
     <loc>http://example.org/tags/code-analysis/</loc>
     <lastmod>2017-11-07T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/cognito/</loc>
+    <lastmod>2019-10-18T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -776,7 +804,7 @@
   
   <url>
     <loc>http://example.org/post/</loc>
-    <lastmod>2019-06-13T00:00:00+00:00</lastmod>
+    <lastmod>2019-10-18T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -857,7 +885,14 @@
   
   <url>
     <loc>http://example.org/categories/serverless/</loc>
-    <lastmod>2018-11-30T00:00:00+00:00</lastmod>
+    <lastmod>2019-10-18T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/serverless-framework/</loc>
+    <lastmod>2019-10-18T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -960,7 +995,7 @@
   
   <url>
     <loc>http://example.org/</loc>
-    <lastmod>2019-06-13T00:00:00+00:00</lastmod>
+    <lastmod>2019-10-18T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

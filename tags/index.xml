@@ -48,6 +48,15 @@
     </item>
     
     <item>
+      <title>Amplify</title>
+      <link>http://example.org/tags/amplify/</link>
+      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/tags/amplify/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Antipatterns</title>
       <link>http://example.org/tags/antipatterns/</link>
       <pubDate>Thu, 16 Mar 2017 00:00:00 +0000</pubDate>
@@ -89,6 +98,15 @@
       <pubDate>Sun, 06 Dec 2015 22:12:40 +0000</pubDate>
       
       <guid>http://example.org/tags/asp.net/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Authentication</title>
+      <link>http://example.org/tags/authentication/</link>
+      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/tags/authentication/</guid>
       <description></description>
     </item>
     
@@ -161,6 +179,15 @@
       <pubDate>Tue, 07 Nov 2017 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/tags/code-analysis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cognito</title>
+      <link>http://example.org/tags/cognito/</link>
+      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/tags/cognito/</guid>
       <description></description>
     </item>
     
@@ -485,6 +512,15 @@
       <pubDate>Sun, 09 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/tags/serverless/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Serverless Framework</title>
+      <link>http://example.org/tags/serverless-framework/</link>
+      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/tags/serverless-framework/</guid>
       <description></description>
     </item>
     

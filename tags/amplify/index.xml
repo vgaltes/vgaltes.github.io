@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Amplify on VGALTES blog</title>
+    <link>http://example.org/tags/amplify/</link>
+    <description>Recent content in Amplify on VGALTES blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 18 Oct 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://example.org/tags/amplify/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Basic API Gateway endpoint authentication with Cognito User Pools</title>
+      <link>http://example.org/post/api-gw-basic-auth/</link>
+      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/api-gw-basic-auth/</guid>
+      <description>In many occasions you don&amp;rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated. In this article we&amp;rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&amp;rsquo;s start!
+Amazon Cognito User Pools As the documentation says, a user pool is a user directory in Amazon Cognito. You can allow your users to sign-up, sign-in, etc.</description>
+    </item>
+    
+  </channel>
+</rss>
