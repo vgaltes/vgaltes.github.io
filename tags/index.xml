@@ -50,7 +50,7 @@
     <item>
       <title>Amplify</title>
       <link>http://example.org/tags/amplify/</link>
-      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/tags/amplify/</guid>
       <description></description>
@@ -104,7 +104,7 @@
     <item>
       <title>Authentication</title>
       <link>http://example.org/tags/authentication/</link>
-      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/tags/authentication/</guid>
       <description></description>
@@ -185,7 +185,7 @@
     <item>
       <title>Cognito</title>
       <link>http://example.org/tags/cognito/</link>
-      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/tags/cognito/</guid>
       <description></description>
@@ -287,6 +287,15 @@
       <pubDate>Mon, 17 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/tags/f#/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Federation</title>
+      <link>http://example.org/tags/federation/</link>
+      <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/tags/federation/</guid>
       <description></description>
     </item>
     
@@ -518,7 +527,7 @@
     <item>
       <title>Serverless Framework</title>
       <link>http://example.org/tags/serverless-framework/</link>
-      <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/tags/serverless-framework/</guid>
       <description></description>

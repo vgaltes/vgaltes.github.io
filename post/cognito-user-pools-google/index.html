@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Cognito User Pools, Google federation and AWS Amplify - VGALTES blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Vicenç García" />
+  <meta name="description" content="In the previous article, we saw how to secure an API Gateway endpoint using Cognito user pools. We used the built-in capabilities of the user pools to create the users, sign them up, etc. But many applications nowadays don&amp;rsquo;t create users on their own; they use [social login] and rely on third-party social services such as Facebook or Google to manage users for them.
+In this article, we&amp;rsquo;ll see how we can adapt our previous code to allow users to sign-up and sign-in to our service using their Google account." />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.40.1" />
+
+
+<link rel="canonical" href="http://example.org/post/cognito-user-pools-google/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="Cognito User Pools, Google federation and AWS Amplify" />
+<meta property="og:description" content="In the previous article, we saw how to secure an API Gateway endpoint using Cognito user pools. We used the built-in capabilities of the user pools to create the users, sign them up, etc. But many applications nowadays don&rsquo;t create users on their own; they use [social login] and rely on third-party social services such as Facebook or Google to manage users for them.
+In this article, we&rsquo;ll see how we can adapt our previous code to allow users to sign-up and sign-in to our service using their Google account." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/post/cognito-user-pools-google/" />
+
+
+
+<meta property="article:published_time" content="2019-10-31T00:00:00&#43;00:00"/>
+
+<meta property="article:modified_time" content="2019-10-31T00:00:00&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Cognito User Pools, Google federation and AWS Amplify">
+<meta itemprop="description" content="In the previous article, we saw how to secure an API Gateway endpoint using Cognito user pools. We used the built-in capabilities of the user pools to create the users, sign them up, etc. But many applications nowadays don&rsquo;t create users on their own; they use [social login] and rely on third-party social services such as Facebook or Google to manage users for them.
+In this article, we&rsquo;ll see how we can adapt our previous code to allow users to sign-up and sign-in to our service using their Google account.">
+
+
+<meta itemprop="datePublished" content="2019-10-31T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-10-31T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="865">
+
+
+
+<meta itemprop="keywords" content="authentication,serverless framework,cognito,amplify,federation," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Cognito User Pools, Google federation and AWS Amplify"/>
+<meta name="twitter:description" content="In the previous article, we saw how to secure an API Gateway endpoint using Cognito user pools. We used the built-in capabilities of the user pools to create the users, sign them up, etc. But many applications nowadays don&rsquo;t create users on their own; they use [social login] and rely on third-party social services such as Facebook or Google to manage users for them.
+In this article, we&rsquo;ll see how we can adapt our previous code to allow users to sign-up and sign-in to our service using their Google account."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">VGALTES</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">VGALTES</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Cognito User Pools, Google federation and AWS Amplify</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 31-10-2019 </span>
+        <div class="post-category">
+            
+              <a href="/categories/serverless/"> serverless </a>
+            
+          </div>
+        <span class="more-meta"> 865 words </span>
+        <span class="more-meta"> 5 mins read </span>
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#google-api-configuration">Google API Configuration</a></li>
+<li><a href="#cognito-user-pool">Cognito User Pool</a>
+<ul>
+<li><a href="#user-pool-client">User Pool Client</a></li>
+<li><a href="#domain-name">Domain name</a></li>
+<li><a href="#idnetity-provider">Idnetity provider</a></li>
+</ul></li>
+<li><a href="#client-app">Client App</a></li>
+<li><a href="#summary">Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      
+
+<p>In the <a href="https://vgaltes.com/post/api-gw-basic-auth/">previous article</a>, we saw how to secure an API Gateway endpoint using Cognito user pools. We used the built-in capabilities of the user pools to create the users, sign them up, etc. But many applications nowadays don&rsquo;t create users on their own; they use [social login] and rely on third-party social services such as Facebook or Google to manage users for them.</p>
+
+<p>In this article, we&rsquo;ll see how we can adapt our previous code to allow users to sign-up and sign-in to our service using their Google account.</p>
+
+<h2 id="google-api-configuration">Google API Configuration</h2>
+
+<p>Both in the Google configuration and the Cognito configuration, we&rsquo;ll need to specify a valid domain for our user pool. We can use a custom domain, but for now, we&rsquo;ll stick to the domains AWS allows us to create easily. The limitation here is that we need to use a unique domain in the user pool region. The only way that I know right now is via the AWS console. So, go to the console and create a user pool (you can use whatever the name you want, as we&rsquo;re going to delete it straight away). Then, click on the <em>Domain name</em> menu option under <em>App integration</em> and enter the subdomain name you prefer there. Click on the <em>Check availability</em> button to ensure the domain is unique, take note of it, and delete the User pool. If you know how to do this using the CLI, please let me know in the comments.</p>
+
+<p>We&rsquo;re ready now to configure a new Google app that we&rsquo;ll link to our user pool. Go to the <a href="https://console.developers.google.com/">Google developer console</a>, click on the <em>Credentials</em> menu, click on <em>Create credentials</em> and select the <em>OAuth Client Id</em> option. Select <em>Web application</em> and fill the form:
+ - In <em>Name</em>, write your service name or something that makes sense to you.
+ - In <em>Authorised JavaScript origins</em>, write https://<your-service>.auth.eu-west-1.amazoncognito.com, where <em>your-service</em> is the subdomain we created previously.
+ - In <em>Authorised redirect URIs</em>, write https://<your-service>.auth.eu-west-1.amazoncognito.com/oauth2/idpresponse</p>
+
+<p>Click on <em>Create</em> and select the application from the list to see the <em>Client ID</em> and the <em>Client secret</em>. Write them down because we&rsquo;re going to need them.</p>
+
+<p>![AddGoogleApp.png]</p>
+
+<h2 id="cognito-user-pool">Cognito User Pool</h2>
+
+<p>Now it&rsquo;s time to update our user pool in the serverless.yml. We will need to change the User Pool Client, and we&rsquo;ll need to create a domain name and an identity provider.</p>
+
+<h3 id="user-pool-client">User Pool Client</h3>
+
+<p>In this section, we&rsquo;ll need to set up the bits we need to set up Google and OAuth. So, add this to our previous definition of the user pool client.</p>
+
+<pre><code>SupportedIdentityProviders: 
+  - Google
+CallbackURLs: 
+  - http://localhost:8080
+LogoutURLs:
+  - http://localhost:8080
+AllowedOAuthFlows:
+  - implicit
+AllowedOAuthScopes: 
+  - email
+  - openid
+  - aws.cognito.signin.user.admin
+AllowedOAuthFlowsUserPoolClient: true
+</code></pre>
+
+<p>What we&rsquo;re setting is the information you will see under the <em>App Client Settings</em> menu entry of the User Pool in the AWS console. We&rsquo;re saying that we want integration with Google, our callbacks URL&rsquo;s (change them to something appropriate for you), the allowed scopes, and the implicit grant OAuth flow.</p>
+
+<h3 id="domain-name">Domain name</h3>
+
+<p>We&rsquo;ll need to create a new cloudformation resource on the serverless.yml file. It should be something like this:</p>
+
+<pre><code>CognitoUserPoolDomain:
+  Type: AWS::Cognito::UserPoolDomain
+  Properties: 
+    Domain: &lt;your-service&gt;
+    UserPoolId: 
+      Ref: CognitoUserPool
+</code></pre>
+
+<p>Make sure that what you put in the Domain name is the same that you put in the Google configuration. You don&rsquo;t need the <code>auth.eu-west-1.amazoncognito.com</code> here, just the subdomain name</p>
+
+<h3 id="idnetity-provider">Idnetity provider</h3>
+
+<p>Now it&rsquo;s time to add the identity provider. Let&rsquo;s put this in the serverless.yml file:</p>
+
+<pre><code>CognitoUserPoolIdentityProvider:
+  Type: AWS::Cognito::UserPoolIdentityProvider
+  Properties: 
+    ProviderName: Google
+    AttributeMapping:
+      email: emailAddress
+    ProviderDetails:
+      client_id: &lt;your-clientid&gt;
+      client_secret: &lt;your-client-secret&gt;
+      authorize_scopes: email openid
+    ProviderType: Google
+    UserPoolId: 
+      Ref: CognitoUserPool
+</code></pre>
+
+<p>The bits that will change between providers will be the ones inside ProviderDetails.</p>
+
+<p>We can now redeploy the user pool. The id and the application id shouldn&rsquo;t have change, but make sure that they are the same that you&rsquo;re using in your authenticated endpoint as authenticator and the ones that you have in the client application as the Auth configuration (take a look at the <a href="https://vgaltes.com/post/api-gw-basic-auth/">previous article</a> if you need help with this)</p>
+
+<h2 id="client-app">Client App</h2>
+
+<p>The client app will change a little bit. Now we won&rsquo;t have a separate sign-up and sign-in button, as everything will go through our social login. In terms of code, the only change will be the function we&rsquo;ll use to sign in the user. Let&rsquo;s go step by step.</p>
+
+<p>The first thing will be to add a new piece of configuration to Amplify. So, go where you&rsquo;re calling the <em>configure</em> function and this to the object you&rsquo;re passing:</p>
+
+<pre><code>oauth: {
+  domain: &quot;&lt;your-service&gt;.auth.eu-west-1.amazoncognito.com&quot;,
+  scope : ['email', 'openid','aws.cognito.signin.user.admin'],
+  redirectSignIn: &quot;http://localhost:8080&quot;,
+  redirectSignOut: &quot;http://localhost:8080&quot;,
+  responseType: &quot;token&quot;
+}
+</code></pre>
+
+<p>Now, Amplify will know where to go when we ask it to use social login.</p>
+
+<p>And finally, let&rsquo;s write the function that will respond to a click on the new button we&rsquo;ve created.</p>
+
+<pre><code>GoogleSigninButton.addEventListener('click', async evt =&gt; {
+  await Auth.federatedSignIn({provider: 'Google'});
+});
+</code></pre>
+
+<p>With this, you&rsquo;ll be redirected to Google to authenticate and, once you&rsquo;re authenticated, it will get you back to <code>http://localhost:8080</code> with the user signed in (or signed up and signed in).</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this article, we&rsquo;ve seen how we can use Google as social login for our application. The documentation in Cloudformation and Amplify has some gaps, so hope this helps!</p>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Vicenç García</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">31-10-2019</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/authentication/">authentication</a>
+          
+          <a href="/tags/serverless-framework/">serverless framework</a>
+          
+          <a href="/tags/cognito/">cognito</a>
+          
+          <a href="/tags/amplify/">amplify</a>
+          
+          <a href="/tags/federation/">federation</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/api-gw-basic-auth/">
+            <span class="next-text nav-default">Basic API Gateway endpoint authentication with Cognito User Pools</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'vgaltes';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:vgaltes@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://linkedin.com/in/vgaltes" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="https://twitter.com/vgaltes" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/vgaltes" class="iconfont icon-github" title="github"></a>
+  <a href="http://example.org/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2013 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Vicenç García</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
