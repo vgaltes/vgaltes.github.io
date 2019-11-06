@@ -6,10 +6,20 @@
     <description>Recent content in Serverless on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 31 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 06 Nov 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://example.org/categories/serverless/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Set up a custom domain for your API Gateway</title>
+      <link>http://example.org/post/api-gateway-custom-domain/</link>
+      <pubDate>Wed, 06 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/api-gateway-custom-domain/</guid>
+      <description>If you&amp;rsquo;re doing something more than a few tests with Lambda and API Gateway, there will be a time where you will like to stop using the AWS-created endpoints for your APIs and start using your own domain. You know, instead of telling your clients, &amp;ldquo;please, go to https://lk7z14x78h.execute-api.eu-west-1.amazonaws.com/dev/helloWorld&amp;quot;, you will like to point them to something like &amp;ldquo;api.authenticatedservices.net/helloWorld&amp;rdquo;. In this article, we&amp;rsquo;ll see how to do that.
+Disclaimer This article is a summary of two articles (this one and this one) from Alex DeBrie (who you should follow if you&amp;rsquo;re interested in serverless).</description>
+    </item>
     
     <item>
       <title>Cognito User Pools, Google federation and AWS Amplify</title>

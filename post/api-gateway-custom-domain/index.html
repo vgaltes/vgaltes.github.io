@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Set up a custom domain for your API Gateway - VGALTES blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Vicenç García" />
+  <meta name="description" content="If you&amp;rsquo;re doing something more than a few tests with Lambda and API Gateway, there will be a time where you will like to stop using the AWS-created endpoints for your APIs and start using your own domain. You know, instead of telling your clients, &amp;ldquo;please, go to https://lk7z14x78h.execute-api.eu-west-1.amazonaws.com/dev/helloWorld&amp;quot;, you will like to point them to something like &amp;ldquo;api.authenticatedservices.net/helloWorld&amp;rdquo;. In this article, we&amp;rsquo;ll see how to do that.
+Disclaimer This article is a summary of two articles (this one and this one) from Alex DeBrie (who you should follow if you&amp;rsquo;re interested in serverless)." />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.40.1" />
+
+
+<link rel="canonical" href="http://example.org/post/api-gateway-custom-domain/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="Set up a custom domain for your API Gateway" />
+<meta property="og:description" content="If you&rsquo;re doing something more than a few tests with Lambda and API Gateway, there will be a time where you will like to stop using the AWS-created endpoints for your APIs and start using your own domain. You know, instead of telling your clients, &ldquo;please, go to https://lk7z14x78h.execute-api.eu-west-1.amazonaws.com/dev/helloWorld&quot;, you will like to point them to something like &ldquo;api.authenticatedservices.net/helloWorld&rdquo;. In this article, we&rsquo;ll see how to do that.
+Disclaimer This article is a summary of two articles (this one and this one) from Alex DeBrie (who you should follow if you&rsquo;re interested in serverless)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/post/api-gateway-custom-domain/" />
+
+
+
+<meta property="article:published_time" content="2019-11-06T00:00:00&#43;00:00"/>
+
+<meta property="article:modified_time" content="2019-11-06T00:00:00&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Set up a custom domain for your API Gateway">
+<meta itemprop="description" content="If you&rsquo;re doing something more than a few tests with Lambda and API Gateway, there will be a time where you will like to stop using the AWS-created endpoints for your APIs and start using your own domain. You know, instead of telling your clients, &ldquo;please, go to https://lk7z14x78h.execute-api.eu-west-1.amazonaws.com/dev/helloWorld&quot;, you will like to point them to something like &ldquo;api.authenticatedservices.net/helloWorld&rdquo;. In this article, we&rsquo;ll see how to do that.
+Disclaimer This article is a summary of two articles (this one and this one) from Alex DeBrie (who you should follow if you&rsquo;re interested in serverless).">
+
+
+<meta itemprop="datePublished" content="2019-11-06T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-11-06T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="985">
+
+
+
+<meta itemprop="keywords" content="api gateway,serverless framework," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Set up a custom domain for your API Gateway"/>
+<meta name="twitter:description" content="If you&rsquo;re doing something more than a few tests with Lambda and API Gateway, there will be a time where you will like to stop using the AWS-created endpoints for your APIs and start using your own domain. You know, instead of telling your clients, &ldquo;please, go to https://lk7z14x78h.execute-api.eu-west-1.amazonaws.com/dev/helloWorld&quot;, you will like to point them to something like &ldquo;api.authenticatedservices.net/helloWorld&rdquo;. In this article, we&rsquo;ll see how to do that.
+Disclaimer This article is a summary of two articles (this one and this one) from Alex DeBrie (who you should follow if you&rsquo;re interested in serverless)."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">VGALTES</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">VGALTES</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Set up a custom domain for your API Gateway</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 06-11-2019 </span>
+        <div class="post-category">
+            
+              <a href="/categories/serverless/"> serverless </a>
+            
+          </div>
+        <span class="more-meta"> 985 words </span>
+        <span class="more-meta"> 5 mins read </span>
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#domain">Domain</a></li>
+<li><a href="#certificate">Certificate</a></li>
+<li><a href="#custom-domain-in-api-gateway">Custom domain in API Gateway</a></li>
+<li><a href="#domain-per-environment-and-wildcard-certificates">Domain per environment and wildcard certificates</a></li>
+<li><a href="#summary">Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      
+
+<p>If you&rsquo;re doing something more than a few tests with Lambda and API Gateway, there will be a time where you will like to stop using the AWS-created endpoints for your APIs and start using your own domain. You know, instead of telling your clients, &ldquo;please, go to <a href="https://lk7z14x78h.execute-api.eu-west-1.amazonaws.com/dev/helloWorld&quot;">https://lk7z14x78h.execute-api.eu-west-1.amazonaws.com/dev/helloWorld&quot;</a>, you will like to point them to something like &ldquo;api.authenticatedservices.net/helloWorld&rdquo;. In this article, we&rsquo;ll see how to do that.</p>
+
+<p><strong>Disclaimer</strong>
+This article is a summary of two articles (<a href="https://serverless.com/blog/serverless-api-gateway-domain/">this one</a> and <a href="https://serverless.com/blog/api-gateway-multiple-services/">this one</a>) from <a href="https://twitter.com/alexbdebrie">Alex DeBrie</a> (who you should follow if you&rsquo;re interested in serverless). I usually write to articles to be able to learn and put in practice what I learn, joining information from different souces. In this case, the only source is Alex&rsquo;s articles, with few changes from me. So, please, if you want to read the full story, go to Alex&rsquo;s articles (and follow him on twitter!!).</p>
+
+<h2 id="domain">Domain</h2>
+
+<p>The first thing we&rsquo;ll need to have is a custom domain. If you need to create one, the easiest way to do it is via AWS. You can go to Route53 and buy a domain. You&rsquo;ll be able to use it fairly quick, but it can take up to 72 hours to be set up.</p>
+
+<h2 id="certificate">Certificate</h2>
+
+<p>Once you have a domain, you&rsquo;ll need a certificate for that domain as API Gateway requires HTTPS. Again, the easiest way to do this is via AWS. Let&rsquo;s say we want to create the domain api.authenticatedservices.net (and we own authenticatedservices.net, of course). Go to Certificate Manager on AWS and make sure you&rsquo;re in <code>us-east-1</code> as this is the only region that it works with API Gateway (see <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-custom-domains.html">here</a> for more information).</p>
+
+<p>Click on <em>Request a certificate</em> and in the next screen click again on <em>Request a certificate</em>. Put the name of your domain, for example <code>apiv2.authenticatedservices.net</code> and click next.</p>
+
+<p><img src="images/certificate1.png" alt="Create certificate" /></p>
+
+<p>Select <em>DNS validation</em> on the next screen and click on <em>Review</em>. Click on <em>Confirm and request</em> in the next screen.</p>
+
+<p>Now we need to validate the certificate. In the next screen, expand the domain section and click on <em>Create record in Route 53</em></p>
+
+<p><img src="images/certificate2.png" alt="Validate certificate" /></p>
+
+<p>Click on <em>Create</em> in the pop up and on <em>Continue</em> on the main screen. It will usually take a couple of minutes to validate the certificate. In the <em>Certificate Manager</em> main screen you&rsquo;ll see the certificate in the <em>Pending Validation</em> state until it gets validated.</p>
+
+<h2 id="custom-domain-in-api-gateway">Custom domain in API Gateway</h2>
+
+<p>It&rsquo;s time to create the custom domain in API Gateway. As often happens, we won&rsquo;t need to do it manually as a plugin of the <a href="https://serverless.com">serverless framework</a> exists that will help us. So, go to your serverless proyect and install the plugin <a href="https://github.com/amplify-education/serverless-domain-manager">serverless-domain-manager</a>: <code>yarn add serverless-domain-manager --dev</code>. Thanks to the people of Amplify Education for this!</p>
+
+<p>Now we need to configure the plugin. The way the plugin gets configured is adding an new section on the <em>Custom</em> section of the <code>serverless.yml</code> file:</p>
+
+<pre><code>customDomain:
+  domainName: apiv2.authenticatedservices.net
+  basePath: 'another-service'
+  stage: ${self:provider.stage}
+  createRoute53Record: true
+</code></pre>
+
+<p>Assuming you have an API in the path helloWorld, the URL of the endpoint will be <code>https://${domainName}/${basePath}/helloWorld</code>, in our case <code>https://apiv2.authenticatedservices.net/another-service/helloWorld</code>. We will see later why is useful to set the <em>basePath</em> to something.</p>
+
+<p>Now it&rsquo;s time to create the domain. To do that, run the command <code>serverless create_domain</code>. As usual, my recommendation is to create a script in the <code>package.json</code> file and run it via <em>npm</em> or <em>yarn</em>. Don&rsquo;t forget to specify the AWS profile in case you use them.</p>
+
+<p>As you&rsquo;ll see in the console, it can take up to 40 minutes for the domain to be initialised, so grab a good book and wait a little bit.</p>
+
+<p><img src="images/reading.jpg" alt="Serverless developer reading a book" /></p>
+
+<p>We&rsquo;re back!! It&rsquo;s time to deploy our api. Just run the usual deployment command. Again, much better if you have this in a script.</p>
+
+<p>When you deploy, you will see a new section at the botton of the command&rsquo;s output. You should see something like this:</p>
+
+<pre><code>Serverless Domain Manager Summary
+Domain Name
+  apiv2.authenticatedservices.net
+Distribution Domain Name
+  Target Domain: d3gxio5f2chaid.cloudfront.net
+  Hosted Zone Id: Z2FDTNDATAQYW2
+</code></pre>
+
+<p>And now, you can go to your endpoint and see that is working perfectly.</p>
+
+<p><img src="images/newendpoint.png" alt="New endpoint" /></p>
+
+<h2 id="domain-per-environment-and-wildcard-certificates">Domain per environment and wildcard certificates</h2>
+
+<p>Creating new environments in Serverless is easy and cheap, so we usually have more than environment (or stage, you choose the name). Can we have a custom domain for each environment and use a wildcard certificate on those domains? Yes, we can!</p>
+
+<p>When using a certificate with a different name from the domain, we need to set the <code>certificateName</code> property of the <em>customDomain</em> section. We can hardcode the values there easily, but if we want those values to change depending on the stage, we need to do a bit of work (I promise, it&rsquo;s just a bit!). So, add this variables to the <em>custom</em> section of your <code>serverless.yml</code>:</p>
+
+<pre><code>domains:
+  prod: apiv2.authenticatedservices.net
+  staging: staging-api.authenticatedservices.net
+  dev: dev-api.authenticatedservices.net
+certificateNames:
+  prod: apiv2.authenticatedservices.net
+  staging: '*.authenticatedservices.net'
+  dev: '*.authenticatedservices.net'
+</code></pre>
+
+<p>As you can see, we&rsquo;re defining three stages (prod, staging and dev), each of them with their own custom domain name and their certificate. Staging and dev will share the wildcard certificate.</p>
+
+<p>Now, change de <em>customDomain</em> section to use those values. We&rsquo;ll be taking advantage of the beautiful variable interpolation that the Serverless Framework give us:</p>
+
+<pre><code>customDomain:
+  domainName: ${self:custom.domains.${self:provider.stage}}
+  basePath: 'another-service'
+  stage: ${self:provider.stage}
+  createRoute53Record: true
+  certificateName: ${self:custom.certificateNames.${self:provider.stage}}
+</code></pre>
+
+<p>And finally, let&rsquo;s add some script to help us with the deployment. Add these lines to the <code>package.json</code> file.:</p>
+
+<pre><code>&quot;deploy&quot;: &quot;serverless deploy --aws-profile serverless-local&quot;,
+&quot;deploy:staging&quot;: &quot;serverless deploy --aws-profile serverless-local --stage staging&quot;,
+&quot;deploy:prod&quot;: &quot;serverless deploy --aws-profile serverless-local --stage prod&quot;,
+&quot;create_domain&quot;: &quot;serverless create_domain --aws-profile serverless-local&quot;,
+&quot;create_domain:staging&quot;: &quot;serverless create_domain --aws-profile serverless-local --stage staging&quot;,
+&quot;create_domain:prod&quot;: &quot;serverless create_domain --aws-profile serverless-local --stage prod&quot;
+</code></pre>
+
+<p>Now, you will need to do what we did before for each environment: call the <code>create_domain</code> command first, and then call the <code>deploy</code> command.</p>
+
+<p>And that&rsquo;s it! Now you have your beautiful API behind your custom domain.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this article, we&rsquo;ve seen how we can have a serverless API behind a custom domain. Hope it helps!!</p>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Vicenç García</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">06-11-2019</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/api-gateway/">api gateway</a>
+          
+          <a href="/tags/serverless-framework/">serverless framework</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/cognito-user-pools-google/">
+            <span class="next-text nav-default">Cognito User Pools, Google federation and AWS Amplify</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'vgaltes';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:vgaltes@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://linkedin.com/in/vgaltes" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="https://twitter.com/vgaltes" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/vgaltes" class="iconfont icon-github" title="github"></a>
+  <a href="http://example.org/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2013 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Vicenç García</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
