@@ -56,7 +56,7 @@
 
 
 
-<meta property="og:updated_time" content="2018-11-16T00:00:00&#43;00:00"/>
+<meta property="og:updated_time" content="2018-11-17T00:00:00&#43;00:00"/>
 
 
 
@@ -136,6 +136,34 @@
   <section id="posts" class="posts">
     
     
+    
+      <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/deploying-azure-functions-using-zip-deploy/">Deploying Azure Functions using Zip Deploy</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 17-11-2018 </span>
+      <div class="post-category">
+          
+            <a href="/categories/serverless/"> serverless </a>
+          
+        </div>
+      <span class="more-meta"> 306 words </span>
+      <span class="more-meta"> 2 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      In a previous article we&rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
+Fixing the script. We already have a deployment script. It is something like this:
+#!/bin/bash location=$2 stage=$3 serviceName=$1-$stage resourceGroupName=$serviceName&quot;-rg&quot; serviceNameToLower=&quot;$(echo $serviceName | tr '[:upper:]' '[:lower:]')&quot; storageAccountName=&quot;$(echo ${serviceNameToLower//&quot;-&quot;/&quot;&quot;})&quot; echo &quot;Creating resource group&quot; az group create --name $resourceGroupName --location $location echo &quot;Creating storage account&quot; az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRS echo &quot;Creating function app&quot; az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupName echo &quot;Publishing function locally&quot; dotnet build echo &quot;Publisihng function to Azure&quot; func azure functionapp publish $serviceName  What are we going to do is to change the last two steps.
+    </div>
+    <div class="read-more">
+      <a href="/post/deploying-azure-functions-using-zip-deploy/" class="read-more-link">Read more..</a>
+    </div>
+  </div>
+</article>
+
     
       <article class="post">
   <header class="post-header">
@@ -375,33 +403,6 @@ To answer the first question, what we could do is rely on the git log -L:functio
     </div>
     <div class="read-more">
       <a href="/post/antlr-and-javascript/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    
-      <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/calling-a-step-function/">Calling a Step Function</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 09-07-2017 </span>
-      <div class="post-category">
-          
-            <a href="/categories/serverless/"> serverless </a>
-          
-        </div>
-      <span class="more-meta"> 751 words </span>
-      <span class="more-meta"> 4 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Until now we&rsquo;ve seen how to create a Step Function, but we&rsquo;ve always called them using the serverless framework. In this article we&rsquo;re going to see how to call them programatically.
-We have two options to call a Step Function: the first one is to use the API Gateway and create an HTTP endpoint as the Event source of the Step Function. The second one is to call the step function from a Lambda function using the AWS SDK.
-    </div>
-    <div class="read-more">
-      <a href="/post/calling-a-step-function/" class="read-more-link">Read more..</a>
     </div>
   </div>
 </article>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Route 53 on VGALTES blog</title>
+    <link>http://example.org/tags/route-53/</link>
+    <description>Recent content in Route 53 on VGALTES blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 08 Nov 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://example.org/tags/route-53/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Set up a multi-region active-active backend</title>
+      <link>http://example.org/post/multi-region-backend/</link>
+      <pubDate>Fri, 08 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/multi-region-backend/</guid>
+      <description>Congratulations! Your startup is starting to bring attention to many people and you&amp;rsquo;re starting to have clients from different countries and continents. But your lambdas and API gateway are still in your initial region, and that might add some latency to some users. Apart from that, you want to increase the reliability of your system. So, you decide to go multi-region. Can you do that easily? In this article, we&amp;rsquo;ll see how to do that.</description>
+    </item>
+    
+  </channel>
+</rss>
