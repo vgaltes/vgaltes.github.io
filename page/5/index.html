@@ -56,7 +56,7 @@
 
 
 
-<meta property="og:updated_time" content="2015-10-06T21:41:49&#43;01:00"/>
+<meta property="og:updated_time" content="2015-10-28T07:45:55&#43;00:00"/>
 
 
 
@@ -136,6 +136,33 @@
   <section id="posts" class="posts">
     
     
+    
+      <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/xp-day-2015/">XP Day 2015</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 28-10-2015 </span>
+      <div class="post-category">
+          
+            <a href="/categories/conferences/"> Conferences </a>
+          
+        </div>
+      <span class="more-meta"> 695 words </span>
+      <span class="more-meta"> 4 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      Yesterday I attended XPDay 2015, an event organized by the people of the eXtreme Tuesday club. It was the first time I was there and it was great to share a day with such a bunch of talented people like Allan Kelly, Nat Pryce, Steve Freeman, Giovanni Asproni or Liz Keogh among others.
+In this time where a lot of people talk about agile hangover and say that agile doesn't work it's good to return to the origins and talk about eXtreme Programming.
+    </div>
+    <div class="read-more">
+      <a href="/post/xp-day-2015/" class="read-more-link">Read more..</a>
+    </div>
+  </div>
+</article>
+
     
       <article class="post">
   <header class="post-header">
@@ -385,34 +412,6 @@ I have to admit that when I started to hear the term Craftsmanship I was distru
     </div>
     <div class="read-more">
       <a href="/post/professionalism/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    
-      <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/test-driving-asp-net-routing/">Test Driving ASP.Net routing</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 29-07-2014 </span>
-      <div class="post-category">
-          
-            <a href="/categories/code/"> Code </a>
-          
-        </div>
-      <span class="more-meta"> 810 words </span>
-      <span class="more-meta"> 4 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      In this article we will see how can we test drive the routing configuration of an ASP.Net web application.
-Let's start with our first test:
-[TestMethod]public void TestSimpleRoute(){RouteCollection routes = new RouteCollection();RouteConfig.RegisterRoutes(routes);// Act - process the routeRouteData result= routes.GetRouteData(CreateHttpContext("~/Admin/Index"));// AssertAssert.IsNotNull(result);Assert.AreEqual("controller", result.Values["controller"]);Assert.AreEqual("action", result.Values["action"]);}private HttpContextBase CreateHttpContext(string targetUrl = null){var mockRequest = new Mock&lt;HttpRequestBase&gt;();mockRequest.Setup(m =&gt; m.AppRelativeCurrentExecutionFilePath).Returns(targetUrl);mockRequest.
-    </div>
-    <div class="read-more">
-      <a href="/post/test-driving-asp-net-routing/" class="read-more-link">Read more..</a>
     </div>
   </div>
 </article>

@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://example.org/post/serverless-patterns-implemented-part1/</loc>
+    <lastmod>2019-11-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/multi-region-backend/</loc>
     <lastmod>2019-11-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -827,6 +834,7 @@
   
   <url>
     <loc>http://example.org/tags/patterns/</loc>
+    <lastmod>2019-11-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -845,7 +853,7 @@
   
   <url>
     <loc>http://example.org/post/</loc>
-    <lastmod>2019-11-08T00:00:00+00:00</lastmod>
+    <lastmod>2019-11-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -933,22 +941,16 @@
   
   <url>
     <loc>http://example.org/categories/serverless/</loc>
-    <lastmod>2019-11-08T00:00:00+00:00</lastmod>
+    <lastmod>2019-11-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://example.org/tags/serverless-framework/</loc>
-    <lastmod>2019-11-08T00:00:00+00:00</lastmod>
+    <lastmod>2019-11-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/post/serverless-patterns-implemented-part1/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
   </url>
   
   <url>
@@ -1049,7 +1051,7 @@
   
   <url>
     <loc>http://example.org/</loc>
-    <lastmod>2019-11-08T00:00:00+00:00</lastmod>
+    <lastmod>2019-11-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
