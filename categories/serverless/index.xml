@@ -214,5 +214,14 @@ we&amp;rsquo;d better be prepared. In this article we&amp;rsquo;ll see how we ca
 Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&amp;rsquo;re going to need.</description>
     </item>
     
+    <item>
+      <title>Serverless Patterns implemented, part 1</title>
+      <link>http://example.org/post/serverless-patterns-implemented-part1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/serverless-patterns-implemented-part1/</guid>
+      <description>I think that the best way to learn something is to practice it and to try to explain it, so this is what I&amp;rsquo;m going to do in the next series of posts. These posts will be based on the amazing article from Jeremy Daly about Serverless Patterns. I&amp;rsquo;m not going to copy Jeremy&amp;rsquo;s words here, so for each pattern, go to the article and read it. I&amp;rsquo;ll provide a technical implementation here and I will mention more resources I found interesting.</description>
+    </item>
+    
   </channel>
 </rss>

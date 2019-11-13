@@ -826,6 +826,12 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/patterns/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/tags/personal/</loc>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
@@ -937,6 +943,12 @@
     <lastmod>2019-11-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/post/serverless-patterns-implemented-part1/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
   </url>
   
   <url>
