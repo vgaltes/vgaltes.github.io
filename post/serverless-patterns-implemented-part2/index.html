@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Serverless Patterns implemented, part 2 - VGALTES blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Vicenç García" />
+  <meta name="description" content="In this article I will continue with the implementation of some Serverless Patterns described in this article from Jeremy Daly about [Serverless Patterns]. Check the first post here Let&amp;rsquo;s start!
+Common setup All the projects will have a common setup, which is fairly simple. First, initialize a NodeJS project:
+yarn init  Then install the serverless framework as a dev dependency
+yarn add serverless --dev  And finally create a script to deploy the project" />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.40.1" />
+
+
+<link rel="canonical" href="http://example.org/post/serverless-patterns-implemented-part2/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="Serverless Patterns implemented, part 2" />
+<meta property="og:description" content="In this article I will continue with the implementation of some Serverless Patterns described in this article from Jeremy Daly about [Serverless Patterns]. Check the first post here Let&rsquo;s start!
+Common setup All the projects will have a common setup, which is fairly simple. First, initialize a NodeJS project:
+yarn init  Then install the serverless framework as a dev dependency
+yarn add serverless --dev  And finally create a script to deploy the project" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/post/serverless-patterns-implemented-part2/" />
+
+
+
+<meta property="article:published_time" content="2019-11-14T00:00:00&#43;00:00"/>
+
+<meta property="article:modified_time" content="2019-11-14T00:00:00&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Serverless Patterns implemented, part 2">
+<meta itemprop="description" content="In this article I will continue with the implementation of some Serverless Patterns described in this article from Jeremy Daly about [Serverless Patterns]. Check the first post here Let&rsquo;s start!
+Common setup All the projects will have a common setup, which is fairly simple. First, initialize a NodeJS project:
+yarn init  Then install the serverless framework as a dev dependency
+yarn add serverless --dev  And finally create a script to deploy the project">
+
+
+<meta itemprop="datePublished" content="2019-11-14T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-11-14T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1428">
+
+
+
+<meta itemprop="keywords" content="patterns,serverless framework," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Serverless Patterns implemented, part 2"/>
+<meta name="twitter:description" content="In this article I will continue with the implementation of some Serverless Patterns described in this article from Jeremy Daly about [Serverless Patterns]. Check the first post here Let&rsquo;s start!
+Common setup All the projects will have a common setup, which is fairly simple. First, initialize a NodeJS project:
+yarn init  Then install the serverless framework as a dev dependency
+yarn add serverless --dev  And finally create a script to deploy the project"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101221175);</script>
+<script async src="//static.getclicky.com/js"></script>
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">VGALTES</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">VGALTES</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Serverless Patterns implemented, part 2</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 14-11-2019 </span>
+        <div class="post-category">
+            
+              <a href="/categories/serverless/"> serverless </a>
+            
+          </div>
+        <span class="more-meta"> 1428 words </span>
+        <span class="more-meta"> 7 mins read </span>
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#common-setup">Common setup</a></li>
+<li><a href="#the-gatekeeper">The Gatekeeper</a></li>
+<li><a href="#internal-api">Internal API</a></li>
+<li><a href="#the-internal-handoff">The Internal Handoff</a></li>
+<li><a href="#summary">Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      
+
+<p>In this article I will continue with the implementation of some Serverless Patterns described in <a href="https://www.jeremydaly.com/serverless-microservice-patterns-for-aws">this</a> article from <a href="https://twitter.com/jeremy_daly">Jeremy Daly</a> about [Serverless Patterns]. Check the first post <a href="https://vgaltes.com/post/serverless-patterns-implemented-part1/">here</a> Let&rsquo;s start!</p>
+
+<h2 id="common-setup">Common setup</h2>
+
+<p>All the projects will have a common setup, which is fairly simple. First, initialize a NodeJS project:</p>
+
+<pre><code>yarn init
+</code></pre>
+
+<p>Then install the serverless framework as a dev dependency</p>
+
+<pre><code>yarn add serverless --dev
+</code></pre>
+
+<p>And finally create a script to deploy the project</p>
+
+<pre><code>&quot;scripts&quot;: {
+    &quot;deploy&quot;: &quot;serverless deploy --aws-profile serverless-local&quot;
+  }
+</code></pre>
+
+<p>(Assuming that you have a profile called serverless-local, of course)</p>
+
+<h2 id="the-gatekeeper">The Gatekeeper</h2>
+
+<p>Read the article <a href="https://www.jeremydaly.com/serverless-microservice-patterns-for-aws/#gatekeeper">here</a>.</p>
+
+<p>The big difference with previous patterns is that we need a custom Lambda authorizer. Let&rsquo;s take a look at the <code>serverless.yml</code> file:</p>
+
+<pre><code>service: Gatekeeper
+
+plugins:
+  - serverless-pseudo-parameters
+  - serverless-iam-roles-per-function
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: ${opt:region, self:custom.defaultRegion}
+  logs:
+    restApi: true
+
+custom:
+  defaultRegion: eu-west-1
+  tableName: ${self:provider.region}-GatekeeperTable
+  authorizerTableName: ${self:provider.region}-GatekeeperAuthorizerTable
+
+functions:
+  GetItem:
+    handler: src/functions/getItem.handler
+    events:
+      - http:
+          method: get
+          path: item/{itemId}
+          authorizer: 
+            name: CustomAuthorizer
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
+    environment:
+      tableName: ${self:custom.tableName}
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:getItem
+        Resource: !GetAtt GatekeeperTable.Arn
+
+  PutItem:
+    handler: src/functions/putItem.handler
+    events:
+      - http:
+          method: post
+          path: item
+          authorizer: 
+            name: CustomAuthorizer
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
+            
+    environment:
+      tableName: ${self:custom.tableName}
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:putItem
+        Resource: !GetAtt GatekeeperTable.Arn
+
+  CustomAuthorizer:
+    handler: src/functions/authorizer.handler
+    environment:
+      tableName: ${self:custom.authorizerTableName}
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:getItem
+        Resource: !GetAtt AuthorizationTable.Arn
+
+resources:
+  Resources:
+    GatekeeperTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        KeySchema:
+          - AttributeName: id
+            KeyType: 'HASH'
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: 'N'
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tableName}
+
+    AuthorizationTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        KeySchema:
+          - AttributeName: id
+            KeyType: 'HASH'
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: 'N'
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.authorizerTableName}
+</code></pre>
+
+<p>We&rsquo;re creating a new table for the authorization, where you can store what you need to authorize a user. The custom authorizer lambda is just another function. The difference in the other functions is that we&rsquo;re now setting the authorizer. In the name property we&rsquo;re setting the name of the lambda function that will authorize the request, in the identitySource we&rsquo;re setting the header that we&rsquo;d like to use and in the type property we&rsquo;re it as a token, which is the simpler one. If you want to know more about custom authorizers, check <a href="https://www.alexdebrie.com/posts/lambda-custom-authorizers/">this article</a> from <a href="https://twitter.com/alexbdebrie">Alex DeBrie</a>.</p>
+
+<p>Let&rsquo;s take a look at the code of the custom authorizer function now.</p>
+
+<pre><code>const AWS = require(&quot;aws-sdk&quot;);
+
+const dynamodb = new AWS.DynamoDB.DocumentClient();
+const tableName = process.env.tableName;
+
+module.exports.handler = async (event, context) =&gt; {
+  console.log(event);
+
+  const id = event.authorizationToken;
+
+  const req = {
+    TableName: tableName,
+    Key: {
+        'id': parseInt(id)
+      }
+  };
+
+  const dynamodbResp = await dynamodb.get(req).promise();
+
+  console.log(dynamodbResp);
+
+  if (!dynamodbResp.Item){
+    // 401
+    context.fail('Unauthorized');
+
+    // 403
+    // context.succeed({
+    //   &quot;policyDocument&quot;: {
+    //     &quot;Version&quot;: &quot;2012-10-17&quot;,
+    //     &quot;Statement&quot;: [
+    //       {
+    //         &quot;Action&quot;: &quot;execute-api:Invoke&quot;,
+    //         &quot;Effect&quot;: &quot;Deny&quot;,
+    //         &quot;Resource&quot;: [
+    //           event.methodArn
+    //         ]
+    //       }
+    //     ]
+    //   }
+    // })
+  }
+
+  context.succeed( 
+  {
+    &quot;principalId&quot;: dynamodbResp.Item.name,
+    &quot;policyDocument&quot;: {
+      &quot;Version&quot;: &quot;2012-10-17&quot;,
+      &quot;Statement&quot;: [
+        {
+          &quot;Action&quot;: &quot;execute-api:Invoke&quot;,
+          &quot;Effect&quot;: &quot;Allow&quot;,
+          &quot;Resource&quot;: event.methodArn
+        }
+      ]
+    },
+    &quot;context&quot;: {
+      &quot;org&quot;: &quot;my-org&quot;,
+      &quot;role&quot;: &quot;admin&quot;,
+      &quot;createdAt&quot;: &quot;2019-11-11T12:15:42&quot;
+    }
+  });
+};
+</code></pre>
+
+<p>The logic of the authorizer is not important here. What is important is that you&rsquo;ll receive the token (the value of the authorization header in our case) in the <code>authorizationToken</code> of the <code>event</code>. The other important bit is what do we have to return in a custom authorizer. There are three main cases here:
+ - <strong>401</strong>: you need to call <code>context.fail('Unauthorized');</code>
+ - <strong>Success</strong>: you need to call <code>context.success</code> passing a policy. In this policy you need to specify the principalId of the user, and as <em>Statement</em> a valid IAM Policy that allows access to the endpoint. The endpoint Arn comes in the event in the property <code>methodArn</code>. You can pass an object in the <em>context</em> object to add custom data to the context object that you internal lambda will receive.
+ - <strong>403</strong>: you need to call <code>contex.success</code> but with a Deny in the IAM Policy.</p>
+
+<p>You can check the code <a href="https://github.com/vgaltes/ServerlessPatterns/tree/master/Gatekeeper">here</a>.</p>
+
+<h2 id="internal-api">Internal API</h2>
+
+<p>You can read the article <a href="https://www.jeremydaly.com/serverless-microservice-patterns-for-aws/#internalapi">here</a>.</p>
+
+<p>This pattern is much simpler, but what will change is the way that the lambda is invoked. So, the <code>serverless.yml</code> is fairly simple:</p>
+
+<pre><code>service: InternalAPI
+
+plugins:
+  - serverless-iam-roles-per-function
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: ${opt:region, self:custom.defaultRegion}
+
+custom:
+  defaultRegion: eu-west-1
+  tableName: ${self:provider.region}-InternalAPITable
+
+functions:
+  GetItem:
+    handler: src/functions/getItem.handler
+    environment:
+      tableName: ${self:custom.tableName}
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:getItem
+        Resource: !GetAtt InternalAPITable.Arn
+
+  PutItem:
+    handler: src/functions/putItem.handler
+    environment:
+      tableName: ${self:custom.tableName}
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:putItem
+        Resource: !GetAtt InternalAPITable.Arn
+
+resources:
+  Resources:
+    InternalAPITable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        KeySchema:
+          - AttributeName: id
+            KeyType: 'HASH'
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: 'N'
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tableName}
+</code></pre>
+
+<p>Notice that now the Lambda functions don&rsquo;t have any event. So, how can we call those lambdas? Let&rsquo;s create a script to call the <code>PutItem</code> function.</p>
+
+<pre><code>const AWS = require('aws-sdk');
+
+AWS.config.region = &quot;eu-west-1&quot;;
+var lambda = new AWS.Lambda();
+
+const base64data = Buffer.from('{&quot;AppName&quot; : &quot;InternalAPIApp&quot;}').toString('base64');
+
+var params = {
+    ClientContext: base64data, 
+    FunctionName: &quot;InternalAPI-dev-PutItem&quot;, 
+    InvocationType: &quot; RequestResponse&quot;, 
+    LogType: &quot;Tail&quot;, // Set to Tail to include the execution log in the response.
+    Payload: '{&quot;id&quot;: 1, &quot;name&quot;: &quot;test1&quot;}'
+};
+
+lambda.invoke(params, function(err, data) {
+    if (err) console.log(err, err.stack); // an error occurred
+    else     console.log(data);           // successful response
+});
+
+</code></pre>
+
+<p>As you can see we need to use the AWS SDK. You can install it using <code>yarn add aws-sdk --dev</code>. The important bits here is that we need to specify the name of the function. The invocation type righ now (we&rsquo;ll see the other type in the next pattern) is <code>RequestResponse</code> which means that we will wait for a response from the lambda.</p>
+
+<p>So, assuming that you name this file <code>callPutItems.js</code> and that you have a profile called <code>serverless-local</code> you will need to call this script like <code>AWS_PROFILE=serverless-local node callPutItem.js</code>.</p>
+
+<p>You can check the code <a href="https://github.com/vgaltes/ServerlessPatterns/tree/master/InternalAPI">here</a>.</p>
+
+<h2 id="the-internal-handoff">The Internal Handoff</h2>
+
+<p>Read the article <a href="https://www.jeremydaly.com/serverless-microservice-patterns-for-aws/#internalhandoff">here</a>.</p>
+
+<p>This pattern is fairly similar to the previous one, with a couple of differences:
+ - We&rsquo;re going to call the lambda with an invocation type of <em>event</em>, which will make the call asynchronous.
+ - We&rsquo;re going to add a DLQ (in our case an SNS topic) for the failing messages.</p>
+
+<p>Let&rsquo;s take a look at the <code>serverless.yml</code> file first:</p>
+
+<pre><code>service: InternalHandoff
+
+plugins:
+  - serverless-iam-roles-per-function
+  - serverless-pseudo-parameters
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: ${opt:region, self:custom.defaultRegion}
+  stage: ${opt:stage, self:custom.defaultStage}
+
+custom:
+  defaultRegion: eu-west-1
+  defaultStage: dev
+  tableName: ${self:provider.stage}-InternalHandofffTable
+  dlqTopicName: ${self:provider.stage}-DLQTopicName
+  dlqTopicArn: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.dlqTopicName}
+
+functions:
+  GetItem:
+    handler: src/functions/getItem.handler
+    environment:
+      tableName: ${self:custom.tableName}
+    onError: ${self:custom.dlqTopicArn}
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:getItem
+        Resource: !GetAtt InternalHandofffTable.Arn
+      - Effect: Allow
+        Action: sns:Publish
+        Resource: ${self:custom.dlqTopicArn}
+
+  PutItem:
+    handler: src/functions/putItem.handler
+    environment:
+      tableName: ${self:custom.tableName}
+    onError: ${self:custom.dlqTopicArn}
+    iamRoleStatements:
+      - Effect: Allow
+        Action: dynamodb:putItem
+        Resource: !GetAtt InternalHandofffTable.Arn
+      - Effect: Allow
+        Action: sns:Publish
+        Resource: ${self:custom.dlqTopicArn}
+
+  ReadErrors:
+    handler: src/functions/readErrors.handler
+    events:
+      - sns: ${self:custom.dlqTopicName}
+
+resources:
+  Resources:
+    InternalHandofffTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        KeySchema:
+          - AttributeName: id
+            KeyType: 'HASH'
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: 'N'
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.tableName}
+</code></pre>
+
+<p>The main difference in the functions is that we&rsquo;ve set the property <code>onError</code>. We need to set this property to the Arn of an SNS topic (you can&rsquo;t use a SQS right now, chech the why <a href="https://serverless.com/framework/docs/providers/aws/guide/functions#dlq-with-sqs">here</a>). When we do that, we need to add a permission to be able to write to that topic.</p>
+
+<p>Finally, we&rsquo;re creating a function that reads from that topic. When we do this, the framework will create the SNS topic for us. If we don&rsquo;t specify any function, we will need to create the topic in the <code>resources</code> section.</p>
+
+<p>To check the DLQ, we&rsquo;re setting a condition in the code of our functions to throw an error if the name of the item is <em>error</em>. Let&rsquo;s see how the script that calls the function changes:</p>
+
+<pre><code>const AWS = require('aws-sdk');
+
+const name = process.argv.slice(2)[0];
+
+AWS.config.region = &quot;eu-west-1&quot;;
+var lambda = new AWS.Lambda();
+
+const base64data = Buffer.from('{&quot;AppName&quot; : &quot;InternalAPIApp&quot;}').toString('base64');
+
+var params = {
+    ClientContext: base64data, 
+    FunctionName: &quot;InternalHandoff-dev-PutItem&quot;, 
+    InvocationType: &quot;Event&quot;, 
+    LogType: &quot;Tail&quot;, // Set to Tail to include the execution log in the response.
+    Payload: `{&quot;id&quot;: 1, &quot;name&quot;: &quot;${name}&quot;}`
+};
+
+lambda.invoke(params, function(err, data) {
+    if (err) console.log(err, err.stack); // an error occurred
+    else     console.log(data);           // successful response
+});
+</code></pre>
+
+<p>As you can see, the invocation type is now <em>Event</em>. Doing that, we&rsquo;ll receive a 202 from the function instead of a 200.</p>
+
+<p>To call this script to generate an error you need to call it this way:</p>
+
+<pre><code>AWS_PROFILE=serverless-local node callPutItem.js error
+</code></pre>
+
+<p>(Use any other name if you don&rsquo;t want to generate an error.)</p>
+
+<p>When we do that, AWS will try to deliver the message three times (aproximately once a minute). If we fail the three times, it will send the message to the DLQ.</p>
+
+<p>You can check the code <a href="https://github.com/vgaltes/ServerlessPatterns/tree/master/InternalHandoff">here</a>.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this article, we&rsquo;ve seen the implementation of three more patterns from <a href="https://www.jeremydaly.com/serverless-microservice-patterns-for-aws">this</a> great article from <a href="https://twitter.com/jeremy_daly">Jeremy Daly</a>. We&rsquo;ll continue with that in following article.</p>
+
+<p>Hope it helps!!</p>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Vicenç García</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">14-11-2019</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/patterns/">patterns</a>
+          
+          <a href="/tags/serverless-framework/">serverless framework</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/serverless-patterns-implemented-part1/">
+            <span class="next-text nav-default">Serverless Patterns implemented, part 1</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'vgaltes';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:vgaltes@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://linkedin.com/in/vgaltes" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="https://twitter.com/vgaltes" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/vgaltes" class="iconfont icon-github" title="github"></a>
+  <a href="http://example.org/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2013 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Vicenç García</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

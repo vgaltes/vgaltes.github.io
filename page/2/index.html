@@ -38,7 +38,7 @@
 <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
 
-<script src="https://cmp.osano.com/1t0Avt8Rhmsc8e44L/a1b8d3b9-05ae-46f5-9a66-b49599527844/osano.js"></script>
+
 
 
 
@@ -59,7 +59,7 @@
 
 
 
-<meta property="og:updated_time" content="2018-11-18T00:00:00&#43;00:00"/>
+<meta property="og:updated_time" content="2018-11-20T00:00:00&#43;00:00"/>
 
 
 
@@ -142,6 +142,34 @@
   <section id="posts" class="posts">
     
     
+    
+      <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/enabling-application-insights/">Deploying Azure Functions - Enabling Application Insights</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 20-11-2018 </span>
+      <div class="post-category">
+          
+            <a href="/categories/serverless/"> serverless </a>
+          
+        </div>
+      <span class="more-meta"> 579 words </span>
+      <span class="more-meta"> 3 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      In our previous articles we&rsquo;ve seen how to deploy a Function App using the Azure CLI or Terraform. Once we have a function deployed and accepting traffic, the next obvious thing to do is to monitor it.
+Adding some logs to the function is fairly easy. If you take a look at the signature of the function
+[FunctionName(&quot;HelloWorld&quot;)] public static async Task&lt;IActionResult&gt; Run( [HttpTrigger(AuthorizationLevel.Anonymous, &quot;get&quot;, &quot;post&quot;, Route = null)] HttpRequest req, ILogger log)  you&rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.
+    </div>
+    <div class="read-more">
+      <a href="/post/enabling-application-insights/" class="read-more-link">Read more..</a>
+    </div>
+  </div>
+</article>
+
     
       <article class="post">
   <header class="post-header">
@@ -381,33 +409,6 @@ Today we&rsquo;re going to see how can we configure and use the basics of Vault.
     </div>
     <div class="read-more">
       <a href="/post/vault-basics/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    
-      <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/analysing-hotspots/">Analysing hotspots using CrystalGazer and NDepend</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 07-11-2017 </span>
-      <div class="post-category">
-          
-            <a href="/categories/crystalgazer/"> crystalgazer </a>
-          
-        </div>
-      <span class="more-meta"> 607 words </span>
-      <span class="more-meta"> 3 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      When you start working on a new project, there are a couple of things that you should try to discover as fast as you can: the shape of the code and the internals of the team you&rsquo;re working with.
-You can (and should) try to discover both of them using conversations (at the end, developing software is having conversations (link in spanish)). But it&rsquo;s also useful to try to discover this things for yourself, to confirm what the conversations are saying, or to bo a little bit faster.
-    </div>
-    <div class="read-more">
-      <a href="/post/analysing-hotspots/" class="read-more-link">Read more..</a>
     </div>
   </div>
 </article>
