@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Serverless Patterns implemented: using an SQS queue as a DLQ for a SNS topic - VGALTES blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Vicenç García" />
+  <meta name="description" content="In the last two articles (here and here) we implemented some of the Serverless Patterns described in this article from Jeremy Daly. In this article, we&amp;rsquo;re going to concentrate in just one pattern, the Notifier. We&amp;rsquo;re going to do this, because of the [recent announcement] from AWS that you can now use an SQS queue as a Dead Letter Queue for an SNS topic.
+If you read the article, you will see that this DLQ is complementary to the DLQ you might define in a function that is triggered by an SNS topic, as Otavio Ferreira explains here." />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.40.1" />
+
+
+<link rel="canonical" href="http://example.org/post/serverless-patterns-implemented-sls-dlq/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="Serverless Patterns implemented: using an SQS queue as a DLQ for a SNS topic" />
+<meta property="og:description" content="In the last two articles (here and here) we implemented some of the Serverless Patterns described in this article from Jeremy Daly. In this article, we&rsquo;re going to concentrate in just one pattern, the Notifier. We&rsquo;re going to do this, because of the [recent announcement] from AWS that you can now use an SQS queue as a Dead Letter Queue for an SNS topic.
+If you read the article, you will see that this DLQ is complementary to the DLQ you might define in a function that is triggered by an SNS topic, as Otavio Ferreira explains here." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/post/serverless-patterns-implemented-sls-dlq/" />
+
+
+
+<meta property="article:published_time" content="2019-11-26T00:00:00&#43;00:00"/>
+
+<meta property="article:modified_time" content="2019-11-26T00:00:00&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Serverless Patterns implemented: using an SQS queue as a DLQ for a SNS topic">
+<meta itemprop="description" content="In the last two articles (here and here) we implemented some of the Serverless Patterns described in this article from Jeremy Daly. In this article, we&rsquo;re going to concentrate in just one pattern, the Notifier. We&rsquo;re going to do this, because of the [recent announcement] from AWS that you can now use an SQS queue as a Dead Letter Queue for an SNS topic.
+If you read the article, you will see that this DLQ is complementary to the DLQ you might define in a function that is triggered by an SNS topic, as Otavio Ferreira explains here.">
+
+
+<meta itemprop="datePublished" content="2019-11-26T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-11-26T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1033">
+
+
+
+<meta itemprop="keywords" content="patterns,serverless framework," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Serverless Patterns implemented: using an SQS queue as a DLQ for a SNS topic"/>
+<meta name="twitter:description" content="In the last two articles (here and here) we implemented some of the Serverless Patterns described in this article from Jeremy Daly. In this article, we&rsquo;re going to concentrate in just one pattern, the Notifier. We&rsquo;re going to do this, because of the [recent announcement] from AWS that you can now use an SQS queue as a Dead Letter Queue for an SNS topic.
+If you read the article, you will see that this DLQ is complementary to the DLQ you might define in a function that is triggered by an SNS topic, as Otavio Ferreira explains here."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101221175);</script>
+<script async src="//static.getclicky.com/js"></script>
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">VGALTES</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">VGALTES</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Serverless Patterns implemented: using an SQS queue as a DLQ for a SNS topic</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 26-11-2019 </span>
+        <div class="post-category">
+            
+              <a href="/categories/serverless/"> serverless </a>
+            
+          </div>
+        <span class="more-meta"> 1033 words </span>
+        <span class="more-meta"> 5 mins read </span>
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#setup">Setup</a></li>
+</ul></li>
+<li><a href="#sns-topic">SNS Topic</a>
+<ul>
+<li><a href="#summary">Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      
+
+<p>In the last two articles (<a href="https://vgaltes.com/post/serverless-patterns-implemented-part1/">here</a> and <a href="https://vgaltes.com/post/serverless-patterns-implemented-part2/">here</a>) we implemented some of the Serverless Patterns described in <a href="https://www.jeremydaly.com/serverless-microservice-patterns-for-aws">this</a> article from <a href="https://twitter.com/jeremy_daly">Jeremy Daly</a>. In this article, we&rsquo;re going to concentrate in just one pattern, the <a href="https://www.jeremydaly.com/serverless-microservice-patterns-for-aws/#notifier">Notifier</a>. We&rsquo;re going to do this, because of the [recent announcement] from AWS that you can now use an SQS queue as a Dead Letter Queue for an SNS topic.</p>
+
+<p>If you read the article, you will see that this DLQ is complementary to the DLQ you might define in a function that is triggered by an SNS topic, as <a href="https://twitter.com/otaviofff">Otavio Ferreira</a> explains <a href="https://twitter.com/otaviofff/status/1195463848481832960">here</a>. As we saw the lambda function DLQ in a previous article, we&rsquo;re going to focus on the DLQ of the topic. In this scenario, messages will be sent to the DLQ when SNS is not able to deliver the message to the subscribed endpoint. As <a href="https://docs.aws.amazon.com/sns/latest/dg/sns-dead-letter-queues.html">this article</a> explain, this can happen because the endpoint is not available, which is what we&rsquo;re going to simulate. (client error) or because system responsible for the subscribed endpoint becomes unavailable or returns an exception that indicates that it can&rsquo;t process a valid request from Amazon SNS (server error). In both cases, the message will be sent to the SNS topic DLQ. We can&rsquo;t simulate a failure on a AWS Service, so we&rsquo;re going to simulate that the endpoint of the subscription is not available.</p>
+
+<p>In this article we&rsquo;re going to see how we can implement this using the <a href="https://serverless.com">Serverless</a> framework. As it&rsquo;s a very new feature of the SNS topics, is not yet implemented, so we&rsquo;re going to need to write quite a bit of CloudFormation. I&rsquo;m sure the folks from Serverless are already working on making this easier to use.</p>
+
+<h2 id="setup">Setup</h2>
+
+<p>As usual, let&rsquo;s do the basic steps to setup our project. Let&rsquo;s start initializing the nodejs project.</p>
+
+<pre><code>yarn init
+</code></pre>
+
+<p>Then install the serverless framework as a dev dependency</p>
+
+<pre><code>yarn add serverless --dev
+</code></pre>
+
+<p>And finally create a script to deploy the project</p>
+
+<pre><code>&quot;scripts&quot;: {
+    &quot;deploy&quot;: &quot;serverless deploy --aws-profile serverless-local&quot;
+  }
+</code></pre>
+
+<p>(Assuming that you have a profile called serverless-local, of course).</p>
+
+<p>We will need the <code>serverless-pseudo-parameters</code> plugin as well, so let&rsquo;s install it:</p>
+
+<pre><code>yarn add serverless-pseudo-parameters --dev
+</code></pre>
+
+<p>Now, create a file called <code>serverless.yml</code> and include the usual boilerplate code:</p>
+
+<pre><code>service: Notifier
+
+plugins:
+  - serverless-pseudo-parameters
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: ${opt:region, self:custom.defaultRegion}
+  stage: ${opt:stage, self:custom.defaultStage}
+
+custom:
+  defaultStage: dev
+  defaultRegion: eu-west-1
+</code></pre>
+
+<h1 id="sns-topic">SNS Topic</h1>
+
+<p>Let&rsquo;s start defining the SNS topic in the resource section of the file. It should look like this:</p>
+
+<pre><code>SNSNotifier:
+  Type: AWS::SNS::Topic
+  Properties:
+    DisplayName: ${self:service}-${self:provider.stage}-SNSNotifier
+    TopicName: ${self:service}-${self:provider.stage}-SNSNotifier
+</code></pre>
+
+<p>Nothing really strange here.</p>
+
+<p>Now, it&rsquo;s time to declare the SQS queue we&rsquo;re going to use as DLQ for our topic</p>
+
+<pre><code>NotifierDLQ:
+  Type: AWS::SQS::Queue
+  Properties:
+    QueueName: ${self:service}-${self:provider.stage}-NotifierDLQ
+</code></pre>
+
+<p>The next step would be to create the subscription in the SNS topic. The subscription is where we define where do we want the messages to be delivered.</p>
+
+<pre><code>NotifierSubscription:
+  Type: AWS::SNS::Subscription
+  Properties: 
+    Endpoint: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-ReadFromSNS-badOne
+    Protocol: lambda
+    TopicArn: !Ref SNSNotifier
+    RedrivePolicy:
+      deadLetterTargetArn: !GetAtt NotifierDLQ.Arn
+</code></pre>
+
+<p>In this case we&rsquo;re going to define that we&rsquo;ll have a lambda that will be responsible to receive these messages. There are two interesting parts here. The first one is that in the <em>Endpoint</em> section we&rsquo;re defining a lambda that it really doesn&rsquo;t exist. The second one is the RedrivePolice section, where we define the Dead Letter Queue of the topic, in this case the SQS queue previously defined.</p>
+
+<p>For this topic to be able to put messages to a lambda (although in the subscription we&rsquo;re simulating that the lambda doesn&rsquo;t exist for some reason) we need to define a lambda permission:</p>
+
+<pre><code>LambdaInvokePermissionFromSNS:
+  Type: AWS::Lambda::Permission
+  Properties:
+    Action: lambda:InvokeFunction
+    Principal: sns.amazonaws.com
+    SourceArn: !Ref SNSNotifier
+    FunctionName: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-ReadFromSNS
+  DependsOn: ReadFromSNSLambdaFunction
+</code></pre>
+
+<p>The lambda resource needs to be already created, that´s why we put the DependsOn clause. You can´t reference a resource created by the serverless framework directly in a CloudFormation resource, but you can do the trick to use the name that the framework will use for the lambda. In this case, is the name of the function with <code>LambdaFunction</code> concatenated.</p>
+
+<p>(for the purpose of this particular example you can skip this step, but in case you want to see how the messages are delivered to a lambda with no issues, you will need to add it).</p>
+
+<p>Finally, for the SNS topic to be able to deliver messages to the SQS DLQ we need to define an SQS Queue Policy, where we will tell SQS to allow messages comming from the SNS Topic:</p>
+
+<pre><code>NotifierDLQPolicy:
+  Type: AWS::SQS::QueuePolicy
+  Properties:
+    PolicyDocument:
+      {
+        &quot;Version&quot;: &quot;2012-10-17&quot;,
+        &quot;Id&quot;: &quot;NotifierDLQPolicy&quot;,
+        &quot;Statement&quot;: [{
+          &quot;Sid&quot;:&quot;NotifierDLQPolicy001&quot;,
+          &quot;Effect&quot;:&quot;Allow&quot;,
+          &quot;Principal&quot;:&quot;*&quot;,
+          &quot;Action&quot;:&quot;sqs:SendMessage&quot;,
+          &quot;Resource&quot;:&quot;arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:service}-${self:provider.stage}-NotifierDLQ&quot;,
+          &quot;Condition&quot;:{
+            &quot;ArnEquals&quot;:{
+              &quot;aws:SourceArn&quot;:&quot;arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:service}-${self:provider.stage}-SNSNotifier&quot;
+            }
+          }
+        }]
+      }
+  
+    Queues:
+      - !Ref NotifierDLQ
+</code></pre>
+
+<p>Finally, and outside the resources section, we can define the functions that will read messages from the SNS Topic and the SQS Queue:</p>
+
+<pre><code>functions:
+  ReadFromSNS:
+    handler: src/functions/readFromSNS.handler
+    events:
+      - sns:
+          arn: !Ref SNSNotifier
+          topicName: SNSNotifier
+
+  ReadFromDLQ:
+    handler: src/functions/readFromDLQ.handler
+    events:
+      - sqs:
+          batchSize: 1
+          arn: !GetAtt NotifierDLQ.Arn
+</code></pre>
+
+<p>And the code of both functions. This is the code of the readFromSNS function:</p>
+
+<pre><code>module.exports.handler = (event, context) =&gt; {
+  const message = event.Records[0].Sns.Message;
+
+  console.log(`Message received via SNS. ${message}`) ;
+
+  return &quot;all done&quot;;
+};
+</code></pre>
+
+<p>And this is the code of the readFromDLQ function:</p>
+
+<pre><code>module.exports.handler = (event, context) =&gt; {
+  const message = JSON.stringify(event.Records[0]);
+
+  console.log(`Message received in DLQ. ${message}`) ;
+
+  return &quot;all done&quot;;
+};
+</code></pre>
+
+<p>If we deploy, the serverless framework would have been added the subscription for the <em>ReadFromSNS</em> lambda in the SNS topic. You can delete it manually if you want to make sure that the message never gets there.</p>
+
+<p>And that&rsquo;s it. If you now try to put a message in the topic (using the console, or the CLI, or the SDK) you will see that the message ends up in the DLQ.</p>
+
+<p>You can check the code <a href="https://github.com/vgaltes/ServerlessPatterns/tree/master/Notifier">here</a>.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this article, we&rsquo;ve seen how we can define a SNS Queue as a Dead Letter Queue for an SNS topic. I expect this to not be needed in a near future because the Serverless framework will take care of it, but it&rsquo;s never bad to know the internals and, in the meantime it gets implemented, you will be able to take care of this situations with the code we&rsquo;ve seen in this article.</p>
+
+<p>Hope it helps!!</p>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Vicenç García</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">26-11-2019</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/patterns/">patterns</a>
+          
+          <a href="/tags/serverless-framework/">serverless framework</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/serverless-patterns-implemented-part2/">
+            <span class="next-text nav-default">Serverless Patterns implemented, part 2</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'vgaltes';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:vgaltes@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://linkedin.com/in/vgaltes" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="https://twitter.com/vgaltes" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/vgaltes" class="iconfont icon-github" title="github"></a>
+  <a href="http://example.org/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2013 - 
+    2019
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Vicenç García</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

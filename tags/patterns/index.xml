@@ -6,10 +6,20 @@
     <description>Recent content in Patterns on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 14 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 26 Nov 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://example.org/tags/patterns/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Serverless Patterns implemented: using an SQS queue as a DLQ for a SNS topic</title>
+      <link>http://example.org/post/serverless-patterns-implemented-sls-dlq/</link>
+      <pubDate>Tue, 26 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/serverless-patterns-implemented-sls-dlq/</guid>
+      <description>In the last two articles (here and here) we implemented some of the Serverless Patterns described in this article from Jeremy Daly. In this article, we&amp;rsquo;re going to concentrate in just one pattern, the Notifier. We&amp;rsquo;re going to do this, because of the [recent announcement] from AWS that you can now use an SQS queue as a Dead Letter Queue for an SNS topic.
+If you read the article, you will see that this DLQ is complementary to the DLQ you might define in a function that is triggered by an SNS topic, as Otavio Ferreira explains here.</description>
+    </item>
     
     <item>
       <title>Serverless Patterns implemented, part 2</title>
