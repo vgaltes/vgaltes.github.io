@@ -95,6 +95,9 @@ Fixing the script. We already have a deployment script. It is something like thi
 Fixing the script. We already have a deployment script. It is something like this:
 #!/bin/bash location=$2 stage=$3 serviceName=$1-$stage resourceGroupName=$serviceName&quot;-rg&quot; serviceNameToLower=&quot;$(echo $serviceName | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&quot; storageAccountName=&quot;$(echo ${serviceNameToLower//&quot;-&quot;/&quot;&quot;})&quot; echo &quot;Creating resource group&quot; az group create --name $resourceGroupName --location $location echo &quot;Creating storage account&quot; az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRS echo &quot;Creating function app&quot; az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupName echo &quot;Publishing function locally&quot; dotnet build echo &quot;Publisihng function to Azure&quot; func azure functionapp publish $serviceName  What are we going to do is to change the last two steps."/>
 
+
+
+
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
 <![endif]-->

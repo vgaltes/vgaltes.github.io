@@ -95,6 +95,9 @@ But NUnit3 works slightly different. Instead of having a single NUnit.Runners pa
 Target &quot;RunUnitTests&quot; (fun _ -&gt; !! (testDir &#43; &quot;/*.Tests.dll&quot;) |&gt; NUnit (fun p -&gt; {p with ToolPath = &quot;packages/NUnit.Runners/tools/&quot;})  )
 But NUnit3 works slightly different. Instead of having a single NUnit.Runners package, that package references some other packages (runner, extensions, etc). One of those packages is NUnit.ConsoleRunner that has the exe inside the tools folder."/>
 
+
+
+
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
 <![endif]-->
