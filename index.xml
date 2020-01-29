@@ -6,10 +6,19 @@
     <description>Recent content on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 29 Jan 2020 15:03:26 +0100</lastBuildDate>
+    <lastBuildDate>Wed, 29 Jan 2020 21:03:26 +0100</lastBuildDate>
     
 	<atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Capturing and forwarding correlation IDs in ASP.NET Core, the easy way</title>
+      <link>http://example.org/post/forwarding-correlation-ids-in-aspnetcore-version-2/</link>
+      <pubDate>Wed, 29 Jan 2020 21:03:26 +0100</pubDate>
+      
+      <guid>http://example.org/post/forwarding-correlation-ids-in-aspnetcore-version-2/</guid>
+      <description>The minute after I published my last article about Capturing and forwarding correlation IDs, my very good friend Hugo Biarge send me a Direct Message telling me: &amp;ldquo;Hey man! Have you read this article? This is new from ASP .NET Core 3, and it&amp;rsquo;s an easier solution than the one you explain in the article.&amp;rdquo; So, I took a look, not only at the article but also at the traces that I was already generating, and voilà, everything was already there.</description>
+    </item>
     
     <item>
       <title>Capturing and forwarding correlation IDs in ASP.NET Core</title>
