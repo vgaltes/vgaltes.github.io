@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Forwarding correlation IDs in ASPNet Core - VGALTES blog</title>
+  <title>Capturing and forwarding correlation IDs in ASP.NET Core - VGALTES blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -17,7 +17,7 @@
 
 
 <meta name="author" content="Vicenç García" />
-  <meta name="description" content="When you have different services that communicate amongst them, you need to be able to correlate those calls to perform effective analysis of any problem you might have. The way to do this is using correlation ids and pass them along in all your call to the different services you use. In this article, I´m going to explain you a way to do this in ASP .Net Core.
+  <meta name="description" content="When you have different services that communicate amongst them, you need to be able to correlate those calls to perform effective analysis of any problem you might have. The way to do this is using correlation ids and pass them along in all your call to the different services you use. In this article, I´m going to explain you a way to do this in ASP.NET Core.
 Correlation IDs Why do you need more than one correlation ID?" />
 
 
@@ -52,8 +52,8 @@ Correlation IDs Why do you need more than one correlation ID?" />
 
 
 
-<meta property="og:title" content="Forwarding correlation IDs in ASPNet Core" />
-<meta property="og:description" content="When you have different services that communicate amongst them, you need to be able to correlate those calls to perform effective analysis of any problem you might have. The way to do this is using correlation ids and pass them along in all your call to the different services you use. In this article, I´m going to explain you a way to do this in ASP .Net Core.
+<meta property="og:title" content="Capturing and forwarding correlation IDs in ASP.NET Core" />
+<meta property="og:description" content="When you have different services that communicate amongst them, you need to be able to correlate those calls to perform effective analysis of any problem you might have. The way to do this is using correlation ids and pass them along in all your call to the different services you use. In this article, I´m going to explain you a way to do this in ASP.NET Core.
 Correlation IDs Why do you need more than one correlation ID?" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://example.org/post/forwarding-correlation-ids-in-aspnetcore/" />
@@ -74,21 +74,21 @@ Correlation IDs Why do you need more than one correlation ID?" />
 
 
 
-<meta itemprop="name" content="Forwarding correlation IDs in ASPNet Core">
-<meta itemprop="description" content="When you have different services that communicate amongst them, you need to be able to correlate those calls to perform effective analysis of any problem you might have. The way to do this is using correlation ids and pass them along in all your call to the different services you use. In this article, I´m going to explain you a way to do this in ASP .Net Core.
+<meta itemprop="name" content="Capturing and forwarding correlation IDs in ASP.NET Core">
+<meta itemprop="description" content="When you have different services that communicate amongst them, you need to be able to correlate those calls to perform effective analysis of any problem you might have. The way to do this is using correlation ids and pass them along in all your call to the different services you use. In this article, I´m going to explain you a way to do this in ASP.NET Core.
 Correlation IDs Why do you need more than one correlation ID?">
 
 
 <meta itemprop="datePublished" content="2020-01-29T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-01-29T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="769">
+<meta itemprop="wordCount" content="768">
 
 
 
 <meta itemprop="keywords" content="microservices," />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Forwarding correlation IDs in ASPNet Core"/>
-<meta name="twitter:description" content="When you have different services that communicate amongst them, you need to be able to correlate those calls to perform effective analysis of any problem you might have. The way to do this is using correlation ids and pass them along in all your call to the different services you use. In this article, I´m going to explain you a way to do this in ASP .Net Core.
+<meta name="twitter:title" content="Capturing and forwarding correlation IDs in ASP.NET Core"/>
+<meta name="twitter:description" content="When you have different services that communicate amongst them, you need to be able to correlate those calls to perform effective analysis of any problem you might have. The way to do this is using correlation ids and pass them along in all your call to the different services you use. In this article, I´m going to explain you a way to do this in ASP.NET Core.
 Correlation IDs Why do you need more than one correlation ID?"/>
 
 <!--[if lte IE 9]>
@@ -155,7 +155,7 @@ Correlation IDs Why do you need more than one correlation ID?"/>
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Forwarding correlation IDs in ASPNet Core</h1>
+      <h1 class="post-title">Capturing and forwarding correlation IDs in ASP.NET Core</h1>
 
       <div class="post-meta">
         <span class="post-time"> 29-01-2020 </span>
@@ -164,7 +164,7 @@ Correlation IDs Why do you need more than one correlation ID?"/>
               <a href="/categories/aspnet-core/"> aspnet core </a>
             
           </div>
-        <span class="more-meta"> 769 words </span>
+        <span class="more-meta"> 768 words </span>
         <span class="more-meta"> 4 mins read </span>
         
       </div>
@@ -199,7 +199,7 @@ Correlation IDs Why do you need more than one correlation ID?"/>
     <div class="post-content">
       
 
-<p>When you have different services that communicate amongst them, you need to be able to correlate those calls to perform effective analysis of any problem you might have. The way to do this is using correlation ids and pass them along in all your call to the different services you use. In this article, I´m going to explain you a way to do this in ASP .Net Core.</p>
+<p>When you have different services that communicate amongst them, you need to be able to correlate those calls to perform effective analysis of any problem you might have. The way to do this is using correlation ids and pass them along in all your call to the different services you use. In this article, I´m going to explain you a way to do this in ASP.NET Core.</p>
 
 <h2 id="correlation-ids">Correlation IDs</h2>
 
@@ -363,7 +363,7 @@ using (logger.BeginScope(correlationIDs.GetCurrentIDs()))
 
 <h2 id="summary">Summary</h2>
 
-<p>In this article, we&rsquo;ve seen how we capture and forward correlation IDs for HTTP APIs in ASPNet Core. Hope it helps!!</p>
+<p>In this article, we&rsquo;ve seen how we capture and forward correlation IDs for HTTP APIs in ASP.NET Core. Hope it helps!!</p>
 
     </div>
 
