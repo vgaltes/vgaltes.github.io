@@ -30,6 +30,15 @@
     </item>
     
     <item>
+      <title>Aspnet Core</title>
+      <link>http://example.org/categories/aspnet-core/</link>
+      <pubDate>Wed, 29 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/categories/aspnet-core/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Code</title>
       <link>http://example.org/categories/code/</link>
       <pubDate>Fri, 24 Apr 2015 15:03:26 +0100</pubDate>

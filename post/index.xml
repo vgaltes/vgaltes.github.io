@@ -6,10 +6,20 @@
     <description>Recent content in Posts on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 26 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 29 Jan 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://example.org/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Forwarding correlation IDs in ASPNet Core</title>
+      <link>http://example.org/post/forwarding-correlation-ids-in-aspnetcore/</link>
+      <pubDate>Wed, 29 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/forwarding-correlation-ids-in-aspnetcore/</guid>
+      <description>When you have different services that communicate amongst them, you need to be able to correlate those calls to perform effective analysis of any problem you might have. The way to do this is using correlation ids and pass them along in all your call to the different services you use. In this article, I´m going to explain you a way to do this in ASP .Net Core.
+Correlation IDs Why do you need more than one correlation ID?</description>
+    </item>
     
     <item>
       <title>Serverless Patterns implemented: using an SQS queue as a DLQ for a SNS topic</title>
