@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Capturing and forwarding correlation IDs in ASP.NET Core, the easy way - VGALTES blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Vicenç García" />
+  <meta name="description" content="The minute after I published my last article about Capturing and forwarding correlation IDs, my very good friend Hugo Biarge send me a Direct Message telling me: &amp;ldquo;Hey man! Have you read this article? This is new from ASP .NET Core 3, and it&amp;rsquo;s an easier solution than the one you explain in the article.&amp;rdquo; So, I took a look, not only at the article but also at the traces that I was already generating, and voilà, everything was already there." />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.40.1" />
+
+
+<link rel="canonical" href="http://example.org/post/forwarding-correlation-ids-in-aspnetcore-version-2/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="Capturing and forwarding correlation IDs in ASP.NET Core, the easy way" />
+<meta property="og:description" content="The minute after I published my last article about Capturing and forwarding correlation IDs, my very good friend Hugo Biarge send me a Direct Message telling me: &ldquo;Hey man! Have you read this article? This is new from ASP .NET Core 3, and it&rsquo;s an easier solution than the one you explain in the article.&rdquo; So, I took a look, not only at the article but also at the traces that I was already generating, and voilà, everything was already there." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/post/forwarding-correlation-ids-in-aspnetcore-version-2/" />
+
+
+
+<meta property="article:published_time" content="2020-01-29T00:00:00&#43;00:00"/>
+
+<meta property="article:modified_time" content="2020-01-29T00:00:00&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Capturing and forwarding correlation IDs in ASP.NET Core, the easy way">
+<meta itemprop="description" content="The minute after I published my last article about Capturing and forwarding correlation IDs, my very good friend Hugo Biarge send me a Direct Message telling me: &ldquo;Hey man! Have you read this article? This is new from ASP .NET Core 3, and it&rsquo;s an easier solution than the one you explain in the article.&rdquo; So, I took a look, not only at the article but also at the traces that I was already generating, and voilà, everything was already there.">
+
+
+<meta itemprop="datePublished" content="2020-01-29T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-01-29T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="558">
+
+
+
+<meta itemprop="keywords" content="microservices," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Capturing and forwarding correlation IDs in ASP.NET Core, the easy way"/>
+<meta name="twitter:description" content="The minute after I published my last article about Capturing and forwarding correlation IDs, my very good friend Hugo Biarge send me a Direct Message telling me: &ldquo;Hey man! Have you read this article? This is new from ASP .NET Core 3, and it&rsquo;s an easier solution than the one you explain in the article.&rdquo; So, I took a look, not only at the article but also at the traces that I was already generating, and voilà, everything was already there."/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101221175);</script>
+<script async src="//static.getclicky.com/js"></script>
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">VGALTES</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">VGALTES</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Capturing and forwarding correlation IDs in ASP.NET Core, the easy way</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 29-01-2020 </span>
+        <div class="post-category">
+            
+              <a href="/categories/aspnet-core/"> aspnet core </a>
+            
+          </div>
+        <span class="more-meta"> 558 words </span>
+        <span class="more-meta"> 3 mins read </span>
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#summary">Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      
+
+<p>The minute after I published my last article about <a href="https://vgaltes.com/post/forwarding-correlation-ids-in-aspnetcore/">Capturing and forwarding correlation IDs</a>, my very good friend <a href="https://twitter.com/hbiarge">Hugo Biarge</a> send me a Direct Message telling me: &ldquo;Hey man! Have you read this <a href="https://devblogs.microsoft.com/aspnet/improvements-in-net-core-3-0-for-troubleshooting-and-monitoring-distributed-apps/">article</a>? This is new from  ASP .NET Core 3, and it&rsquo;s an easier solution than the one you explain in the article.&rdquo; So, I took a look, not only at the article but also at the traces that I was already generating, and voilà, everything was already there. Let me explain this a bit better.</p>
+
+<p>ASP .NET Core 3 has correlated logs &ldquo;out of the box&rdquo; by following the proposed <a href="https://www.w3.org/TR/trace-context/">trace context standard</a>. Remember the demo we set up in the previous article, let&rsquo;s explore the logs it generates before changing anything. If we take a look at the logs, we&rsquo;ll see that every log trace has a property called TraceId (created &ldquo;automagically&rdquo;) and that this TraceId is the same for all the traces of a single request, that, in our case, includes an &ldquo;external&rdquo; API making calls to an &ldquo;internal&rdquo; API. This is amazing! Without having to add a single line of code, we have distributed tracing implemented!</p>
+
+<p>&ldquo;Yeah, that&rsquo;s cool, but in your previous example, you set the correlation ID using a header when calling the external API. Can you do that here?&rdquo;</p>
+
+<p>Good question! You can do that by setting a header called traceparent (all lowercase). Whatever you set in that header, it goes to the TraceId field.</p>
+
+<p>&ldquo;Nice! But you also could send other correlation IDs apart from the TraceId. How do you do that now?&rdquo;</p>
+
+<p>Another good question! But the answer is even better: you don&rsquo;t have to do anything! Let&rsquo;s make a demo: put a breakpoint in both controllers and then make a call with the header <a href="https://github.com/w3c/correlation-context/blob/master/correlation_context/HTTP_HEADER_FORMAT.md">Correlation-Context</a> set. An example of the header could be: <code>Correlation-Context: userId=sergey,serverNode=DF,isProduction=false</code></p>
+
+<p>Nice, let&rsquo;s make the call and in both controllers inspect the <code>System.Diagnostics.Activity.Baggage</code></p>
+
+<p><img src="/images/ActivityBaggage.png" alt="System.Diagnostics.Activity.Baggage" /></p>
+
+<p>Voilà! Both properties are there in both controllers! That&rsquo;s super cool! We haven&rsquo;t touched a single line of code, and our correlation information is traveling through all our services.</p>
+
+<p>&ldquo;I see. This is really cool. But I&rsquo;m inspecting the traces, and I can&rsquo;t see any of that correlation information, just the TraceId (and ParentId and SpanId).&rdquo;</p>
+
+<p>Yes, you&rsquo;re right, but that&rsquo;s the only point where we have to add some code. Fortunately, half of the code is already there. Remember the LogContextMiddleware we talked about in the last article? The one that reads the headers updates the list of correlation IDs, and sets the context of the logger with those values? We just need to throw most of its code and get the correlation IDs from the <code>Activity.Baggage</code> object.</p>
+
+<pre><code>public class LogContextMiddleware  
+{
+  
+    private readonly RequestDelegate next;   
+    private readonly ILogger&lt;LogContextMiddleware&gt; logger;   
+     
+    public LogContextMiddleware(RequestDelegate next, ILogger&lt;LogContextMiddleware&gt; logger)  
+    {    
+        this.next = next;    
+        this.logger = logger;    
+    }    
+    
+    public Task InvokeAsync(HttpContext context)     
+    {    
+        var correlationHeaders = Activity.Current.Baggage.ToDictionary(b =&gt; b.Key, b =&gt; (object) b.Value);   
+   
+        // ensures all entries are tagged with some values   
+        using (logger.BeginScope(correlationHeaders))    
+        {    
+            // Call the next delegate/middleware in the pipeline     
+            return next(context);    
+        }    
+    }    
+}
+</code></pre>
+
+<p>Easy peasy! Now, if you rerun the application, we&rsquo;ll see the logs populated with the properties defined in the Correlation-Context header.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this article, we&rsquo;ve seen how from ASP .NET Core 3.0 correlating traces between our (micro)services, it&rsquo;s easier than ever. Hope it helps!</p>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Vicenç García</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">29-01-2020</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/microservices/">microservices</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="/post/forwarding-correlation-ids-in-aspnetcore/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Capturing and forwarding correlation IDs in ASP.NET Core</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        
+          <a class="next" href="/post/serverless-patterns-implemented-sls-dlq/">
+            <span class="next-text nav-default">Serverless Patterns implemented: using an SQS queue as a DLQ for a SNS topic</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'vgaltes';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:vgaltes@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://linkedin.com/in/vgaltes" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="https://twitter.com/vgaltes" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/vgaltes" class="iconfont icon-github" title="github"></a>
+  <a href="http://example.org/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2013 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Vicenç García</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

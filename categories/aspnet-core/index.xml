@@ -21,5 +21,14 @@
 Correlation IDs Why do you need more than one correlation ID?</description>
     </item>
     
+    <item>
+      <title>Capturing and forwarding correlation IDs in ASP.NET Core, the easy way</title>
+      <link>http://example.org/post/forwarding-correlation-ids-in-aspnetcore-version-2/</link>
+      <pubDate>Wed, 29 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/forwarding-correlation-ids-in-aspnetcore-version-2/</guid>
+      <description>The minute after I published my last article about Capturing and forwarding correlation IDs, my very good friend Hugo Biarge send me a Direct Message telling me: &amp;ldquo;Hey man! Have you read this article? This is new from ASP .NET Core 3, and it&amp;rsquo;s an easier solution than the one you explain in the article.&amp;rdquo; So, I took a look, not only at the article but also at the traces that I was already generating, and voilà, everything was already there.</description>
+    </item>
+    
   </channel>
 </rss>
