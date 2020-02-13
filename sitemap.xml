@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://example.org/post/using-mediatr-as-a-refactoring-strategy/</loc>
+    <lastmod>2020-02-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/forwarding-correlation-ids-in-aspnetcore-version-2/</loc>
     <lastmod>2020-01-29T21:03:26+01:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -430,7 +437,7 @@
   
   <url>
     <loc>http://example.org/categories/agile/</loc>
-    <lastmod>2016-08-18T00:00:00+00:00</lastmod>
+    <lastmod>2020-02-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -505,7 +512,7 @@
   
   <url>
     <loc>http://example.org/categories/aspnet-core/</loc>
-    <lastmod>2020-01-29T21:03:26+01:00</lastmod>
+    <lastmod>2020-02-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -554,7 +561,7 @@
   
   <url>
     <loc>http://example.org/categories/</loc>
-    <lastmod>2016-08-18T00:00:00+00:00</lastmod>
+    <lastmod>2020-02-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -895,7 +902,7 @@
   
   <url>
     <loc>http://example.org/post/</loc>
-    <lastmod>2020-01-29T21:03:26+01:00</lastmod>
+    <lastmod>2020-02-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -931,6 +938,13 @@
   <url>
     <loc>http://example.org/tags/record-types/</loc>
     <lastmod>2015-05-04T14:46:40+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/refactoring/</loc>
+    <lastmod>2020-02-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -1093,7 +1107,7 @@
   
   <url>
     <loc>http://example.org/</loc>
-    <lastmod>2020-01-29T21:03:26+01:00</lastmod>
+    <lastmod>2020-02-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

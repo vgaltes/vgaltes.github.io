@@ -6,7 +6,7 @@
     <description>Recent content in Categories on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 18 Aug 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 13 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://example.org/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Agile</title>
       <link>http://example.org/categories/agile/</link>
-      <pubDate>Thu, 18 Aug 2016 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/categories/agile/</guid>
       <description></description>
@@ -32,7 +32,7 @@
     <item>
       <title>Aspnet Core</title>
       <link>http://example.org/categories/aspnet-core/</link>
-      <pubDate>Wed, 29 Jan 2020 21:03:26 +0100</pubDate>
+      <pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/categories/aspnet-core/</guid>
       <description></description>

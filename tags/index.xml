@@ -525,6 +525,15 @@
     </item>
     
     <item>
+      <title>Refactoring</title>
+      <link>http://example.org/tags/refactoring/</link>
+      <pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/tags/refactoring/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Route 53</title>
       <link>http://example.org/tags/route-53/</link>
       <pubDate>Fri, 08 Nov 2019 00:00:00 +0000</pubDate>

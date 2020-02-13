@@ -6,10 +6,19 @@
     <description>Recent content on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 29 Jan 2020 21:03:26 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 13 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Using MediatR as a refactoring strategy</title>
+      <link>http://example.org/post/using-mediatr-as-a-refactoring-strategy/</link>
+      <pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/using-mediatr-as-a-refactoring-strategy/</guid>
+      <description>Let me introduce you to Rachel, the new developer of the team. Rachel is an excellent developer eager to make a huge impact on the team and the organisation. When Rachel lands in the team, they treat them very well. They show her all the facilities, they teach her on how to make a good coffee with the new and shiny coffee machine and they even deploy to production in her first day.</description>
+    </item>
     
     <item>
       <title>Capturing and forwarding correlation IDs in ASP.NET Core, the easy way</title>
