@@ -59,7 +59,7 @@
 
 
 
-<meta property="og:updated_time" content="2017-06-20T00:00:00&#43;00:00"/>
+<meta property="og:updated_time" content="2017-06-21T00:00:00&#43;00:00"/>
 
 
 
@@ -145,6 +145,34 @@
   <section id="posts" class="posts">
     
     
+    
+      <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/step-functions-wait-state/">Wait state in AWS Step Functions using the serverless framework</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 21-06-2017 </span>
+      <div class="post-category">
+          
+            <a href="/categories/serverless/"> serverless </a>
+          
+        </div>
+      <span class="more-meta"> 552 words </span>
+      <span class="more-meta"> 3 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      In the last article we&rsquo;ve seen how to the parallel state in a State function. In this article we&rsquo;ll see how we can use the Wait state using the serverless framework.
+The wait state delays the execution of the state function for a certain amount of time. By default, it returns the same object that it receives.
+What are we going to code We are going to code the following state function As you can see we&rsquo;re going to have an initial function that creates a result with a field called DelaySeconds.
+    </div>
+    <div class="read-more">
+      <a href="/post/step-functions-wait-state/" class="read-more-link">Read more..</a>
+    </div>
+  </div>
+</article>
+
     
       <article class="post">
   <header class="post-header">
@@ -385,34 +413,6 @@ As its name denotes, is a pattern that partially classificates what you match wi
     </div>
     <div class="read-more">
       <a href="/post/partial-classification-active-pattern/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    
-      <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/run-nunit3-tests-using-fake/">Running NUnit3 tests using fake</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 13-10-2016 </span>
-      <div class="post-category">
-          
-            <a href="/categories/fsharp/"> FSharp </a>
-          
-        </div>
-      <span class="more-meta"> 146 words </span>
-      <span class="more-meta"> 1 min read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      When you have some unit tests developed using NUnit 2.x your FAKE script looks like something like this:
-Target &quot;RunUnitTests&quot; (fun _ -&gt; !! (testDir + &quot;/*.Tests.dll&quot;) |&gt; NUnit (fun p -&gt; {p with ToolPath = &quot;packages/NUnit.Runners/tools/&quot;})  )
-But NUnit3 works slightly different. Instead of having a single NUnit.Runners package, that package references some other packages (runner, extensions, etc). One of those packages is NUnit.ConsoleRunner that has the exe inside the tools folder.
-    </div>
-    <div class="read-more">
-      <a href="/post/run-nunit3-tests-using-fake/" class="read-more-link">Read more..</a>
     </div>
   </div>
 </article>

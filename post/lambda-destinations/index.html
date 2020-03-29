@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Lambda destinations - VGALTES blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Vicenç García" />
+  <meta name="description" content="AWS recently introduced lambda destinations for asynchronous invocations. So, if you have, let&amp;rsquo;s say, a lambda function attached to an SNS event, you can configure a destination when the execution is successful and a destination when the execution fails. The destination can be either an SQS queue, an SNS topic, EventBridge or another Lambda function.
+As usual, the serverless framework implemented this feature quickly. Let&amp;rsquo;s take a look how to do it and what&amp;rsquo;s the difference with a DLQ." />
+
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.40.1" />
+
+
+<link rel="canonical" href="http://example.org/post/lambda-destinations/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+
+
+
+<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
+<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="Lambda destinations" />
+<meta property="og:description" content="AWS recently introduced lambda destinations for asynchronous invocations. So, if you have, let&rsquo;s say, a lambda function attached to an SNS event, you can configure a destination when the execution is successful and a destination when the execution fails. The destination can be either an SQS queue, an SNS topic, EventBridge or another Lambda function.
+As usual, the serverless framework implemented this feature quickly. Let&rsquo;s take a look how to do it and what&rsquo;s the difference with a DLQ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/post/lambda-destinations/" />
+
+
+
+<meta property="article:published_time" content="2020-03-29T00:00:00&#43;00:00"/>
+
+<meta property="article:modified_time" content="2020-03-29T00:00:00&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Lambda destinations">
+<meta itemprop="description" content="AWS recently introduced lambda destinations for asynchronous invocations. So, if you have, let&rsquo;s say, a lambda function attached to an SNS event, you can configure a destination when the execution is successful and a destination when the execution fails. The destination can be either an SQS queue, an SNS topic, EventBridge or another Lambda function.
+As usual, the serverless framework implemented this feature quickly. Let&rsquo;s take a look how to do it and what&rsquo;s the difference with a DLQ.">
+
+
+<meta itemprop="datePublished" content="2020-03-29T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-03-29T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1222">
+
+
+
+<meta itemprop="keywords" content="patterns,serverless framework," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Lambda destinations"/>
+<meta name="twitter:description" content="AWS recently introduced lambda destinations for asynchronous invocations. So, if you have, let&rsquo;s say, a lambda function attached to an SNS event, you can configure a destination when the execution is successful and a destination when the execution fails. The destination can be either an SQS queue, an SNS topic, EventBridge or another Lambda function.
+As usual, the serverless framework implemented this feature quickly. Let&rsquo;s take a look how to do it and what&rsquo;s the difference with a DLQ."/>
+
+
+
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101221175);</script>
+<script async src="//static.getclicky.com/js"></script>
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">VGALTES</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">VGALTES</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Lambda destinations</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 29-03-2020 </span>
+        <div class="post-category">
+            
+              <a href="/categories/serverless/"> serverless </a>
+            
+          </div>
+        <span class="more-meta"> 1222 words </span>
+        <span class="more-meta"> 6 mins read </span>
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#project-set-up">Project set up</a></li>
+<li><a href="#testing-the-dlq">Testing the DLQ</a></li>
+<li><a href="#error-destination">Error destination</a></li>
+<li><a href="#success-destination">Success destination</a></li>
+<li><a href="#summary">Summary</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    
+
+    
+    <div class="post-content">
+      
+
+<p>AWS recently introduced <a href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations">lambda destinations</a> for asynchronous invocations. So, if you have, let&rsquo;s say, a lambda function attached to an SNS event, you can configure a destination when the execution is successful and a destination when the execution fails. The destination can be either an SQS queue, an SNS topic, EventBridge or another Lambda function.</p>
+
+<p>As usual, the <a href="https://serverless.com/framework/docs/providers/aws/guide/functions#destinations">serverless framework</a> implemented this feature quickly. Let&rsquo;s take a look how to do it and what&rsquo;s the difference with a DLQ.</p>
+
+<h2 id="project-set-up">Project set up</h2>
+
+<p>We&rsquo;re going to demonstrate this by creating a simple project with an asynchronous invocation. We&rsquo;ll have a lambda triggered by an HTTP event that will put a message in an SNS topic. A lambda will be attached to this topic and will trigger an error under some circumstances. This will be the <code>serverless.yml</code> file for this scenario:</p>
+
+<pre><code>service: demo-destinations
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: ${opt:region, self:custom.defaultRegion}
+  stage: ${opt:stage, self:custom.defaultStage}
+
+plugins:
+  - serverless-iam-roles-per-function
+  - serverless-pseudo-parameters
+
+custom:
+  defaultRegion: eu-west-1
+  defaultStage: dev${env:SLSUSER, &quot;&quot;}
+  snsTopicName: ${self:service}-topic
+  snsTopic: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.snsTopicName}
+
+functions:
+  entryPoint:
+    handler: src/functions/entryPoint.handler
+    events:
+      - http:
+          path: api/start
+          method: post
+    iamRoleStatements:
+      - Effect: Allow
+        Action: sns:Publish
+        Resource: !Ref SnsTopic
+    environment:
+      snsTopic: ${self:custom.snsTopic}
+  functionWithError:
+    handler: src/functions/functionWithError.handler
+    events:
+      - sns: 
+          arn: !Ref SnsTopic
+          topicName: ${self:custom.snsTopicName}
+
+resources:
+  Resources:
+    SnsTopic:
+      Type: AWS::SNS::Topic
+      Properties: 
+        TopicName: ${self:custom.snsTopicName}
+</code></pre>
+
+<p>This is our entry point function. As you can see, we need code to put a message on the SNS topic.</p>
+
+<pre><code>const AWS = require(&quot;aws-sdk&quot;);
+const SNS = new AWS.SNS();
+
+module.exports.handler = async (event) =&gt; {
+    console.log(JSON.stringify(event));
+
+    const body = JSON.parse(event.body);
+    const type = body.type;
+    const message = body.message;
+    const data = {
+        type,message
+    }
+
+    const params = {
+        Message: JSON.stringify(data),
+        TopicArn: process.env.snsTopic
+      };
+    
+      await SNS.publish(params).promise();
+
+    return {
+        statusCode: 200,
+        body: JSON.stringify({ message })
+    };
+};
+
+</code></pre>
+
+<p>And this is the code of the function that is attached to the SNS topic</p>
+
+<pre><code>module.exports.handler = async (event) =&gt; {
+    console.log(JSON.stringify(event));
+    const snsMessage = JSON.parse(event.Records[0].Sns.Message);
+
+    const type = snsMessage.type;
+    const message = snsMessage.message;
+
+    if (type === &quot;error&quot;){
+        throw new Error(&quot;Simulating error&quot;);
+    }
+    
+    console.log(`Function not erroring. Dispatching to success destination. Message is ${message}`);
+
+    return {
+        statusCode: 200,
+        body: JSON.stringify({ message })
+    };
+};
+</code></pre>
+
+<h2 id="testing-the-dlq">Testing the DLQ</h2>
+
+<p>Until we could use destinations, a DLQ was the standard mechanism to handle errors in asynchronous invocations. We can define the onError property on the function to specify the SNS topic we&rsquo;d like the messages to be sent in case of error. Let&rsquo;s do this step by step.</p>
+
+<p>First, define the DLQ topic name in the custom section.</p>
+
+<pre><code>DLQSnsTopicName: ${self:service}-dlqTopic
+</code></pre>
+
+<p>Next, describe the topic in the resources section:</p>
+
+<pre><code>DLQSnsTopic:
+  Type: AWS::SNS::Topic
+  Properties: 
+    TopicName: ${self:custom.DLQSnsTopicName}
+</code></pre>
+
+<p>And now, change the definition of the function to include the onError property and the required permissions:</p>
+
+<pre><code>functionWithError:
+  handler: src/functions/functionWithError.handler
+  events:
+    - sns: 
+        arn: !Ref SnsTopic
+        topicName: ${self:custom.snsTopicName}
+  onError: !Ref DLQSnsTopic
+  iamRoleStatements:
+    - Effect: Allow
+      Action: sns:Publish
+      Resource: !Ref DLQSnsTopic
+</code></pre>
+
+<p>Finally, we can create a function that subscribes to that queue:</p>
+
+<pre><code>functionWithErrorDLQ:
+  handler: src/functions/errorDLQ.handler
+  events:
+    - sns: 
+        arn: !Ref DLQSnsTopic
+        topicName: ${self:custom.DLQSnsTopicName}
+</code></pre>
+
+<p>And this function can have the following code:</p>
+
+<pre><code>module.exports.handler = async (event) =&gt; {
+    console.log(JSON.stringify(event));
+}
+</code></pre>
+
+<p>Now you can deploy this and call the HTTP endpoint to generate an error in the downstream lambda function. Something like this: <code>curl https://xxxxxx.execute-api.eu-west-1.amazonaws.com/dev/api/start --data '{&quot;type&quot;:&quot;error&quot;, &quot;message&quot;: &quot;hello&quot;}'</code></p>
+
+<p>AWS will try to deliver the message three times, and after that, it will put the message in the DLQ. This is an example of the message that will go to the DLQ:</p>
+
+<pre><code>{
+    &quot;Records&quot;: [
+        {
+            &quot;EventSource&quot;: &quot;aws:sns&quot;,
+            &quot;EventVersion&quot;: &quot;1.0&quot;,
+            &quot;EventSubscriptionArn&quot;: &quot;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-dlqTopic:c7e1b02b-6f04-4836-8700-83361c10c64f&quot;,
+            &quot;Sns&quot;: {
+                &quot;Type&quot;: &quot;Notification&quot;,
+                &quot;MessageId&quot;: &quot;9695054e-a478-5fde-952f-53b41ccac1db&quot;,
+                &quot;TopicArn&quot;: &quot;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-dlqTopic&quot;,
+                &quot;Subject&quot;: null,
+                &quot;Message&quot;: &quot;{\&quot;Records\&quot;:[{\&quot;EventSource\&quot;:\&quot;aws:sns\&quot;,\&quot;EventVersion\&quot;:\&quot;1.0\&quot;,\&quot;EventSubscriptionArn\&quot;:\&quot;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4\&quot;,\&quot;Sns\&quot;:{\&quot;Type\&quot;:\&quot;Notification\&quot;,\&quot;MessageId\&quot;:\&quot;b83135dc-14b4-5ab3-b336-6326acbf55bb\&quot;,\&quot;TopicArn\&quot;:\&quot;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic\&quot;,\&quot;Subject\&quot;:null,\&quot;Message\&quot;:\&quot;{\\\&quot;type\\\&quot;:\\\&quot;error\\\&quot;,\\\&quot;message\\\&quot;:\\\&quot;hello\\\&quot;}\&quot;,\&quot;Timestamp\&quot;:\&quot;2020-03-29T14:50:51.599Z\&quot;,\&quot;SignatureVersion\&quot;:\&quot;1\&quot;,\&quot;Signature\&quot;:\&quot;IHDgnyGLc9ueIknZbWB4/wx1R/mzuxKomNAZlLScn+c1u+2tvlyJkIFzXsUEKaF67uRDxEMDHMhVL4GWKyBVl18J/awiOUfAxFtHx0pneQ3kmo23lGYi4wNtQ+DrDJhA9E2TfwvGnU/OGhdifWYl2Tw2aVPYcha8WuCxCHTDRZHsxs3UXpRe6rS7gcX5/OtJBJGVH8aAOeW7/oK1hSJ9pM5K17FQdCOg/nISTarwyBqM/ddEV8PS8CTrtn9rxmFCgtM4aLdO3hHdVE3O3yBuMlyJBWGzmXf/+gHwCwczNMW/u/zB1I6A1T07/pL4tYlrQaBl3AkOnJtK8aC6kTvpIQ==\&quot;,\&quot;SigningCertUrl\&quot;:\&quot;https://sns.eu-west-1.amazonaws.com/SimpleNotificationService-a86cb10b4e1f29c941702d737128f7b6.pem\&quot;,\&quot;UnsubscribeUrl\&quot;:\&quot;https://sns.eu-west-1.amazonaws.com/?Action=Unsubscribe&amp;SubscriptionArn=arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4\&quot;,\&quot;MessageAttributes\&quot;:{}}}]}&quot;,
+                &quot;Timestamp&quot;: &quot;2020-03-29T14:53:38.631Z&quot;,
+                &quot;SignatureVersion&quot;: &quot;1&quot;,
+                &quot;Signature&quot;: &quot;YHIpSEbZb1E73lANC/yqh8JG+9EkNFfp+eTAmamfdk6CLYWnfhkurURsP0Cl8kiMTI96KRwHg9FCQcQ3UWzizQIvDsPL35sDOFJBOPLhLL6Itf8kgbAnXx2uWEZUmA//UQGEd6vWkNv3nN3QM43y0UrmzlAMVSS4az1Iv/cG4xqF9JIfapU2wGrvrhAikw4R0LL6qdJd0mzrsZdphWMWEgnZN7/7tlh14tMExBe0zujbp88+c8axzTNjH8l6+KctGPdjZIJZjo0Np25O4dSY7+uGwzc7ogrY6vMUj5Mj8TJCAh7eMbPDEDV3FnESJXKv2epL0mGpc5LWBLShcWwsfg==&quot;,
+                &quot;SigningCertUrl&quot;: &quot;https://sns.eu-west-1.amazonaws.com/SimpleNotificationService-a86cb10b4e1f29c941702d737128f7b6.pem&quot;,
+                &quot;UnsubscribeUrl&quot;: &quot;https://sns.eu-west-1.amazonaws.com/?Action=Unsubscribe&amp;SubscriptionArn=arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-dlqTopic:c7e1b02b-6f04-4836-8700-83361c10c64f&quot;,
+                &quot;MessageAttributes&quot;: {
+                    &quot;RequestID&quot;: {
+                        &quot;Type&quot;: &quot;String&quot;,
+                        &quot;Value&quot;: &quot;86162f4e-6b2c-492f-93de-5e1b9c5f8bd3&quot;
+                    },
+                    &quot;ErrorCode&quot;: {
+                        &quot;Type&quot;: &quot;String&quot;,
+                        &quot;Value&quot;: &quot;200&quot;
+                    },
+                    &quot;ErrorMessage&quot;: {
+                        &quot;Type&quot;: &quot;String&quot;,
+                        &quot;Value&quot;: &quot;Simulating error&quot;
+                    }
+                }
+            }
+        }
+    ]
+}
+</code></pre>
+
+<p>That&rsquo;s quite good. Let&rsquo;s take a look at what we have to do to get to the same place using destinations.</p>
+
+<h2 id="error-destination">Error destination</h2>
+
+<p>First of all, we need to create the function that will get called:</p>
+
+<pre><code>errorDestination:
+    handler: src/functions/errorDestination.handler
+</code></pre>
+
+<p>As you can see, we don&rsquo;t need to specify any event, as we&rsquo;ll configure the destination to directly call this function.</p>
+
+<p>This function can have the following code:</p>
+
+<pre><code>module.exports.handler = async (event) =&gt; {
+    console.log(JSON.stringify(event));
+}
+</code></pre>
+
+<p>Next, we need to update the main function definition to add the error destination, with the required permissions:</p>
+
+<pre><code>functionWithError:
+    handler: src/functions/functionWithError.handler
+    events:
+      - sns: 
+          arn: !Ref SnsTopic
+          topicName: ${self:custom.snsTopicName}
+    destinations:
+      onFailure: errorDestination
+    onError: !Ref DLQSnsTopic
+    iamRoleStatements:
+      - Effect: Allow
+        Action: sns:Publish
+        Resource: !Ref DLQSnsTopic
+      - Effect: Allow
+        Action: lambda:InvokeFunction
+        Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-errorDestination 
+</code></pre>
+
+<p>And that&rsquo;s all. Let&rsquo;s make the same call and the function will be called at the same time than the DLQ, after the last retry. Let&rsquo;s take a look at the event we get there:</p>
+
+<pre><code>{
+    &quot;version&quot;: &quot;1.0&quot;,
+    &quot;timestamp&quot;: &quot;2020-03-29T14:53:38.705Z&quot;,
+    &quot;requestContext&quot;: {
+        &quot;requestId&quot;: &quot;86162f4e-6b2c-492f-93de-5e1b9c5f8bd3&quot;,
+        &quot;functionArn&quot;: &quot;arn:aws:lambda:eu-west-1:XXXXXXXXXXX:function:demo-destinations-dev-functionWithError:$LATEST&quot;,
+        &quot;condition&quot;: &quot;RetriesExhausted&quot;,
+        &quot;approximateInvokeCount&quot;: 3
+    },
+    &quot;requestPayload&quot;: {
+        &quot;Records&quot;: [
+            {
+                &quot;EventSource&quot;: &quot;aws:sns&quot;,
+                &quot;EventVersion&quot;: &quot;1.0&quot;,
+                &quot;EventSubscriptionArn&quot;: &quot;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4&quot;,
+                &quot;Sns&quot;: {
+                    &quot;Type&quot;: &quot;Notification&quot;,
+                    &quot;MessageId&quot;: &quot;b83135dc-14b4-5ab3-b336-6326acbf55bb&quot;,
+                    &quot;TopicArn&quot;: &quot;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic&quot;,
+                    &quot;Subject&quot;: null,
+                    &quot;Message&quot;: &quot;{\&quot;type\&quot;:\&quot;error\&quot;,\&quot;message\&quot;:\&quot;hello\&quot;}&quot;,
+                    &quot;Timestamp&quot;: &quot;2020-03-29T14:50:51.599Z&quot;,
+                    &quot;SignatureVersion&quot;: &quot;1&quot;,
+                    &quot;Signature&quot;: &quot;IHDgnyGLc9ueIknZbWB4/wx1R/mzuxKomNAZlLScn+c1u+2tvlyJkIFzXsUEKaF67uRDxEMDHMhVL4GWKyBVl18J/awiOUfAxFtHx0pneQ3kmo23lGYi4wNtQ+DrDJhA9E2TfwvGnU/OGhdifWYl2Tw2aVPYcha8WuCxCHTDRZHsxs3UXpRe6rS7gcX5/OtJBJGVH8aAOeW7/oK1hSJ9pM5K17FQdCOg/nISTarwyBqM/ddEV8PS8CTrtn9rxmFCgtM4aLdO3hHdVE3O3yBuMlyJBWGzmXf/+gHwCwczNMW/u/zB1I6A1T07/pL4tYlrQaBl3AkOnJtK8aC6kTvpIQ==&quot;,
+                    &quot;SigningCertUrl&quot;: &quot;https://sns.eu-west-1.amazonaws.com/SimpleNotificationService-a86cb10b4e1f29c941702d737128f7b6.pem&quot;,
+                    &quot;UnsubscribeUrl&quot;: &quot;https://sns.eu-west-1.amazonaws.com/?Action=Unsubscribe&amp;SubscriptionArn=arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4&quot;,
+                    &quot;MessageAttributes&quot;: {}
+                }
+            }
+        ]
+    },
+    &quot;responseContext&quot;: {
+        &quot;statusCode&quot;: 200,
+        &quot;executedVersion&quot;: &quot;$LATEST&quot;,
+        &quot;functionError&quot;: &quot;Unhandled&quot;
+    },
+    &quot;responsePayload&quot;: {
+        &quot;errorType&quot;: &quot;Error&quot;,
+        &quot;errorMessage&quot;: &quot;Simulating error&quot;,
+        &quot;trace&quot;: [
+            &quot;Error: Simulating error&quot;,
+            &quot;    at Runtime.module.exports.handler (/var/task/src/functions/functionWithError.js:9:15)&quot;,
+            &quot;    at Runtime.handleOnce (/var/runtime/Runtime.js:66:25)&quot;
+        ]
+    }
+}
+</code></pre>
+
+<p>The main difference here is that you get a bit more information in this event, with the responseContext and responsePayload properties.</p>
+
+<p>So, you get more information with less hassle, as you don&rsquo;t have to create the topic. It looks like a winner to me!</p>
+
+<h2 id="success-destination">Success destination</h2>
+
+<p>We can do a very similar thing when the function succeeds. Let&rsquo;s do this step by step, although it will be the same as the error destination.</p>
+
+<p>Let&rsquo;s start creating the success function:</p>
+
+<pre><code>successDestination:
+  handler: src/functions/errorDestination.handler
+</code></pre>
+
+<p>With the same code:</p>
+
+<pre><code>module.exports.handler = async (event) =&gt; {
+    console.log(JSON.stringify(event));
+}
+</code></pre>
+
+<p>Now it&rsquo;s time to update the main function definition to add this destination.</p>
+
+<pre><code>functionWithError:
+    handler: src/functions/functionWithError.handler
+    events:
+      - sns: 
+          arn: !Ref SnsTopic
+          topicName: ${self:custom.snsTopicName}
+    destinations:
+      onFailure: errorDestination
+      onSuccess: successDestination
+    onError: !Ref DLQSnsTopic
+    iamRoleStatements:
+      - Effect: Allow
+        Action: sns:Publish
+        Resource: !Ref DLQSnsTopic
+      - Effect: Allow
+        Action: lambda:InvokeFunction
+        Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-errorDestination
+      - Effect: Allow
+        Action: lambda:InvokeFunction
+        Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-successDestination
+</code></pre>
+
+<p>And that&rsquo;s all, let&rsquo;s call the entry point with a payload that doesn&rsquo;t create an error:
+<code>curl https://ukcpjjf9ec.execute-api.eu-west-1.amazonaws.com/dev/api/start --data '{&quot;type&quot;:&quot;success&quot;, &quot;message&quot;: &quot;hello&quot;}'</code></p>
+
+<p>And we&rsquo;ll get this message in the function:</p>
+
+<pre><code>{
+    &quot;version&quot;: &quot;1.0&quot;,
+    &quot;timestamp&quot;: &quot;2020-03-29T15:53:48.122Z&quot;,
+    &quot;requestContext&quot;: {
+        &quot;requestId&quot;: &quot;965949be-107c-4d02-b5c3-de7645cb7671&quot;,
+        &quot;functionArn&quot;: &quot;arn:aws:lambda:eu-west-1:XXXXXXXXXXX:function:demo-destinations-dev-functionWithError:$LATEST&quot;,
+        &quot;condition&quot;: &quot;Success&quot;,
+        &quot;approximateInvokeCount&quot;: 1
+    },
+    &quot;requestPayload&quot;: {
+        &quot;Records&quot;: [
+            {
+                &quot;EventSource&quot;: &quot;aws:sns&quot;,
+                &quot;EventVersion&quot;: &quot;1.0&quot;,
+                &quot;EventSubscriptionArn&quot;: &quot;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4&quot;,
+                &quot;Sns&quot;: {
+                    &quot;Type&quot;: &quot;Notification&quot;,
+                    &quot;MessageId&quot;: &quot;4cbf0cb9-ce8f-59fd-bfe1-5a4308445979&quot;,
+                    &quot;TopicArn&quot;: &quot;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic&quot;,
+                    &quot;Subject&quot;: null,
+                    &quot;Message&quot;: &quot;{\&quot;type\&quot;:\&quot;success\&quot;,\&quot;message\&quot;:\&quot;hello\&quot;}&quot;,
+                    &quot;Timestamp&quot;: &quot;2020-03-29T15:53:47.470Z&quot;,
+                    &quot;SignatureVersion&quot;: &quot;1&quot;,
+                    &quot;Signature&quot;: &quot;gYlc07lDjG+gAe1gD9YlYUgSab9L64NgpPOk2Jx9boAioK1opKK3owNCY9uZWciO2PeFCkDCinhp9JZyUEenEXOcglLhnlnhQeUbpibvHmzRo5jdJa5bjBjkLAZ1ivo8O9r9KhZI+pjUEETLzmwUljp+pvi5PxXw4GKZZaCbQoZRNrkBlNIkJ/gMLfaCngTFQRgZ4PFLdKTT5YYg+F1V51reCyaBIDV1tT9LAHBIp3yMT7LhC0GssmToYp4MNOVUBx1HmJeODl+GjlYI0249tQfZZGqVB4DL8r8dnjHMSqOys7coswIe64UWj2yn78uUxN12+UyXbsdRQm75qlLZMg==&quot;,
+                    &quot;SigningCertUrl&quot;: &quot;https://sns.eu-west-1.amazonaws.com/SimpleNotificationService-a86cb10b4e1f29c941702d737128f7b6.pem&quot;,
+                    &quot;UnsubscribeUrl&quot;: &quot;https://sns.eu-west-1.amazonaws.com/?Action=Unsubscribe&amp;SubscriptionArn=arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4&quot;,
+                    &quot;MessageAttributes&quot;: {}
+                }
+            }
+        ]
+    },
+    &quot;responseContext&quot;: {
+        &quot;statusCode&quot;: 200,
+        &quot;executedVersion&quot;: &quot;$LATEST&quot;
+    },
+    &quot;responsePayload&quot;: {
+        &quot;statusCode&quot;: 200,
+        &quot;body&quot;: &quot;{\&quot;message\&quot;:\&quot;hello\&quot;}&quot;
+    }
+}
+</code></pre>
+
+<p>The interesting part here is that we can forward events without adding any code to our functions. That&rsquo;s great!! As <a href="https://twitter.com/ben11kehoe">Ben Kehoe</a> once said: &ldquo;hours of coding can save you from minutes of configuration&rdquo;.</p>
+
+<p>The &ldquo;bad&rdquo; news here is that you can&rsquo;t change the event that is sent to the destination, so if you need to do this, you will have to send the event manually.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this article, we&rsquo;ve seen how to set up lambda destinations and how they can be a substitute for DLQs. Hope it helps!</p>
+
+<p>You can find the source code of this demo <a href="https://github.com/vgaltes/DemoDestinations">here</a>.</p>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Vicenç García</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">29-03-2020</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/patterns/">patterns</a>
+          
+          <a href="/tags/serverless-framework/">serverless framework</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/using-mediatr-as-a-refactoring-strategy/">
+            <span class="next-text nav-default">Using MediatR as a refactoring strategy</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'vgaltes';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:vgaltes@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://linkedin.com/in/vgaltes" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="https://twitter.com/vgaltes" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/vgaltes" class="iconfont icon-github" title="github"></a>
+  <a href="http://example.org/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    
+      2013 - 
+    2020
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">Vicenç García</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+
+
+<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
