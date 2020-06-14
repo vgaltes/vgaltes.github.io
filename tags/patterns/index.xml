@@ -6,10 +6,20 @@
     <description>Recent content in Patterns on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 29 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 14 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://example.org/tags/patterns/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Lambda in .NET Core and SNS</title>
+      <link>http://example.org/post/lamda-dotnet/</link>
+      <pubDate>Sun, 14 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/lamda-dotnet/</guid>
+      <description>This week I wanted to investigate how to use a Pub/Sub mechanism in an on-premise environment without needing to install anything else in our infrastructure, so using a managed service. I also wanted to make my first tests with CDK. Let me show you what I did.
+Goal What I want to accomplish is that a system that lives in our infrastructure communicates asynchronously with another system on it. It&amp;rsquo;s easy to simulate the sender of the message with a console application, but for the receiver I&amp;rsquo;ll need a public HTTP endpoint.</description>
+    </item>
     
     <item>
       <title>Lambda destinations</title>

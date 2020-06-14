@@ -59,7 +59,7 @@
 
 
 
-<meta property="og:updated_time" content="2020-03-29T00:00:00&#43;00:00"/>
+<meta property="og:updated_time" content="2020-06-14T00:00:00&#43;00:00"/>
 
 
 
@@ -145,6 +145,33 @@
   <section id="posts" class="posts">
     
     
+    
+      <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/lamda-dotnet/">Lambda in .NET Core and SNS</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 14-06-2020 </span>
+      <div class="post-category">
+          
+            <a href="/categories/serverless/"> serverless </a>
+          
+        </div>
+      <span class="more-meta"> 1142 words </span>
+      <span class="more-meta"> 6 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      This week I wanted to investigate how to use a Pub/Sub mechanism in an on-premise environment without needing to install anything else in our infrastructure, so using a managed service. I also wanted to make my first tests with CDK. Let me show you what I did.
+Goal What I want to accomplish is that a system that lives in our infrastructure communicates asynchronously with another system on it. It&rsquo;s easy to simulate the sender of the message with a console application, but for the receiver I&rsquo;ll need a public HTTP endpoint.
+    </div>
+    <div class="read-more">
+      <a href="/post/lamda-dotnet/" class="read-more-link">Read more..</a>
+    </div>
+  </div>
+</article>
+
     
       <article class="post">
   <header class="post-header">
@@ -384,33 +411,6 @@ Disclaimer This article is a summary of two articles (this one and this one) fro
     </div>
     <div class="read-more">
       <a href="/post/api-gateway-custom-domain/" class="read-more-link">Read more..</a>
-    </div>
-  </div>
-</article>
-
-    
-      <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/cognito-user-pools-google/">Cognito User Pools, Google federation and AWS Amplify</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 31-10-2019 </span>
-      <div class="post-category">
-          
-            <a href="/categories/serverless/"> serverless </a>
-          
-        </div>
-      <span class="more-meta"> 864 words </span>
-      <span class="more-meta"> 5 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      In the previous article, we saw how to secure an API Gateway endpoint using Cognito user pools. We used the built-in capabilities of the user pools to create the users, sign them up, etc. But many applications nowadays don&rsquo;t create users on their own; they use [social login] and rely on third-party social services such as Facebook or Google to manage users for them.
-In this article, we&rsquo;ll see how we can adapt our previous code to allow users to sign-up and sign-in to our service using their Google account.
-    </div>
-    <div class="read-more">
-      <a href="/post/cognito-user-pools-google/" class="read-more-link">Read more..</a>
     </div>
   </div>
 </article>
