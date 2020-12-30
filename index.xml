@@ -6,10 +6,20 @@
     <description>Recent content on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 14 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 30 Dec 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Retrospectiva 2020</title>
+      <link>http://example.org/post/retrospectiva-2020/</link>
+      <pubDate>Wed, 30 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/retrospectiva-2020/</guid>
+      <description>No se donde va a llegar este artículo, pero empecemos rememorando lo que ha sido este 2020.
+El 2020 empezó como había acabado el 2019, es decir, trabajando como Technical Coach en Voxel. Esto quería decir trabajar 4 días a la semana, de 9 a 17, haciendo algo que me gusta como ayudar a un equipo a crecer, y trabajando desde casa. Respecto a mi último trabajo había perdido algo de poder adquisitivo (mismo rate pero en euros en lugar de libras y 4 días a la semana en lugar de cinco), pero había ganado mucha calidad de vida.</description>
+    </item>
     
     <item>
       <title>Lambda in .NET Core and SNS</title>
