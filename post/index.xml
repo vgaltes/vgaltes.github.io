@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on VGALTES blog</title>
@@ -6,10 +6,15 @@
     <description>Recent content in Posts on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 30 Dec 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://example.org/post/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Sat, 29 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Learning Kotlin: configuring Kotest with Gradle</title>
+      <link>http://example.org/post/learning-kotlin-gradle-kotest/</link>
+      <pubDate>Sat, 29 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/learning-kotlin-gradle-kotest/</guid>
+      <description>I&amp;rsquo;m about to start a new job. This will be a huge challenge for me, as I&amp;rsquo;m going to be developing in Kotlin. I&amp;rsquo;ve spent all of my professional life working with .Net, so I need to learn LOTS of things. As I believe that writing down what you learn is the best way to solidify it, I&amp;rsquo;ll be documenting all that I learn (maybe not all, but a bing chunk of it :D).</description>
+    </item>
     
     <item>
       <title>Retrospectiva 2020</title>
@@ -87,8 +92,8 @@ If you read the article, you will see that this DLQ is complementary to the DLQ 
       <guid>http://example.org/post/serverless-patterns-implemented-part2/</guid>
       <description>In this article I will continue with the implementation of some Serverless Patterns described in this article from Jeremy Daly about [Serverless Patterns]. Check the first post here Let&amp;rsquo;s start!
 Common setup All the projects will have a common setup, which is fairly simple. First, initialize a NodeJS project:
-yarn init  Then install the serverless framework as a dev dependency
-yarn add serverless --dev  And finally create a script to deploy the project</description>
+yarn init Then install the serverless framework as a dev dependency
+yarn add serverless --dev And finally create a script to deploy the project</description>
     </item>
     
     <item>
@@ -184,7 +189,7 @@ As far as I know (correct me in the comments if I&amp;rsquo;m wrong, please), wh
       <guid>http://example.org/post/enabling-application-insights/</guid>
       <description>In our previous articles we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI or Terraform. Once we have a function deployed and accepting traffic, the next obvious thing to do is to monitor it.
 Adding some logs to the function is fairly easy. If you take a look at the signature of the function
-[FunctionName(&amp;quot;HelloWorld&amp;quot;)] public static async Task&amp;lt;IActionResult&amp;gt; Run( [HttpTrigger(AuthorizationLevel.Anonymous, &amp;quot;get&amp;quot;, &amp;quot;post&amp;quot;, Route = null)] HttpRequest req, ILogger log)  you&amp;rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.</description>
+[FunctionName(&amp;#34;HelloWorld&amp;#34;)]public static async Task&amp;lt;IActionResult&amp;gt; Run([HttpTrigger(AuthorizationLevel.Anonymous, &amp;#34;get&amp;#34;, &amp;#34;post&amp;#34;, Route = null)] HttpRequest req,ILogger log) you&amp;rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.</description>
     </item>
     
     <item>
@@ -194,7 +199,8 @@ Adding some logs to the function is fairly easy. If you take a look at the signa
       
       <guid>http://example.org/post/deploying-azure-functions-using-slots/</guid>
       <description>In previous articles we&amp;rsquo;ve seen how to deploy a Function App using Azure Functions Core Tools, Terraform and Azure CLI with Zip Deploy. In this article we&amp;rsquo;re going to take a look on how to deploy Function apps using deployment slots.
-Why deployment slots Being able to deploy into slots and decide which slot you use in production has many benefits. To name some of them: - Enable A/B testing - Enable blue/green deployments - No downtime deployments - Easy rollback system</description>
+Why deployment slots Being able to deploy into slots and decide which slot you use in production has many benefits. To name some of them:
+Enable A/B testing Enable blue/green deployments No downtime deployments Easy rollback system So, let&amp;rsquo;s take a look on how can we use them in Function apps.</description>
     </item>
     
     <item>
@@ -205,7 +211,7 @@ Why deployment slots Being able to deploy into slots and decide which slot you u
       <guid>http://example.org/post/deploying-azure-functions-using-zip-deploy/</guid>
       <description>In a previous article we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
-#!/bin/bash location=$2 stage=$3 serviceName=$1-$stage resourceGroupName=$serviceName&amp;quot;-rg&amp;quot; serviceNameToLower=&amp;quot;$(echo $serviceName | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&amp;quot; storageAccountName=&amp;quot;$(echo ${serviceNameToLower//&amp;quot;-&amp;quot;/&amp;quot;&amp;quot;})&amp;quot; echo &amp;quot;Creating resource group&amp;quot; az group create --name $resourceGroupName --location $location echo &amp;quot;Creating storage account&amp;quot; az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRS echo &amp;quot;Creating function app&amp;quot; az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupName echo &amp;quot;Publishing function locally&amp;quot; dotnet build echo &amp;quot;Publisihng function to Azure&amp;quot; func azure functionapp publish $serviceName  What are we going to do is to change the last two steps.</description>
+#!/bin/bashlocation=$2stage=$3serviceName=$1-$stageresourceGroupName=$serviceName&amp;#34;-rg&amp;#34;serviceNameToLower=&amp;#34;$(echo $serviceName | tr &amp;#39;[:upper:]&amp;#39; &amp;#39;[:lower:]&amp;#39;)&amp;#34;storageAccountName=&amp;#34;$(echo ${serviceNameToLower//&amp;#34;-&amp;#34;/&amp;#34;&amp;#34;})&amp;#34;echo &amp;#34;Creating resource group&amp;#34;az group create --name $resourceGroupName --location $locationecho &amp;#34;Creating storage account&amp;#34;az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRSecho &amp;#34;Creating function app&amp;#34;az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupNameecho &amp;#34;Publishing function locally&amp;#34;dotnet buildecho &amp;#34;Publisihng function to Azure&amp;#34;func azure functionapp publish $serviceName What are we going to do is to change the last two steps.</description>
     </item>
     
     <item>
@@ -356,10 +362,9 @@ The parallel state allows you to create parallel branches of execution in your s
       
       <guid>http://example.org/post/step-functions-using-net-core/</guid>
       <description>If my good friend Alan Gorton is right
-Functions will eat servers. #serverless https://t.co/4Rc1cDnM73
-&amp;mdash; Alan Gorton (@develogue) February 19, 2017 
 we&amp;rsquo;d better be prepared. In this article we&amp;rsquo;ll see how we can develop AWS Lambda Functions using .Net Core and deploy them and Step Functions using the serverless framework.
-Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&amp;rsquo;re going to need.</description>
+Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&amp;rsquo;re going to need.
+Let&amp;rsquo;s start with .</description>
     </item>
     
     <item>
@@ -437,7 +442,7 @@ As its name denotes, is a pattern that partially classificates what you match wi
       
       <guid>http://example.org/post/run-nunit3-tests-using-fake/</guid>
       <description>When you have some unit tests developed using NUnit 2.x your FAKE script looks like something like this:
-Target &amp;quot;RunUnitTests&amp;quot; (fun _ -&amp;gt; !! (testDir + &amp;quot;/*.Tests.dll&amp;quot;) |&amp;gt; NUnit (fun p -&amp;gt; {p with ToolPath = &amp;quot;packages/NUnit.Runners/tools/&amp;quot;})  )
+Target &amp;quot;RunUnitTests&amp;quot; (fun _ -&amp;gt;!! (testDir + &amp;quot;/*.Tests.dll&amp;quot;)|&amp;gt; NUnit (fun p -&amp;gt;{p with ToolPath = &amp;quot;packages/NUnit.Runners/tools/&amp;quot;}))
 But NUnit3 works slightly different. Instead of having a single NUnit.Runners package, that package references some other packages (runner, extensions, etc). One of those packages is NUnit.ConsoleRunner that has the exe inside the tools folder.</description>
     </item>
     
@@ -458,10 +463,8 @@ Depending on the environment you work the reaction to these news are usually som
       
       <guid>http://example.org/post/rpg-combat-kata/</guid>
       <description>A couple of weeks ago I saw these tweets (in Spanish):
-Hoy en la ofi hemos empezado la mañana con la RPG Combat kata de @SuuiGD que hicimos en el #scpna :-D https://t.co/vsK0OucncD
-&amp;mdash; Xabi Sáez de Ocáriz (@ziraco) June 22, 2016 
-@SuuiGD @ziraco a mi me flipó tanto que estoy haciendo la versión &amp;quot;Extended&amp;quot;.si sigo así, le pongo UI y al store! ;)
-&amp;mdash; Modesto San Juan (@msanjuan) June 22, 2016</description>
+As I respect enormously Modesto and Xabi&amp;rsquo;s opinion and I trust on the skills of a Carlos Ble&amp;rsquo;s apprentice, I decided to do the kata at home. And as I keep trying to learn F#, that would be the chosen language.
+I recommend you to do the kata, is a very interesting one. In case you want to do it, please stop reading now and come back when you have finished it, as I&amp;rsquo;m going to explain how I solved it.</description>
     </item>
     
     <item>
@@ -470,12 +473,15 @@ Hoy en la ofi hemos empezado la mañana con la RPG Combat kata de @SuuiGD que hi
       <pubDate>Sat, 19 Dec 2015 17:56:14 +0000</pubDate>
       
       <guid>http://example.org/post/extracting-information-from-your-code-repository-using-f-part-2-basic-statistics/</guid>
-      <description>In the previous article we&#39;ve seen how to parse a git log file. We ended up having an array of commits:
-TODO: Raw content of a Gist file.
-Let&#39;s start extracting some useful statistics from it.
-The first thing that can come into our mind is to know how many commits we have done to the repository. That&#39;s pretty easy to do:
-
-As you can see, we are using the pipe forward operator (|&amp;gt;) and the Array.</description>
+      <description>&lt;p&gt;In the &lt;a href=&#34;http://vgaltes.com/index.php/2015/12/13/extracting-information-from-your-code-repository-using-fsharp-part-1-parsing-the-log-file/&#34; target=&#34;_blank&#34;&gt;previous article&lt;/a&gt; we&#39;ve seen how to parse a git log file. We ended up having an array of commits:&lt;/p&gt;
+&lt;p&gt;&lt;script src=&#34;https://gist.github.com/vgaltes/90748124970e5f17159b.js&#34;&gt;&lt;/script&gt;
+&lt;noscript&gt;
+&lt;pre&gt;TODO: Raw content of a Gist file.&lt;/pre&gt;
+&lt;/noscript&gt;&lt;/p&gt;
+&lt;p&gt;Let&#39;s start extracting some useful statistics from it.&lt;/p&gt;
+&lt;p&gt;The first thing that can come into our mind is to know how many commits we have done to the repository. That&#39;s pretty easy to do:&lt;/p&gt;
+&lt;p&gt;&lt;script src=&#34;https://gist.github.com/vgaltes/515d66194678e9e1265c.js&#34;&gt;&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;As you can see, we are using the &lt;a href=&#34;http://theburningmonk.com/2011/09/fsharp-pipe-forward-and-pipe-backward/&#34; target=&#34;_blank&#34;&gt;pipe forward operator&lt;/a&gt; (|&amp;gt;) and the &lt;a href=&#34;https://msdn.microsoft.com/en-us/library/ee370275.aspx&#34; target=&#34;_blank&#34;&gt;Array.length&lt;/a&gt; function to extract this information.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -580,8 +586,8 @@ For that reason, when writing tests, I&#39;m more inclined to apply a non so wel
       <description>No, I&#39;m not going to talk about CQRS, but the ideas behind both concepts are similar.
 The Command-Query Separation principle was first introduced by Bertrand Meyer in his book Object-Oriented Software Construction. Mr Meyer states as follows:
 Functions should no produce abstract side effects.
- Meyer differentiates two kind of functions when we design a class:
- Commands: those functions which produce abstract side effects (change the observable state of the object).</description>
+Meyer differentiates two kind of functions when we design a class:
+Commands: those functions which produce abstract side effects (change the observable state of the object). Queries: those functions that don&#39;t produce any side effect and return some value.</description>
     </item>
     
     <item>
@@ -592,7 +598,7 @@ Functions should no produce abstract side effects.
       <guid>http://example.org/post/bilbostack/</guid>
       <description>Last Saturday (January 17th) the Bilbostack conference was held in Bilbao. It was the fourth edition of this conference and it was a complete success. I&#39;m really glad to be part of the organisation of Bilbostack, sharing this responsibility with Ibon Landa, Asier Marqués and Fran Mosteiro.
 I like to organize Bilbostack for many reasons:
-It&#39;s &#34;easy&#34; to organize. We don&#39;t open a Call for Papers. We meet one day in a beer, take some beers and make a list of the people we would like to speak at the conference.</description>
+It&#39;s &#34;easy&#34; to organize. We don&#39;t open a Call for Papers. We meet one day in a beer, take some beers and make a list of the people we would like to speak at the conference.</description>
     </item>
     
     <item>
@@ -642,7 +648,7 @@ I had the good fortune to assist to Carlos Blé tutorial about “Practical BDD
       
       <guid>http://example.org/post/a-premier-league-team-will-win-the-champions/</guid>
       <description>Spain and Germany are dominating with an iron fist last Champions League editions. After a lot of investment, a Premier League team is ready to conquer the longed for trophy. In this article we&amp;rsquo;ll demonstrate this fact.
-The data We&amp;rsquo;ve borrowed the data for this study from the UEFA&amp;rsquo;s official page. If you go to this address http://www.uefa.com/uefachampionsleague/season=2011/matches/all/index.html# you&amp;rsquo;ll see all the matches played in the season 2010&amp;frasl;2011. Change the year in the query string to see another year&amp;rsquo;s results.</description>
+The data We&amp;rsquo;ve borrowed the data for this study from the UEFA&amp;rsquo;s official page. If you go to this address http://www.uefa.com/uefachampionsleague/season=2011/matches/all/index.html# you&amp;rsquo;ll see all the matches played in the season 2010/2011. Change the year in the query string to see another year&amp;rsquo;s results.</description>
     </item>
     
     <item>
@@ -674,8 +680,8 @@ The object oriented solution There are a couple of typical implementations of th
       <guid>http://example.org/post/function-composition-and-pipeline-operator/</guid>
       <description>As Scott Wlaschin points out in his excellent article function composition it&amp;rsquo;s not the same as using the pipeline operator.
 The definition of the pipeline operator is this one:
-let (|&amp;gt;) x f = f x  So, take the thing on the left hand side of the operator and use it as the last parameter on the function in the right hand side.
-On the other hand, we have this definition for the forward composition operator (&amp;gt;&amp;gt;)</description>
+let (|&amp;gt;) x f = f xSo, take the thing on the left hand side of the operator and use it as the last parameter on the function in the right hand side.
+On the other hand, we have this definition for the forward composition operator (&amp;raquo;)</description>
     </item>
     
     <item>
@@ -684,7 +690,8 @@ On the other hand, we have this definition for the forward composition operator 
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/post/learning-patterns/</guid>
-      <description>In the last days I stumbled upon some articles about how to improve, be more productive, etc. Usually you can separate this kind of articles in two categories: - the articles that talk about non work-related activities you must do if you want to increase your productivity. Eat the right food, sleep the right amount of time, do exercise, etc. - the articles that talk about work-related activities. Go to meetups, read, do pet projects, etc.</description>
+      <description>In the last days I stumbled upon some articles about how to improve, be more productive, etc. Usually you can separate this kind of articles in two categories:
+the articles that talk about non work-related activities you must do if you want to increase your productivity. Eat the right food, sleep the right amount of time, do exercise, etc. the articles that talk about work-related activities. Go to meetups, read, do pet projects, etc.</description>
     </item>
     
     <item>
@@ -717,7 +724,7 @@ Suave.Experimental Experimental is a component available via NuGet that allows u
 Sequence creation As with arrays there are several ways to create a sequence.
 Create from a range expression
 You can create a new sequence from a range expression. In this case, instead of using [| and |] you should use { and }
-let numbers = {1..20}  Create from a sequence expression</description>
+let numbers = {1..20} Create from a sequence expression</description>
     </item>
     
   </channel>

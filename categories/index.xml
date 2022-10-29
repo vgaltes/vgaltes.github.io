@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on VGALTES blog</title>
@@ -6,10 +6,33 @@
     <description>Recent content in Categories on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 13 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 29 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>kotlin</title>
+      <link>http://example.org/categories/kotlin/</link>
+      <pubDate>Sat, 29 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/categories/kotlin/</guid>
+      <description></description>
+    </item>
     
-	<atom:link href="http://example.org/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Personal</title>
+      <link>http://example.org/categories/personal/</link>
+      <pubDate>Wed, 30 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/categories/personal/</guid>
+      <description></description>
+    </item>
     
+    <item>
+      <title>serverless</title>
+      <link>http://example.org/categories/serverless/</link>
+      <pubDate>Sun, 14 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/categories/serverless/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Agile</title>
@@ -21,101 +44,11 @@
     </item>
     
     <item>
-      <title>Asp.net</title>
-      <link>http://example.org/categories/asp.net/</link>
-      <pubDate>Sun, 06 Dec 2015 22:12:40 +0000</pubDate>
-      
-      <guid>http://example.org/categories/asp.net/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Aspnet Core</title>
+      <title>aspnet core</title>
       <link>http://example.org/categories/aspnet-core/</link>
       <pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>http://example.org/categories/aspnet-core/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Code</title>
-      <link>http://example.org/categories/code/</link>
-      <pubDate>Fri, 24 Apr 2015 15:03:26 +0100</pubDate>
-      
-      <guid>http://example.org/categories/code/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Conferences</title>
-      <link>http://example.org/categories/conferences/</link>
-      <pubDate>Wed, 28 Oct 2015 07:45:55 +0000</pubDate>
-      
-      <guid>http://example.org/categories/conferences/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Crystalgazer</title>
-      <link>http://example.org/categories/crystalgazer/</link>
-      <pubDate>Tue, 07 Nov 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://example.org/categories/crystalgazer/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Devops</title>
-      <link>http://example.org/categories/devops/</link>
-      <pubDate>Sun, 17 Dec 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://example.org/categories/devops/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Event Storming</title>
-      <link>http://example.org/categories/event-storming/</link>
-      <pubDate>Sun, 11 Dec 2016 00:00:00 +0000</pubDate>
-      
-      <guid>http://example.org/categories/event-storming/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>F#</title>
-      <link>http://example.org/categories/f#/</link>
-      <pubDate>Mon, 04 Jul 2016 00:00:00 +0000</pubDate>
-      
-      <guid>http://example.org/categories/f#/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Fsharp</title>
-      <link>http://example.org/categories/fsharp/</link>
-      <pubDate>Sat, 01 Apr 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://example.org/categories/fsharp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Javascript</title>
-      <link>http://example.org/categories/javascript/</link>
-      <pubDate>Sun, 06 Dec 2015 22:12:40 +0000</pubDate>
-      
-      <guid>http://example.org/categories/javascript/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Personal</title>
-      <link>http://example.org/categories/personal/</link>
-      <pubDate>Wed, 30 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>http://example.org/categories/personal/</guid>
       <description></description>
     </item>
     
@@ -138,20 +71,29 @@
     </item>
     
     <item>
-      <title>Serverless</title>
-      <link>http://example.org/categories/serverless/</link>
-      <pubDate>Sun, 14 Jun 2020 00:00:00 +0000</pubDate>
+      <title>devops</title>
+      <link>http://example.org/categories/devops/</link>
+      <pubDate>Sun, 17 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/categories/serverless/</guid>
+      <guid>http://example.org/categories/devops/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Suave</title>
-      <link>http://example.org/categories/suave/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>crystalgazer</title>
+      <link>http://example.org/categories/crystalgazer/</link>
+      <pubDate>Tue, 07 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/categories/suave/</guid>
+      <guid>http://example.org/categories/crystalgazer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FSharp</title>
+      <link>http://example.org/categories/fsharp/</link>
+      <pubDate>Sat, 01 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/categories/fsharp/</guid>
       <description></description>
     </item>
     
@@ -165,11 +107,74 @@
     </item>
     
     <item>
+      <title>Event Storming</title>
+      <link>http://example.org/categories/event-storming/</link>
+      <pubDate>Sun, 11 Dec 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/categories/event-storming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>F#</title>
+      <link>http://example.org/categories/f#/</link>
+      <pubDate>Mon, 04 Jul 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/categories/f#/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Asp.Net</title>
+      <link>http://example.org/categories/asp.net/</link>
+      <pubDate>Sun, 06 Dec 2015 22:12:40 +0000</pubDate>
+      
+      <guid>http://example.org/categories/asp.net/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Javascript</title>
+      <link>http://example.org/categories/javascript/</link>
+      <pubDate>Sun, 06 Dec 2015 22:12:40 +0000</pubDate>
+      
+      <guid>http://example.org/categories/javascript/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Conferences</title>
+      <link>http://example.org/categories/conferences/</link>
+      <pubDate>Wed, 28 Oct 2015 07:45:55 +0000</pubDate>
+      
+      <guid>http://example.org/categories/conferences/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Code</title>
+      <link>http://example.org/categories/code/</link>
+      <pubDate>Fri, 24 Apr 2015 15:03:26 +0100</pubDate>
+      
+      <guid>http://example.org/categories/code/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Testing</title>
       <link>http://example.org/categories/testing/</link>
       <pubDate>Sun, 15 Feb 2015 23:13:27 +0000</pubDate>
       
       <guid>http://example.org/categories/testing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Suave</title>
+      <link>http://example.org/categories/suave/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/categories/suave/</guid>
       <description></description>
     </item>
     

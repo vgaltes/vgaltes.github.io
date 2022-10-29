@@ -16,8 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Vicenç García" />
-  <meta name="description" content="This week I wanted to investigate how to use a Pub/Sub mechanism in an on-premise environment without needing to install anything else in our infrastructure, so using a managed service. I also wanted to make my first tests with CDK. Let me show you what I did.
+<meta name="author" content="Vicenç García" /><meta name="description" content="This week I wanted to investigate how to use a Pub/Sub mechanism in an on-premise environment without needing to install anything else in our infrastructure, so using a managed service. I also wanted to make my first tests with CDK. Let me show you what I did.
 Goal What I want to accomplish is that a system that lives in our infrastructure communicates asynchronously with another system on it. It&amp;rsquo;s easy to simulate the sender of the message with a console application, but for the receiver I&amp;rsquo;ll need a public HTTP endpoint." />
 
 
@@ -25,12 +24,10 @@ Goal What I want to accomplish is that a system that lives in our infrastructure
 
 
 
-
-<meta name="generator" content="Hugo 0.40.1" />
+<meta name="generator" content="Hugo 0.105.0 with theme even" />
 
 
 <link rel="canonical" href="http://example.org/post/lamda-dotnet/" />
-
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,16 +36,7 @@ Goal What I want to accomplish is that a system that lives in our infrastructure
 
 
 
-
-
-
-
-
-
-
-<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
 
 
 
@@ -56,43 +44,19 @@ Goal What I want to accomplish is that a system that lives in our infrastructure
 <meta property="og:description" content="This week I wanted to investigate how to use a Pub/Sub mechanism in an on-premise environment without needing to install anything else in our infrastructure, so using a managed service. I also wanted to make my first tests with CDK. Let me show you what I did.
 Goal What I want to accomplish is that a system that lives in our infrastructure communicates asynchronously with another system on it. It&rsquo;s easy to simulate the sender of the message with a console application, but for the receiver I&rsquo;ll need a public HTTP endpoint." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/post/lamda-dotnet/" />
-
-
-
-<meta property="article:published_time" content="2020-06-14T00:00:00&#43;00:00"/>
-
-<meta property="article:modified_time" content="2020-06-14T00:00:00&#43;00:00"/>
-
-
-
-
-
-
-
-
-
-
+<meta property="og:url" content="http://example.org/post/lamda-dotnet/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-06-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-06-14T00:00:00+00:00" />
 
 <meta itemprop="name" content="Lambda in .NET Core and SNS">
 <meta itemprop="description" content="This week I wanted to investigate how to use a Pub/Sub mechanism in an on-premise environment without needing to install anything else in our infrastructure, so using a managed service. I also wanted to make my first tests with CDK. Let me show you what I did.
-Goal What I want to accomplish is that a system that lives in our infrastructure communicates asynchronously with another system on it. It&rsquo;s easy to simulate the sender of the message with a console application, but for the receiver I&rsquo;ll need a public HTTP endpoint.">
-
-
-<meta itemprop="datePublished" content="2020-06-14T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2020-06-14T00:00:00&#43;00:00" />
+Goal What I want to accomplish is that a system that lives in our infrastructure communicates asynchronously with another system on it. It&rsquo;s easy to simulate the sender of the message with a console application, but for the receiver I&rsquo;ll need a public HTTP endpoint."><meta itemprop="datePublished" content="2020-06-14T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-06-14T00:00:00+00:00" />
 <meta itemprop="wordCount" content="1142">
-
-
-
-<meta itemprop="keywords" content="patterns,serverless framework," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="patterns,serverless framework," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Lambda in .NET Core and SNS"/>
 <meta name="twitter:description" content="This week I wanted to investigate how to use a Pub/Sub mechanism in an on-premise environment without needing to install anything else in our infrastructure, so using a managed service. I also wanted to make my first tests with CDK. Let me show you what I did.
 Goal What I want to accomplish is that a system that lives in our infrastructure communicates asynchronously with another system on it. It&rsquo;s easy to simulate the sender of the message with a console application, but for the receiver I&rsquo;ll need a public HTTP endpoint."/>
-
-
-
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -102,9 +66,6 @@ Goal What I want to accomplish is that a system that lives in our infrastructure
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
 <![endif]-->
-
-<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101221175);</script>
-<script async src="//static.getclicky.com/js"></script>
 
 </head>
 <body>
@@ -130,12 +91,21 @@ Goal What I want to accomplish is that a system that lives in our infrastructure
         <li class="mobile-menu-item">Categories</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">VGALTES</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -150,6 +120,7 @@ Goal What I want to accomplish is that a system that lives in our infrastructure
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -163,68 +134,41 @@ Goal What I want to accomplish is that a system that lives in our infrastructure
       <div class="post-meta">
         <span class="post-time"> 14-06-2020 </span>
         <div class="post-category">
-            
-              <a href="/categories/serverless/"> serverless </a>
-            
-          </div>
-        <span class="more-meta"> 1142 words </span>
-        <span class="more-meta"> 6 mins read </span>
+            <a href="/categories/serverless/"> serverless </a>
+            </div>
+          <span class="more-meta"> 1142 words </span>
+          <span class="more-meta"> 6 mins read </span>
         
       </div>
     </header>
 
-    
-    
-<div class="post-toc" id="post-toc">
+    <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
-  
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#goal">Goal</a></li>
-<li><a href="#lambda-function-using-net-core">Lambda function using .NET Core</a></li>
-<li><a href="#sns-topic">SNS Topic</a></li>
-<li><a href="#sending-messages">Sending messages</a></li>
-<li><a href="#summary">Summary</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#goal">Goal</a></li>
+    <li><a href="#lambda-function-using-net-core">Lambda function using .NET Core</a></li>
+    <li><a href="#sns-topic">SNS Topic</a></li>
+    <li><a href="#sending-messages">Sending messages</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
 </nav>
   </div>
 </div>
-
-    
-    
-
-    
     <div class="post-content">
-      
-
-<p>This week I wanted to investigate how to use a Pub/Sub mechanism in an on-premise environment without needing to install anything else in our infrastructure, so using a managed service. I also wanted to make my first tests with <a href="https://docs.aws.amazon.com/cdk/">CDK</a>. Let me show you what I did.</p>
-
+      <p>This week I wanted to investigate how to use a Pub/Sub mechanism in an on-premise environment without needing to install anything else in our infrastructure, so using a managed service. I also wanted to make my first tests with <a href="https://docs.aws.amazon.com/cdk/">CDK</a>. Let me show you what I did.</p>
 <h2 id="goal">Goal</h2>
-
 <p>What I want to accomplish is that a system that lives in our infrastructure communicates asynchronously with another system on it. It&rsquo;s easy to simulate the sender of the message with a console application, but for the receiver I&rsquo;ll need a public HTTP endpoint. The easiest way I know to have a public HTTP endpoint is by having a Lambda function published via API Gateway, so let me do this. The experiment is still valid because, at the end, is just an HTTP endpoint.</p>
-
 <h2 id="lambda-function-using-net-core">Lambda function using .NET Core</h2>
-
 <p>I took advantage of the situation to develop a lambda function in .NET Core for the first time. I&rsquo;ll be using the <a href="https://serverless.com">Serverless framework</a> so you need to install and configure it. Once you&rsquo;ve done that, create a folder for the entire system (I&rsquo;ve called it <code>SNSSample</code>) and type this command in your preferred terminal:</p>
-
-<pre><code>serverless create --template aws-csharp --path ReceiveSNSNotification
-</code></pre>
-
-<p>This will create the barebones of a Lambda function in .NET Core. To accomplish our mission, we&rsquo;ll need to add a couple of NuGet packages:</p>
-
-<pre><code>dotnet add package Amazon.Lambda.APIGatewayEvents
+<pre tabindex="0"><code>serverless create --template aws-csharp --path ReceiveSNSNotification
+</code></pre><p>This will create the barebones of a Lambda function in .NET Core. To accomplish our mission, we&rsquo;ll need to add a couple of NuGet packages:</p>
+<pre tabindex="0"><code>dotnet add package Amazon.Lambda.APIGatewayEvents
 dotnet add package AWSSDK.SimpleNotificationService
-</code></pre>
-
-<p>We need the first one to be able to have the needed request and response objects for API Gateway. We need the second one to be able to parse an SNS message.</p>
-
+</code></pre><p>We need the first one to be able to have the needed request and response objects for API Gateway. We need the second one to be able to parse an SNS message.</p>
 <p>And now it&rsquo;s time to take a look at the code of the function</p>
-
-<pre><code>using Amazon.Lambda.Core;
+<pre tabindex="0"><code>using Amazon.Lambda.Core;
 using Amazon.Lambda.APIGatewayEvents;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -238,22 +182,22 @@ namespace AwsDotnetCsharp
        public async Task&lt;APIGatewayProxyResponse&gt; Hello(
 APIGatewayProxyRequest request, ILambdaContext context)
        {
-          context.Logger.LogLine(&quot;Let's try this thing&quot;);
+          context.Logger.LogLine(&#34;Let&#39;s try this thing&#34;);
           context.Logger.Log(request.Body);
 
           var message = Amazon.SimpleNotificationService.Util.Message.ParseMessage(request.Body);
 
           if (message.IsSubscriptionType)
           {
-              context.Logger.LogLine(&quot;Subscription notification&quot; + message.SubscribeURL);
+              context.Logger.LogLine(&#34;Subscription notification&#34; + message.SubscribeURL);
               HttpClient client = new HttpClient();
               HttpResponseMessage notificationResponse = await client.GetAsync(message.SubscribeURL);
 
-              context.Logger.LogLine(&quot;Subscription responded with &quot; + notificationResponse.StatusCode);
+              context.Logger.LogLine(&#34;Subscription responded with &#34; + notificationResponse.StatusCode);
           }
           if (message.IsNotificationType) // PROCESS NOTIFICATIONS
           {
-              context.Logger.LogLine(&quot;Notification!&quot;);
+              context.Logger.LogLine(&#34;Notification!&#34;);
               context.Logger.Log(message.MessageText);
           }
 
@@ -262,11 +206,11 @@ APIGatewayProxyRequest request, ILambdaContext context)
           var response = new APIGatewayProxyResponse
           {
               StatusCode = 200,
-              Body = &quot;Hello from .net&quot;,
+              Body = &#34;Hello from .net&#34;,
               Headers = new Dictionary&lt;string, string&gt;
               { 
-                  { &quot;Content-Type&quot;, &quot;application/json&quot; }, 
-                  { &quot;Access-Control-Allow-Origin&quot;, &quot;*&quot; } 
+                  { &#34;Content-Type&#34;, &#34;application/json&#34; }, 
+                  { &#34;Access-Control-Allow-Origin&#34;, &#34;*&#34; } 
               }
           };
 
@@ -274,15 +218,10 @@ APIGatewayProxyRequest request, ILambdaContext context)
        }
     }
 }
-</code></pre>
-
-<p>When you create an HTTPS subscription in SNS, you need the subscription to be confirmed by the receiver endpoint. The way to do that is to visit the URL that SNS sends to it in the confirmation message. That what we do in the first part of the function.</p>
-
+</code></pre><p>When you create an HTTPS subscription in SNS, you need the subscription to be confirmed by the receiver endpoint. The way to do that is to visit the URL that SNS sends to it in the confirmation message. That what we do in the first part of the function.</p>
 <p>Once the subscription is confirmed, you will receive the message and you&rsquo;ll be able to do what you need with it.</p>
-
 <p>The last step is to correctly configure the <code>serverless.yml</code> file, which should look like like this:</p>
-
-<pre><code>service: receivesnsnotification
+<pre tabindex="0"><code>service: receivesnsnotification
 
 provider:
   name: aws
@@ -303,42 +242,22 @@ functions:
       - http:
           path: notification
           method: post
-</code></pre>
-
-<p>Nothing super-special here, we just need an endpoint that responds to a POST request.</p>
-
+</code></pre><p>Nothing super-special here, we just need an endpoint that responds to a POST request.</p>
 <p>Let&rsquo;s deploy this! First, we need to build the package. To build it, we can use the script that the Serverless framework has created for us:</p>
-
-<pre><code>.\build.cmd
-</code></pre>
-
-<p>And now, we can deploy the lambda function. In my case, I have a profile configured called <code>serverless-local</code> so I need to type this:</p>
-
-<pre><code>serverless deploy --aws-profile serverless-local
-</code></pre>
-
-<p>Make sure you write down the URL of the Lambda function because we&rsquo;ll need it.</p>
-
+<pre tabindex="0"><code>.\build.cmd
+</code></pre><p>And now, we can deploy the lambda function. In my case, I have a profile configured called <code>serverless-local</code> so I need to type this:</p>
+<pre tabindex="0"><code>serverless deploy --aws-profile serverless-local
+</code></pre><p>Make sure you write down the URL of the Lambda function because we&rsquo;ll need it.</p>
 <h2 id="sns-topic">SNS Topic</h2>
-
 <p>The next step is to create the SNS topic. We&rsquo;ll use <a href="https://docs.aws.amazon.com/cdk/">CDK</a> to do this.</p>
-
 <p>Let&rsquo;s first create a folder just below our main folder called IaC. Go inside the folder and run the following command:</p>
-
-<pre><code>cdk init --language csharp
-</code></pre>
-
-<p>This will create the barebones of a CDK project using C# as a language to define your infrastructure.</p>
-
+<pre tabindex="0"><code>cdk init --language csharp
+</code></pre><p>This will create the barebones of a CDK project using C# as a language to define your infrastructure.</p>
 <p>In order to create an SNS endpoint, we&rsquo;ll need a couple of NuGet packages. Type these commands in the <code>IaC\src\IaC</code> folder:</p>
-
-<pre><code>dotnet add package Amazon.CDK.AWS.SNS
+<pre tabindex="0"><code>dotnet add package Amazon.CDK.AWS.SNS
 dotnet add package Amazon.CDK.AWS.SNS.Subscriptions
-</code></pre>
-
-<p>It&rsquo;s time to define our infrastructure, which is basically an SNS topic with a HTTP subscription:</p>
-
-<pre><code>using Amazon.CDK;
+</code></pre><p>It&rsquo;s time to define our infrastructure, which is basically an SNS topic with a HTTP subscription:</p>
+<pre tabindex="0"><code>using Amazon.CDK;
 using Amazon.CDK.AWS.SNS;
 using Amazon.CDK.AWS.SNS.Subscriptions;
 
@@ -348,73 +267,49 @@ namespace IaC
     {
         internal IaCStack(Construct scope, string id, IStackProps props = null) : base(scope, id, props)
         {
-            Topic topic = new Topic(this, &quot;SNSCDKTopic&quot;, new TopicProps {
-                DisplayName = &quot;Sample subscription topic&quot;
+            Topic topic = new Topic(this, &#34;SNSCDKTopic&#34;, new TopicProps {
+                DisplayName = &#34;Sample subscription topic&#34;
             });
 
-            topic.AddSubscription(new UrlSubscription(&quot;https://xxxxxxx.execute-api.eu-west-2.amazonaws.com/dev/notification&quot;));
+            topic.AddSubscription(new UrlSubscription(&#34;https://xxxxxxx.execute-api.eu-west-2.amazonaws.com/dev/notification&#34;));
         }
     }
 }
-</code></pre>
-
-<p>Quite easy, isn&rsquo;t it?</p>
-
+</code></pre><p>Quite easy, isn&rsquo;t it?</p>
 <p>In a production environment you&rsquo;d need to configure retries and DLQ. We&rsquo;ll see that in future posts.</p>
-
 <p>Go back to the main IaC folder and deploy the infrastructure:</p>
-
-<pre><code>cdk deploy --profile serverless-local
-</code></pre>
-
-<p>If you now go the AWS Console, you will see that the subscription is confirmed <img src="/images/confirmed-subscription.png" alt="Confirmed subscription" /></p>
-
-<p>And if you go to CloudWatch you&rsquo;ll see that the endpoint has been called. <img src="/images/confirmed-subscription.png" alt="Confirmed subscription" /></p>
-
+<pre tabindex="0"><code>cdk deploy --profile serverless-local
+</code></pre><p>If you now go the AWS Console, you will see that the subscription is confirmed <img src="/images/confirmed-subscription.png" alt="Confirmed subscription"></p>
+<p>And if you go to CloudWatch you&rsquo;ll see that the endpoint has been called. <img src="/images/confirmed-subscription.png" alt="Confirmed subscription"></p>
 <p>Please, go to the AWS Console and write down the ARN of the SNS topic because we&rsquo;ll need it in the next step.</p>
-
 <h2 id="sending-messages">Sending messages</h2>
-
 <p>Now it&rsquo;s time to send a message to the topic. Go to the root folder and create a Console App:</p>
-
-<pre><code>dotnet new solution -n SendSNSNotification -o SendSNSNotification
+<pre tabindex="0"><code>dotnet new solution -n SendSNSNotification -o SendSNSNotification
 cd SendSNSNotification
 dotnet new console -n SendSNSNotificationApp
 dotnet sln add SendSNSNotificationApp\SendSNSNotificationApp.csproj
-</code></pre>
-
-<p>Go inside the folder and add the following packages</p>
-
-<pre><code>dotnet add package AWSSDK.Core
+</code></pre><p>Go inside the folder and add the following packages</p>
+<pre tabindex="0"><code>dotnet add package AWSSDK.Core
 dotnet add package AWSSDK.Extensions.NETCore.Setup
 dotnet add package AWSSDK.SimpleNotificationService
 dotnet add package Microsoft.Extensions.Configuration
 dotnet add package Microsoft.Extensions.Configuration.FileExtensions
 dotnet add package Microsoft.Extensions.Configuration.Json
-</code></pre>
-
-<p>Create an <code>appsettings.json</code> file with the following structure (use your profile and the region you preffer):</p>
-
-<pre><code>{
-    &quot;AWS&quot;: {
-      &quot;Profile&quot;: &quot;serverless-local&quot;,
-      &quot;Region&quot;: &quot;eu-west-2&quot;
+</code></pre><p>Create an <code>appsettings.json</code> file with the following structure (use your profile and the region you preffer):</p>
+<pre tabindex="0"><code>{
+    &#34;AWS&#34;: {
+      &#34;Profile&#34;: &#34;serverless-local&#34;,
+      &#34;Region&#34;: &#34;eu-west-2&#34;
     }
 }
-</code></pre>
-
-<p>And make sure the file is copied to the output directory by adding this to the csproj:</p>
-
-<pre><code>&lt;ItemGroup&gt;
-  &lt;Content Include=&quot;appsettings.json&quot;&gt;
+</code></pre><p>And make sure the file is copied to the output directory by adding this to the csproj:</p>
+<pre tabindex="0"><code>&lt;ItemGroup&gt;
+  &lt;Content Include=&#34;appsettings.json&#34;&gt;
     &lt;CopyToOutputDirectory&gt;PreserveNewest&lt;/CopyToOutputDirectory&gt;
   &lt;/Content&gt;
 &lt;/ItemGroup&gt;
-</code></pre>
-
-<p>And finally, write the code to send the message:</p>
-
-<pre><code>using System;
+</code></pre><p>And finally, write the code to send the message:</p>
+<pre tabindex="0"><code>using System;
 using System.Threading.Tasks;
 using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
@@ -429,7 +324,7 @@ namespace SendSNSNotificationApp
         static async Task Main(string[] args)
         {
             IConfiguration config = new ConfigurationBuilder()
-                .AddJsonFile(&quot;appsettings.json&quot;, true, true)
+                .AddJsonFile(&#34;appsettings.json&#34;, true, true)
                 .Build();
 
             var options = config.GetAWSOptions();
@@ -437,37 +332,27 @@ namespace SendSNSNotificationApp
 
             var request = new PublishRequest
             {
-                Message = $&quot;Test at {DateTime.UtcNow.ToLongTimeString()}&quot;,
-                TopicArn = &quot;arn:aws:sns:eu-west-2:xxxxxxxxx:IaCStack-SNSCDKTopic5427996C-1GCQIX0GC8ICE&quot;,
+                Message = $&#34;Test at {DateTime.UtcNow.ToLongTimeString()}&#34;,
+                TopicArn = &#34;arn:aws:sns:eu-west-2:xxxxxxxxx:IaCStack-SNSCDKTopic5427996C-1GCQIX0GC8ICE&#34;,
             };
 
             await snsClient.PublishAsync(request);
 
-            Console.WriteLine(&quot;Message sent&quot;);
+            Console.WriteLine(&#34;Message sent&#34;);
         }
     }
 }
-</code></pre>
-
-<p>As you can see, we&rsquo;re loading the configuration file and using the <code>GetAWSOptions</code> to get an object which can be used to create the client. Finally, you just need to create the request and send it. If you want to do the same in a ASP .NET Core application, you can follow <a href="https://www.stevejgordon.co.uk/publishing-to-aws-simple-notification-service-sns-from-asp-net-core">this post</a> by <a href="https://twitter.com/stevejgordon">Steve Gordon</a>.</p>
-
+</code></pre><p>As you can see, we&rsquo;re loading the configuration file and using the <code>GetAWSOptions</code> to get an object which can be used to create the client. Finally, you just need to create the request and send it. If you want to do the same in a ASP .NET Core application, you can follow <a href="https://www.stevejgordon.co.uk/publishing-to-aws-simple-notification-service-sns-from-asp-net-core">this post</a> by <a href="https://twitter.com/stevejgordon">Steve Gordon</a>.</p>
 <p>You can now build and run the application</p>
-
-<pre><code>dotnet build
+<pre tabindex="0"><code>dotnet build
 dotnet run
-</code></pre>
-
-<p>and take a look at cloudwatch to see that the message is there!</p>
-
-<p><img src="/images/confirmed-subscription.png" alt="Confirmed subscription" /></p>
-
+</code></pre><p>and take a look at cloudwatch to see that the message is there!</p>
+<p><img src="/images/confirmed-subscription.png" alt="Confirmed subscription"></p>
 <h2 id="summary">Summary</h2>
-
 <p>In this article we&rsquo;ve seen how to create an SNS topic, subscribe to it and send a message to it. You can use this to send asynchronous messages between your services, even if they are deployed in your own infrastructure. Hope it helps!</p>
 
     </div>
 
-    
     <div class="post-copyright">
   <p class="copyright-item">
     <span class="item-title">Author</span>
@@ -475,34 +360,26 @@ dotnet run
   </p>
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
-    <span class="item-content">14-06-2020</span>
+    <span class="item-content">
+        14-06-2020
+        
+    </span>
   </p>
   
   
 </div>
-
-    
-    
-
-    <footer class="post-footer">
+<footer class="post-footer">
       <div class="post-tags">
-          
           <a href="/tags/patterns/">patterns</a>
-          
           <a href="/tags/serverless-framework/">serverless framework</a>
-          
-        </div>
-
-      
+          </div>
       <nav class="post-nav">
-        
-          <a class="prev" href="/post/retrospectiva-2020/">
+        <a class="prev" href="/post/retrospectiva-2020/">
             <i class="iconfont icon-left"></i>
             <span class="prev-text nav-default">Retrospectiva 2020</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
-          <a class="next" href="/post/lambda-destinations/">
+        <a class="next" href="/post/lambda-destinations/">
             <span class="next-text nav-default">Lambda destinations</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
@@ -511,8 +388,7 @@ dotnet run
     </footer>
   </article>
         </div>
-        
-  <div id="disqus_thread"></div>
+        <div id="disqus_thread"></div>
     <script type="text/javascript">
     (function() {
       
@@ -526,6 +402,8 @@ dotnet run
     })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
 
   
 
@@ -555,28 +433,24 @@ dotnet run
 
   <span class="copyright-year">
     &copy; 
-    
-      2013 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Vicenç García</span>
+    2013 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
       <i class="iconfont icon-up"></i>
     </div>
   </div>
-  
-<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  
 
 
-<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 

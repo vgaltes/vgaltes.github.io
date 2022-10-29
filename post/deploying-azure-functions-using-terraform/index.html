@@ -16,8 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Vicenç García" />
-  <meta name="description" content="In previous articles (I, II) we&amp;rsquo;ve seen how to deploy an Azure Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to deploy it using Terraform.
+<meta name="author" content="Vicenç García" /><meta name="description" content="In previous articles (I, II) we&amp;rsquo;ve seen how to deploy an Azure Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to deploy it using Terraform.
 Prerequisites In order to follow this article you will need the .Net SDK 2.1, the Azure CLI and Terraform installed in your laptop/container/VM/whatever.
 Building the package What Terraform is going to do is take advantage of the Zip deployment capability (More on this in a future article)." />
 
@@ -26,12 +25,10 @@ Building the package What Terraform is going to do is take advantage of the Zip 
 
 
 
-
-<meta name="generator" content="Hugo 0.40.1" />
+<meta name="generator" content="Hugo 0.105.0 with theme even" />
 
 
 <link rel="canonical" href="http://example.org/post/deploying-azure-functions-using-terraform/" />
-
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -40,16 +37,7 @@ Building the package What Terraform is going to do is take advantage of the Zip 
 
 
 
-
-
-
-
-
-
-
-<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
 
 
 
@@ -58,45 +46,21 @@ Building the package What Terraform is going to do is take advantage of the Zip 
 Prerequisites In order to follow this article you will need the .Net SDK 2.1, the Azure CLI and Terraform installed in your laptop/container/VM/whatever.
 Building the package What Terraform is going to do is take advantage of the Zip deployment capability (More on this in a future article)." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/post/deploying-azure-functions-using-terraform/" />
-
-
-
-<meta property="article:published_time" content="2018-11-16T00:00:00&#43;00:00"/>
-
-<meta property="article:modified_time" content="2018-11-16T00:00:00&#43;00:00"/>
-
-
-
-
-
-
-
-
-
-
+<meta property="og:url" content="http://example.org/post/deploying-azure-functions-using-terraform/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-11-16T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-11-16T00:00:00+00:00" />
 
 <meta itemprop="name" content="Deploying Azure Functions using Terraform">
 <meta itemprop="description" content="In previous articles (I, II) we&rsquo;ve seen how to deploy an Azure Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to deploy it using Terraform.
 Prerequisites In order to follow this article you will need the .Net SDK 2.1, the Azure CLI and Terraform installed in your laptop/container/VM/whatever.
-Building the package What Terraform is going to do is take advantage of the Zip deployment capability (More on this in a future article).">
-
-
-<meta itemprop="datePublished" content="2018-11-16T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2018-11-16T00:00:00&#43;00:00" />
+Building the package What Terraform is going to do is take advantage of the Zip deployment capability (More on this in a future article)."><meta itemprop="datePublished" content="2018-11-16T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2018-11-16T00:00:00+00:00" />
 <meta itemprop="wordCount" content="494">
-
-
-
-<meta itemprop="keywords" content="devops,azure functions,azure," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="devops,azure functions,azure," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Deploying Azure Functions using Terraform"/>
 <meta name="twitter:description" content="In previous articles (I, II) we&rsquo;ve seen how to deploy an Azure Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to deploy it using Terraform.
 Prerequisites In order to follow this article you will need the .Net SDK 2.1, the Azure CLI and Terraform installed in your laptop/container/VM/whatever.
 Building the package What Terraform is going to do is take advantage of the Zip deployment capability (More on this in a future article)."/>
-
-
-
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -106,9 +70,6 @@ Building the package What Terraform is going to do is take advantage of the Zip 
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
 <![endif]-->
-
-<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101221175);</script>
-<script async src="//static.getclicky.com/js"></script>
 
 </head>
 <body>
@@ -134,12 +95,21 @@ Building the package What Terraform is going to do is take advantage of the Zip 
         <li class="mobile-menu-item">Categories</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">VGALTES</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -154,6 +124,7 @@ Building the package What Terraform is going to do is take advantage of the Zip 
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -167,123 +138,86 @@ Building the package What Terraform is going to do is take advantage of the Zip 
       <div class="post-meta">
         <span class="post-time"> 16-11-2018 </span>
         <div class="post-category">
-            
-              <a href="/categories/serverless/"> serverless </a>
-            
-          </div>
-        <span class="more-meta"> 494 words </span>
-        <span class="more-meta"> 3 mins read </span>
+            <a href="/categories/serverless/"> serverless </a>
+            </div>
+          <span class="more-meta"> 494 words </span>
+          <span class="more-meta"> 3 mins read </span>
         
       </div>
     </header>
 
-    
-    
-<div class="post-toc" id="post-toc">
+    <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
-  
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#prerequisites">Prerequisites</a></li>
-<li><a href="#building-the-package">Building the package</a></li>
-<li><a href="#create-the-terraform-script">Create the Terraform script</a></li>
-<li><a href="#deploying">Deploying</a></li>
-<li><a href="#summary">Summary</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#building-the-package">Building the package</a></li>
+    <li><a href="#create-the-terraform-script">Create the Terraform script</a></li>
+    <li><a href="#deploying">Deploying</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
 </nav>
   </div>
 </div>
-
-    
-    
-
-    
     <div class="post-content">
-      
-
-<p>In previous articles (<a href="https://vgaltes.com/post/deploying-azure-functions-an-introduction/">I</a>, <a href="https://vgaltes.com/post/deploying-azure-functions-using-cirecleci/">II</a>) we&rsquo;ve seen how to deploy an Azure Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to deploy it using <a href="https://www.terraform.io/">Terraform</a>.</p>
-
+      <p>In previous articles (<a href="https://vgaltes.com/post/deploying-azure-functions-an-introduction/">I</a>, <a href="https://vgaltes.com/post/deploying-azure-functions-using-cirecleci/">II</a>) we&rsquo;ve seen how to deploy an Azure Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to deploy it using <a href="https://www.terraform.io/">Terraform</a>.</p>
 <h2 id="prerequisites">Prerequisites</h2>
-
 <p>In order to follow this article you will need the .Net SDK 2.1, the Azure CLI and Terraform installed in your laptop/container/VM/whatever.</p>
-
 <h2 id="building-the-package">Building the package</h2>
-
 <p>What Terraform is going to do is take advantage of the <a href="https://docs.microsoft.com/en-us/azure/azure-functions/deployment-zip-push">Zip deployment</a> capability (More on this in a future article). So, what we need to do first is to create a zip with the contents we&rsquo;d like to deploy. We&rsquo;ll call this zip <code>functionapp.zip</code> To do that, you can use this script:</p>
-
-<pre><code>dotnet publish
+<pre tabindex="0"><code>dotnet publish
 pushd bin/Debug/netcoreapp2.1/publish
 zip -r -X ../../../../functionapp.zip *
 popd
-</code></pre>
-
-<h2 id="create-the-terraform-script">Create the Terraform script</h2>
-
+</code></pre><h2 id="create-the-terraform-script">Create the Terraform script</h2>
 <p>Let&rsquo;s start creating the terraform script. Create a folder in your project called <code>infrastructure</code> and create file called, for example, <code>functionapp.tf</code>. Open the file to edit its contents.</p>
-
 <p>The first thing we&rsquo;ll need to do is specify the <a href="https://www.terraform.io/docs/providers/azurerm/d/resource_group.html">Resource Group</a> we&rsquo;d like to create:</p>
-
-<pre><code>resource &quot;azurerm_resource_group&quot; &quot;rg-testDeployTF&quot; {
-  name     = &quot;rg-testDeployTF&quot;
-  location = &quot;westeurope&quot;
+<pre tabindex="0"><code>resource &#34;azurerm_resource_group&#34; &#34;rg-testDeployTF&#34; {
+  name     = &#34;rg-testDeployTF&#34;
+  location = &#34;westeurope&#34;
 }
-</code></pre>
-
-<p>Then, we need to specify the <a href="https://www.terraform.io/docs/providers/azurerm/r/storage_account.html">Storage Account</a>:</p>
-
-<pre><code>resource &quot;azurerm_storage_account&quot; &quot;sa-testDeployTF&quot; {
-  name                     = &quot;testdeploytfsa&quot;
-  resource_group_name      = &quot;${azurerm_resource_group.rg-testDeployTF.name}&quot;
-  location                 = &quot;${azurerm_resource_group.rg-testDeployTF.location}&quot;
-  account_tier             = &quot;Standard&quot;
-  account_replication_type = &quot;LRS&quot;
+</code></pre><p>Then, we need to specify the <a href="https://www.terraform.io/docs/providers/azurerm/r/storage_account.html">Storage Account</a>:</p>
+<pre tabindex="0"><code>resource &#34;azurerm_storage_account&#34; &#34;sa-testDeployTF&#34; {
+  name                     = &#34;testdeploytfsa&#34;
+  resource_group_name      = &#34;${azurerm_resource_group.rg-testDeployTF.name}&#34;
+  location                 = &#34;${azurerm_resource_group.rg-testDeployTF.location}&#34;
+  account_tier             = &#34;Standard&#34;
+  account_replication_type = &#34;LRS&#34;
 }
-</code></pre>
-
-<p>It&rsquo;s time to specify the <a href="https://www.terraform.io/docs/providers/azurerm/d/app_service_plan.html">Service Plan</a>:</p>
-
-<pre><code>resource &quot;azurerm_app_service_plan&quot; &quot;sp-testDeployTF&quot; {
-  name                = &quot;sp-testDeployTF&quot;
-  location            = &quot;${azurerm_resource_group.rg-testDeployTF.location}&quot;
-  resource_group_name = &quot;${azurerm_resource_group.rg-testDeployTF.name}&quot;
-  kind                = &quot;FunctionApp&quot;
+</code></pre><p>It&rsquo;s time to specify the <a href="https://www.terraform.io/docs/providers/azurerm/d/app_service_plan.html">Service Plan</a>:</p>
+<pre tabindex="0"><code>resource &#34;azurerm_app_service_plan&#34; &#34;sp-testDeployTF&#34; {
+  name                = &#34;sp-testDeployTF&#34;
+  location            = &#34;${azurerm_resource_group.rg-testDeployTF.location}&#34;
+  resource_group_name = &#34;${azurerm_resource_group.rg-testDeployTF.name}&#34;
+  kind                = &#34;FunctionApp&#34;
 
   sku {
-    tier = &quot;Dynamic&quot;
-    size = &quot;Y1&quot;
+    tier = &#34;Dynamic&#34;
+    size = &#34;Y1&#34;
   }
 }
-</code></pre>
-
-<p>Now it&rsquo;s time to update the recently created zip file into a <a href="https://www.terraform.io/docs/providers/azurerm/r/storage_blob.html">blob</a>. We&rsquo;d need to create a blob inside a <a href="https://www.terraform.io/docs/providers/azurerm/r/storage_container.html">storage container</a>:</p>
-
-<pre><code>resource &quot;azurerm_storage_container&quot; &quot;sc-testDeployTF&quot; {
-  name                  = &quot;function-releases&quot;
-  resource_group_name   = &quot;${azurerm_resource_group.rg-testDeployTF.name}&quot;
-  storage_account_name  = &quot;${azurerm_storage_account.sa-testDeployTF.name}&quot;
-  container_access_type = &quot;private&quot;
+</code></pre><p>Now it&rsquo;s time to update the recently created zip file into a <a href="https://www.terraform.io/docs/providers/azurerm/r/storage_blob.html">blob</a>. We&rsquo;d need to create a blob inside a <a href="https://www.terraform.io/docs/providers/azurerm/r/storage_container.html">storage container</a>:</p>
+<pre tabindex="0"><code>resource &#34;azurerm_storage_container&#34; &#34;sc-testDeployTF&#34; {
+  name                  = &#34;function-releases&#34;
+  resource_group_name   = &#34;${azurerm_resource_group.rg-testDeployTF.name}&#34;
+  storage_account_name  = &#34;${azurerm_storage_account.sa-testDeployTF.name}&#34;
+  container_access_type = &#34;private&#34;
 }
 
-resource &quot;azurerm_storage_blob&quot; &quot;sb-testDeployTF&quot; {
-  name = &quot;functionapp.zip&quot;
+resource &#34;azurerm_storage_blob&#34; &#34;sb-testDeployTF&#34; {
+  name = &#34;functionapp.zip&#34;
 
-  resource_group_name    = &quot;${azurerm_resource_group.rg-testDeployTF.name}&quot;
-  storage_account_name   = &quot;${azurerm_storage_account.sa-testDeployTF.name}&quot;
-  storage_container_name = &quot;${azurerm_storage_container.sc-testDeployTF.name}&quot;
+  resource_group_name    = &#34;${azurerm_resource_group.rg-testDeployTF.name}&#34;
+  storage_account_name   = &#34;${azurerm_storage_account.sa-testDeployTF.name}&#34;
+  storage_container_name = &#34;${azurerm_storage_container.sc-testDeployTF.name}&#34;
 
-  type   = &quot;block&quot;
-  source = &quot;./../functionapp.zip&quot;
+  type   = &#34;block&#34;
+  source = &#34;./../functionapp.zip&#34;
 }
-</code></pre>
-
-<p>In order that the Function App has access to this blob, we need to create a <a href="https://www.terraform.io/docs/providers/azurerm/d/storage_account_sas.html">Shared Access Signature</a>:</p>
-
-<pre><code>data &quot;azurerm_storage_account_sas&quot; &quot;sas-testDeployTF&quot; {
-  connection_string = &quot;${azurerm_storage_account.sa-testDeployTF.primary_connection_string}&quot;
+</code></pre><p>In order that the Function App has access to this blob, we need to create a <a href="https://www.terraform.io/docs/providers/azurerm/d/storage_account_sas.html">Shared Access Signature</a>:</p>
+<pre tabindex="0"><code>data &#34;azurerm_storage_account_sas&#34; &#34;sas-testDeployTF&#34; {
+  connection_string = &#34;${azurerm_storage_account.sa-testDeployTF.primary_connection_string}&#34;
   https_only        = false
 
   resource_types {
@@ -299,8 +233,8 @@ resource &quot;azurerm_storage_blob&quot; &quot;sb-testDeployTF&quot; {
     file  = false
   }
 
-  start  = &quot;2018-03-21&quot;
-  expiry = &quot;2028-03-21&quot;
+  start  = &#34;2018-03-21&#34;
+  expiry = &#34;2028-03-21&#34;
 
   permissions {
     read    = true
@@ -313,39 +247,28 @@ resource &quot;azurerm_storage_blob&quot; &quot;sb-testDeployTF&quot; {
     process = false
   }
 }
-</code></pre>
-
-<p>And finally we need to create the Function App and tell it that it needs to take the code from the uploaded zip file:</p>
-
-<pre><code>resource &quot;azurerm_function_app&quot; &quot;testDeployTF&quot; {
-  name                      = &quot;testDeployTF&quot;
-  location                  = &quot;${azurerm_resource_group.rg-testDeployTF.location}&quot;
-  resource_group_name       = &quot;${azurerm_resource_group.rg-testDeployTF.name}&quot;
-  app_service_plan_id       = &quot;${azurerm_app_service_plan.sp-testDeployTF.id}&quot;
-  storage_connection_string = &quot;${azurerm_storage_account.sa-testDeployTF.primary_connection_string}&quot;
+</code></pre><p>And finally we need to create the Function App and tell it that it needs to take the code from the uploaded zip file:</p>
+<pre tabindex="0"><code>resource &#34;azurerm_function_app&#34; &#34;testDeployTF&#34; {
+  name                      = &#34;testDeployTF&#34;
+  location                  = &#34;${azurerm_resource_group.rg-testDeployTF.location}&#34;
+  resource_group_name       = &#34;${azurerm_resource_group.rg-testDeployTF.name}&#34;
+  app_service_plan_id       = &#34;${azurerm_app_service_plan.sp-testDeployTF.id}&#34;
+  storage_connection_string = &#34;${azurerm_storage_account.sa-testDeployTF.primary_connection_string}&#34;
 
   app_settings {
-    HASH            = &quot;${base64sha256(file(&quot;./../functionapp.zip&quot;))}&quot;
-    WEBSITE_USE_ZIP = &quot;https://${azurerm_storage_account.sa-testDeployTF.name}.blob.core.windows.net/${azurerm_storage_container.sc-testDeployTF.name}/${azurerm_storage_blob.sb-testDeployTF.name}${data.azurerm_storage_account_sas.sas-testDeployTF.sas}&quot;
+    HASH            = &#34;${base64sha256(file(&#34;./../functionapp.zip&#34;))}&#34;
+    WEBSITE_USE_ZIP = &#34;https://${azurerm_storage_account.sa-testDeployTF.name}.blob.core.windows.net/${azurerm_storage_container.sc-testDeployTF.name}/${azurerm_storage_blob.sb-testDeployTF.name}${data.azurerm_storage_account_sas.sas-testDeployTF.sas}&#34;
   }
 }
-</code></pre>
-
-<h2 id="deploying">Deploying</h2>
-
+</code></pre><h2 id="deploying">Deploying</h2>
 <p>It&rsquo;s time to cd into the infrastructure folder, login into azure using <code>az login</code> and type <code>terraform apply</code>.</p>
-
-<p><img src="/images/AzureFunctionTerraform.png" alt="Azure Function Terraform" /></p>
-
+<p><img src="/images/AzureFunctionTerraform.png" alt="Azure Function Terraform"></p>
 <p>Here it is! The Function App deployed into Azure :-)</p>
-
 <h2 id="summary">Summary</h2>
-
 <p>In this article we&rsquo;ve seen how we can deploy a Function App using Terraform.</p>
 
     </div>
 
-    
     <div class="post-copyright">
   <p class="copyright-item">
     <span class="item-title">Author</span>
@@ -353,36 +276,27 @@ resource &quot;azurerm_storage_blob&quot; &quot;sb-testDeployTF&quot; {
   </p>
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
-    <span class="item-content">16-11-2018</span>
+    <span class="item-content">
+        16-11-2018
+        
+    </span>
   </p>
   
   
 </div>
-
-    
-    
-
-    <footer class="post-footer">
+<footer class="post-footer">
       <div class="post-tags">
-          
           <a href="/tags/devops/">devops</a>
-          
           <a href="/tags/azure-functions/">azure functions</a>
-          
           <a href="/tags/azure/">azure</a>
-          
-        </div>
-
-      
+          </div>
       <nav class="post-nav">
-        
-          <a class="prev" href="/post/deploying-azure-functions-using-zip-deploy/">
+        <a class="prev" href="/post/deploying-azure-functions-using-zip-deploy/">
             <i class="iconfont icon-left"></i>
             <span class="prev-text nav-default">Deploying Azure Functions using Zip Deploy</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
-          <a class="next" href="/post/deploying-azure-functions-using-cirecleci/">
+        <a class="next" href="/post/deploying-azure-functions-using-cirecleci/">
             <span class="next-text nav-default">Deploying Azure Functions using CircleCI</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
@@ -391,8 +305,7 @@ resource &quot;azurerm_storage_blob&quot; &quot;sb-testDeployTF&quot; {
     </footer>
   </article>
         </div>
-        
-  <div id="disqus_thread"></div>
+        <div id="disqus_thread"></div>
     <script type="text/javascript">
     (function() {
       
@@ -406,6 +319,8 @@ resource &quot;azurerm_storage_blob&quot; &quot;sb-testDeployTF&quot; {
     })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
 
   
 
@@ -435,28 +350,24 @@ resource &quot;azurerm_storage_blob&quot; &quot;sb-testDeployTF&quot; {
 
   <span class="copyright-year">
     &copy; 
-    
-      2013 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Vicenç García</span>
+    2013 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
       <i class="iconfont icon-up"></i>
     </div>
   </div>
-  
-<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  
 
 
-<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 

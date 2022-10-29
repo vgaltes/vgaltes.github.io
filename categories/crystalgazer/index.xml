@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Crystalgazer on VGALTES blog</title>
+    <title>crystalgazer on VGALTES blog</title>
     <link>http://example.org/categories/crystalgazer/</link>
-    <description>Recent content in Crystalgazer on VGALTES blog</description>
+    <description>Recent content in crystalgazer on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 07 Nov 2017 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://example.org/categories/crystalgazer/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 07 Nov 2017 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/categories/crystalgazer/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Analysing hotspots using CrystalGazer and NDepend</title>
       <link>http://example.org/post/analysing-hotspots/</link>

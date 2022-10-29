@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Fsharp on VGALTES blog</title>
+    <title>FSharp on VGALTES blog</title>
     <link>http://example.org/categories/fsharp/</link>
-    <description>Recent content in Fsharp on VGALTES blog</description>
+    <description>Recent content in FSharp on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 01 Apr 2017 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://example.org/categories/fsharp/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 01 Apr 2017 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/categories/fsharp/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>A simple Azure Function using F#</title>
       <link>http://example.org/post/a-simple-azure-function-using-f-sharp/</link>
@@ -39,7 +35,7 @@ As its name denotes, is a pattern that partially classificates what you match wi
       
       <guid>http://example.org/post/run-nunit3-tests-using-fake/</guid>
       <description>When you have some unit tests developed using NUnit 2.x your FAKE script looks like something like this:
-Target &amp;quot;RunUnitTests&amp;quot; (fun _ -&amp;gt; !! (testDir + &amp;quot;/*.Tests.dll&amp;quot;) |&amp;gt; NUnit (fun p -&amp;gt; {p with ToolPath = &amp;quot;packages/NUnit.Runners/tools/&amp;quot;})  )
+Target &amp;quot;RunUnitTests&amp;quot; (fun _ -&amp;gt;!! (testDir + &amp;quot;/*.Tests.dll&amp;quot;)|&amp;gt; NUnit (fun p -&amp;gt;{p with ToolPath = &amp;quot;packages/NUnit.Runners/tools/&amp;quot;}))
 But NUnit3 works slightly different. Instead of having a single NUnit.Runners package, that package references some other packages (runner, extensions, etc). One of those packages is NUnit.ConsoleRunner that has the exe inside the tools folder.</description>
     </item>
     
@@ -50,7 +46,7 @@ But NUnit3 works slightly different. Instead of having a single NUnit.Runners pa
       
       <guid>http://example.org/post/a-premier-league-team-will-win-the-champions/</guid>
       <description>Spain and Germany are dominating with an iron fist last Champions League editions. After a lot of investment, a Premier League team is ready to conquer the longed for trophy. In this article we&amp;rsquo;ll demonstrate this fact.
-The data We&amp;rsquo;ve borrowed the data for this study from the UEFA&amp;rsquo;s official page. If you go to this address http://www.uefa.com/uefachampionsleague/season=2011/matches/all/index.html# you&amp;rsquo;ll see all the matches played in the season 2010&amp;frasl;2011. Change the year in the query string to see another year&amp;rsquo;s results.</description>
+The data We&amp;rsquo;ve borrowed the data for this study from the UEFA&amp;rsquo;s official page. If you go to this address http://www.uefa.com/uefachampionsleague/season=2011/matches/all/index.html# you&amp;rsquo;ll see all the matches played in the season 2010/2011. Change the year in the query string to see another year&amp;rsquo;s results.</description>
     </item>
     
     <item>
@@ -82,8 +78,8 @@ The object oriented solution There are a couple of typical implementations of th
       <guid>http://example.org/post/function-composition-and-pipeline-operator/</guid>
       <description>As Scott Wlaschin points out in his excellent article function composition it&amp;rsquo;s not the same as using the pipeline operator.
 The definition of the pipeline operator is this one:
-let (|&amp;gt;) x f = f x  So, take the thing on the left hand side of the operator and use it as the last parameter on the function in the right hand side.
-On the other hand, we have this definition for the forward composition operator (&amp;gt;&amp;gt;)</description>
+let (|&amp;gt;) x f = f xSo, take the thing on the left hand side of the operator and use it as the last parameter on the function in the right hand side.
+On the other hand, we have this definition for the forward composition operator (&amp;raquo;)</description>
     </item>
     
     <item>
@@ -96,7 +92,7 @@ On the other hand, we have this definition for the forward composition operator 
 Sequence creation As with arrays there are several ways to create a sequence.
 Create from a range expression
 You can create a new sequence from a range expression. In this case, instead of using [| and |] you should use { and }
-let numbers = {1..20}  Create from a sequence expression</description>
+let numbers = {1..20} Create from a sequence expression</description>
     </item>
     
   </channel>

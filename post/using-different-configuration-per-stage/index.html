@@ -16,8 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Vicenç García" />
-  <meta name="description" content="In the previous article we saw how to create a basic deployment pipeline for a serverless application. In this article, we&amp;rsquo;re going to enrich the deployment by allowing to have different values for configuration settings in each stage.
+<meta name="author" content="Vicenç García" /><meta name="description" content="In the previous article we saw how to create a basic deployment pipeline for a serverless application. In this article, we&amp;rsquo;re going to enrich the deployment by allowing to have different values for configuration settings in each stage.
 Background The moment your application starts to be a little bit more complex, you need to use configuration settings. These settings can be things like the log level, addresses of external services, usernames and (encrypted) passwords, etc." />
 
 
@@ -25,12 +24,10 @@ Background The moment your application starts to be a little bit more complex, y
 
 
 
-
-<meta name="generator" content="Hugo 0.40.1" />
+<meta name="generator" content="Hugo 0.105.0 with theme even" />
 
 
 <link rel="canonical" href="http://example.org/post/using-different-configuration-per-stage/" />
-
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,16 +36,7 @@ Background The moment your application starts to be a little bit more complex, y
 
 
 
-
-
-
-
-
-
-
-<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
 
 
 
@@ -56,43 +44,19 @@ Background The moment your application starts to be a little bit more complex, y
 <meta property="og:description" content="In the previous article we saw how to create a basic deployment pipeline for a serverless application. In this article, we&rsquo;re going to enrich the deployment by allowing to have different values for configuration settings in each stage.
 Background The moment your application starts to be a little bit more complex, you need to use configuration settings. These settings can be things like the log level, addresses of external services, usernames and (encrypted) passwords, etc." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/post/using-different-configuration-per-stage/" />
-
-
-
-<meta property="article:published_time" content="2018-05-16T00:00:00&#43;00:00"/>
-
-<meta property="article:modified_time" content="2018-05-16T00:00:00&#43;00:00"/>
-
-
-
-
-
-
-
-
-
-
+<meta property="og:url" content="http://example.org/post/using-different-configuration-per-stage/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-05-16T00:00:00+00:00" />
+<meta property="article:modified_time" content="2018-05-16T00:00:00+00:00" />
 
 <meta itemprop="name" content="Using different configuration per stage">
 <meta itemprop="description" content="In the previous article we saw how to create a basic deployment pipeline for a serverless application. In this article, we&rsquo;re going to enrich the deployment by allowing to have different values for configuration settings in each stage.
-Background The moment your application starts to be a little bit more complex, you need to use configuration settings. These settings can be things like the log level, addresses of external services, usernames and (encrypted) passwords, etc.">
-
-
-<meta itemprop="datePublished" content="2018-05-16T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2018-05-16T00:00:00&#43;00:00" />
+Background The moment your application starts to be a little bit more complex, you need to use configuration settings. These settings can be things like the log level, addresses of external services, usernames and (encrypted) passwords, etc."><meta itemprop="datePublished" content="2018-05-16T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2018-05-16T00:00:00+00:00" />
 <meta itemprop="wordCount" content="1167">
-
-
-
-<meta itemprop="keywords" content="devops,lambda,circleci,aws," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="devops,lambda,circleci,aws," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Using different configuration per stage"/>
 <meta name="twitter:description" content="In the previous article we saw how to create a basic deployment pipeline for a serverless application. In this article, we&rsquo;re going to enrich the deployment by allowing to have different values for configuration settings in each stage.
 Background The moment your application starts to be a little bit more complex, you need to use configuration settings. These settings can be things like the log level, addresses of external services, usernames and (encrypted) passwords, etc."/>
-
-
-
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -102,9 +66,6 @@ Background The moment your application starts to be a little bit more complex, y
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
 <![endif]-->
-
-<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101221175);</script>
-<script async src="//static.getclicky.com/js"></script>
 
 </head>
 <body>
@@ -130,12 +91,21 @@ Background The moment your application starts to be a little bit more complex, y
         <li class="mobile-menu-item">Categories</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">VGALTES</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -150,6 +120,7 @@ Background The moment your application starts to be a little bit more complex, y
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -163,147 +134,89 @@ Background The moment your application starts to be a little bit more complex, y
       <div class="post-meta">
         <span class="post-time"> 16-05-2018 </span>
         <div class="post-category">
-            
-              <a href="/categories/serverless/"> serverless </a>
-            
-          </div>
-        <span class="more-meta"> 1167 words </span>
-        <span class="more-meta"> 6 mins read </span>
+            <a href="/categories/serverless/"> serverless </a>
+            </div>
+          <span class="more-meta"> 1167 words </span>
+          <span class="more-meta"> 6 mins read </span>
         
       </div>
     </header>
 
-    
-    
-<div class="post-toc" id="post-toc">
+    <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
-  
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#background">Background</a></li>
-<li><a href="#serverless-framework-as-a-dev-dependency">Serverless framework as a dev dependency</a></li>
-<li><a href="#config-file">Config file</a></li>
-<li><a href="#loading-the-settings">Loading the settings</a></li>
-<li><a href="#using-the-settings">Using the settings</a></li>
-<li><a href="#using-the-environment-variable-in-the-function">Using the environment variable in the function</a></li>
-<li><a href="#deploying">Deploying</a></li>
-<li><a href="#summary">Summary</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#background">Background</a></li>
+    <li><a href="#serverless-framework-as-a-dev-dependency">Serverless framework as a dev dependency</a></li>
+    <li><a href="#config-file">Config file</a></li>
+    <li><a href="#loading-the-settings">Loading the settings</a></li>
+    <li><a href="#using-the-settings">Using the settings</a></li>
+    <li><a href="#using-the-environment-variable-in-the-function">Using the environment variable in the function</a></li>
+    <li><a href="#deploying">Deploying</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
 </nav>
   </div>
 </div>
-
-    
-    
-
-    
     <div class="post-content">
-      
-
-<p>In the <a href="./deploy-serverless-app/">previous article</a> we saw how to create a basic deployment pipeline for a serverless application. In this article, we&rsquo;re going to enrich the deployment by allowing to have different values for configuration settings in each stage.</p>
-
+      <p>In the <a href="./deploy-serverless-app/">previous article</a> we saw how to create a basic deployment pipeline for a serverless application. In this article, we&rsquo;re going to enrich the deployment by allowing to have different values for configuration settings in each stage.</p>
 <h2 id="background">Background</h2>
-
 <p>The moment your application starts to be a little bit more complex, you need to use configuration settings. These settings can be things like the log level, addresses of external services, usernames and (encrypted) passwords, etc. But we don&rsquo;t want to use the same settings in all the environments, as we don&rsquo;t want to access production services while doing tests in dev. Let&rsquo;s see how we can do this in a serverless application.</p>
-
 <h2 id="serverless-framework-as-a-dev-dependency">Serverless framework as a dev dependency</h2>
-
 <p>In the previous article, we installed the serverless framework as a global dependency. Although this is quite convenient, it can be a problem. Different versions of the framework can behave in a different way, or introduce breaking changes and it&rsquo;s not practical that every member of the team has its own version installed. So, a good practice is to install the framework as a dev dependency and always use the version inside node_modules to deploy.</p>
-
 <p>So let&rsquo;s install the framework as dev dependency:</p>
-
-<pre><code>npm install serverless --save-dev
-</code></pre>
-
-<p>and create some scripts in the package.json file to make our live easier:</p>
-
-<pre><code>&quot;deploy&quot;: &quot;./node_modules/.bin/serverless deploy&quot;,
-&quot;deploy:pre&quot;: &quot;./node_modules/.bin/serverless deploy --stage pre&quot;,
-&quot;deploy:prod&quot;: &quot;./node_modules/.bin/serverless deploy --stage prod&quot;
-</code></pre>
-
-<p>Now we should change the CircleCI config.yml file to use the new way to deploy. We&rsquo;re also going to change how we install the packages in the CI pipeline. So, go to the section named &ldquo;Install Serverless CLI and dependencies&rdquo; and substitute the &ldquo;npm install&rdquo; line with the following ones:</p>
-
-<pre><code># update npm
+<pre tabindex="0"><code>npm install serverless --save-dev
+</code></pre><p>and create some scripts in the package.json file to make our live easier:</p>
+<pre tabindex="0"><code>&#34;deploy&#34;: &#34;./node_modules/.bin/serverless deploy&#34;,
+&#34;deploy:pre&#34;: &#34;./node_modules/.bin/serverless deploy --stage pre&#34;,
+&#34;deploy:prod&#34;: &#34;./node_modules/.bin/serverless deploy --stage prod&#34;
+</code></pre><p>Now we should change the CircleCI config.yml file to use the new way to deploy. We&rsquo;re also going to change how we install the packages in the CI pipeline. So, go to the section named &ldquo;Install Serverless CLI and dependencies&rdquo; and substitute the &ldquo;npm install&rdquo; line with the following ones:</p>
+<pre tabindex="0"><code># update npm
 sudo npm install -g npm
 npm ci
-</code></pre>
-
-<p>We want to use the new <em>ci</em> command in npm (more info <a href="https://docs.npmjs.com/cli/ci">here</a>) so we need to update npm to the last version. If the docker image you&rsquo;re using has already version 5.7 or above, you can skip this step.</p>
-
+</code></pre><p>We want to use the new <em>ci</em> command in npm (more info <a href="https://docs.npmjs.com/cli/ci">here</a>) so we need to update npm to the last version. If the docker image you&rsquo;re using has already version 5.7 or above, you can skip this step.</p>
 <p>The next step is to change the deployment steps to use the new scripts. The pre-production step should now look like</p>
-
-<pre><code>- run:
+<pre tabindex="0"><code>- run:
     name: Deploy application
     command: npm run deploy:pre
-</code></pre>
-
-<p>And the production step should look like:</p>
-
-<pre><code>- run:
+</code></pre><p>And the production step should look like:</p>
+<pre tabindex="0"><code>- run:
     name: Deploy application
     command: |
     chmod +x scripts/aws-cli-assumerole.sh
     source scripts/aws-cli-assumerole.sh
     npm run deploy:prod
-</code></pre>
-
-<p>Push the changes and give it a go.</p>
-
+</code></pre><p>Push the changes and give it a go.</p>
 <h2 id="config-file">Config file</h2>
-
 <p>It&rsquo;s time to create a config file to store the different settings. For this quick demo, we&rsquo;re just going to use one. So, go to the root of the project (where you have the serverless.yml file), create a file called vars.yml and copy the following content:</p>
-
-<pre><code>dev-user:
-  message: &quot;Environment variable from dev-user&quot;
+<pre tabindex="0"><code>dev-user:
+  message: &#34;Environment variable from dev-user&#34;
 pre:
-  message: &quot;Environment variable from pre&quot;
+  message: &#34;Environment variable from pre&#34;
 prod:
-  message: &quot;Environment variable from prod&quot;
-</code></pre>
-
-<p>We&rsquo;re creating a configuration setting called message which will have different values in each environment. We&rsquo;re here defining a stage for the user (more on this later), a stage for pre and stage for prod. What we want is that the developers on their machines use the dev-user settings and that the CI environment uses the pre settings when deploying to pre and the prod settings when deploying to prod.</p>
-
+  message: &#34;Environment variable from prod&#34;
+</code></pre><p>We&rsquo;re creating a configuration setting called message which will have different values in each environment. We&rsquo;re here defining a stage for the user (more on this later), a stage for pre and stage for prod. What we want is that the developers on their machines use the dev-user settings and that the CI environment uses the pre settings when deploying to pre and the prod settings when deploying to prod.</p>
 <h2 id="loading-the-settings">Loading the settings</h2>
-
 <p>We need now to use this setting on the serverless.yml file. The first thing we need to do is to define the default stage where we want to deploy the application. This will be the user stage. But we want each of our devs to have their own stage, so they can make tests independently of each other. The serverless framework makes this easy, as it already creates the functions and resources with the stage as a part of the name. So what we just need is to provide a different stage name for each user. Let&rsquo;s do this by adding this line to the provider section of the serverless.yaml:</p>
-
-<pre><code>stage: dev${env:SLSUSER}
-</code></pre>
-
-<p>So, if each developer creates an environment variable called SLSUSER on its laptop with a unique value, the serverless framework will use that value when naming the functions.</p>
-
+<pre tabindex="0"><code>stage: dev${env:SLSUSER}
+</code></pre><p>So, if each developer creates an environment variable called SLSUSER on its laptop with a unique value, the serverless framework will use that value when naming the functions.</p>
 <p>Now it&rsquo;s time to define some custom properties:</p>
-
-<pre><code>custom:
+<pre tabindex="0"><code>custom:
   stage: ${opt:stage, self:provider.stage}
   default-vars-stage: dev-user
   vars: ${file(./vars.yml):${opt:stage, self:custom.default-vars-stage}}
-</code></pre>
-
-<p>The first property is to define the stage we want to use, which will be the stage provided by the arguments of the <em>sls deploy</em> command or, in case we don&rsquo;t provide any, the value of the provider.stage property (which will be the dev user stage).
+</code></pre><p>The first property is to define the stage we want to use, which will be the stage provided by the arguments of the <em>sls deploy</em> command or, in case we don&rsquo;t provide any, the value of the provider.stage property (which will be the dev user stage).
 The second one is to define the default stage inside the vars.yml file we want to use. Again, the default one will be the dev user stage.
 And finally, we&rsquo;re loading the variables in the vars.yml file. If the user provides the stage argument in the deploy command, we&rsquo;ll use that stage. If not, we&rsquo;ll use the default one, which is the dev-user.</p>
-
 <h2 id="using-the-settings">Using the settings</h2>
-
 <p>To demonstrate how we can use those settings, we&rsquo;re going to define an environment variable in the hello function that we&rsquo;ll print. We&rsquo;re also going to define an HTTP event so the invocation will be easier. Let&rsquo;s create the environment variable in the function:</p>
-
-<pre><code>environment:
+<pre tabindex="0"><code>environment:
     MESSAGE: ${self:custom.vars.message}
-</code></pre>
-
-<p>Thanks to the previous step, we have all the variables in the custom.vars object, so we can access the variable as a property of that object.</p>
-
+</code></pre><p>Thanks to the previous step, we have all the variables in the custom.vars object, so we can access the variable as a property of that object.</p>
 <h2 id="using-the-environment-variable-in-the-function">Using the environment variable in the function</h2>
-
 <p>Let&rsquo;s change the code of the function to use the environment variable:</p>
-
-<pre><code>module.exports.hello = (event, context, callback) =&gt; {
+<pre tabindex="0"><code>module.exports.hello = (event, context, callback) =&gt; {
   const response = {
     statusCode: 200,
     body: JSON.stringify({
@@ -314,31 +227,21 @@ And finally, we&rsquo;re loading the variables in the vars.yml file. If the user
 
   callback(null, response);
 };
-</code></pre>
-
-<p>We&rsquo;ll need to change the unit test as well:</p>
-
-<pre><code>describe(&quot;The handler function&quot;, () =&gt; {
-    it(&quot;returns a message&quot;, () =&gt; {
-        process.env.MESSAGE = &quot;message&quot;
+</code></pre><p>We&rsquo;ll need to change the unit test as well:</p>
+<pre tabindex="0"><code>describe(&#34;The handler function&#34;, () =&gt; {
+    it(&#34;returns a message&#34;, () =&gt; {
+        process.env.MESSAGE = &#34;message&#34;
         handler.hello(undefined, undefined, function(error, response){
             let body = JSON.parse(response.body);
             body.message.should.be.equal(`The message is: message`);
         });
     });
 });
-</code></pre>
-
-<h2 id="deploying">Deploying</h2>
-
+</code></pre><h2 id="deploying">Deploying</h2>
 <p>Let&rsquo;s first try to deploy the solution using our dev account:</p>
-
-<pre><code>npm run deploy -- --aws-profile vgaltes-dev
-</code></pre>
-
-<p>This will deploy using a local aws profile called vgaltes-dev. If the deployment is successful, you&rsquo;ll something like this in your console:</p>
-
-<pre><code>Service Information
+<pre tabindex="0"><code>npm run deploy -- --aws-profile vgaltes-dev
+</code></pre><p>This will deploy using a local aws profile called vgaltes-dev. If the deployment is successful, you&rsquo;ll something like this in your console:</p>
+<pre tabindex="0"><code>Service Information
 service: test-circleci
 stage: devvgaltes
 region: us-east-1
@@ -349,34 +252,19 @@ endpoints:
   GET - https://XXXXXXX.execute-api.us-east-1.amazonaws.com/devvgaltes/hello
 functions:
   hello: test-circleci-devvgaltes-hello
-</code></pre>
-
-<p>Note the devvgaltes suffix, as my SLSUSER environment variable is set to vgaltes.</p>
-
+</code></pre><p>Note the devvgaltes suffix, as my SLSUSER environment variable is set to vgaltes.</p>
 <p>If you click on the link, you will see a response like:</p>
-
-<pre><code>{&quot;message&quot;:&quot;The message is: Environment variable from dev-user&quot;,...
-</code></pre>
-
-<p>This looks good. Let&rsquo;s push everything and see the result of the deployment using CircleCI. Once the deployment is successful, go to the result of the deployment on pre and the result of the deployment on prod and click on the links. For pre, you should see that the response is:</p>
-
-<pre><code>{&quot;message&quot;:&quot;The message is: Environment variable from pre&quot;,...
-</code></pre>
-
-<p>And for prod the response should be:</p>
-
-<pre><code>{&quot;message&quot;:&quot;The message is: Environment variable from prod&quot;,...
-</code></pre>
-
-<h2 id="summary">Summary</h2>
-
+<pre tabindex="0"><code>{&#34;message&#34;:&#34;The message is: Environment variable from dev-user&#34;,...
+</code></pre><p>This looks good. Let&rsquo;s push everything and see the result of the deployment using CircleCI. Once the deployment is successful, go to the result of the deployment on pre and the result of the deployment on prod and click on the links. For pre, you should see that the response is:</p>
+<pre tabindex="0"><code>{&#34;message&#34;:&#34;The message is: Environment variable from pre&#34;,...
+</code></pre><p>And for prod the response should be:</p>
+<pre tabindex="0"><code>{&#34;message&#34;:&#34;The message is: Environment variable from prod&#34;,...
+</code></pre><h2 id="summary">Summary</h2>
 <p>In this article, we&rsquo;ve seen how we can set different values for a configuration variable per environment. Another option you have is to use <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html">AWS Systems Manager Parameter Store</a>. You can see how to do this in <a href="https://theburningmonk.com/2017/09/you-should-use-ssm-parameter-store-over-lambda-env-variables/">this article</a> from <a href="https://twitter.com/theburningmonk">Yan Cui</a>.</p>
-
 <p>Hope it helps!</p>
 
     </div>
 
-    
     <div class="post-copyright">
   <p class="copyright-item">
     <span class="item-title">Author</span>
@@ -384,38 +272,28 @@ functions:
   </p>
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
-    <span class="item-content">16-05-2018</span>
+    <span class="item-content">
+        16-05-2018
+        
+    </span>
   </p>
   
   
 </div>
-
-    
-    
-
-    <footer class="post-footer">
+<footer class="post-footer">
       <div class="post-tags">
-          
           <a href="/tags/devops/">devops</a>
-          
           <a href="/tags/lambda/">lambda</a>
-          
           <a href="/tags/circleci/">circleci</a>
-          
           <a href="/tags/aws/">aws</a>
-          
-        </div>
-
-      
+          </div>
       <nav class="post-nav">
-        
-          <a class="prev" href="/post/deploying-azure-functions-an-introduction/">
+        <a class="prev" href="/post/deploying-azure-functions-an-introduction/">
             <i class="iconfont icon-left"></i>
             <span class="prev-text nav-default">Deploying Azure Functions, an introduction</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
-          <a class="next" href="/post/deploy-serverless-app/">
+        <a class="next" href="/post/deploy-serverless-app/">
             <span class="next-text nav-default">Deploying a serverless application</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
@@ -424,8 +302,7 @@ functions:
     </footer>
   </article>
         </div>
-        
-  <div id="disqus_thread"></div>
+        <div id="disqus_thread"></div>
     <script type="text/javascript">
     (function() {
       
@@ -439,6 +316,8 @@ functions:
     })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
 
   
 
@@ -468,28 +347,24 @@ functions:
 
   <span class="copyright-year">
     &copy; 
-    
-      2013 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Vicenç García</span>
+    2013 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
       <i class="iconfont icon-up"></i>
     </div>
   </div>
-  
-<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  
 
 
-<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 

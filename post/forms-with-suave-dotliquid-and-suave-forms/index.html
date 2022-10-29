@@ -16,8 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Vicenç García" />
-  <meta name="description" content="In the previous article we saw how to send forms using Suave.Experimental as view engine. In this article we&amp;rsquo;re going to use Suave.DotLiquid as view engine. We&amp;rsquo;ll see how we&amp;rsquo;re going to be able to reuse most of the work done previously.
+<meta name="author" content="Vicenç García" /><meta name="description" content="In the previous article we saw how to send forms using Suave.Experimental as view engine. In this article we&amp;rsquo;re going to use Suave.DotLiquid as view engine. We&amp;rsquo;ll see how we&amp;rsquo;re going to be able to reuse most of the work done previously.
 Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is able to use this library thanks to the pakage Suave.DotLiquid. So, the first thing we need to do is install these packages in our project." />
 
 
@@ -25,12 +24,10 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
 
 
 
-
-<meta name="generator" content="Hugo 0.40.1" />
+<meta name="generator" content="Hugo 0.105.0 with theme even" />
 
 
 <link rel="canonical" href="http://example.org/post/forms-with-suave-dotliquid-and-suave-forms/" />
-
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,16 +36,7 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
 
 
 
-
-
-
-
-
-
-
-<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
 
 
 
@@ -56,20 +44,7 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
 <meta property="og:description" content="In the previous article we saw how to send forms using Suave.Experimental as view engine. In this article we&rsquo;re going to use Suave.DotLiquid as view engine. We&rsquo;ll see how we&rsquo;re going to be able to reuse most of the work done previously.
 Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is able to use this library thanks to the pakage Suave.DotLiquid. So, the first thing we need to do is install these packages in our project." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/post/forms-with-suave-dotliquid-and-suave-forms/" />
-
-
-
-
-
-
-
-
-
-
-
-
-
+<meta property="og:url" content="http://example.org/post/forms-with-suave-dotliquid-and-suave-forms/" /><meta property="article:section" content="post" />
 
 
 
@@ -77,20 +52,11 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
 <meta itemprop="description" content="In the previous article we saw how to send forms using Suave.Experimental as view engine. In this article we&rsquo;re going to use Suave.DotLiquid as view engine. We&rsquo;ll see how we&rsquo;re going to be able to reuse most of the work done previously.
 Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is able to use this library thanks to the pakage Suave.DotLiquid. So, the first thing we need to do is install these packages in our project.">
 
-
-
-<meta itemprop="wordCount" content="429">
-
-
-
-<meta itemprop="keywords" content="F#,Suave,Forms," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="wordCount" content="421">
+<meta itemprop="keywords" content="F#,Suave,Forms," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Sending forms with Suave, Suave.DotLiquid and Suave.Forms"/>
 <meta name="twitter:description" content="In the previous article we saw how to send forms using Suave.Experimental as view engine. In this article we&rsquo;re going to use Suave.DotLiquid as view engine. We&rsquo;ll see how we&rsquo;re going to be able to reuse most of the work done previously.
 Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is able to use this library thanks to the pakage Suave.DotLiquid. So, the first thing we need to do is install these packages in our project."/>
-
-
-
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -100,9 +66,6 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
 <![endif]-->
-
-<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101221175);</script>
-<script async src="//static.getclicky.com/js"></script>
 
 </head>
 <body>
@@ -128,12 +91,21 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
         <li class="mobile-menu-item">Categories</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">VGALTES</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -148,6 +120,7 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -161,60 +134,37 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
       <div class="post-meta">
         <span class="post-time"> 01-01-0001 </span>
         <div class="post-category">
-            
-              <a href="/categories/suave/"> Suave </a>
-            
-          </div>
-        <span class="more-meta"> 429 words </span>
-        <span class="more-meta"> 3 mins read </span>
+            <a href="/categories/suave/"> Suave </a>
+            </div>
+          <span class="more-meta"> 421 words </span>
+          <span class="more-meta"> 2 mins read </span>
         
       </div>
     </header>
 
-    
-    
-<div class="post-toc" id="post-toc">
+    <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
-  
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#suave-dotliquid">Suave.DotLiquid</a></li>
-<li><a href="#reusing-code">Reusing code</a></li>
-<li><a href="#the-view">The view</a></li>
-<li><a href="#the-application">The application</a></li>
-<li><a href="#summary">Summary</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#suavedotliquid">Suave.DotLiquid</a></li>
+    <li><a href="#reusing-code">Reusing code</a></li>
+    <li><a href="#the-view">The view</a></li>
+    <li><a href="#the-application">The application</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
 </nav>
   </div>
 </div>
-
-    
-    
-
-    
     <div class="post-content">
-      
-
-<p>In the <a href="http://vgaltes.com/suave/forms-with-suave-experimental-and-suave-forms">previous article</a> we saw how to send forms using <a href="https://www.nuget.org/packages/Suave.Experimental">Suave.Experimental</a> as view engine. In this article we&rsquo;re going to use Suave.DotLiquid as view engine. We&rsquo;ll see how we&rsquo;re going to be able to reuse most of the work done previously.</p>
-
-<h2 id="suave-dotliquid">Suave.DotLiquid</h2>
-
+      <p>In the <a href="http://vgaltes.com/suave/forms-with-suave-experimental-and-suave-forms">previous article</a> we saw how to send forms using <a href="https://www.nuget.org/packages/Suave.Experimental">Suave.Experimental</a> as view engine. In this article we&rsquo;re going to use Suave.DotLiquid as view engine. We&rsquo;ll see how we&rsquo;re going to be able to reuse most of the work done previously.</p>
+<h2 id="suavedotliquid">Suave.DotLiquid</h2>
 <p><a href="http://dotliquidmarkup.org">DotLiquid</a> is a port of the Ruby template engine <a href="http://dotliquidmarkup.org/">Liquid</a>. Suave is able to use this library thanks to the pakage <a href="https://www.nuget.org/packages/Suave.DotLiquid/">Suave.DotLiquid</a>. So, the first thing we need to do is install these packages in our project.</p>
-
 <h2 id="reusing-code">Reusing code</h2>
-
 <p>We&rsquo;re going to change only the view part of our application, so we dont need to define any new ViewModel or anything.</p>
-
 <h2 id="the-view">The view</h2>
-
 <p>To use DotLiquid we need to create temlates as html files. Inside this templates we are able to write constructs that we&rsquo;ll be replace by text. In this simply example we&rsquo;re not going to use anything more sophisticated than this, but you can refer to the <a href="https://github.com/dotliquid/dotliquid/wiki/DotLiquid-for-Designers">original documentation</a> to see what you can do.</p>
-
 <p>So, the view should look like this:</p>
-
 <pre><code>&lt;html&gt;
     &lt;head&gt;
         &lt;title&gt;Forms with DotLiquid&lt;/title&gt;
@@ -237,51 +187,28 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
     &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-
 <p>In this is standard HTML. Let&rsquo;s take a look at the view that will display the Human model to see DotLiquid in action.</p>
-
-<p><html>
-    <head>
-        <title>Forms with DotLiquid</title>
-    </head>
-    <body>
-        <div>Show</div>
-        <div>Name: {{model.Name}}</div>
-        <div>Surname: {{model.Surname}}</div>
-    </body>
-</html></p>
-
+<!-- raw HTML omitted -->
 <p>As you can see, we are accessing the properties Name and Surname of the model, in this case the Human type defined in the <a href="(http://vgaltes.com/suave/forms-with-suave-experimental-and-suave-forms)">previous article</a>.</p>
-
 <h2 id="the-application">The application</h2>
-
 <p>The changes we need to do in our App.fsx are really small.</p>
-
 <p>Firts, let&rsquo;s define the folder where DotLiquid will search for the templates.</p>
-
 <pre><code>DotLiquid.setTemplatesDir (__SOURCE_DIRECTORY__ + &quot;./Templates&quot;)
 </code></pre>
-
 <p>And now let&rsquo;s define the new WebPart we&rsquo;re going to use.</p>
-
 <pre><code>let dotliquidHuman =
     choose [
         GET &gt;=&gt;  DotLiquid.page (&quot;CreateHuman.html&quot;) ()
         POST &gt;=&gt; bindReq (bindForm Forms.human) (fun form -&gt; DotLiquid.page (&quot;ShowHuman.html&quot;) form ) BAD_REQUEST
     ]
 </code></pre>
-
 <p>As you can see, is very similar to the Experimental one, but we change a little bit how we call the view engine. In this case, we use the function DotLiquid.page, passing as arguments the name of the template and the model to use (unit in the first case, and form in the second case).</p>
-
 <p>And that&rsquo;s all, we don&rsquo;t need to make more changes to make it work.</p>
-
 <h2 id="summary">Summary</h2>
-
 <p>We have seen how easy is changing our view engine when working with Forms. We&rsquo;ve seen a very little introduction to DotLiquid, a nice template engine we can use with <a href="https://suave.io">Suave</a>. You can get the full solution <a href="https://github.com/vgaltes/FSharpForms">here</a></p>
 
     </div>
 
-    
     <div class="post-copyright">
   <p class="copyright-item">
     <span class="item-title">Author</span>
@@ -289,36 +216,27 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
   </p>
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
-    <span class="item-content">01-01-0001</span>
+    <span class="item-content">
+        01-01-0001
+        
+    </span>
   </p>
   
   
 </div>
-
-    
-    
-
-    <footer class="post-footer">
+<footer class="post-footer">
       <div class="post-tags">
-          
           <a href="/tags/f/">F#</a>
-          
           <a href="/tags/suave/">Suave</a>
-          
           <a href="/tags/forms/">Forms</a>
-          
-        </div>
-
-      
+          </div>
       <nav class="post-nav">
-        
-          <a class="prev" href="/post/learning-patterns/">
+        <a class="prev" href="/post/learning-patterns/">
             <i class="iconfont icon-left"></i>
             <span class="prev-text nav-default">My learning patterns</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
-          <a class="next" href="/post/forms-with-suave-experimental-and-suave-forms/">
+        <a class="next" href="/post/forms-with-suave-experimental-and-suave-forms/">
             <span class="next-text nav-default">Sending forms with Suave, Suave.Experimental and Suave.Forms</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
@@ -327,8 +245,7 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
     </footer>
   </article>
         </div>
-        
-  <div id="disqus_thread"></div>
+        <div id="disqus_thread"></div>
     <script type="text/javascript">
     (function() {
       
@@ -342,6 +259,8 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
     })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
 
   
 
@@ -371,28 +290,24 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
 
   <span class="copyright-year">
     &copy; 
-    
-      2013 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Vicenç García</span>
+    2013 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
       <i class="iconfont icon-up"></i>
     </div>
   </div>
-  
-<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  
 
 
-<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 

@@ -16,20 +16,17 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Vicenç García" />
-  <meta name="description" content="Let me introduce you to Rachel, the new developer of the team. Rachel is an excellent developer eager to make a huge impact on the team and the organisation. When Rachel lands in the team, they treat them very well. They show her all the facilities, they teach her on how to make a good coffee with the new and shiny coffee machine and they even deploy to production in her first day." />
+<meta name="author" content="Vicenç García" /><meta name="description" content="Let me introduce you to Rachel, the new developer of the team. Rachel is an excellent developer eager to make a huge impact on the team and the organisation. When Rachel lands in the team, they treat them very well. They show her all the facilities, they teach her on how to make a good coffee with the new and shiny coffee machine and they even deploy to production in her first day." />
 
 
 
 
 
 
-
-<meta name="generator" content="Hugo 0.40.1" />
+<meta name="generator" content="Hugo 0.105.0 with theme even" />
 
 
 <link rel="canonical" href="http://example.org/post/using-mediatr-as-a-refactoring-strategy/" />
-
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -38,57 +35,24 @@
 
 
 
-
-
-
-
-
-
-
-<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="Using MediatR as a refactoring strategy" />
 <meta property="og:description" content="Let me introduce you to Rachel, the new developer of the team. Rachel is an excellent developer eager to make a huge impact on the team and the organisation. When Rachel lands in the team, they treat them very well. They show her all the facilities, they teach her on how to make a good coffee with the new and shiny coffee machine and they even deploy to production in her first day." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/post/using-mediatr-as-a-refactoring-strategy/" />
-
-
-
-<meta property="article:published_time" content="2020-02-13T00:00:00&#43;00:00"/>
-
-<meta property="article:modified_time" content="2020-02-13T00:00:00&#43;00:00"/>
-
-
-
-
-
-
-
-
-
-
+<meta property="og:url" content="http://example.org/post/using-mediatr-as-a-refactoring-strategy/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-02-13T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-02-13T00:00:00+00:00" />
 
 <meta itemprop="name" content="Using MediatR as a refactoring strategy">
-<meta itemprop="description" content="Let me introduce you to Rachel, the new developer of the team. Rachel is an excellent developer eager to make a huge impact on the team and the organisation. When Rachel lands in the team, they treat them very well. They show her all the facilities, they teach her on how to make a good coffee with the new and shiny coffee machine and they even deploy to production in her first day.">
-
-
-<meta itemprop="datePublished" content="2020-02-13T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2020-02-13T00:00:00&#43;00:00" />
+<meta itemprop="description" content="Let me introduce you to Rachel, the new developer of the team. Rachel is an excellent developer eager to make a huge impact on the team and the organisation. When Rachel lands in the team, they treat them very well. They show her all the facilities, they teach her on how to make a good coffee with the new and shiny coffee machine and they even deploy to production in her first day."><meta itemprop="datePublished" content="2020-02-13T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-02-13T00:00:00+00:00" />
 <meta itemprop="wordCount" content="1101">
-
-
-
-<meta itemprop="keywords" content="refactoring," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="refactoring," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Using MediatR as a refactoring strategy"/>
 <meta name="twitter:description" content="Let me introduce you to Rachel, the new developer of the team. Rachel is an excellent developer eager to make a huge impact on the team and the organisation. When Rachel lands in the team, they treat them very well. They show her all the facilities, they teach her on how to make a good coffee with the new and shiny coffee machine and they even deploy to production in her first day."/>
-
-
-
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -98,9 +62,6 @@
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
 <![endif]-->
-
-<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101221175);</script>
-<script async src="//static.getclicky.com/js"></script>
 
 </head>
 <body>
@@ -126,12 +87,21 @@
         <li class="mobile-menu-item">Categories</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">VGALTES</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -146,6 +116,7 @@
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -159,66 +130,39 @@
       <div class="post-meta">
         <span class="post-time"> 13-02-2020 </span>
         <div class="post-category">
-            
-              <a href="/categories/aspnet-core/"> aspnet core </a>
-            
-              <a href="/categories/agile/"> agile </a>
-            
-          </div>
-        <span class="more-meta"> 1101 words </span>
-        <span class="more-meta"> 6 mins read </span>
+            <a href="/categories/aspnet-core/"> aspnet core </a>
+            <a href="/categories/agile/"> agile </a>
+            </div>
+          <span class="more-meta"> 1101 words </span>
+          <span class="more-meta"> 6 mins read </span>
         
       </div>
     </header>
 
-    
-    
-<div class="post-toc" id="post-toc">
+    <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
-  
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#what-can-we-do-about-it">What can we do about it?</a></li>
-<li><a href="#summary">Summary</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#what-can-we-do-about-it">What can we do about it?</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
 </nav>
   </div>
 </div>
-
-    
-    
-
-    
     <div class="post-content">
-      
-
-<p>Let me introduce you to Rachel, the new developer of the team. Rachel is an excellent developer eager to make a huge impact on the team and the organisation. When Rachel lands in the team, they treat them very well. They show her all the facilities, they teach her on how to make a good coffee with the new and shiny coffee machine and they even deploy to production in her first day. Rachel is impressed! I&rsquo;m going to have a great time here, she thinks.</p>
-
+      <p>Let me introduce you to Rachel, the new developer of the team. Rachel is an excellent developer eager to make a huge impact on the team and the organisation. When Rachel lands in the team, they treat them very well. They show her all the facilities, they teach her on how to make a good coffee with the new and shiny coffee machine and they even deploy to production in her first day. Rachel is impressed! I&rsquo;m going to have a great time here, she thinks.</p>
 <p>But the next day, Rachel starts pairing with Josh in a new user story (or feature, or piece of work, or whatever you call it). Josh starts showing here where the controllers are, and how those controllers have some dependencies on various application services. Then, Josh tells Rachel that the application services are a bit bloated, so the easier way to go to the method they need to change is to go to the action in the controller and see what it&rsquo;s calling. When they Ctrl + click on that method, they land in a HUGE application service class with lots of methods, thousands of lines and tens of dependencies. Rachel is horrified and she thinks that maybe it wasn&rsquo;t a good idea to leave her old and cozy job.</p>
-
 <p>This is not a strange situation. Hopefully you&rsquo;re working on a software project that brings a lot of money to your company. Usually, such software are the evolution of years of development and tens of developers, some of them just following the &ldquo;this is how the work is done here&rdquo; rule. So it&rsquo;s not rare to stumble upon such big classes.</p>
-
 <p>Those classes are a problem for you and your team. We spend around 60% - 70% of our time reading code, so we need that time to be as much pleasant as we can. Having a big class, with lots of methods, blurred responsibilities and a lot of dependencies doesn&rsquo;t make your time reading that code very pleasant or useful. The cognitive load of processing that class is huge, and sometimes unbereable.</p>
-
 <h2 id="what-can-we-do-about-it">What can we do about it?</h2>
-
 <p>The first word that appears in our mind is <em>refactoring</em>. We should study that class, see the responsibilities, start breaking it up and end with a nice and clean code. 5 months later. Without having delivered a single feature. With the future of the company at stakes.</p>
-
 <p>Can we do something less agressive?</p>
-
 <p>There&rsquo;s a library very used in the .Net ecosystem called <a href="https://github.com/jbogard/MediatR">MediatR</a>. As you can see in the website, MediatR helps us <em>decoupling the in-process sending of messages from handling of messages</em>. This allow us to only put the call to mediator in the controller&rsquo;s actions and then code the handlers of those messages. MediatR will do the &ldquo;dirty job&rdquo; for you. It has other advantatges, like the ease of implementing cross-cutting concerns as <a href="https://github.com/jbogard/MediatR/wiki/Behaviors">behaviors</a>.</p>
-
 <p>What does it mean for our refactoring? It means that we can start breaking up the application services in smaller handlers that implement each of the methods of it (Ideally splitted in commands and queries). Then, each handler will only have the code of one method of the application service, and will only have the dependencies it needs. Another advantage is that this is a refactor that you can implement method by method, hence it&rsquo;s easy to do applying the <a href="https://deviq.com/boy-scout-rule/">boy scout rule</a>. And finally, if you implment this, you will end up with bunch of folders in your solution which describe the actions and queries that you can make in your system, being that much easier to find what you need and to understand what is the system doing.</p>
-
 <p>Let&rsquo;s see how we can do this refactoring. As you will see, we can do this quite easily and in a &ldquo;safe&rdquo; manner (in case you don&rsquo;t have tests yet) by &ldquo;just&rdquo; copy and pasting code. Let&rsquo;s see a wee example.</p>
-
 <p>Imagine that you have this code</p>
-
-<pre><code>public class UsersApplicationService
+<pre tabindex="0"><code>public class UsersApplicationService
 {
     public UsersApplicationService(IDependency1 d1, IDependency2 d2, 
         IDependency3 d3, IDependency4 d4, IDependency5 d5)
@@ -239,11 +183,8 @@
 
     // More methods
 }
-</code></pre>
-
-<p>Let&rsquo;s start by creating a folder called <code>Commands\LoginUser</code>. Let&rsquo;s then create there a file called LoginUserResponse, that would be something like this:</p>
-
-<pre><code>public class LoginUserResponse
+</code></pre><p>Let&rsquo;s start by creating a folder called <code>Commands\LoginUser</code>. Let&rsquo;s then create there a file called LoginUserResponse, that would be something like this:</p>
+<pre tabindex="0"><code>public class LoginUserResponse
 {
     public LoginUserResponse(LoginResult result)
     {
@@ -252,11 +193,8 @@
 
     public LoginResult Result {get;}
 }
-</code></pre>
-
-<p>Then, let&rsquo;s create a class that will define the request. In our case we need to wrap <em>username</em> and <em>password</em> in a class. We need to indicate to MediatR that this will be a request, implementing the <code>IRequest&lt;&gt;</code> interface:</p>
-
-<pre><code>public class LoginUserRequest : IRequest&lt;LoginUserResponse&gt;
+</code></pre><p>Then, let&rsquo;s create a class that will define the request. In our case we need to wrap <em>username</em> and <em>password</em> in a class. We need to indicate to MediatR that this will be a request, implementing the <code>IRequest&lt;&gt;</code> interface:</p>
+<pre tabindex="0"><code>public class LoginUserRequest : IRequest&lt;LoginUserResponse&gt;
 {
     public LoginUserRequest(string username, string password)
     {
@@ -267,11 +205,8 @@
     public string Username { get; }
     public string Password { get; }
 }
-</code></pre>
-
-<p>And finally, we need to create the handler. This will be a class that implements the <code>IRequestHandler&lt;,&gt;</code> interface and that will have a method that receives a <code>LoginUserRequest</code> and returns a <code>LoginUserResponse</code>. This class will only need two dependencies to be injected and we&rsquo;ll just need to copy the code that we had in the application service method and just change the points where we use the username and password (or create a variable for it) and the object that we return (that will include the previous return object).</p>
-
-<pre><code>public class LoginUserHandler : IRequestHandler&lt;LoginUserRequest, LoginUserResponse&gt;
+</code></pre><p>And finally, we need to create the handler. This will be a class that implements the <code>IRequestHandler&lt;,&gt;</code> interface and that will have a method that receives a <code>LoginUserRequest</code> and returns a <code>LoginUserResponse</code>. This class will only need two dependencies to be injected and we&rsquo;ll just need to copy the code that we had in the application service method and just change the points where we use the username and password (or create a variable for it) and the object that we return (that will include the previous return object).</p>
+<pre tabindex="0"><code>public class LoginUserHandler : IRequestHandler&lt;LoginUserRequest, LoginUserResponse&gt;
 {
     public LoginUserHandler(IDependency1 d1, IDependency2 d2)
     {
@@ -290,21 +225,14 @@
         // return result =&gt; Task.FromResult(new LoginUserResponse(result));
     }
 }
-</code></pre>
-
-<p>Finally, we&rsquo;ll need to change the controller to use mediator instead of calling the application service directly.</p>
-
+</code></pre><p>Finally, we&rsquo;ll need to change the controller to use mediator instead of calling the application service directly.</p>
 <p>If we want to add unit tests afterward, those will be easier to setup, as we only will have two dependencies. They will live in the same folder structure as the source code, so they will be easy to find.</p>
-
 <p>And if we want to add validation, we can do that easily using behaviors. If the validation already exist in the method, we can move it to a validator quite easily.</p>
-
 <h2 id="summary">Summary</h2>
-
 <p>This has been a wee (but real!) example of a refactor to a more understandable organization of the code. If you keep doing this in your codebase, you will end up having a codebase easier to understand and hence, easier to change. Hope you find it useful!</p>
 
     </div>
 
-    
     <div class="post-copyright">
   <p class="copyright-item">
     <span class="item-title">Author</span>
@@ -312,32 +240,25 @@
   </p>
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
-    <span class="item-content">13-02-2020</span>
+    <span class="item-content">
+        13-02-2020
+        
+    </span>
   </p>
   
   
 </div>
-
-    
-    
-
-    <footer class="post-footer">
+<footer class="post-footer">
       <div class="post-tags">
-          
           <a href="/tags/refactoring/">refactoring</a>
-          
-        </div>
-
-      
+          </div>
       <nav class="post-nav">
-        
-          <a class="prev" href="/post/lambda-destinations/">
+        <a class="prev" href="/post/lambda-destinations/">
             <i class="iconfont icon-left"></i>
             <span class="prev-text nav-default">Lambda destinations</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
-          <a class="next" href="/post/forwarding-correlation-ids-in-aspnetcore-version-2/">
+        <a class="next" href="/post/forwarding-correlation-ids-in-aspnetcore-version-2/">
             <span class="next-text nav-default">Capturing and forwarding correlation IDs in ASP.NET Core, the easy way</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
@@ -346,8 +267,7 @@
     </footer>
   </article>
         </div>
-        
-  <div id="disqus_thread"></div>
+        <div id="disqus_thread"></div>
     <script type="text/javascript">
     (function() {
       
@@ -361,6 +281,8 @@
     })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
 
   
 
@@ -390,28 +312,24 @@
 
   <span class="copyright-year">
     &copy; 
-    
-      2013 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Vicenç García</span>
+    2013 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
       <i class="iconfont icon-up"></i>
     </div>
   </div>
-  
-<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  
 
 
-<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 

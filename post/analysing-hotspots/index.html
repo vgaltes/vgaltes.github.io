@@ -16,8 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Vicenç García" />
-  <meta name="description" content="When you start working on a new project, there are a couple of things that you should try to discover as fast as you can: the shape of the code and the internals of the team you&amp;rsquo;re working with.
+<meta name="author" content="Vicenç García" /><meta name="description" content="When you start working on a new project, there are a couple of things that you should try to discover as fast as you can: the shape of the code and the internals of the team you&amp;rsquo;re working with.
 You can (and should) try to discover both of them using conversations (at the end, developing software is having conversations (link in spanish)). But it&amp;rsquo;s also useful to try to discover this things for yourself, to confirm what the conversations are saying, or to bo a little bit faster." />
 
 
@@ -25,12 +24,10 @@ You can (and should) try to discover both of them using conversations (at the en
 
 
 
-
-<meta name="generator" content="Hugo 0.40.1" />
+<meta name="generator" content="Hugo 0.105.0 with theme even" />
 
 
 <link rel="canonical" href="http://example.org/post/analysing-hotspots/" />
-
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,16 +36,7 @@ You can (and should) try to discover both of them using conversations (at the en
 
 
 
-
-
-
-
-
-
-
-<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
 
 
 
@@ -56,43 +44,19 @@ You can (and should) try to discover both of them using conversations (at the en
 <meta property="og:description" content="When you start working on a new project, there are a couple of things that you should try to discover as fast as you can: the shape of the code and the internals of the team you&rsquo;re working with.
 You can (and should) try to discover both of them using conversations (at the end, developing software is having conversations (link in spanish)). But it&rsquo;s also useful to try to discover this things for yourself, to confirm what the conversations are saying, or to bo a little bit faster." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/post/analysing-hotspots/" />
-
-
-
-<meta property="article:published_time" content="2017-11-07T00:00:00&#43;00:00"/>
-
-<meta property="article:modified_time" content="2017-11-07T00:00:00&#43;00:00"/>
-
-
-
-
-
-
-
-
-
-
+<meta property="og:url" content="http://example.org/post/analysing-hotspots/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2017-11-07T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-11-07T00:00:00+00:00" />
 
 <meta itemprop="name" content="Analysing hotspots using CrystalGazer and NDepend">
 <meta itemprop="description" content="When you start working on a new project, there are a couple of things that you should try to discover as fast as you can: the shape of the code and the internals of the team you&rsquo;re working with.
-You can (and should) try to discover both of them using conversations (at the end, developing software is having conversations (link in spanish)). But it&rsquo;s also useful to try to discover this things for yourself, to confirm what the conversations are saying, or to bo a little bit faster.">
-
-
-<meta itemprop="datePublished" content="2017-11-07T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2017-11-07T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="607">
-
-
-
-<meta itemprop="keywords" content="code analysis,ndepend," />
-<meta name="twitter:card" content="summary"/>
+You can (and should) try to discover both of them using conversations (at the end, developing software is having conversations (link in spanish)). But it&rsquo;s also useful to try to discover this things for yourself, to confirm what the conversations are saying, or to bo a little bit faster."><meta itemprop="datePublished" content="2017-11-07T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2017-11-07T00:00:00+00:00" />
+<meta itemprop="wordCount" content="604">
+<meta itemprop="keywords" content="code analysis,ndepend," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Analysing hotspots using CrystalGazer and NDepend"/>
 <meta name="twitter:description" content="When you start working on a new project, there are a couple of things that you should try to discover as fast as you can: the shape of the code and the internals of the team you&rsquo;re working with.
 You can (and should) try to discover both of them using conversations (at the end, developing software is having conversations (link in spanish)). But it&rsquo;s also useful to try to discover this things for yourself, to confirm what the conversations are saying, or to bo a little bit faster."/>
-
-
-
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -102,9 +66,6 @@ You can (and should) try to discover both of them using conversations (at the en
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
 <![endif]-->
-
-<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101221175);</script>
-<script async src="//static.getclicky.com/js"></script>
 
 </head>
 <body>
@@ -130,12 +91,21 @@ You can (and should) try to discover both of them using conversations (at the en
         <li class="mobile-menu-item">Categories</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">VGALTES</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -150,6 +120,7 @@ You can (and should) try to discover both of them using conversations (at the en
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -163,103 +134,66 @@ You can (and should) try to discover both of them using conversations (at the en
       <div class="post-meta">
         <span class="post-time"> 07-11-2017 </span>
         <div class="post-category">
-            
-              <a href="/categories/crystalgazer/"> crystalgazer </a>
-            
-          </div>
-        <span class="more-meta"> 607 words </span>
-        <span class="more-meta"> 3 mins read </span>
+            <a href="/categories/crystalgazer/"> crystalgazer </a>
+            </div>
+          <span class="more-meta"> 604 words </span>
+          <span class="more-meta"> 3 mins read </span>
         
       </div>
     </header>
 
-    
-    
-<div class="post-toc" id="post-toc">
+    <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
-  
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#hotspots">Hotspots</a>
-<ul>
-<li><a href="#number-of-commits">Number of commits</a></li>
-<li><a href="#complexity">Complexity</a></li>
-<li><a href="#contributors">Contributors</a></li>
-</ul></li>
-<li><a href="#ndepend">NDepend</a></li>
-<li><a href="#summary">Summary</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#hotspots">Hotspots</a>
+      <ul>
+        <li><a href="#number-of-commits">Number of commits</a></li>
+        <li><a href="#complexity">Complexity</a></li>
+        <li><a href="#contributors">Contributors</a></li>
+      </ul>
+    </li>
+    <li><a href="#ndepend">NDepend</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
 </nav>
   </div>
 </div>
-
-    
-    
-
-    
     <div class="post-content">
-      
-
-<p>When you start working on a new project, there are a couple of things that you should try to discover as fast as you can: the shape of the code and the internals of the team you&rsquo;re working with.</p>
-
+      <p>When you start working on a new project, there are a couple of things that you should try to discover as fast as you can: the shape of the code and the internals of the team you&rsquo;re working with.</p>
 <p>You can (and should) try to discover both of them using conversations (at the end, <a href="http://blog.jmbeas.es/2017/06/18/el-desarrollo-de-software-son-conversaciones-i/">developing software is having conversations</a> (link in spanish)). But it&rsquo;s also useful to try to discover this things for yourself, to confirm what the conversations are saying, or to bo a little bit faster.</p>
-
 <p>There are a lot of tools out there to analyse your code. A very useful one is a static analysis tool like <a href="https://www.ndepend.com/">NDepend</a>. With a tool like NDepend you can discover a lot of issues on your code, and you can even analyse the evolution of it using different snapshots.</p>
-
 <p>But sometimes, you need another type of information. Discovering temporal couplings and hotspots is something you can discover with tools like <a href="https://www.npmjs.com/package/crystalgazer">CrytalGazer</a> or CodeScene(<a href="https://codescene.io">https://codescene.io</a>). In this article we&rsquo;ll see how we can combine both type of tools.</p>
-
 <h2 id="hotspots">Hotspots</h2>
-
-<p>A hotspot is a file that has high chances to need a refactor. We&rsquo;re going to use three metrics to evaluate this:
- - Number of commits performed that included the file
- - Complexity of the file
- - Number of people that contributed to the file</p>
-
+<p>A hotspot is a file that has high chances to need a refactor. We&rsquo;re going to use three metrics to evaluate this:</p>
+<ul>
+<li>Number of commits performed that included the file</li>
+<li>Complexity of the file</li>
+<li>Number of people that contributed to the file</li>
+</ul>
 <p>Let&rsquo;s use CrystalGazer to gather this information. I&rsquo;m going to use the <a href="https://github.com/aspnet/Mvc">ASP .Net MVC</a> project to make this study. I&rsquo;m doing this because <a href="https://twitter.com/AdamTornhill">Adam Tornhill</a> has the same study using his tool <a href="https://codescene.io">Codescene</a> and then I can compare the results :-).</p>
-
 <h3 id="number-of-commits">Number of commits</h3>
-
-<p><img src="/images/20171107/NumberOfRevisions.png" alt="Number of commits" /></p>
-
+<p><img src="/images/20171107/NumberOfRevisions.png" alt="Number of commits"></p>
 <p>As you can see, there are six files with more than 100 revisions. One of them is a file called ControllerActionInvokerTests.cs, with 106 revisions.</p>
-
 <h3 id="complexity">Complexity</h3>
-
-<p><img src="/images/20171107/Complexity.png" alt="Complexity" /></p>
-
+<p><img src="/images/20171107/Complexity.png" alt="Complexity"></p>
 <p>Here, we&rsquo;re using a very simple metric to analyse complexity, as it is the number of lines. Number of lines is a good enough metric to perform this preliminary study and it&rsquo;s easy an fast to calculate. You can use other metrics as number of tabs, cyclomatic complexity and so on.</p>
-
 <p>In this case, our friend is the winner BY FAR.</p>
-
 <h3 id="contributors">Contributors</h3>
-
-<p><img src="/images/20171107/Contributors.png" alt="Contributors" /></p>
-
+<p><img src="/images/20171107/Contributors.png" alt="Contributors"></p>
 <p>And finally, we&rsquo;re going to take a look at the number of contributors. In this case, our friend is in a very honorable sixth position (fourth if we exclude the resource files).</p>
-
 <p>So, it looks like we have a good candidate to study. Let&rsquo;s take a look what NDepend says about it.</p>
-
 <h2 id="ndepend">NDepend</h2>
-
 <p>NDepend is an amazing tool with lots of options. In this case, I want to concentrate with the technical debt metric. According to NDepend, the project has a debt of 198.53 man-days and a rating of B, needing 90 man-days to reach a rating of A. So, I want to take a look at what are the worst classes to start working on them. NDepend will analyse my project in a very different way that we did before. It&rsquo;s going to take a look at the internals of my code in the moment I run the analysis. So, let&rsquo;s see what it says when I run the &ldquo;Types Hot Spot&rdquo; analysis of the debt.</p>
-
-<p><img src="/images/20171107/TypesHotSpot.png" alt="Types Hot Spot analysis" /></p>
-
+<p><img src="/images/20171107/TypesHotSpot.png" alt="Types Hot Spot analysis"></p>
 <p>Interestingly, our dear friend is also in a very &ldquo;good&rdquo; position in that list.</p>
-
 <h2 id="summary">Summary</h2>
-
 <p>In this article we&rsquo;ve taken an initial look at how to detect hotspots in our code with two very different tools: an static analysis tool like NDepend, and a repository analysis tool like CrystalGazer. We&rsquo;ve seen that, in our case, the results are quite similar. This is something that shouldn&rsquo;t necessarily happen.</p>
-
 <p>We have different tools to analyse the state of our code. Let&rsquo;s try to take advantage of all of them.</p>
 
     </div>
 
-    
     <div class="post-copyright">
   <p class="copyright-item">
     <span class="item-title">Author</span>
@@ -267,34 +201,26 @@ You can (and should) try to discover both of them using conversations (at the en
   </p>
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
-    <span class="item-content">07-11-2017</span>
+    <span class="item-content">
+        07-11-2017
+        
+    </span>
   </p>
   
   
 </div>
-
-    
-    
-
-    <footer class="post-footer">
+<footer class="post-footer">
       <div class="post-tags">
-          
           <a href="/tags/code-analysis/">code analysis</a>
-          
           <a href="/tags/ndepend/">ndepend</a>
-          
-        </div>
-
-      
+          </div>
       <nav class="post-nav">
-        
-          <a class="prev" href="/post/vault-basics/">
+        <a class="prev" href="/post/vault-basics/">
             <i class="iconfont icon-left"></i>
             <span class="prev-text nav-default">Vault basics</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
-          <a class="next" href="/post/antlr-and-javascript/">
+        <a class="next" href="/post/antlr-and-javascript/">
             <span class="next-text nav-default">ANTLR and JavaScript</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
@@ -303,8 +229,7 @@ You can (and should) try to discover both of them using conversations (at the en
     </footer>
   </article>
         </div>
-        
-  <div id="disqus_thread"></div>
+        <div id="disqus_thread"></div>
     <script type="text/javascript">
     (function() {
       
@@ -318,6 +243,8 @@ You can (and should) try to discover both of them using conversations (at the en
     })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
 
   
 
@@ -347,28 +274,24 @@ You can (and should) try to discover both of them using conversations (at the en
 
   <span class="copyright-year">
     &copy; 
-    
-      2013 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Vicenç García</span>
+    2013 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
       <i class="iconfont icon-up"></i>
     </div>
   </div>
-  
-<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  
 
 
-<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>F# on VGALTES blog</title>
@@ -6,11 +6,7 @@
     <description>Recent content in F# on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 17 Oct 2016 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://example.org/tags/f#/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 17 Oct 2016 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/tags/f#/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Partial classification active pattern</title>
       <link>http://example.org/post/partial-classification-active-pattern/</link>
@@ -29,7 +25,7 @@ As its name denotes, is a pattern that partially classificates what you match wi
       
       <guid>http://example.org/post/run-nunit3-tests-using-fake/</guid>
       <description>When you have some unit tests developed using NUnit 2.x your FAKE script looks like something like this:
-Target &amp;quot;RunUnitTests&amp;quot; (fun _ -&amp;gt; !! (testDir + &amp;quot;/*.Tests.dll&amp;quot;) |&amp;gt; NUnit (fun p -&amp;gt; {p with ToolPath = &amp;quot;packages/NUnit.Runners/tools/&amp;quot;})  )
+Target &amp;quot;RunUnitTests&amp;quot; (fun _ -&amp;gt;!! (testDir + &amp;quot;/*.Tests.dll&amp;quot;)|&amp;gt; NUnit (fun p -&amp;gt;{p with ToolPath = &amp;quot;packages/NUnit.Runners/tools/&amp;quot;}))
 But NUnit3 works slightly different. Instead of having a single NUnit.Runners package, that package references some other packages (runner, extensions, etc). One of those packages is NUnit.ConsoleRunner that has the exe inside the tools folder.</description>
     </item>
     
@@ -40,10 +36,8 @@ But NUnit3 works slightly different. Instead of having a single NUnit.Runners pa
       
       <guid>http://example.org/post/rpg-combat-kata/</guid>
       <description>A couple of weeks ago I saw these tweets (in Spanish):
-Hoy en la ofi hemos empezado la mañana con la RPG Combat kata de @SuuiGD que hicimos en el #scpna :-D https://t.co/vsK0OucncD
-&amp;mdash; Xabi Sáez de Ocáriz (@ziraco) June 22, 2016 
-@SuuiGD @ziraco a mi me flipó tanto que estoy haciendo la versión &amp;quot;Extended&amp;quot;.si sigo así, le pongo UI y al store! ;)
-&amp;mdash; Modesto San Juan (@msanjuan) June 22, 2016</description>
+As I respect enormously Modesto and Xabi&amp;rsquo;s opinion and I trust on the skills of a Carlos Ble&amp;rsquo;s apprentice, I decided to do the kata at home. And as I keep trying to learn F#, that would be the chosen language.
+I recommend you to do the kata, is a very interesting one. In case you want to do it, please stop reading now and come back when you have finished it, as I&amp;rsquo;m going to explain how I solved it.</description>
     </item>
     
     <item>
@@ -75,7 +69,7 @@ After reading the first three chapters we decided to make the FizzBuzz kata to s
       
       <guid>http://example.org/post/a-premier-league-team-will-win-the-champions/</guid>
       <description>Spain and Germany are dominating with an iron fist last Champions League editions. After a lot of investment, a Premier League team is ready to conquer the longed for trophy. In this article we&amp;rsquo;ll demonstrate this fact.
-The data We&amp;rsquo;ve borrowed the data for this study from the UEFA&amp;rsquo;s official page. If you go to this address http://www.uefa.com/uefachampionsleague/season=2011/matches/all/index.html# you&amp;rsquo;ll see all the matches played in the season 2010&amp;frasl;2011. Change the year in the query string to see another year&amp;rsquo;s results.</description>
+The data We&amp;rsquo;ve borrowed the data for this study from the UEFA&amp;rsquo;s official page. If you go to this address http://www.uefa.com/uefachampionsleague/season=2011/matches/all/index.html# you&amp;rsquo;ll see all the matches played in the season 2010/2011. Change the year in the query string to see another year&amp;rsquo;s results.</description>
     </item>
     
     <item>
@@ -107,8 +101,8 @@ The object oriented solution There are a couple of typical implementations of th
       <guid>http://example.org/post/function-composition-and-pipeline-operator/</guid>
       <description>As Scott Wlaschin points out in his excellent article function composition it&amp;rsquo;s not the same as using the pipeline operator.
 The definition of the pipeline operator is this one:
-let (|&amp;gt;) x f = f x  So, take the thing on the left hand side of the operator and use it as the last parameter on the function in the right hand side.
-On the other hand, we have this definition for the forward composition operator (&amp;gt;&amp;gt;)</description>
+let (|&amp;gt;) x f = f xSo, take the thing on the left hand side of the operator and use it as the last parameter on the function in the right hand side.
+On the other hand, we have this definition for the forward composition operator (&amp;raquo;)</description>
     </item>
     
     <item>
@@ -141,7 +135,7 @@ Suave.Experimental Experimental is a component available via NuGet that allows u
 Sequence creation As with arrays there are several ways to create a sequence.
 Create from a range expression
 You can create a new sequence from a range expression. In this case, instead of using [| and |] you should use { and }
-let numbers = {1..20}  Create from a sequence expression</description>
+let numbers = {1..20} Create from a sequence expression</description>
     </item>
     
   </channel>

@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Aws on VGALTES blog</title>
+    <title>aws on VGALTES blog</title>
     <link>http://example.org/tags/aws/</link>
-    <description>Recent content in Aws on VGALTES blog</description>
+    <description>Recent content in aws on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 16 May 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://example.org/tags/aws/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 16 May 2018 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/tags/aws/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Using different configuration per stage</title>
       <link>http://example.org/post/using-different-configuration-per-stage/</link>
@@ -88,10 +84,9 @@ The parallel state allows you to create parallel branches of execution in your s
       
       <guid>http://example.org/post/step-functions-using-net-core/</guid>
       <description>If my good friend Alan Gorton is right
-Functions will eat servers. #serverless https://t.co/4Rc1cDnM73
-&amp;mdash; Alan Gorton (@develogue) February 19, 2017 
 we&amp;rsquo;d better be prepared. In this article we&amp;rsquo;ll see how we can develop AWS Lambda Functions using .Net Core and deploy them and Step Functions using the serverless framework.
-Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&amp;rsquo;re going to need.</description>
+Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&amp;rsquo;re going to need.
+Let&amp;rsquo;s start with .</description>
     </item>
     
   </channel>

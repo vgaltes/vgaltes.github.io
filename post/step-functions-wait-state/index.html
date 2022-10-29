@@ -16,8 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Vicenç García" />
-  <meta name="description" content="In the last article we&amp;rsquo;ve seen how to the parallel state in a State function. In this article we&amp;rsquo;ll see how we can use the Wait state using the serverless framework.
+<meta name="author" content="Vicenç García" /><meta name="description" content="In the last article we&amp;rsquo;ve seen how to the parallel state in a State function. In this article we&amp;rsquo;ll see how we can use the Wait state using the serverless framework.
 The wait state delays the execution of the state function for a certain amount of time. By default, it returns the same object that it receives.
 What are we going to code We are going to code the following state function As you can see we&amp;rsquo;re going to have an initial function that creates a result with a field called DelaySeconds." />
 
@@ -26,12 +25,10 @@ What are we going to code We are going to code the following state function As y
 
 
 
-
-<meta name="generator" content="Hugo 0.40.1" />
+<meta name="generator" content="Hugo 0.105.0 with theme even" />
 
 
 <link rel="canonical" href="http://example.org/post/step-functions-wait-state/" />
-
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -40,16 +37,7 @@ What are we going to code We are going to code the following state function As y
 
 
 
-
-
-
-
-
-
-
-<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
 
 
 
@@ -58,45 +46,21 @@ What are we going to code We are going to code the following state function As y
 The wait state delays the execution of the state function for a certain amount of time. By default, it returns the same object that it receives.
 What are we going to code We are going to code the following state function As you can see we&rsquo;re going to have an initial function that creates a result with a field called DelaySeconds." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/post/step-functions-wait-state/" />
-
-
-
-<meta property="article:published_time" content="2017-06-21T00:00:00&#43;00:00"/>
-
-<meta property="article:modified_time" content="2017-06-21T00:00:00&#43;00:00"/>
-
-
-
-
-
-
-
-
-
-
+<meta property="og:url" content="http://example.org/post/step-functions-wait-state/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2017-06-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-06-21T00:00:00+00:00" />
 
 <meta itemprop="name" content="Wait state in AWS Step Functions using the serverless framework">
 <meta itemprop="description" content="In the last article we&rsquo;ve seen how to the parallel state in a State function. In this article we&rsquo;ll see how we can use the Wait state using the serverless framework.
 The wait state delays the execution of the state function for a certain amount of time. By default, it returns the same object that it receives.
-What are we going to code We are going to code the following state function As you can see we&rsquo;re going to have an initial function that creates a result with a field called DelaySeconds.">
-
-
-<meta itemprop="datePublished" content="2017-06-21T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2017-06-21T00:00:00&#43;00:00" />
+What are we going to code We are going to code the following state function As you can see we&rsquo;re going to have an initial function that creates a result with a field called DelaySeconds."><meta itemprop="datePublished" content="2017-06-21T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2017-06-21T00:00:00+00:00" />
 <meta itemprop="wordCount" content="552">
-
-
-
-<meta itemprop="keywords" content="step functions,aws,serverless," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="step functions,aws,serverless," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Wait state in AWS Step Functions using the serverless framework"/>
 <meta name="twitter:description" content="In the last article we&rsquo;ve seen how to the parallel state in a State function. In this article we&rsquo;ll see how we can use the Wait state using the serverless framework.
 The wait state delays the execution of the state function for a certain amount of time. By default, it returns the same object that it receives.
 What are we going to code We are going to code the following state function As you can see we&rsquo;re going to have an initial function that creates a result with a field called DelaySeconds."/>
-
-
-
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -106,9 +70,6 @@ What are we going to code We are going to code the following state function As y
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
 <![endif]-->
-
-<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101221175);</script>
-<script async src="//static.getclicky.com/js"></script>
 
 </head>
 <body>
@@ -134,12 +95,21 @@ What are we going to code We are going to code the following state function As y
         <li class="mobile-menu-item">Categories</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">VGALTES</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -154,6 +124,7 @@ What are we going to code We are going to code the following state function As y
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -167,75 +138,54 @@ What are we going to code We are going to code the following state function As y
       <div class="post-meta">
         <span class="post-time"> 21-06-2017 </span>
         <div class="post-category">
-            
-              <a href="/categories/serverless/"> serverless </a>
-            
-          </div>
-        <span class="more-meta"> 552 words </span>
-        <span class="more-meta"> 3 mins read </span>
+            <a href="/categories/serverless/"> serverless </a>
+            </div>
+          <span class="more-meta"> 552 words </span>
+          <span class="more-meta"> 3 mins read </span>
         
       </div>
     </header>
 
-    
-    
-<div class="post-toc" id="post-toc">
+    <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
-  
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#what-are-we-going-to-code">What are we going to code</a></li>
-<li><a href="#coding-the-lambdas">Coding the lambdas</a>
-<ul>
-<li><a href="#initlambda">InitLambda</a></li>
-<li><a href="#resultlambda">ResultLambda</a></li>
-</ul></li>
-<li><a href="#creating-the-step-function">Creating the step function</a>
-<ul>
-<li><a href="#specifying-a-timestamp">Specifying a timestamp</a></li>
-<li><a href="#non-hardcoded-duration">Non-hardcoded duration</a></li>
-</ul></li>
-<li><a href="#summary">Summary</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#what-are-we-going-to-code">What are we going to code</a></li>
+    <li><a href="#coding-the-lambdas">Coding the lambdas</a>
+      <ul>
+        <li><a href="#initlambda">InitLambda</a></li>
+        <li><a href="#resultlambda">ResultLambda</a></li>
+      </ul>
+    </li>
+    <li><a href="#creating-the-step-function">Creating the step function</a>
+      <ul>
+        <li><a href="#specifying-a-timestamp">Specifying a timestamp</a></li>
+        <li><a href="#non-hardcoded-duration">Non-hardcoded duration</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
 </nav>
   </div>
 </div>
-
-    
-    
-
-    
     <div class="post-content">
-      
-
-<p>In the <a href="http://vgaltes.com/serverless/step-functions-parallel-state/">last article</a> we&rsquo;ve seen how to the <a href="http://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-parallel-state.html">parallel state</a> in a State function. In this article we&rsquo;ll see how we can use the <a href="http://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-wait-state.html">Wait state</a> using the <a href="http://serverless.com">serverless framework</a>.</p>
-
+      <p>In the <a href="http://vgaltes.com/serverless/step-functions-parallel-state/">last article</a> we&rsquo;ve seen how to the <a href="http://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-parallel-state.html">parallel state</a> in a State function. In this article we&rsquo;ll see how we can use the <a href="http://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-wait-state.html">Wait state</a> using the <a href="http://serverless.com">serverless framework</a>.</p>
 <p>The wait state delays the execution of the state function for a certain amount of time. By default, it returns the same object that it receives.</p>
-
 <h2 id="what-are-we-going-to-code">What are we going to code</h2>
-
 <p>We are going to code the following state function
-<img src="/images/netcorewait/state-function.png" alt="step function with parallel state" /></p>
-
+<img src="/images/netcorewait/state-function.png" alt="step function with parallel state"></p>
 <p>As you can see we&rsquo;re going to have an initial function that creates a result with a field called DelaySeconds. Then, we&rsquo;ll have the wait state and finally a result state that will format the output.</p>
-
 <h2 id="coding-the-lambdas">Coding the lambdas</h2>
-
 <p>Following the steps of the <a href="http://vgaltes.com/serverless/step-functions-using-net-core/">following</a> article, create two lambdas called InitLambda and ResultLambda with the following code:</p>
-
 <h3 id="initlambda">InitLambda</h3>
-
 <pre><code>public class InitLambda
 {
     public InitResult Init(string input){
         return new InitResult(int.Parse(input));
     }
 }
-
+    
 public class InitResult{
 
     public InitResult(int delay)
@@ -245,9 +195,7 @@ public class InitResult{
     public int DelaySeconds {get;set;}
 }
 </code></pre>
-
 <h3 id="resultlambda">ResultLambda</h3>
-
 <pre><code>public class ResultLambda
 {
     public string Result(InitResult input){
@@ -266,11 +214,8 @@ public class InitResult{
 
 // You can have the result class in a shared library
 </code></pre>
-
 <h2 id="creating-the-step-function">Creating the step function</h2>
-
 <p>Now it&rsquo;s time to create the step function. The code is very similar to our original code, but we&rsquo;re now introducing a new kind of state. Let&rsquo;s put here the interesting bits:</p>
-
 <pre><code>stepFunctions:
     stateMachines:
         testParallelStepFunction:
@@ -290,50 +235,33 @@ public class InitResult{
                         Resource: arn:aws:lambda:${opt:region}:${self:custom.accountId}:function:${self:custom.resultService}-${opt:stage}-Result
                         End: true
 </code></pre>
-
 <p>As you can see we have a new task state called WaitSeconds which is of type Wait. In this first case we are specifying that we want to wait 10 seconds. Let&rsquo;s run the step function from the UI and see if it waits the desired time.</p>
-
-<p><img src="/images/netcorewait/wait-10.png" alt="wait 10 seconds" /></p>
-
+<p><img src="/images/netcorewait/wait-10.png" alt="wait 10 seconds"></p>
 <p>It works!</p>
-
 <p>Let&rsquo;s see which other alternatives do we have.</p>
-
 <h3 id="specifying-a-timestamp">Specifying a timestamp</h3>
-
 <p>It can be possible that we need a step to be executed at a certain time. If we want that, we can specify the timestamp field:</p>
-
 <pre><code>WaitSeconds:
     Type: Wait
     Timestamp: &quot;2017-06-20T20:58:00Z&quot;
     Next: Result
 </code></pre>
-
 <p>The timestamp, as the documentation says, must conform to the RFC3339 profile of ISO 8601, with the further restrictions that an uppercase T must separate the date and time portions, and an uppercase Z must denote that a numeric time zone offset is not present. In our case, we&rsquo;re saying that we want to wait until 2017/06/20 20:58 UTC.</p>
-
 <p>Let&rsquo;s deploy and execute the step function from the UI to see if it works:</p>
-
-<p><img src="/images/netcorewait/wait-timestamp.png" alt="wait timestamp" /></p>
-
+<p><img src="/images/netcorewait/wait-timestamp.png" alt="wait timestamp"></p>
 <h3 id="non-hardcoded-duration">Non-hardcoded duration</h3>
-
 <p>We don&rsquo;t need to always hardcode the value of the duration or the timestamp. We can use a path from the state&rsquo;s input data to specify. If we want to do that, we need to specify the state in this way:</p>
-
 <pre><code>WaitSeconds:
     Type: Wait
     SecondsPath: &quot;$.DelaySeconds&quot;
     Next: Result
 </code></pre>
-
 <p>In our case, we&rsquo;re going to use the field DelaySeconds of the input data to read the amount of seconds we want to wait. We can do the same thing with the timestamp using the field TimestampPath.</p>
-
 <h2 id="summary">Summary</h2>
-
 <p>We&rsquo;ve seen another possible state that you can use when defining a State Function: the wait step. We&rsquo;ve seen how we configure this kind of step in four different ways.</p>
 
     </div>
 
-    
     <div class="post-copyright">
   <p class="copyright-item">
     <span class="item-title">Author</span>
@@ -341,36 +269,27 @@ public class InitResult{
   </p>
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
-    <span class="item-content">21-06-2017</span>
+    <span class="item-content">
+        21-06-2017
+        
+    </span>
   </p>
   
   
 </div>
-
-    
-    
-
-    <footer class="post-footer">
+<footer class="post-footer">
       <div class="post-tags">
-          
           <a href="/tags/step-functions/">step functions</a>
-          
           <a href="/tags/aws/">aws</a>
-          
           <a href="/tags/serverless/">serverless</a>
-          
-        </div>
-
-      
+          </div>
       <nav class="post-nav">
-        
-          <a class="prev" href="/post/handling-errors-in-step-functions/">
+        <a class="prev" href="/post/handling-errors-in-step-functions/">
             <i class="iconfont icon-left"></i>
             <span class="prev-text nav-default">Handling errors in AWS Step Functions</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
-          <a class="next" href="/post/step-functions-parallel-state/">
+        <a class="next" href="/post/step-functions-parallel-state/">
             <span class="next-text nav-default">Parallel state in AWS Step Functions using .Net Core</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
@@ -379,8 +298,7 @@ public class InitResult{
     </footer>
   </article>
         </div>
-        
-  <div id="disqus_thread"></div>
+        <div id="disqus_thread"></div>
     <script type="text/javascript">
     (function() {
       
@@ -394,6 +312,8 @@ public class InitResult{
     })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
 
   
 
@@ -423,28 +343,24 @@ public class InitResult{
 
   <span class="copyright-year">
     &copy; 
-    
-      2013 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Vicenç García</span>
+    2013 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
       <i class="iconfont icon-up"></i>
     </div>
   </div>
-  
-<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  
 
 
-<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 

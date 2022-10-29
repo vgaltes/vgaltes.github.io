@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Federation on VGALTES blog</title>
+    <title>federation on VGALTES blog</title>
     <link>http://example.org/tags/federation/</link>
-    <description>Recent content in Federation on VGALTES blog</description>
+    <description>Recent content in federation on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 31 Oct 2019 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://example.org/tags/federation/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 31 Oct 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/tags/federation/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cognito User Pools, Google federation and AWS Amplify</title>
       <link>http://example.org/post/cognito-user-pools-google/</link>

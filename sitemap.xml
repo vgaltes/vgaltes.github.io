@@ -1,6 +1,75 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <?xml-stylesheet type="text/xsl" href="http://example.org/sitemap.xsl"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://example.org/categories/</loc>
+    <lastmod>2022-10-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/gradle/</loc>
+    <lastmod>2022-10-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/kotest/</loc>
+    <lastmod>2022-10-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/kotlin/</loc>
+    <lastmod>2022-10-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/post/learning-kotlin-gradle-kotest/</loc>
+    <lastmod>2022-10-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/post/</loc>
+    <lastmod>2022-10-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/</loc>
+    <lastmod>2022-10-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/</loc>
+    <lastmod>2022-10-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/personal/</loc>
+    <lastmod>2020-12-30T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/personal/</loc>
+    <lastmod>2020-12-30T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
   
   <url>
     <loc>http://example.org/post/retrospectiva-2020/</loc>
@@ -17,8 +86,50 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/patterns/</loc>
+    <lastmod>2020-06-14T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/serverless/</loc>
+    <lastmod>2020-06-14T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/serverless-framework/</loc>
+    <lastmod>2020-06-14T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/lambda-destinations/</loc>
     <lastmod>2020-03-29T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/agile/</loc>
+    <lastmod>2020-02-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/aspnet-core/</loc>
+    <lastmod>2020-02-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/refactoring/</loc>
+    <lastmod>2020-02-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -32,6 +143,13 @@
   
   <url>
     <loc>http://example.org/post/forwarding-correlation-ids-in-aspnetcore-version-2/</loc>
+    <lastmod>2020-01-29T21:03:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/microservices/</loc>
     <lastmod>2020-01-29T21:03:26+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -66,6 +184,20 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/api-gateway/</loc>
+    <lastmod>2019-11-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/route-53/</loc>
+    <lastmod>2019-11-08T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/multi-region-backend/</loc>
     <lastmod>2019-11-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -80,7 +212,35 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/amplify/</loc>
+    <lastmod>2019-10-31T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/authentication/</loc>
+    <lastmod>2019-10-31T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/cognito/</loc>
+    <lastmod>2019-10-31T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/cognito-user-pools-google/</loc>
+    <lastmod>2019-10-31T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/federation/</loc>
     <lastmod>2019-10-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -101,8 +261,64 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/random-stuff/</loc>
+    <lastmod>2019-06-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/random-stuff/</loc>
+    <lastmod>2019-06-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/mentoring/</loc>
+    <lastmod>2019-05-31T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/mentoring/</loc>
     <lastmod>2019-05-31T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/random-thoughts/</loc>
+    <lastmod>2019-05-31T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/random-thoughts/</loc>
+    <lastmod>2019-05-31T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/azure/</loc>
+    <lastmod>2018-11-30T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/azure-functions/</loc>
+    <lastmod>2018-11-30T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/devops/</loc>
+    <lastmod>2018-11-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -164,6 +380,27 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/aws/</loc>
+    <lastmod>2018-05-16T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/circleci/</loc>
+    <lastmod>2018-05-16T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/lambda/</loc>
+    <lastmod>2018-05-16T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/using-different-configuration-per-stage/</loc>
     <lastmod>2018-05-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -178,7 +415,35 @@
   </url>
   
   <url>
+    <loc>http://example.org/categories/devops/</loc>
+    <lastmod>2017-12-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/vault-dynamic-secrets/</loc>
+    <lastmod>2017-12-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/mysql/</loc>
+    <lastmod>2017-12-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/security/</loc>
+    <lastmod>2017-12-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/vault/</loc>
     <lastmod>2017-12-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -199,6 +464,34 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/code-analysis/</loc>
+    <lastmod>2017-11-07T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/crystalgazer/</loc>
+    <lastmod>2017-11-07T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/ndepend/</loc>
+    <lastmod>2017-11-07T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/antlr/</loc>
+    <lastmod>2017-09-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/antlr-and-javascript/</loc>
     <lastmod>2017-09-06T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -206,7 +499,28 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/javascript/</loc>
+    <lastmod>2017-09-06T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/calling-a-step-function/</loc>
+    <lastmod>2017-07-09T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/serverless/</loc>
+    <lastmod>2017-07-09T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/step-functions/</loc>
     <lastmod>2017-07-09T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -234,6 +548,13 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/net-core/</loc>
+    <lastmod>2017-06-20T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/step-functions-parallel-state/</loc>
     <lastmod>2017-06-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -248,7 +569,21 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/fsharp/</loc>
+    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/a-simple-azure-function-using-f-sharp/</loc>
+    <lastmod>2017-04-01T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/fsharp/</loc>
     <lastmod>2017-04-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -257,6 +592,27 @@
   <url>
     <loc>http://example.org/post/definition-of-x/</loc>
     <lastmod>2017-03-24T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/teamwork/</loc>
+    <lastmod>2017-03-24T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/teamwork/</loc>
+    <lastmod>2017-03-24T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/antipatterns/</loc>
+    <lastmod>2017-03-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -290,8 +646,57 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/business-analisys/</loc>
+    <lastmod>2016-12-11T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/ddd/</loc>
+    <lastmod>2016-12-11T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/event-storming/</loc>
+    <lastmod>2016-12-11T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/active-patterns/</loc>
+    <lastmod>2016-10-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/f#/</loc>
+    <lastmod>2016-10-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/partial-classification-active-pattern/</loc>
     <lastmod>2016-10-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/pattern-matching/</loc>
+    <lastmod>2016-10-17T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/ci/</loc>
+    <lastmod>2016-10-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -304,8 +709,50 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/unit-testing/</loc>
+    <lastmod>2016-10-13T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/agile/</loc>
+    <lastmod>2016-08-18T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/deadlines-are-not-that-bad/</loc>
     <lastmod>2016-08-18T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/mvs/</loc>
+    <lastmod>2016-08-18T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/scope-management/</loc>
+    <lastmod>2016-08-18T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/f#/</loc>
+    <lastmod>2016-07-04T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/functional-design-patterns/</loc>
+    <lastmod>2016-07-04T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -325,6 +772,27 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/git/</loc>
+    <lastmod>2015-12-19T17:56:14+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/statistics/</loc>
+    <lastmod>2015-12-19T17:56:14+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/csv-type-provider/</loc>
+    <lastmod>2015-12-13T12:16:30+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/extracting-information-from-your-code-repository-using-fsharp-part-1-parsing-the-log-file/</loc>
     <lastmod>2015-12-13T12:16:30+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -332,8 +800,50 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/type-providers/</loc>
+    <lastmod>2015-12-13T12:16:30+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/asp.net/</loc>
+    <lastmod>2015-12-06T22:12:40+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/asp.net/</loc>
+    <lastmod>2015-12-06T22:12:40+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/dealing-with-forms-in-asp-net-mvc-without-using-javascript/</loc>
     <lastmod>2015-12-06T22:12:40+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/javascript/</loc>
+    <lastmod>2015-12-06T22:12:40+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/mvc/</loc>
+    <lastmod>2015-12-06T22:12:40+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/conferences/</loc>
+    <lastmod>2015-10-28T07:45:55+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -353,8 +863,29 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/noestimates/</loc>
+    <lastmod>2015-10-06T21:41:49+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/active-pattern/</loc>
+    <lastmod>2015-05-10T18:30:19+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/fsharp-by-example-fizzbuzz-kata-rivisited-more-on-pattern-matching/</loc>
     <lastmod>2015-05-10T18:30:19+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/discriminated-unions/</loc>
+    <lastmod>2015-05-04T14:46:40+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -367,6 +898,41 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/operator-overloading/</loc>
+    <lastmod>2015-05-04T14:46:40+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/record-types/</loc>
+    <lastmod>2015-05-04T14:46:40+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/tuples/</loc>
+    <lastmod>2015-05-04T14:46:40+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/code/</loc>
+    <lastmod>2015-04-24T15:03:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/currying/</loc>
+    <lastmod>2015-04-24T15:03:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/f-example-fizzbuzz-kata/</loc>
     <lastmod>2015-04-24T15:03:26+01:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -374,8 +940,57 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/nunit/</loc>
+    <lastmod>2015-04-24T15:03:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/tdd/</loc>
+    <lastmod>2015-04-24T15:03:26+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/architect/</loc>
+    <lastmod>2015-02-27T17:23:12+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/architect/</loc>
     <lastmod>2015-02-27T17:23:12+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/damp/</loc>
+    <lastmod>2015-02-15T23:13:27+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/dry/</loc>
+    <lastmod>2015-02-15T23:13:27+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/testing/</loc>
+    <lastmod>2015-02-15T23:13:27+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/categories/testing/</loc>
+    <lastmod>2015-02-15T23:13:27+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -389,6 +1004,20 @@
   
   <url>
     <loc>http://example.org/post/command-query-separation/</loc>
+    <lastmod>2015-02-04T10:00:55+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/design/</loc>
+    <lastmod>2015-02-04T10:00:55+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/oop/</loc>
     <lastmod>2015-02-04T10:00:55+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -423,7 +1052,28 @@
   </url>
   
   <url>
+    <loc>http://example.org/tags/agile-dev-practices/</loc>
+    <lastmod>2013-03-13T22:36:01+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>http://example.org/post/agile-dev-practices/</loc>
+    <lastmod>2013-03-13T22:36:01+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/bdd/</loc>
+    <lastmod>2013-03-13T22:36:01+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://example.org/tags/specflow/</loc>
     <lastmod>2013-03-13T22:36:01+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -436,79 +1086,9 @@
   </url>
   
   <url>
-    <loc>http://example.org/tags/active-pattern/</loc>
-    <lastmod>2015-05-10T18:30:19+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/active-patterns/</loc>
-    <lastmod>2016-10-17T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/agile/</loc>
-    <lastmod>2016-08-18T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/agile/</loc>
-    <lastmod>2020-02-13T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/agile-dev-practices/</loc>
-    <lastmod>2013-03-13T22:36:01+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/amplify/</loc>
-    <lastmod>2019-10-31T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/antipatterns/</loc>
-    <lastmod>2017-03-16T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/antlr/</loc>
-    <lastmod>2017-09-06T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/api-gateway/</loc>
-    <lastmod>2019-11-08T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>http://example.org/tags/aprils-fools-day/</loc>
     <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/architect/</loc>
-    <lastmod>2015-02-27T17:23:12+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
+    <priority>0.5</priority>
   </url>
   
   <url>
@@ -518,156 +1098,9 @@
   </url>
   
   <url>
-    <loc>http://example.org/tags/asp.net/</loc>
-    <lastmod>2015-12-06T22:12:40+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/asp.net/</loc>
-    <lastmod>2015-12-06T22:12:40+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/aspnet-core/</loc>
-    <lastmod>2020-02-13T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/authentication/</loc>
-    <lastmod>2019-10-31T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/aws/</loc>
-    <lastmod>2018-05-16T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/azure/</loc>
-    <lastmod>2018-11-30T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/azure-functions/</loc>
-    <lastmod>2018-11-30T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/bdd/</loc>
-    <lastmod>2013-03-13T22:36:01+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/business-analisys/</loc>
-    <lastmod>2016-12-11T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/</loc>
-    <lastmod>2020-02-13T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/ci/</loc>
-    <lastmod>2016-10-13T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/circleci/</loc>
-    <lastmod>2018-05-16T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/code/</loc>
-    <lastmod>2015-04-24T15:03:26+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/code-analysis/</loc>
-    <lastmod>2017-11-07T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/cognito/</loc>
-    <lastmod>2019-10-31T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/conferences/</loc>
-    <lastmod>2015-10-28T07:45:55+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/crystalgazer/</loc>
-    <lastmod>2017-11-07T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/csv-type-provider/</loc>
-    <lastmod>2015-12-13T12:16:30+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/currying/</loc>
-    <lastmod>2015-04-24T15:03:26+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/damp/</loc>
-    <lastmod>2015-02-15T23:13:27+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>http://example.org/tags/data-structures/</loc>
     <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/ddd/</loc>
-    <lastmod>2016-12-11T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
+    <priority>0.5</priority>
   </url>
   
   <url>
@@ -677,92 +1110,15 @@
   </url>
   
   <url>
-    <loc>http://example.org/tags/design/</loc>
-    <lastmod>2015-02-04T10:00:55+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>http://example.org/tags/design-patterns/</loc>
     <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/devops/</loc>
-    <lastmod>2018-11-30T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/devops/</loc>
-    <lastmod>2017-12-17T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/discriminated-unions/</loc>
-    <lastmod>2015-05-04T14:46:40+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/dry/</loc>
-    <lastmod>2015-02-15T23:13:27+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/event-storming/</loc>
-    <lastmod>2016-12-11T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/f#/</loc>
-    <lastmod>2016-10-17T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/f#/</loc>
-    <lastmod>2016-07-04T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/federation/</loc>
-    <lastmod>2019-10-31T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
+    <priority>0.5</priority>
   </url>
   
   <url>
     <loc>http://example.org/tags/forms/</loc>
     <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/fsharp/</loc>
-    <lastmod>2017-06-15T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/fsharp/</loc>
-    <lastmod>2017-04-01T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
+    <priority>0.5</priority>
   </url>
   
   <url>
@@ -772,225 +1128,15 @@
   </url>
   
   <url>
-    <loc>http://example.org/tags/functional-design-patterns/</loc>
-    <lastmod>2016-07-04T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/git/</loc>
-    <lastmod>2015-12-19T17:56:14+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/javascript/</loc>
-    <lastmod>2017-09-06T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/javascript/</loc>
-    <lastmod>2015-12-06T22:12:40+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/lambda/</loc>
-    <lastmod>2018-05-16T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>http://example.org/tags/learning/</loc>
     <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/mentoring/</loc>
-    <lastmod>2019-05-31T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/microservices/</loc>
-    <lastmod>2020-01-29T21:03:26+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/mvc/</loc>
-    <lastmod>2015-12-06T22:12:40+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/mvs/</loc>
-    <lastmod>2016-08-18T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
+    <priority>0.5</priority>
   </url>
   
   <url>
     <loc>http://example.org/post/learning-patterns/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/mysql/</loc>
-    <lastmod>2017-12-17T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/ndepend/</loc>
-    <lastmod>2017-11-07T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/net-core/</loc>
-    <lastmod>2017-06-20T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/noestimates/</loc>
-    <lastmod>2015-10-06T21:41:49+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/nunit/</loc>
-    <lastmod>2015-04-24T15:03:26+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/oop/</loc>
-    <lastmod>2015-02-04T10:00:55+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/operator-overloading/</loc>
-    <lastmod>2015-05-04T14:46:40+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/pattern-matching/</loc>
-    <lastmod>2016-10-17T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/patterns/</loc>
-    <lastmod>2020-06-14T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/personal/</loc>
-    <lastmod>2020-12-30T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/personal/</loc>
-    <lastmod>2020-12-30T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/post/</loc>
-    <lastmod>2020-12-30T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/random-stuff/</loc>
-    <lastmod>2019-06-13T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/random-stuff/</loc>
-    <lastmod>2019-06-13T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/random-thoughts/</loc>
-    <lastmod>2019-05-31T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/random-thoughts/</loc>
-    <lastmod>2019-05-31T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/record-types/</loc>
-    <lastmod>2015-05-04T14:46:40+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/refactoring/</loc>
-    <lastmod>2020-02-13T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/route-53/</loc>
-    <lastmod>2019-11-08T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/scope-management/</loc>
-    <lastmod>2016-08-18T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/security/</loc>
-    <lastmod>2017-12-17T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -1012,134 +1158,15 @@
   </url>
   
   <url>
-    <loc>http://example.org/tags/serverless/</loc>
-    <lastmod>2017-07-09T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/serverless/</loc>
-    <lastmod>2020-06-14T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/serverless-framework/</loc>
-    <lastmod>2020-06-14T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/specflow/</loc>
-    <lastmod>2013-03-13T22:36:01+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/statistics/</loc>
-    <lastmod>2015-12-19T17:56:14+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/step-functions/</loc>
-    <lastmod>2017-07-09T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>http://example.org/tags/suave/</loc>
     <changefreq>weekly</changefreq>
-    <priority>0</priority>
+    <priority>0.5</priority>
   </url>
   
   <url>
     <loc>http://example.org/categories/suave/</loc>
     <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/</loc>
-    <lastmod>2015-05-10T18:30:19+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/tdd/</loc>
-    <lastmod>2015-04-24T15:03:26+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/teamwork/</loc>
-    <lastmod>2017-03-24T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/teamwork/</loc>
-    <lastmod>2017-03-24T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/testing/</loc>
-    <lastmod>2015-02-15T23:13:27+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/categories/testing/</loc>
-    <lastmod>2015-02-15T23:13:27+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/tuples/</loc>
-    <lastmod>2015-05-04T14:46:40+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/type-providers/</loc>
-    <lastmod>2015-12-13T12:16:30+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/unit-testing/</loc>
-    <lastmod>2016-10-13T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/</loc>
-    <lastmod>2020-12-30T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://example.org/tags/vault/</loc>
-    <lastmod>2017-12-17T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0</priority>
+    <priority>0.5</priority>
   </url>
   
 </urlset>

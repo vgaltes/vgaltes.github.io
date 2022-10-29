@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Record Types on VGALTES blog</title>
+    <title>record types on VGALTES blog</title>
     <link>http://example.org/tags/record-types/</link>
-    <description>Recent content in Record Types on VGALTES blog</description>
+    <description>Recent content in record types on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 04 May 2015 14:46:40 +0100</lastBuildDate>
-    
-	<atom:link href="http://example.org/tags/record-types/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 04 May 2015 14:46:40 +0100</lastBuildDate><atom:link href="http://example.org/tags/record-types/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>F# by example: discriminated unions, record types, tuples and operators.</title>
       <link>http://example.org/post/fsharp-by-example-discriminated-unions-record-types-tuples-and-operators/</link>

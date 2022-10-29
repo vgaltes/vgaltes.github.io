@@ -1,16 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Serverless on VGALTES blog</title>
+    <title>serverless on VGALTES blog</title>
     <link>http://example.org/categories/serverless/</link>
-    <description>Recent content in Serverless on VGALTES blog</description>
+    <description>Recent content in serverless on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 14 Jun 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://example.org/categories/serverless/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 14 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/categories/serverless/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Lambda in .NET Core and SNS</title>
       <link>http://example.org/post/lamda-dotnet/</link>
@@ -49,8 +45,8 @@ If you read the article, you will see that this DLQ is complementary to the DLQ 
       <guid>http://example.org/post/serverless-patterns-implemented-part2/</guid>
       <description>In this article I will continue with the implementation of some Serverless Patterns described in this article from Jeremy Daly about [Serverless Patterns]. Check the first post here Let&amp;rsquo;s start!
 Common setup All the projects will have a common setup, which is fairly simple. First, initialize a NodeJS project:
-yarn init  Then install the serverless framework as a dev dependency
-yarn add serverless --dev  And finally create a script to deploy the project</description>
+yarn init Then install the serverless framework as a dev dependency
+yarn add serverless --dev And finally create a script to deploy the project</description>
     </item>
     
     <item>
@@ -128,7 +124,7 @@ As far as I know (correct me in the comments if I&amp;rsquo;m wrong, please), wh
       <guid>http://example.org/post/enabling-application-insights/</guid>
       <description>In our previous articles we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI or Terraform. Once we have a function deployed and accepting traffic, the next obvious thing to do is to monitor it.
 Adding some logs to the function is fairly easy. If you take a look at the signature of the function
-[FunctionName(&amp;quot;HelloWorld&amp;quot;)] public static async Task&amp;lt;IActionResult&amp;gt; Run( [HttpTrigger(AuthorizationLevel.Anonymous, &amp;quot;get&amp;quot;, &amp;quot;post&amp;quot;, Route = null)] HttpRequest req, ILogger log)  you&amp;rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.</description>
+[FunctionName(&amp;#34;HelloWorld&amp;#34;)]public static async Task&amp;lt;IActionResult&amp;gt; Run([HttpTrigger(AuthorizationLevel.Anonymous, &amp;#34;get&amp;#34;, &amp;#34;post&amp;#34;, Route = null)] HttpRequest req,ILogger log) you&amp;rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.</description>
     </item>
     
     <item>
@@ -138,7 +134,8 @@ Adding some logs to the function is fairly easy. If you take a look at the signa
       
       <guid>http://example.org/post/deploying-azure-functions-using-slots/</guid>
       <description>In previous articles we&amp;rsquo;ve seen how to deploy a Function App using Azure Functions Core Tools, Terraform and Azure CLI with Zip Deploy. In this article we&amp;rsquo;re going to take a look on how to deploy Function apps using deployment slots.
-Why deployment slots Being able to deploy into slots and decide which slot you use in production has many benefits. To name some of them: - Enable A/B testing - Enable blue/green deployments - No downtime deployments - Easy rollback system</description>
+Why deployment slots Being able to deploy into slots and decide which slot you use in production has many benefits. To name some of them:
+Enable A/B testing Enable blue/green deployments No downtime deployments Easy rollback system So, let&amp;rsquo;s take a look on how can we use them in Function apps.</description>
     </item>
     
     <item>
@@ -149,7 +146,7 @@ Why deployment slots Being able to deploy into slots and decide which slot you u
       <guid>http://example.org/post/deploying-azure-functions-using-zip-deploy/</guid>
       <description>In a previous article we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
-#!/bin/bash location=$2 stage=$3 serviceName=$1-$stage resourceGroupName=$serviceName&amp;quot;-rg&amp;quot; serviceNameToLower=&amp;quot;$(echo $serviceName | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&amp;quot; storageAccountName=&amp;quot;$(echo ${serviceNameToLower//&amp;quot;-&amp;quot;/&amp;quot;&amp;quot;})&amp;quot; echo &amp;quot;Creating resource group&amp;quot; az group create --name $resourceGroupName --location $location echo &amp;quot;Creating storage account&amp;quot; az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRS echo &amp;quot;Creating function app&amp;quot; az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupName echo &amp;quot;Publishing function locally&amp;quot; dotnet build echo &amp;quot;Publisihng function to Azure&amp;quot; func azure functionapp publish $serviceName  What are we going to do is to change the last two steps.</description>
+#!/bin/bashlocation=$2stage=$3serviceName=$1-$stageresourceGroupName=$serviceName&amp;#34;-rg&amp;#34;serviceNameToLower=&amp;#34;$(echo $serviceName | tr &amp;#39;[:upper:]&amp;#39; &amp;#39;[:lower:]&amp;#39;)&amp;#34;storageAccountName=&amp;#34;$(echo ${serviceNameToLower//&amp;#34;-&amp;#34;/&amp;#34;&amp;#34;})&amp;#34;echo &amp;#34;Creating resource group&amp;#34;az group create --name $resourceGroupName --location $locationecho &amp;#34;Creating storage account&amp;#34;az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRSecho &amp;#34;Creating function app&amp;#34;az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupNameecho &amp;#34;Publishing function locally&amp;#34;dotnet buildecho &amp;#34;Publisihng function to Azure&amp;#34;func azure functionapp publish $serviceName What are we going to do is to change the last two steps.</description>
     </item>
     
     <item>
@@ -259,10 +256,9 @@ The parallel state allows you to create parallel branches of execution in your s
       
       <guid>http://example.org/post/step-functions-using-net-core/</guid>
       <description>If my good friend Alan Gorton is right
-Functions will eat servers. #serverless https://t.co/4Rc1cDnM73
-&amp;mdash; Alan Gorton (@develogue) February 19, 2017 
 we&amp;rsquo;d better be prepared. In this article we&amp;rsquo;ll see how we can develop AWS Lambda Functions using .Net Core and deploy them and Step Functions using the serverless framework.
-Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&amp;rsquo;re going to need.</description>
+Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&amp;rsquo;re going to need.
+Let&amp;rsquo;s start with .</description>
     </item>
     
   </channel>

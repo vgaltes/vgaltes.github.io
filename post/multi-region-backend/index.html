@@ -16,20 +16,17 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Vicenç García" />
-  <meta name="description" content="Congratulations! Your startup is starting to bring attention to many people and you&amp;rsquo;re starting to have clients from different countries and continents. But your lambdas and API gateway are still in your initial region, and that might add some latency to some users. Apart from that, you want to increase the reliability of your system. So, you decide to go multi-region. Can you do that easily? In this article, we&amp;rsquo;ll see how to do that." />
+<meta name="author" content="Vicenç García" /><meta name="description" content="Congratulations! Your startup is starting to bring attention to many people and you&amp;rsquo;re starting to have clients from different countries and continents. But your lambdas and API gateway are still in your initial region, and that might add some latency to some users. Apart from that, you want to increase the reliability of your system. So, you decide to go multi-region. Can you do that easily? In this article, we&amp;rsquo;ll see how to do that." />
 
 
 
 
 
 
-
-<meta name="generator" content="Hugo 0.40.1" />
+<meta name="generator" content="Hugo 0.105.0 with theme even" />
 
 
 <link rel="canonical" href="http://example.org/post/multi-region-backend/" />
-
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -38,57 +35,24 @@
 
 
 
-
-
-
-
-
-
-
-<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="Set up a multi-region active-active backend" />
 <meta property="og:description" content="Congratulations! Your startup is starting to bring attention to many people and you&rsquo;re starting to have clients from different countries and continents. But your lambdas and API gateway are still in your initial region, and that might add some latency to some users. Apart from that, you want to increase the reliability of your system. So, you decide to go multi-region. Can you do that easily? In this article, we&rsquo;ll see how to do that." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/post/multi-region-backend/" />
-
-
-
-<meta property="article:published_time" content="2019-11-08T00:00:00&#43;00:00"/>
-
-<meta property="article:modified_time" content="2019-11-08T00:00:00&#43;00:00"/>
-
-
-
-
-
-
-
-
-
-
+<meta property="og:url" content="http://example.org/post/multi-region-backend/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-11-08T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-11-08T00:00:00+00:00" />
 
 <meta itemprop="name" content="Set up a multi-region active-active backend">
-<meta itemprop="description" content="Congratulations! Your startup is starting to bring attention to many people and you&rsquo;re starting to have clients from different countries and continents. But your lambdas and API gateway are still in your initial region, and that might add some latency to some users. Apart from that, you want to increase the reliability of your system. So, you decide to go multi-region. Can you do that easily? In this article, we&rsquo;ll see how to do that.">
-
-
-<meta itemprop="datePublished" content="2019-11-08T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2019-11-08T00:00:00&#43;00:00" />
+<meta itemprop="description" content="Congratulations! Your startup is starting to bring attention to many people and you&rsquo;re starting to have clients from different countries and continents. But your lambdas and API gateway are still in your initial region, and that might add some latency to some users. Apart from that, you want to increase the reliability of your system. So, you decide to go multi-region. Can you do that easily? In this article, we&rsquo;ll see how to do that."><meta itemprop="datePublished" content="2019-11-08T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2019-11-08T00:00:00+00:00" />
 <meta itemprop="wordCount" content="1520">
-
-
-
-<meta itemprop="keywords" content="api gateway,serverless framework,route 53," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="api gateway,serverless framework,route 53," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Set up a multi-region active-active backend"/>
 <meta name="twitter:description" content="Congratulations! Your startup is starting to bring attention to many people and you&rsquo;re starting to have clients from different countries and continents. But your lambdas and API gateway are still in your initial region, and that might add some latency to some users. Apart from that, you want to increase the reliability of your system. So, you decide to go multi-region. Can you do that easily? In this article, we&rsquo;ll see how to do that."/>
-
-
-
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -98,9 +62,6 @@
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
 <![endif]-->
-
-<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101221175);</script>
-<script async src="//static.getclicky.com/js"></script>
 
 </head>
 <body>
@@ -126,12 +87,21 @@
         <li class="mobile-menu-item">Categories</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">VGALTES</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -146,6 +116,7 @@
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -159,58 +130,38 @@
       <div class="post-meta">
         <span class="post-time"> 08-11-2019 </span>
         <div class="post-category">
-            
-              <a href="/categories/serverless/"> serverless </a>
-            
-          </div>
-        <span class="more-meta"> 1520 words </span>
-        <span class="more-meta"> 8 mins read </span>
+            <a href="/categories/serverless/"> serverless </a>
+            </div>
+          <span class="more-meta"> 1520 words </span>
+          <span class="more-meta"> 8 mins read </span>
         
       </div>
     </header>
 
-    
-    
-<div class="post-toc" id="post-toc">
+    <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
-  
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#dynamodb-global-tables">DynamoDB Global Tables</a></li>
-<li><a href="#api">API</a></li>
-<li><a href="#regional-endpoints-certificates-and-custom-domain-names">Regional endpoints, certificates and custom domain names</a></li>
-<li><a href="#health-checks">Health checks</a></li>
-<li><a href="#route-policy">Route policy</a></li>
-<li><a href="#testing">Testing</a></li>
-<li><a href="#summary">Summary</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#dynamodb-global-tables">DynamoDB Global Tables</a></li>
+    <li><a href="#api">API</a></li>
+    <li><a href="#regional-endpoints-certificates-and-custom-domain-names">Regional endpoints, certificates and custom domain names</a></li>
+    <li><a href="#health-checks">Health checks</a></li>
+    <li><a href="#route-policy">Route policy</a></li>
+    <li><a href="#testing">Testing</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
 </nav>
   </div>
 </div>
-
-    
-    
-
-    
     <div class="post-content">
-      
-
-<p>Congratulations! Your startup is starting to bring attention to many people and you&rsquo;re starting to have clients from different countries and continents. But your lambdas and API gateway are still in your initial region, and that might add some latency to some users. Apart from that, you want to increase the reliability of your system. So, you decide to go multi-region. Can you do that easily? In this article, we&rsquo;ll see how to do that.</p>
-
+      <p>Congratulations! Your startup is starting to bring attention to many people and you&rsquo;re starting to have clients from different countries and continents. But your lambdas and API gateway are still in your initial region, and that might add some latency to some users. Apart from that, you want to increase the reliability of your system. So, you decide to go multi-region. Can you do that easily? In this article, we&rsquo;ll see how to do that.</p>
 <p><strong>Disclaimer</strong>
 This article is a based in <a href="https://read.acloud.guru/building-a-serverless-multi-region-active-active-backend-36f28bed4ecf">this article</a> from <a href="https://twitter.com/adhorn">Adrian Hornsby</a> (who is Principal Evangelist at <a href="https://twitter.com/awscloud">AWSCloud</a>). I usually write to articles to be able to learn and put in practice what I learn, joining information from different souces. In this case, the only source is Adrian&rsquo;s article, and I added some automation using the <a href="httsp://serverless.com">Serverless framework</a>. So, please, if you want to read the full story, go and read Adrian&rsquo;s article (and follow him on twitter!!).</p>
-
 <h2 id="dynamodb-global-tables">DynamoDB Global Tables</h2>
-
 <p>DynamoDB <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html">Global Tables</a> allows us to create multi-region multi-master tables. DynamoDB will replicate our data accross all the regions we specify, and we won&rsquo;t need to worry about anything.</p>
-
 <p>So, first thing is to create a new service with a DynamoDB table with streaming enable. Something like this:</p>
-
-<pre><code>service: MultiRegionService
+<pre tabindex="0"><code>service: MultiRegionService
 
 plugins:
   - serverless-pseudo-parameters
@@ -230,36 +181,24 @@ resources:
       Properties:
         KeySchema:
           - AttributeName: id
-            KeyType: 'HASH'
+            KeyType: &#39;HASH&#39;
         AttributeDefinitions:
           - AttributeName: id
-            AttributeType: 'N'
+            AttributeType: &#39;N&#39;
         BillingMode: PAY_PER_REQUEST
         TableName: MyGlobalTable
         StreamSpecification:
           StreamViewType: NEW_AND_OLD_IMAGES
-</code></pre>
-
-<p>And we need to deploy this in two regions, let&rsquo;s say eu-west-1 and us-east-1. So, go to your <code>project.json</code> file and create the following scripts:</p>
-
-<pre><code>&quot;deploy:europe&quot;: &quot;serverless deploy --aws-profile serverless-local --region eu-west-1&quot;,
-&quot;deploy:us&quot;: &quot;serverless deploy --aws-profile serverless-local --region us-east-1&quot;,
-</code></pre>
-
-<p>(change serverless-local for the profile you have configured in your laptop, if you have any.)</p>
-
+</code></pre><p>And we need to deploy this in two regions, let&rsquo;s say eu-west-1 and us-east-1. So, go to your <code>project.json</code> file and create the following scripts:</p>
+<pre tabindex="0"><code>&#34;deploy:europe&#34;: &#34;serverless deploy --aws-profile serverless-local --region eu-west-1&#34;,
+&#34;deploy:us&#34;: &#34;serverless deploy --aws-profile serverless-local --region us-east-1&#34;,
+</code></pre><p>(change serverless-local for the profile you have configured in your laptop, if you have any.)</p>
 <p>Now you can run <code>yarn run deploy:europe</code> and <code>yarn run deploy:us</code> and see your tables created in both regions. The next step is to create the Global Table. Unfortunately, you can&rsquo;t do that via Cloudformation, and we need to call an API. So, go again to your <code>package.json</code> file and add the following script:</p>
-
-<pre><code>&quot;createGlobalTable&quot;: &quot;aws dynamodb create-global-table --global-table-name MyGlobalTable --replication-group RegionName=eu-west-1 RegionName=us-east-1 --region eu-west-1 --profile serverless-local&quot;
-</code></pre>
-
-<p>To check that it&rsquo;s working, add manually in the console (or via api or script) an item (<code>id</code> and <code>name</code>) to one of the tables, and see how it gets replicated in the other one. You&rsquo;ll see that DynamoDB has added three of fields, one of them being <code>aws:rep:updateregion</code>, where we&rsquo;ll see the region where the item has been created.</p>
-
+<pre tabindex="0"><code>&#34;createGlobalTable&#34;: &#34;aws dynamodb create-global-table --global-table-name MyGlobalTable --replication-group RegionName=eu-west-1 RegionName=us-east-1 --region eu-west-1 --profile serverless-local&#34;
+</code></pre><p>To check that it&rsquo;s working, add manually in the console (or via api or script) an item (<code>id</code> and <code>name</code>) to one of the tables, and see how it gets replicated in the other one. You&rsquo;ll see that DynamoDB has added three of fields, one of them being <code>aws:rep:updateregion</code>, where we&rsquo;ll see the region where the item has been created.</p>
 <h2 id="api">API</h2>
-
 <p>Let&rsquo;s create the API now. We&rsquo;re going to create and endpoint to put items on DynamoDB and another one for getting them. We&rsquo;ll also need a status endpoint that we&rsquo;ll use later. Let&rsquo;s add the functions to the <code>serverless.yml</code> file, which should look like this:</p>
-
-<pre><code>service: MultiRegionService
+<pre tabindex="0"><code>service: MultiRegionService
 
 plugins:
   - serverless-iam-roles-per-function
@@ -319,21 +258,17 @@ resources:
       Properties:
         KeySchema:
           - AttributeName: id
-            KeyType: 'HASH'
+            KeyType: &#39;HASH&#39;
         AttributeDefinitions:
           - AttributeName: id
-            AttributeType: 'N'
+            AttributeType: &#39;N&#39;
         BillingMode: PAY_PER_REQUEST
         TableName: MyGlobalTable
         StreamSpecification:
           StreamViewType: NEW_AND_OLD_IMAGES
-</code></pre>
-
-<p>As you can see, we have three funtions here. The health function just takes a value from an environment variable which you shouldn&rsquo;t do in a real-life scenario.</p>
-
+</code></pre><p>As you can see, we have three funtions here. The health function just takes a value from an environment variable which you shouldn&rsquo;t do in a real-life scenario.</p>
 <p>This is the code of the <em>PutItem</em> function:</p>
-
-<pre><code>const AWS = require(&quot;aws-sdk&quot;);
+<pre tabindex="0"><code>const AWS = require(&#34;aws-sdk&#34;);
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const tableName = process.env.tableName;
@@ -346,8 +281,8 @@ module.exports.handler = async (event) =&gt; {
   const params = {
     TableName: tableName,
     Item: {
-      'id' : id,
-      'name' : name
+      &#39;id&#39; : id,
+      &#39;name&#39; : name
     }
   };
 
@@ -362,11 +297,8 @@ module.exports.handler = async (event) =&gt; {
 
   return res;
 };
-</code></pre>
-
-<p>This is the code of the <em>GetItem</em> function:</p>
-
-<pre><code>const AWS = require(&quot;aws-sdk&quot;);
+</code></pre><p>This is the code of the <em>GetItem</em> function:</p>
+<pre tabindex="0"><code>const AWS = require(&#34;aws-sdk&#34;);
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const tableName = process.env.tableName;
@@ -377,7 +309,7 @@ module.exports.handler = async (event) =&gt; {
   const req = {
     TableName: tableName,
     Key: {
-        'id': parseInt(id)
+        &#39;id&#39;: parseInt(id)
       }
   };
 
@@ -392,63 +324,42 @@ module.exports.handler = async (event) =&gt; {
 
   return res;
 };
-</code></pre>
-
-<p>And, finally, this is the code of the health function</p>
-
-<pre><code>module.exports.handler = async (event) =&gt; {
+</code></pre><p>And, finally, this is the code of the health function</p>
+<pre tabindex="0"><code>module.exports.handler = async (event) =&gt; {
   const status = process.env.status;
 
   const res = {
     statusCode: status,
-    body: JSON.stringify(&quot;all done&quot;)
+    body: JSON.stringify(&#34;all done&#34;)
   };
 
   return res;
 };
-</code></pre>
-
-<p>Looks great, isn&rsquo;t it? Deploy this service in the same regions we first deployed the DynamoDb tables, <code>us-east-1</code> and <code>eu-west-1</code>.</p>
-
+</code></pre><p>Looks great, isn&rsquo;t it? Deploy this service in the same regions we first deployed the DynamoDb tables, <code>us-east-1</code> and <code>eu-west-1</code>.</p>
 <h2 id="regional-endpoints-certificates-and-custom-domain-names">Regional endpoints, certificates and custom domain names</h2>
-
 <p>A regional endpoint is an endpoint that improves the latency when the requests are originated from the same region as the API. We can create them with the <a href="https://github.com/amplify-education/serverless-domain-manager">serverless-domain-manager</a> plugin that we saw in the <a href="https://vgaltes.com/post/api-gateway-custom-domain/">previous article</a>. Check that article and create a certificate for our endpoints. In this case, as we&rsquo;re using regional endpoints, you must create the same certificate in each region you want to deploy the API. In my case, I used the name <code>multiregion.authenticatedservices.net</code>. Validate the certificate and update the <code>serverless.yml</code> file to include the custom domain part. The difference with the previous article is that now, we don&rsquo;t want to create the record in Route 53 and that the type of the endpoint will be <em>regional</em>.</p>
-
-<pre><code>customDomain:
+<pre tabindex="0"><code>customDomain:
     domainName: multiregion.authenticatedservices.net
-    basePath: ''
+    basePath: &#39;&#39;
     stage: ${self:provider.stage}
     createRoute53Record: false
     endpointType: regional
-</code></pre>
-
-<p>Add a couple of scripts in the <code>package.json</code> file to create the domains:</p>
-
-<pre><code>&quot;create_domain:europe&quot;: &quot;serverless create_domain --aws-profile serverless-local --region eu-west-1&quot;,
-&quot;create_domain:us&quot;: &quot;serverless create_domain --aws-profile serverless-local --region us-east-1&quot;,
-</code></pre>
-
-<p>And call them both to create the domains. After waiting up to 40 minutes, you can redeploy again the API in both regions. When you do that, you will see an output like this:</p>
-
-<pre><code>Serverless Domain Manager Summary
+</code></pre><p>Add a couple of scripts in the <code>package.json</code> file to create the domains:</p>
+<pre tabindex="0"><code>&#34;create_domain:europe&#34;: &#34;serverless create_domain --aws-profile serverless-local --region eu-west-1&#34;,
+&#34;create_domain:us&#34;: &#34;serverless create_domain --aws-profile serverless-local --region us-east-1&#34;,
+</code></pre><p>And call them both to create the domains. After waiting up to 40 minutes, you can redeploy again the API in both regions. When you do that, you will see an output like this:</p>
+<pre tabindex="0"><code>Serverless Domain Manager Summary
 Domain Name
   multiregion.authenticatedservices.net
 Distribution Domain Name
   Target Domain: d-87n10uz7oc.execute-api.us-east-1.amazonaws.com
   Hosted Zone Id: Z1UJRXOUMOOFQ8
-</code></pre>
-
-<p>Please, take not of the <em>target domain</em> for both regions because we will need them.</p>
-
+</code></pre><p>Please, take not of the <em>target domain</em> for both regions because we will need them.</p>
 <p>You can now test both APIs and make sure they work (they should!).</p>
-
 <h2 id="health-checks">Health checks</h2>
-
 <p>We will now need to create a health check for each endpoint in Route 53. Route 53 will use these health checks to decide if it can route traffic to that endpoint.</p>
-
 <p>I created a new project in a new folder to do this, because I thought it shouldn&rsquo;t be part of my service. This new <code>serverless.yml</code> file looks like this:</p>
-
-<pre><code>service: MultiRegionCommonStuff
+<pre tabindex="0"><code>service: MultiRegionCommonStuff
 
 provider:
   name: aws
@@ -474,60 +385,37 @@ resources:
         HealthCheckTags:
           - Key: Name
             Value: MultiRegionHeatlthCheck-${self:provider.region}
-</code></pre>
-
-<p>You can create both health checks in the same file, or you can do like this and deploy twice. It&rsquo;s up to you. You need, obviously, to change the url of the endpoints to the ones you got when you deploy. You can chech that the creation has been successful in the Route 53 service on the AWS Console.</p>
-
+</code></pre><p>You can create both health checks in the same file, or you can do like this and deploy twice. It&rsquo;s up to you. You need, obviously, to change the url of the endpoints to the ones you got when you deploy. You can chech that the creation has been successful in the Route 53 service on the AWS Console.</p>
 <h2 id="route-policy">Route policy</h2>
-
 <p>Before adding the policy we need to grab the target domain name from the endpoint. If you followed the article, you will have them from a previous step. If you&rsquo;ve lost it, go to the <em>Amazon API Gateway</em> service on the AWS console and select <em>Custom Domain Names</em>. Click on your domain and you should see something like this:</p>
-
-<p><img src="/images/CustomDomainName.png" alt="Custom Domain Name" /></p>
-
+<p><img src="/images/CustomDomainName.png" alt="Custom Domain Name"></p>
 <p>It&rsquo;s now time to create the policy. Go to <em>Route 53</em> and select <em>Traffic policies</em> and create a new one that should look like this:</p>
-
-<p><img src="/images/TrafficPolicy.png" alt="Traffic policy" /></p>
-
+<p><img src="/images/TrafficPolicy.png" alt="Traffic policy"></p>
 <p>At the end of the policy creation, or afterwards, you need to create a policy record. Create one with the new traffic policy and with your DNS name (the one that you&rsquo;ve chosen when you created the certificate), in my case, <code>multiregion.authenticatedservices.net</code>. (Be careful because it has costs associated)</p>
-
-<p><img src="/images/PolicyRecord.png" alt="Policy record" /></p>
-
+<p><img src="/images/PolicyRecord.png" alt="Policy record"></p>
 <p>And we&rsquo;re done!!</p>
-
 <h2 id="testing">Testing</h2>
-
 <p>How can we test it? Assuming you&rsquo;re in Europe, what we&rsquo;re going to do is to bring down that endpoint and create a new item. When we get that item we&rsquo;ll see that it was created in the <code>us-east-1</code> region.</p>
-
 <p>To bring down the endpoint, we need to make Route 53 believe that the endpoint is down. So go to the health Lambda function of the <code>eu-west-1</code> region in the AWS console and change the status environment variable to <code>404</code>. Wait until the health check returns failure and create a new item, in my case making a post call to <code>https://multiregion.authenticatedservices.net/item</code> with a body like</p>
-
-<pre><code>{
-  &quot;id&quot;: 7,
-  &quot;name&quot;: &quot;postman7&quot;
+<pre tabindex="0"><code>{
+  &#34;id&#34;: 7,
+  &#34;name&#34;: &#34;postman7&#34;
 }
-</code></pre>
-
-<p>And now, if you go and get that item at <code>https://multiregion.authenticatedservices.net/item/7</code> you should get back something like this</p>
-
-<pre><code>{
-  &quot;aws:rep:deleting&quot;:false,
-  &quot;aws:rep:updateregion&quot;:&quot;us-east-1&quot;,
-  &quot;aws:rep:updatetime&quot;:1573139907.998001,
-  &quot;id&quot;:7,
-  &quot;name&quot;:&quot;postman7&quot;
+</code></pre><p>And now, if you go and get that item at <code>https://multiregion.authenticatedservices.net/item/7</code> you should get back something like this</p>
+<pre tabindex="0"><code>{
+  &#34;aws:rep:deleting&#34;:false,
+  &#34;aws:rep:updateregion&#34;:&#34;us-east-1&#34;,
+  &#34;aws:rep:updatetime&#34;:1573139907.998001,
+  &#34;id&#34;:7,
+  &#34;name&#34;:&#34;postman7&#34;
 }
-</code></pre>
-
-<p>As you can see, the region is <code>us-east-1</code> !!</p>
-
+</code></pre><p>As you can see, the region is <code>us-east-1</code> !!</p>
 <h2 id="summary">Summary</h2>
-
 <p>In this article, we&rsquo;ve seen how we can create a multi-region active-active backend. This is an adaptation of the original <a href="https://read.acloud.guru/building-a-serverless-multi-region-active-active-backend-36f28bed4ecf">this article</a> from <a href="https://twitter.com/adhorn">Adrian Hornsby</a> but trying to automate as many things as we can.</p>
-
 <p>Hope it helps!!</p>
 
     </div>
 
-    
     <div class="post-copyright">
   <p class="copyright-item">
     <span class="item-title">Author</span>
@@ -535,36 +423,27 @@ resources:
   </p>
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
-    <span class="item-content">08-11-2019</span>
+    <span class="item-content">
+        08-11-2019
+        
+    </span>
   </p>
   
   
 </div>
-
-    
-    
-
-    <footer class="post-footer">
+<footer class="post-footer">
       <div class="post-tags">
-          
           <a href="/tags/api-gateway/">api gateway</a>
-          
           <a href="/tags/serverless-framework/">serverless framework</a>
-          
           <a href="/tags/route-53/">route 53</a>
-          
-        </div>
-
-      
+          </div>
       <nav class="post-nav">
-        
-          <a class="prev" href="/post/serverless-patterns-implemented-part1/">
+        <a class="prev" href="/post/serverless-patterns-implemented-part1/">
             <i class="iconfont icon-left"></i>
             <span class="prev-text nav-default">Serverless Patterns implemented, part 1</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
-          <a class="next" href="/post/api-gateway-custom-domain/">
+        <a class="next" href="/post/api-gateway-custom-domain/">
             <span class="next-text nav-default">Set up a custom domain for your API Gateway</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
@@ -573,8 +452,7 @@ resources:
     </footer>
   </article>
         </div>
-        
-  <div id="disqus_thread"></div>
+        <div id="disqus_thread"></div>
     <script type="text/javascript">
     (function() {
       
@@ -588,6 +466,8 @@ resources:
     })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
 
   
 
@@ -617,28 +497,24 @@ resources:
 
   <span class="copyright-year">
     &copy; 
-    
-      2013 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Vicenç García</span>
+    2013 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
       <i class="iconfont icon-up"></i>
     </div>
   </div>
-  
-<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  
 
 
-<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 

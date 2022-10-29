@@ -16,8 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Vicenç García" />
-  <meta name="description" content="When we write unit tests we usually try to apply our great object oriented knowledge, so we try to apply the well known DRY principle (Don&#39;t Repeat Yourself). One visible consequence of this effort is that the test code is considerably shorter than the previous version. A less visible consequence, but much more important, is that is harder to understand what the hell the test is trying to do.
+<meta name="author" content="Vicenç García" /><meta name="description" content="When we write unit tests we usually try to apply our great object oriented knowledge, so we try to apply the well known DRY principle (Don&#39;t Repeat Yourself). One visible consequence of this effort is that the test code is considerably shorter than the previous version. A less visible consequence, but much more important, is that is harder to understand what the hell the test is trying to do.
 For that reason, when writing tests, I&#39;m more inclined to apply a non so well know principle called DAMP (Descriptive And Maintainable Procedures)." />
 
 
@@ -25,12 +24,10 @@ For that reason, when writing tests, I&#39;m more inclined to apply a non so wel
 
 
 
-
-<meta name="generator" content="Hugo 0.40.1" />
+<meta name="generator" content="Hugo 0.105.0 with theme even" />
 
 
 <link rel="canonical" href="http://example.org/post/testing-damp-vs-dry/" />
-
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,16 +36,7 @@ For that reason, when writing tests, I&#39;m more inclined to apply a non so wel
 
 
 
-
-
-
-
-
-
-
-<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
 
 
 
@@ -56,43 +44,19 @@ For that reason, when writing tests, I&#39;m more inclined to apply a non so wel
 <meta property="og:description" content="When we write unit tests we usually try to apply our great object oriented knowledge, so we try to apply the well known DRY principle (Don&#39;t Repeat Yourself). One visible consequence of this effort is that the test code is considerably shorter than the previous version. A less visible consequence, but much more important, is that is harder to understand what the hell the test is trying to do.
 For that reason, when writing tests, I&#39;m more inclined to apply a non so well know principle called DAMP (Descriptive And Maintainable Procedures)." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/post/testing-damp-vs-dry/" />
-
-
-
-<meta property="article:published_time" content="2015-02-15T23:13:27&#43;00:00"/>
-
-<meta property="article:modified_time" content="2015-02-15T23:13:27&#43;00:00"/>
-
-
-
-
-
-
-
-
-
-
+<meta property="og:url" content="http://example.org/post/testing-damp-vs-dry/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2015-02-15T23:13:27+00:00" />
+<meta property="article:modified_time" content="2015-02-15T23:13:27+00:00" />
 
 <meta itemprop="name" content="Testing: DAMP vs DRY">
 <meta itemprop="description" content="When we write unit tests we usually try to apply our great object oriented knowledge, so we try to apply the well known DRY principle (Don&#39;t Repeat Yourself). One visible consequence of this effort is that the test code is considerably shorter than the previous version. A less visible consequence, but much more important, is that is harder to understand what the hell the test is trying to do.
-For that reason, when writing tests, I&#39;m more inclined to apply a non so well know principle called DAMP (Descriptive And Maintainable Procedures).">
-
-
-<meta itemprop="datePublished" content="2015-02-15T23:13:27&#43;00:00" />
-<meta itemprop="dateModified" content="2015-02-15T23:13:27&#43;00:00" />
+For that reason, when writing tests, I&#39;m more inclined to apply a non so well know principle called DAMP (Descriptive And Maintainable Procedures)."><meta itemprop="datePublished" content="2015-02-15T23:13:27+00:00" />
+<meta itemprop="dateModified" content="2015-02-15T23:13:27+00:00" />
 <meta itemprop="wordCount" content="310">
-
-
-
-<meta itemprop="keywords" content="testing,damp,dry," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="testing,damp,dry," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Testing: DAMP vs DRY"/>
 <meta name="twitter:description" content="When we write unit tests we usually try to apply our great object oriented knowledge, so we try to apply the well known DRY principle (Don&#39;t Repeat Yourself). One visible consequence of this effort is that the test code is considerably shorter than the previous version. A less visible consequence, but much more important, is that is harder to understand what the hell the test is trying to do.
 For that reason, when writing tests, I&#39;m more inclined to apply a non so well know principle called DAMP (Descriptive And Maintainable Procedures)."/>
-
-
-
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -102,9 +66,6 @@ For that reason, when writing tests, I&#39;m more inclined to apply a non so wel
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
 <![endif]-->
-
-<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101221175);</script>
-<script async src="//static.getclicky.com/js"></script>
 
 </head>
 <body>
@@ -130,12 +91,21 @@ For that reason, when writing tests, I&#39;m more inclined to apply a non so wel
         <li class="mobile-menu-item">Categories</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">VGALTES</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -150,6 +120,7 @@ For that reason, when writing tests, I&#39;m more inclined to apply a non so wel
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -163,32 +134,21 @@ For that reason, when writing tests, I&#39;m more inclined to apply a non so wel
       <div class="post-meta">
         <span class="post-time"> 15-02-2015 </span>
         <div class="post-category">
-            
-              <a href="/categories/code/"> Code </a>
-            
-              <a href="/categories/testing/"> Testing </a>
-            
-          </div>
-        <span class="more-meta"> 310 words </span>
-        <span class="more-meta"> 2 mins read </span>
+            <a href="/categories/code/"> Code </a>
+            <a href="/categories/testing/"> Testing </a>
+            </div>
+          <span class="more-meta"> 310 words </span>
+          <span class="more-meta"> 2 mins read </span>
         
       </div>
     </header>
 
-    
-    
-<div class="post-toc" id="post-toc">
+    <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
-  
   <div class="post-toc-content always-active">
     
   </div>
 </div>
-
-    
-    
-
-    
     <div class="post-content">
       <p>When we write unit tests we usually try to apply our great object oriented knowledge, so we try to apply the well known <a title="Don't Repeat Yourself" href="http://en.wikipedia.org/wiki/Don't_repeat_yourself" target="_blank">DRY</a> principle (Don't Repeat Yourself). One visible consequence of this effort is that the test code is considerably shorter than the previous version. A less visible consequence, but much more important, is that is harder to understand what the hell the test is trying to do.</p>
 <p>For that reason, when writing tests, I'm more inclined to apply a non so well know principle called <a title="Descriptive And Maintainable Procedures" href="http://blog.jayfields.com/2006/05/dry-code-damp-dsls.html" target="_blank">DAMP</a> (Descriptive And Maintainable Procedures). When I write a test I try to think in myself in the future reading the test: will I be able to understand the test? Will I find the arrange phase of the test and understand what's happening there? Will I be able to understand easily why the test is failing (or passing)?</p>
@@ -206,7 +166,6 @@ For that reason, when writing tests, I&#39;m more inclined to apply a non so wel
 
     </div>
 
-    
     <div class="post-copyright">
   <p class="copyright-item">
     <span class="item-title">Author</span>
@@ -214,36 +173,27 @@ For that reason, when writing tests, I&#39;m more inclined to apply a non so wel
   </p>
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
-    <span class="item-content">15-02-2015</span>
+    <span class="item-content">
+        15-02-2015
+        
+    </span>
   </p>
   
   
 </div>
-
-    
-    
-
-    <footer class="post-footer">
+<footer class="post-footer">
       <div class="post-tags">
-          
           <a href="/tags/testing/">testing</a>
-          
           <a href="/tags/damp/">damp</a>
-          
           <a href="/tags/dry/">dry</a>
-          
-        </div>
-
-      
+          </div>
       <nav class="post-nav">
-        
-          <a class="prev" href="/post/architect/">
+        <a class="prev" href="/post/architect/">
             <i class="iconfont icon-left"></i>
             <span class="prev-text nav-default">The architect</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
-          <a class="next" href="/post/command-query-separation/">
+        <a class="next" href="/post/command-query-separation/">
             <span class="next-text nav-default">Command-Query Separation</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
@@ -252,8 +202,7 @@ For that reason, when writing tests, I&#39;m more inclined to apply a non so wel
     </footer>
   </article>
         </div>
-        
-  <div id="disqus_thread"></div>
+        <div id="disqus_thread"></div>
     <script type="text/javascript">
     (function() {
       
@@ -267,6 +216,8 @@ For that reason, when writing tests, I&#39;m more inclined to apply a non so wel
     })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
 
   
 
@@ -296,28 +247,24 @@ For that reason, when writing tests, I&#39;m more inclined to apply a non so wel
 
   <span class="copyright-year">
     &copy; 
-    
-      2013 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Vicenç García</span>
+    2013 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
       <i class="iconfont icon-up"></i>
     </div>
   </div>
-  
-<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  
 
 
-<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 

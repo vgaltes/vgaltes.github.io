@@ -16,20 +16,17 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Vicenç García" />
-  <meta name="description" content="I think that the best way to learn something is to practice it and to try to explain it, so this is what I&amp;rsquo;m going to do in the next series of posts. These posts will be based on the amazing article from Jeremy Daly about Serverless Patterns. I&amp;rsquo;m not going to copy Jeremy&amp;rsquo;s words here, so for each pattern, go to the article and read it. I&amp;rsquo;ll provide a technical implementation here and I will mention more resources I found interesting." />
+<meta name="author" content="Vicenç García" /><meta name="description" content="I think that the best way to learn something is to practice it and to try to explain it, so this is what I&amp;rsquo;m going to do in the next series of posts. These posts will be based on the amazing article from Jeremy Daly about Serverless Patterns. I&amp;rsquo;m not going to copy Jeremy&amp;rsquo;s words here, so for each pattern, go to the article and read it. I&amp;rsquo;ll provide a technical implementation here and I will mention more resources I found interesting." />
 
 
 
 
 
 
-
-<meta name="generator" content="Hugo 0.40.1" />
+<meta name="generator" content="Hugo 0.105.0 with theme even" />
 
 
 <link rel="canonical" href="http://example.org/post/serverless-patterns-implemented-part1/" />
-
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -38,57 +35,24 @@
 
 
 
-
-
-
-
-
-
-
-<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
 
 
 
 <meta property="og:title" content="Serverless Patterns implemented, part 1" />
 <meta property="og:description" content="I think that the best way to learn something is to practice it and to try to explain it, so this is what I&rsquo;m going to do in the next series of posts. These posts will be based on the amazing article from Jeremy Daly about Serverless Patterns. I&rsquo;m not going to copy Jeremy&rsquo;s words here, so for each pattern, go to the article and read it. I&rsquo;ll provide a technical implementation here and I will mention more resources I found interesting." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/post/serverless-patterns-implemented-part1/" />
-
-
-
-<meta property="article:published_time" content="2019-11-13T00:00:00&#43;00:00"/>
-
-<meta property="article:modified_time" content="2019-11-13T00:00:00&#43;00:00"/>
-
-
-
-
-
-
-
-
-
-
+<meta property="og:url" content="http://example.org/post/serverless-patterns-implemented-part1/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2019-11-13T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-11-13T00:00:00+00:00" />
 
 <meta itemprop="name" content="Serverless Patterns implemented, part 1">
-<meta itemprop="description" content="I think that the best way to learn something is to practice it and to try to explain it, so this is what I&rsquo;m going to do in the next series of posts. These posts will be based on the amazing article from Jeremy Daly about Serverless Patterns. I&rsquo;m not going to copy Jeremy&rsquo;s words here, so for each pattern, go to the article and read it. I&rsquo;ll provide a technical implementation here and I will mention more resources I found interesting.">
-
-
-<meta itemprop="datePublished" content="2019-11-13T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2019-11-13T00:00:00&#43;00:00" />
+<meta itemprop="description" content="I think that the best way to learn something is to practice it and to try to explain it, so this is what I&rsquo;m going to do in the next series of posts. These posts will be based on the amazing article from Jeremy Daly about Serverless Patterns. I&rsquo;m not going to copy Jeremy&rsquo;s words here, so for each pattern, go to the article and read it. I&rsquo;ll provide a technical implementation here and I will mention more resources I found interesting."><meta itemprop="datePublished" content="2019-11-13T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2019-11-13T00:00:00+00:00" />
 <meta itemprop="wordCount" content="1059">
-
-
-
-<meta itemprop="keywords" content="patterns,serverless framework," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="patterns,serverless framework," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Serverless Patterns implemented, part 1"/>
 <meta name="twitter:description" content="I think that the best way to learn something is to practice it and to try to explain it, so this is what I&rsquo;m going to do in the next series of posts. These posts will be based on the amazing article from Jeremy Daly about Serverless Patterns. I&rsquo;m not going to copy Jeremy&rsquo;s words here, so for each pattern, go to the article and read it. I&rsquo;ll provide a technical implementation here and I will mention more resources I found interesting."/>
-
-
-
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -98,9 +62,6 @@
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
 <![endif]-->
-
-<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101221175);</script>
-<script async src="//static.getclicky.com/js"></script>
 
 </head>
 <body>
@@ -126,12 +87,21 @@
         <li class="mobile-menu-item">Categories</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">VGALTES</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -146,6 +116,7 @@
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -159,73 +130,43 @@
       <div class="post-meta">
         <span class="post-time"> 13-11-2019 </span>
         <div class="post-category">
-            
-              <a href="/categories/serverless/"> serverless </a>
-            
-          </div>
-        <span class="more-meta"> 1059 words </span>
-        <span class="more-meta"> 5 mins read </span>
+            <a href="/categories/serverless/"> serverless </a>
+            </div>
+          <span class="more-meta"> 1059 words </span>
+          <span class="more-meta"> 5 mins read </span>
         
       </div>
     </header>
 
-    
-    
-<div class="post-toc" id="post-toc">
+    <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
-  
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#common-setup">Common setup</a></li>
-<li><a href="#the-simple-webservice">The Simple Webservice</a></li>
-<li><a href="#the-scalable-webhook">The Scalable Webhook</a></li>
-<li><a href="#summary">Summary</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#common-setup">Common setup</a></li>
+    <li><a href="#the-simple-webservice">The Simple Webservice</a></li>
+    <li><a href="#the-scalable-webhook">The Scalable Webhook</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
 </nav>
   </div>
 </div>
-
-    
-    
-
-    
     <div class="post-content">
-      
-
-<p>I think that the best way to learn something is to practice it and to try to explain it, so this is what I&rsquo;m going to do in the next series of posts. These posts will be based on the amazing article from <a href="https://twitter.com/jeremy_daly">Jeremy Daly</a> about <a href="https://www.jeremydaly.com/serverless-microservice-patterns-for-aws">Serverless Patterns</a>. I&rsquo;m not going to copy Jeremy&rsquo;s words here, so for each pattern, go to the article and read it. I&rsquo;ll provide a technical implementation here and I will mention more resources I found interesting. Let&rsquo;s start!</p>
-
+      <p>I think that the best way to learn something is to practice it and to try to explain it, so this is what I&rsquo;m going to do in the next series of posts. These posts will be based on the amazing article from <a href="https://twitter.com/jeremy_daly">Jeremy Daly</a> about <a href="https://www.jeremydaly.com/serverless-microservice-patterns-for-aws">Serverless Patterns</a>. I&rsquo;m not going to copy Jeremy&rsquo;s words here, so for each pattern, go to the article and read it. I&rsquo;ll provide a technical implementation here and I will mention more resources I found interesting. Let&rsquo;s start!</p>
 <h2 id="common-setup">Common setup</h2>
-
 <p>All the projects will have a common setup, which is fairly simple. First, initialize a NodeJS project:</p>
-
-<pre><code>yarn init
-</code></pre>
-
-<p>Then install the serverless framework as a dev dependency</p>
-
-<pre><code>yarn add serverless --dev
-</code></pre>
-
-<p>And finally create a script to deploy the project</p>
-
-<pre><code>&quot;scripts&quot;: {
-    &quot;deploy&quot;: &quot;serverless deploy --aws-profile serverless-local&quot;
+<pre tabindex="0"><code>yarn init
+</code></pre><p>Then install the serverless framework as a dev dependency</p>
+<pre tabindex="0"><code>yarn add serverless --dev
+</code></pre><p>And finally create a script to deploy the project</p>
+<pre tabindex="0"><code>&#34;scripts&#34;: {
+    &#34;deploy&#34;: &#34;serverless deploy --aws-profile serverless-local&#34;
   }
-</code></pre>
-
-<p>(Assuming that you have a profile called serverless-local, of course)</p>
-
+</code></pre><p>(Assuming that you have a profile called serverless-local, of course)</p>
 <h2 id="the-simple-webservice">The Simple Webservice</h2>
-
 <p>Read the explanation <a href="https://www.jeremydaly.com/serverless-microservice-patterns-for-aws/#simplewebservice">here</a></p>
-
 <p>To implement this pattern we need to create a service with a DynamoDB table and, at least, a function that get or sets data from it. So the <code>serverless.yml</code> will look like this:</p>
-
-<pre><code>service: SimpleWebService
+<pre tabindex="0"><code>service: SimpleWebService
 
 plugins:
   - serverless-iam-roles-per-function
@@ -273,19 +214,15 @@ resources:
       Properties:
         KeySchema:
           - AttributeName: id
-            KeyType: 'HASH'
+            KeyType: &#39;HASH&#39;
         AttributeDefinitions:
           - AttributeName: id
-            AttributeType: 'N'
+            AttributeType: &#39;N&#39;
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:custom.tableName}
-</code></pre>
-
-<p>We&rsquo;ll need to install the <code>serverless-iam-roles-per-function</code> plugin. We&rsquo;re creating a DyanamoDB table and passing the name to the functions via environment variable. In each function, we&rsquo;re just giving the permissions it needs.</p>
-
+</code></pre><p>We&rsquo;ll need to install the <code>serverless-iam-roles-per-function</code> plugin. We&rsquo;re creating a DyanamoDB table and passing the name to the functions via environment variable. In each function, we&rsquo;re just giving the permissions it needs.</p>
 <p>Let&rsquo;s take a look at the implementation of the PutItem function:</p>
-
-<pre><code>const AWS = require(&quot;aws-sdk&quot;);
+<pre tabindex="0"><code>const AWS = require(&#34;aws-sdk&#34;);
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const tableName = process.env.tableName;
@@ -298,8 +235,8 @@ module.exports.handler = async (event) =&gt; {
   const params = {
     TableName: tableName,
     Item: {
-      'id' : id,
-      'name' : name
+      &#39;id&#39; : id,
+      &#39;name&#39; : name
     }
   };
 
@@ -312,11 +249,8 @@ module.exports.handler = async (event) =&gt; {
 
   return res;
 };
-</code></pre>
-
-<p>And finally let&rsquo;s take a look at the implementation of the GetItem function:</p>
-
-<pre><code>const AWS = require(&quot;aws-sdk&quot;);
+</code></pre><p>And finally let&rsquo;s take a look at the implementation of the GetItem function:</p>
+<pre tabindex="0"><code>const AWS = require(&#34;aws-sdk&#34;);
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const tableName = process.env.tableName;
@@ -327,7 +261,7 @@ module.exports.handler = async (event) =&gt; {
   const req = {
     TableName: tableName,
     Key: {
-        'id': parseInt(id)
+        &#39;id&#39;: parseInt(id)
       }
   };
 
@@ -340,17 +274,11 @@ module.exports.handler = async (event) =&gt; {
 
   return res;
 };
-</code></pre>
-
-<p>You can check the full solution <a href="https://github.com/vgaltes/ServerlessPatterns/tree/master/SimpleWebService">here</a>.</p>
-
+</code></pre><p>You can check the full solution <a href="https://github.com/vgaltes/ServerlessPatterns/tree/master/SimpleWebService">here</a>.</p>
 <h2 id="the-scalable-webhook">The Scalable Webhook</h2>
-
 <p>Read the explanation <a href="https://www.jeremydaly.com/serverless-microservice-patterns-for-aws/#scalablewebhook">here</a>.</p>
-
 <p>In this pattern, we&rsquo;re going to introduce an SQS queue between two services and that queue will have a dead letter queue in case we find some error. So, let´s start with the <code>serverless.yml</code> file:</p>
-
-<pre><code>service: ScalableWebhook
+<pre tabindex="0"><code>service: ScalableWebhook
 
 plugins:
   - serverless-iam-roles-per-function
@@ -396,9 +324,9 @@ functions:
 resources:
   Resources:
     WorkerQueue:
-      Type: &quot;AWS::SQS::Queue&quot;
+      Type: &#34;AWS::SQS::Queue&#34;
       Properties:
-        QueueName: &quot;WorkerQueue&quot;
+        QueueName: &#34;WorkerQueue&#34;
         VisibilityTimeout: 30 # 20 seconds
         MessageRetentionPeriod: 60 # 60 seconds
         RedrivePolicy:
@@ -406,24 +334,16 @@ resources:
           maxReceiveCount: 3
 
     ReceiverDeadLetterQueue:
-      Type: &quot;AWS::SQS::Queue&quot;
+      Type: &#34;AWS::SQS::Queue&#34;
       Properties:
-        QueueName: &quot;WorkerDLQ&quot;
+        QueueName: &#34;WorkerDLQ&#34;
         MessageRetentionPeriod: 1209600 # 14 days in seconds
-
-</code></pre>
-
-<p>This file is a bit more complicated than the previous one. The interesting bits are in the queue definition, where we&rsquo;re setting the properties of the queue. We&rsquo;re going to explain now what those parameters are, but I strongly recommend you to read <a href="https://www.jeremydaly.com/serverless-consumers-with-lambda-and-sqs-triggers/">this article</a> from Jeremy about SQS queues, and please read all the comments as well as there is interesting information there. You can also take a look at <a href="https://cloudly.tech/blog/aws-lambda-sqs-trigger-error-handling/">this article</a> where the author explains how the error handling in SQS works. And finally, you can go to the <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-dead-letter-queue.html">official documentation</a>.</p>
-
+</code></pre><p>This file is a bit more complicated than the previous one. The interesting bits are in the queue definition, where we&rsquo;re setting the properties of the queue. We&rsquo;re going to explain now what those parameters are, but I strongly recommend you to read <a href="https://www.jeremydaly.com/serverless-consumers-with-lambda-and-sqs-triggers/">this article</a> from Jeremy about SQS queues, and please read all the comments as well as there is interesting information there. You can also take a look at <a href="https://cloudly.tech/blog/aws-lambda-sqs-trigger-error-handling/">this article</a> where the author explains how the error handling in SQS works. And finally, you can go to the <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-dead-letter-queue.html">official documentation</a>.</p>
 <p>The <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html">visibility timeout</a> is the time that the message remains in the queue without other consumers being able to receive and process the message, waiting for the confirmation (or the error) from the original consumer. If, after this time the queue has not receive the deletion request from the original consumer, the queue makes the message available for the next consumer.</p>
-
 <p>The message retention period is the time a message is placed on a queue before being deleted by the system if nobody consumes it. The maximum is 14 days.</p>
-
 <p>The <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-dead-letter-queue.html">redrive policy</a> is where we specify what happens when a message can&rsquo;t be processed by the consumer. In our case, we&rsquo;re saying that we would like to specify a DLQ and that a messsage will go to the DLQ after three failed attempts to be processed.</p>
-
 <p>The code of the flooder is the same (or very similar) than the one Jeremy has in his post about SQS:</p>
-
-<pre><code>const AWS = require('aws-sdk');
+<pre tabindex="0"><code>const AWS = require(&#39;aws-sdk&#39;);
 const SQS = new AWS.SQS();
 
 module.exports.handler = async (event, context) =&gt; {
@@ -439,7 +359,7 @@ module.exports.handler = async (event, context) =&gt; {
 
     return {
         statusCode: 200,
-        body: JSON.stringify(&quot;all done&quot;)
+        body: JSON.stringify(&#34;all done&#34;)
     };
 }
 
@@ -448,56 +368,47 @@ const createMessages = () =&gt; {
    
     for (let i=0; i&lt;10; i++) {
         entries.push({
-          Id: 'id'+parseInt(Math.random()*1000000),
-          MessageBody: 'value'+Math.random()
+          Id: &#39;id&#39;+parseInt(Math.random()*1000000),
+          MessageBody: &#39;value&#39;+Math.random()
         })
     }
     return entries
 }
-</code></pre>
-
-<p>And the code of the worker and the DLQReader are basically the same:</p>
-
-<pre><code>let counter = 1
+</code></pre><p>And the code of the worker and the DLQReader are basically the same:</p>
+<pre tabindex="0"><code>let counter = 1
 let messageCount = 0
-let funcId = 'id'+parseInt(Math.random()*1000)
+let funcId = &#39;id&#39;+parseInt(Math.random()*1000)
  
 module.exports.handler = async (event) =&gt; {
     counter++;
 
     if (counter % 10 === 0){
-        throw new Error('Simulating error');
+        throw new Error(&#39;Simulating error&#39;);
     }
     
     // Record number of messages received
     if (event.Records) {
         messageCount += event.Records.length
     }
-    console.log(funcId + ' REUSE: ', counter)
-    console.log(funcId + ' Message Count: ', messageCount)
+    console.log(funcId + &#39; REUSE: &#39;, counter)
+    console.log(funcId + &#39; Message Count: &#39;, messageCount)
     console.log(JSON.stringify(event))
-    console.log(funcId + ' processing...');
+    console.log(funcId + &#39; processing...&#39;);
     await sleep(2000);
-    console.log(funcId + ' job done!');
-    return 'done'
+    console.log(funcId + &#39; job done!&#39;);
+    return &#39;done&#39;
 };
 
 const sleep = (milliseconds) =&gt; {
     return new Promise(resolve =&gt; setTimeout(resolve, milliseconds))
 }
-</code></pre>
-
-<p>You can check the full solution <a href="https://github.com/vgaltes/ServerlessPatterns/tree/master/ScalableWebhook">here</a>.</p>
-
+</code></pre><p>You can check the full solution <a href="https://github.com/vgaltes/ServerlessPatterns/tree/master/ScalableWebhook">here</a>.</p>
 <h2 id="summary">Summary</h2>
-
 <p>In this article, we&rsquo;ve seen the implementation from a couple of patterns from <a href="https://www.jeremydaly.com/serverless-microservice-patterns-for-aws">this</a> great article from <a href="https://twitter.com/jeremy_daly">Jeremy Daly</a>. We&rsquo;ll continue with that in following article.</p>
-
 <p>Hope it helps!!</p>
 
     </div>
 
-    
     <div class="post-copyright">
   <p class="copyright-item">
     <span class="item-title">Author</span>
@@ -505,34 +416,26 @@ const sleep = (milliseconds) =&gt; {
   </p>
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
-    <span class="item-content">13-11-2019</span>
+    <span class="item-content">
+        13-11-2019
+        
+    </span>
   </p>
   
   
 </div>
-
-    
-    
-
-    <footer class="post-footer">
+<footer class="post-footer">
       <div class="post-tags">
-          
           <a href="/tags/patterns/">patterns</a>
-          
           <a href="/tags/serverless-framework/">serverless framework</a>
-          
-        </div>
-
-      
+          </div>
       <nav class="post-nav">
-        
-          <a class="prev" href="/post/serverless-patterns-implemented-part2/">
+        <a class="prev" href="/post/serverless-patterns-implemented-part2/">
             <i class="iconfont icon-left"></i>
             <span class="prev-text nav-default">Serverless Patterns implemented, part 2</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
-          <a class="next" href="/post/multi-region-backend/">
+        <a class="next" href="/post/multi-region-backend/">
             <span class="next-text nav-default">Set up a multi-region active-active backend</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
@@ -541,8 +444,7 @@ const sleep = (milliseconds) =&gt; {
     </footer>
   </article>
         </div>
-        
-  <div id="disqus_thread"></div>
+        <div id="disqus_thread"></div>
     <script type="text/javascript">
     (function() {
       
@@ -556,6 +458,8 @@ const sleep = (milliseconds) =&gt; {
     })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
 
   
 
@@ -585,28 +489,24 @@ const sleep = (milliseconds) =&gt; {
 
   <span class="copyright-year">
     &copy; 
-    
-      2013 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Vicenç García</span>
+    2013 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
       <i class="iconfont icon-up"></i>
     </div>
   </div>
-  
-<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  
 
 
-<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 

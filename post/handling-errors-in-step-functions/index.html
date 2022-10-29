@@ -16,8 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Vicenç García" />
-  <meta name="description" content="As we&amp;rsquo;ve seen in previous articles, Step Functions helps us to orchestrate lambda functions. One of the most important aspects when we&amp;rsquo;re developing a system, distributed or not, is handling errors and retries. In this articles we&amp;rsquo;ll see how easy is to do it using Step Functions and the serverless framework.
+<meta name="author" content="Vicenç García" /><meta name="description" content="As we&amp;rsquo;ve seen in previous articles, Step Functions helps us to orchestrate lambda functions. One of the most important aspects when we&amp;rsquo;re developing a system, distributed or not, is handling errors and retries. In this articles we&amp;rsquo;ll see how easy is to do it using Step Functions and the serverless framework.
 Catching errors Coding the lambda First of all we&amp;rsquo;re going to catch some errors. Let&amp;rsquo;s create a new project with one lambda inside it named ErrorLambda with the following code:" />
 
 
@@ -25,12 +24,10 @@ Catching errors Coding the lambda First of all we&amp;rsquo;re going to catch so
 
 
 
-
-<meta name="generator" content="Hugo 0.40.1" />
+<meta name="generator" content="Hugo 0.105.0 with theme even" />
 
 
 <link rel="canonical" href="http://example.org/post/handling-errors-in-step-functions/" />
-
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,16 +36,7 @@ Catching errors Coding the lambda First of all we&amp;rsquo;re going to catch so
 
 
 
-
-
-
-
-
-
-
-<link href="/dist/even.min.css?v=3.2.0" rel="stylesheet">
-<link href="/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
-
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
 
 
 
@@ -56,43 +44,19 @@ Catching errors Coding the lambda First of all we&amp;rsquo;re going to catch so
 <meta property="og:description" content="As we&rsquo;ve seen in previous articles, Step Functions helps us to orchestrate lambda functions. One of the most important aspects when we&rsquo;re developing a system, distributed or not, is handling errors and retries. In this articles we&rsquo;ll see how easy is to do it using Step Functions and the serverless framework.
 Catching errors Coding the lambda First of all we&rsquo;re going to catch some errors. Let&rsquo;s create a new project with one lambda inside it named ErrorLambda with the following code:" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/post/handling-errors-in-step-functions/" />
-
-
-
-<meta property="article:published_time" content="2017-06-22T00:00:00&#43;00:00"/>
-
-<meta property="article:modified_time" content="2017-06-22T00:00:00&#43;00:00"/>
-
-
-
-
-
-
-
-
-
-
+<meta property="og:url" content="http://example.org/post/handling-errors-in-step-functions/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2017-06-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2017-06-22T00:00:00+00:00" />
 
 <meta itemprop="name" content="Handling errors in AWS Step Functions">
 <meta itemprop="description" content="As we&rsquo;ve seen in previous articles, Step Functions helps us to orchestrate lambda functions. One of the most important aspects when we&rsquo;re developing a system, distributed or not, is handling errors and retries. In this articles we&rsquo;ll see how easy is to do it using Step Functions and the serverless framework.
-Catching errors Coding the lambda First of all we&rsquo;re going to catch some errors. Let&rsquo;s create a new project with one lambda inside it named ErrorLambda with the following code:">
-
-
-<meta itemprop="datePublished" content="2017-06-22T00:00:00&#43;00:00" />
-<meta itemprop="dateModified" content="2017-06-22T00:00:00&#43;00:00" />
+Catching errors Coding the lambda First of all we&rsquo;re going to catch some errors. Let&rsquo;s create a new project with one lambda inside it named ErrorLambda with the following code:"><meta itemprop="datePublished" content="2017-06-22T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2017-06-22T00:00:00+00:00" />
 <meta itemprop="wordCount" content="622">
-
-
-
-<meta itemprop="keywords" content="step functions,aws,serverless," />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="step functions,aws,serverless," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Handling errors in AWS Step Functions"/>
 <meta name="twitter:description" content="As we&rsquo;ve seen in previous articles, Step Functions helps us to orchestrate lambda functions. One of the most important aspects when we&rsquo;re developing a system, distributed or not, is handling errors and retries. In this articles we&rsquo;ll see how easy is to do it using Step Functions and the serverless framework.
 Catching errors Coding the lambda First of all we&rsquo;re going to catch some errors. Let&rsquo;s create a new project with one lambda inside it named ErrorLambda with the following code:"/>
-
-
-
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -102,9 +66,6 @@ Catching errors Coding the lambda First of all we&rsquo;re going to catch some e
   <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
 <![endif]-->
-
-<script>var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(101221175);</script>
-<script async src="//static.getclicky.com/js"></script>
 
 </head>
 <body>
@@ -130,12 +91,21 @@ Catching errors Coding the lambda First of all we&rsquo;re going to catch some e
         <li class="mobile-menu-item">Categories</li>
       </a>
   </ul>
+
+  
+
+
 </nav>
+
   <div class="container" id="mobile-panel">
     <header id="header" class="header">
         <div class="logo-wrapper">
   <a href="/" class="logo">VGALTES</a>
 </div>
+
+
+
+
 
 <nav class="site-navbar">
   <ul id="menu" class="menu">
@@ -150,6 +120,7 @@ Catching errors Coding the lambda First of all we&rsquo;re going to catch some e
       </li>
   </ul>
 </nav>
+
     </header>
 
     <main id="main" class="main">
@@ -163,54 +134,36 @@ Catching errors Coding the lambda First of all we&rsquo;re going to catch some e
       <div class="post-meta">
         <span class="post-time"> 22-06-2017 </span>
         <div class="post-category">
-            
-              <a href="/categories/serverless/"> serverless </a>
-            
-          </div>
-        <span class="more-meta"> 622 words </span>
-        <span class="more-meta"> 3 mins read </span>
+            <a href="/categories/serverless/"> serverless </a>
+            </div>
+          <span class="more-meta"> 622 words </span>
+          <span class="more-meta"> 3 mins read </span>
         
       </div>
     </header>
 
-    
-    
-<div class="post-toc" id="post-toc">
+    <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
-  
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#catching-errors">Catching errors</a>
-<ul>
-<li><a href="#coding-the-lambda">Coding the lambda</a></li>
-<li><a href="#creating-the-step-function">Creating the Step Function</a></li>
-<li><a href="#retrying">Retrying</a></li>
-</ul></li>
-<li><a href="#summary">Summary</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#catching-errors">Catching errors</a>
+      <ul>
+        <li><a href="#coding-the-lambda">Coding the lambda</a></li>
+        <li><a href="#creating-the-step-function">Creating the Step Function</a></li>
+        <li><a href="#retrying">Retrying</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
 </nav>
   </div>
 </div>
-
-    
-    
-
-    
     <div class="post-content">
-      
-
-<p>As we&rsquo;ve seen in previous articles, Step Functions helps us to orchestrate lambda functions. One of the most important aspects when we&rsquo;re developing a system, distributed or not, is handling errors and retries. In this articles we&rsquo;ll see how easy is to do it using Step Functions and the serverless framework.</p>
-
+      <p>As we&rsquo;ve seen in previous articles, Step Functions helps us to orchestrate lambda functions. One of the most important aspects when we&rsquo;re developing a system, distributed or not, is handling errors and retries. In this articles we&rsquo;ll see how easy is to do it using Step Functions and the serverless framework.</p>
 <h2 id="catching-errors">Catching errors</h2>
-
 <h3 id="coding-the-lambda">Coding the lambda</h3>
-
 <p>First of all we&rsquo;re going to catch some errors. Let&rsquo;s create a new project with one lambda inside it named ErrorLambda with the following code:</p>
-
 <pre><code>public class ErrorLambda
 {
     public void Error(string input){
@@ -222,11 +175,8 @@ public class CustomException : Exception{
     public CustomException(string message) : base(message){}
 }
 </code></pre>
-
 <h3 id="creating-the-step-function">Creating the Step Function</h3>
-
 <p>Let&rsquo;s create a Step Function that catches errors. As always, create the serverless.yml and copy the following definition of the Step Function:</p>
-
 <pre><code>stepFunctions:
     stateMachines:
         testErrorStepFunction:
@@ -257,19 +207,12 @@ public class CustomException : Exception{
                         Result: &quot;This is a fallback from any error code&quot;
                         End: true
 </code></pre>
-
 <p>We can split what we&rsquo;re doing here in two parts. At the end of the definition we&rsquo;re defining the steps that we&rsquo;ll run after we catch an error. In this case, we&rsquo;ll define three types of errors and three different next states.</p>
-
 <p>First, we defined our catchers. In this case we defined three different catchers. The first one is to catch exceptions that we throw from our Lambda. The string that help us to filter the error is the name of the class of the exception we want to catch. In the second and third catchers, we&rsquo;re using predefined error codes. We know that they are predefined error codes because they start with <em>States.</em> The possible values for a predifined error codes are <em>States.ALL</em>, <em>States.Timeout</em>, <em>States.TaskFailed</em>, <em>States.Permissions</em>. You can read more about them <a href="http://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-errors.html#amazon-states-language-error-names">here</a></p>
-
 <p>If we now deploy the step function, run it, and we go to the AWS console we&rsquo;ll see the representation of it</p>
-
-<p><img src="/images/netcoreretry/step-function.png" alt="retries" /></p>
-
+<p><img src="/images/netcoreretry/step-function.png" alt="retries"></p>
 <p>As you can see, is similar to a <a href="http://vgaltes.com/serverless/step-functions-parallel-state/">parallel step</a>, but in this case we just run one of the branches.</p>
-
 <p>If we click in one of the catchers and inspect the input, we&rsquo;ll see the type of error and the stack trace:</p>
-
 <pre><code>{
     &quot;Error&quot;:&quot;CustomException&quot;,
     &quot;Cause&quot;:{
@@ -282,13 +225,9 @@ public class CustomException : Exception{
     }
 }
 </code></pre>
-
 <p>The string in the errorType field is the one that you have to use in the definition of the catcher.</p>
-
 <h3 id="retrying">Retrying</h3>
-
 <p>It&rsquo;s possible that when you detect an error (or an specific type of error) you want to retry a lambda to see if the error was a transient one. Configuring retries is a very simple step in Step Functions, you just need to add the following code just before the <em>Catch</em> element:</p>
-
 <pre><code>Retry:
     - ErrorEquals: [ &quot;CustomException&quot; ]
       IntervalSeconds: 1
@@ -297,18 +236,13 @@ public class CustomException : Exception{
     - ErrorEquals: [ &quot;States.ALL&quot; ]
       IntervalSeconds: 5
 </code></pre>
-
 <p>In this case we&rsquo;re specifying that, if we get a <em>CustomException</em> error we&rsquo;re going to retry 4 times at most (default 3), with an initial interval of 1 second (default 1) and a back-off rate of 2.0 (default 2.0).</p>
-
 <p>If we want, we can specify a list of errors in the <em>ErrorEquals</em> field. If we want to specify a <em>States.ALL</em> retrier, it must appear alone and as the last retrier.</p>
-
 <h2 id="summary">Summary</h2>
-
 <p>We&rsquo;ve seen how easy is to deal with errors and retries using Step Functions and, as always, how the <a href="http://serverless.com">serverless</a> framework help us in deploying them.</p>
 
     </div>
 
-    
     <div class="post-copyright">
   <p class="copyright-item">
     <span class="item-title">Author</span>
@@ -316,36 +250,27 @@ public class CustomException : Exception{
   </p>
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
-    <span class="item-content">22-06-2017</span>
+    <span class="item-content">
+        22-06-2017
+        
+    </span>
   </p>
   
   
 </div>
-
-    
-    
-
-    <footer class="post-footer">
+<footer class="post-footer">
       <div class="post-tags">
-          
           <a href="/tags/step-functions/">step functions</a>
-          
           <a href="/tags/aws/">aws</a>
-          
           <a href="/tags/serverless/">serverless</a>
-          
-        </div>
-
-      
+          </div>
       <nav class="post-nav">
-        
-          <a class="prev" href="/post/step-functions-choice-pass-fail-succeed-states/">
+        <a class="prev" href="/post/step-functions-choice-pass-fail-succeed-states/">
             <i class="iconfont icon-left"></i>
             <span class="prev-text nav-default">Choice, pass, fail and succeed states in AWS Step Functions</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
-          <a class="next" href="/post/step-functions-wait-state/">
+        <a class="next" href="/post/step-functions-wait-state/">
             <span class="next-text nav-default">Wait state in AWS Step Functions using the serverless framework</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
@@ -354,8 +279,7 @@ public class CustomException : Exception{
     </footer>
   </article>
         </div>
-        
-  <div id="disqus_thread"></div>
+        <div id="disqus_thread"></div>
     <script type="text/javascript">
     (function() {
       
@@ -369,6 +293,8 @@ public class CustomException : Exception{
     })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
 
   
 
@@ -398,28 +324,24 @@ public class CustomException : Exception{
 
   <span class="copyright-year">
     &copy; 
-    
-      2013 - 
-    2020
-    <span class="heart">
-      <i class="iconfont icon-heart"></i>
-    </span>
-    <span class="author">Vicenç García</span>
+    2013 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
   </span>
 </div>
+
     </footer>
 
     <div class="back-to-top" id="back-to-top">
       <i class="iconfont icon-up"></i>
     </div>
   </div>
-  
-<script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
   <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
-  <script type="text/javascript" src="/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+  
 
 
-<script type="text/javascript" src="/dist/even.min.js?v=3.2.0"></script>
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
 
 
 

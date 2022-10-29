@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>F# on VGALTES blog</title>
@@ -6,11 +6,7 @@
     <description>Recent content in F# on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 04 Jul 2016 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="http://example.org/categories/f#/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 04 Jul 2016 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/categories/f#/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>RPG Combat Kata</title>
       <link>http://example.org/post/rpg-combat-kata/</link>
@@ -18,10 +14,8 @@
       
       <guid>http://example.org/post/rpg-combat-kata/</guid>
       <description>A couple of weeks ago I saw these tweets (in Spanish):
-Hoy en la ofi hemos empezado la mañana con la RPG Combat kata de @SuuiGD que hicimos en el #scpna :-D https://t.co/vsK0OucncD
-&amp;mdash; Xabi Sáez de Ocáriz (@ziraco) June 22, 2016 
-@SuuiGD @ziraco a mi me flipó tanto que estoy haciendo la versión &amp;quot;Extended&amp;quot;.si sigo así, le pongo UI y al store! ;)
-&amp;mdash; Modesto San Juan (@msanjuan) June 22, 2016</description>
+As I respect enormously Modesto and Xabi&amp;rsquo;s opinion and I trust on the skills of a Carlos Ble&amp;rsquo;s apprentice, I decided to do the kata at home. And as I keep trying to learn F#, that would be the chosen language.
+I recommend you to do the kata, is a very interesting one. In case you want to do it, please stop reading now and come back when you have finished it, as I&amp;rsquo;m going to explain how I solved it.</description>
     </item>
     
     <item>
@@ -30,12 +24,15 @@ Hoy en la ofi hemos empezado la mañana con la RPG Combat kata de @SuuiGD que hi
       <pubDate>Sat, 19 Dec 2015 17:56:14 +0000</pubDate>
       
       <guid>http://example.org/post/extracting-information-from-your-code-repository-using-f-part-2-basic-statistics/</guid>
-      <description>In the previous article we&#39;ve seen how to parse a git log file. We ended up having an array of commits:
-TODO: Raw content of a Gist file.
-Let&#39;s start extracting some useful statistics from it.
-The first thing that can come into our mind is to know how many commits we have done to the repository. That&#39;s pretty easy to do:
-
-As you can see, we are using the pipe forward operator (|&amp;gt;) and the Array.</description>
+      <description>&lt;p&gt;In the &lt;a href=&#34;http://vgaltes.com/index.php/2015/12/13/extracting-information-from-your-code-repository-using-fsharp-part-1-parsing-the-log-file/&#34; target=&#34;_blank&#34;&gt;previous article&lt;/a&gt; we&#39;ve seen how to parse a git log file. We ended up having an array of commits:&lt;/p&gt;
+&lt;p&gt;&lt;script src=&#34;https://gist.github.com/vgaltes/90748124970e5f17159b.js&#34;&gt;&lt;/script&gt;
+&lt;noscript&gt;
+&lt;pre&gt;TODO: Raw content of a Gist file.&lt;/pre&gt;
+&lt;/noscript&gt;&lt;/p&gt;
+&lt;p&gt;Let&#39;s start extracting some useful statistics from it.&lt;/p&gt;
+&lt;p&gt;The first thing that can come into our mind is to know how many commits we have done to the repository. That&#39;s pretty easy to do:&lt;/p&gt;
+&lt;p&gt;&lt;script src=&#34;https://gist.github.com/vgaltes/515d66194678e9e1265c.js&#34;&gt;&lt;/script&gt;&lt;/p&gt;
+&lt;p&gt;As you can see, we are using the &lt;a href=&#34;http://theburningmonk.com/2011/09/fsharp-pipe-forward-and-pipe-backward/&#34; target=&#34;_blank&#34;&gt;pipe forward operator&lt;/a&gt; (|&amp;gt;) and the &lt;a href=&#34;https://msdn.microsoft.com/en-us/library/ee370275.aspx&#34; target=&#34;_blank&#34;&gt;Array.length&lt;/a&gt; function to extract this information.&lt;/p&gt;</description>
     </item>
     
     <item>

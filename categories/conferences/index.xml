@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Conferences on VGALTES blog</title>
@@ -6,11 +6,7 @@
     <description>Recent content in Conferences on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 28 Oct 2015 07:45:55 +0000</lastBuildDate>
-    
-	<atom:link href="http://example.org/categories/conferences/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 28 Oct 2015 07:45:55 +0000</lastBuildDate><atom:link href="http://example.org/categories/conferences/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>XP Day 2015</title>
       <link>http://example.org/post/xp-day-2015/</link>
@@ -29,7 +25,7 @@ In this time where a lot of people talk about agile hangover and say that agile 
       <guid>http://example.org/post/bilbostack/</guid>
       <description>Last Saturday (January 17th) the Bilbostack conference was held in Bilbao. It was the fourth edition of this conference and it was a complete success. I&#39;m really glad to be part of the organisation of Bilbostack, sharing this responsibility with Ibon Landa, Asier Marqués and Fran Mosteiro.
 I like to organize Bilbostack for many reasons:
-It&#39;s &#34;easy&#34; to organize. We don&#39;t open a Call for Papers. We meet one day in a beer, take some beers and make a list of the people we would like to speak at the conference.</description>
+It&#39;s &#34;easy&#34; to organize. We don&#39;t open a Call for Papers. We meet one day in a beer, take some beers and make a list of the people we would like to speak at the conference.</description>
     </item>
     
     <item>
