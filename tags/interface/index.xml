@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>interface on VGALTES blog</title>
+    <link>http://example.org/tags/interface/</link>
+    <description>Recent content in interface on VGALTES blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 05 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/tags/interface/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Learning Kotlin: abstract classes and interfaces</title>
+      <link>http://example.org/post/kotlin-abstract-classes-interfaces/</link>
+      <pubDate>Sat, 05 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/kotlin-abstract-classes-interfaces/</guid>
+      <description>When you&amp;rsquo;re studying Kotlin and take a look at abstract classes and interfaces, your first impression is that they are two very similar constructs, or at least that was my first impression. You can use both of them to share state and behavior.
+So, let&amp;rsquo;s see what are they and what are the difference amongst them.
+Abstract classes With abstract classes, using the keyword abstract you can declare members without implementation.</description>
+    </item>
+    
+  </channel>
+</rss>

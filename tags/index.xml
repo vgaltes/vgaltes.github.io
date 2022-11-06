@@ -6,7 +6,25 @@
     <description>Recent content in Tags on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 29 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 05 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>abstract class</title>
+      <link>http://example.org/tags/abstract-class/</link>
+      <pubDate>Sat, 05 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/tags/abstract-class/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>interface</title>
+      <link>http://example.org/tags/interface/</link>
+      <pubDate>Sat, 05 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/tags/interface/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>gradle</title>
       <link>http://example.org/tags/gradle/</link>
