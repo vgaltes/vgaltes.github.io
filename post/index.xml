@@ -6,7 +6,18 @@
     <description>Recent content in Posts on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 05 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 06 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Learning Kotlin: sealed classes and enums</title>
+      <link>http://example.org/post/kotlin-enums-sealed-classes/</link>
+      <pubDate>Sun, 06 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/post/kotlin-enums-sealed-classes/</guid>
+      <description>In Kotlin we have two constructs that alow us to create a closed typed hierarchy: sealed classes and enums. Let&amp;rsquo;s take a look to them and see the differences amongst them.
+Sealed classes A sealed class is a class that we know all its subclasses at compile time. We can&amp;rsquo;t declare a subclass of a sealed class outside the module where it&amp;rsquo;s defined.
+One of the differences between a sealed class and an enum is that a subclass of a sealed class can have multiple instances, each with its own state.</description>
+    </item>
+    
     <item>
       <title>Learning Kotlin: abstract classes and interfaces</title>
       <link>http://example.org/post/kotlin-abstract-classes-interfaces/</link>

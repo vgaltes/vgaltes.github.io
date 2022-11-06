@@ -122,6 +122,31 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/kotlin-enums-sealed-classes/">Learning Kotlin: sealed classes and enums</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 06-11-2022 </span>
+      <div class="post-category">
+          <a href="/categories/kotlin/"> kotlin </a>
+          </div>
+        <span class="more-meta"> 573 words </span>
+        <span class="more-meta"> 3 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      In Kotlin we have two constructs that alow us to create a closed typed hierarchy: sealed classes and enums. Let&rsquo;s take a look to them and see the differences amongst them.
+Sealed classes A sealed class is a class that we know all its subclasses at compile time. We can&rsquo;t declare a subclass of a sealed class outside the module where it&rsquo;s defined.
+One of the differences between a sealed class and an enum is that a subclass of a sealed class can have multiple instances, each with its own state.
+    </div>
+    <div class="read-more">
+      <a href="/post/kotlin-enums-sealed-classes/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/kotlin-abstract-classes-interfaces/">Learning Kotlin: abstract classes and interfaces</a></h1>
     <div class="post-meta">
       <span class="post-time"> 05-11-2022 </span>
@@ -331,32 +356,6 @@ If you read the article, you will see that this DLQ is complementary to the DLQ 
     </div>
     <div class="read-more">
       <a href="/post/serverless-patterns-implemented-sls-dlq/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/serverless-patterns-implemented-part2/">Serverless Patterns implemented, part 2</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 14-11-2019 </span>
-      <div class="post-category">
-          <a href="/categories/serverless/"> serverless </a>
-          </div>
-        <span class="more-meta"> 1423 words </span>
-        <span class="more-meta"> 7 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      In this article I will continue with the implementation of some Serverless Patterns described in this article from Jeremy Daly about [Serverless Patterns]. Check the first post here Let&rsquo;s start!
-Common setup All the projects will have a common setup, which is fairly simple. First, initialize a NodeJS project:
-yarn init Then install the serverless framework as a dev dependency
-yarn add serverless --dev And finally create a script to deploy the project
-    </div>
-    <div class="read-more">
-      <a href="/post/serverless-patterns-implemented-part2/" class="read-more-link">Read more...</a>
     </div>
   </div>
 </article>
