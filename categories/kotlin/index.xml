@@ -8,7 +8,7 @@
     <language>en</language>
     <lastBuildDate>Sat, 12 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/categories/kotlin/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Learning Kotlin: variance and covariance</title>
+      <title>Learning Kotlin: covariance and contravariance</title>
       <link>http://example.org/post/kotlin-variance-covariance/</link>
       <pubDate>Sat, 12 Nov 2022 00:00:00 +0000</pubDate>
       

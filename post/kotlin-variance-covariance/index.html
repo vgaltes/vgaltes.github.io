@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Learning Kotlin: variance and covariance - VGALTES blog</title>
+  <title>Learning Kotlin: covariance and contravariance - VGALTES blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -41,7 +41,7 @@ interface Factory&amp;lt;T&amp;gt; { fun create(name: String): T } Now we need t
 
 
 
-<meta property="og:title" content="Learning Kotlin: variance and covariance" />
+<meta property="og:title" content="Learning Kotlin: covariance and contravariance" />
 <meta property="og:description" content="When we work with generics, sometimes we need to help the compiler in order to accomplish what we want. By doing that, we&rsquo;ll be telling the compiler if two classes are covariant or contravariant. Let&rsquo;s see a couple of examples to help understand these concepts.
 Covariance Imagine that we want to model a factory of toys. Let&rsquo;s start by creating an interface that will take a generic type:
 interface Factory&lt;T&gt; { fun create(name: String): T } Now we need to define what we want to produce" />
@@ -50,14 +50,14 @@ interface Factory&lt;T&gt; { fun create(name: String): T } Now we need to define
 <meta property="article:published_time" content="2022-11-12T00:00:00+00:00" />
 <meta property="article:modified_time" content="2022-11-12T00:00:00+00:00" />
 
-<meta itemprop="name" content="Learning Kotlin: variance and covariance">
+<meta itemprop="name" content="Learning Kotlin: covariance and contravariance">
 <meta itemprop="description" content="When we work with generics, sometimes we need to help the compiler in order to accomplish what we want. By doing that, we&rsquo;ll be telling the compiler if two classes are covariant or contravariant. Let&rsquo;s see a couple of examples to help understand these concepts.
 Covariance Imagine that we want to model a factory of toys. Let&rsquo;s start by creating an interface that will take a generic type:
 interface Factory&lt;T&gt; { fun create(name: String): T } Now we need to define what we want to produce"><meta itemprop="datePublished" content="2022-11-12T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2022-11-12T00:00:00+00:00" />
 <meta itemprop="wordCount" content="605">
-<meta itemprop="keywords" content="generics,variance,covariance," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Learning Kotlin: variance and covariance"/>
+<meta itemprop="keywords" content="generics,covariance,contravariance," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Learning Kotlin: covariance and contravariance"/>
 <meta name="twitter:description" content="When we work with generics, sometimes we need to help the compiler in order to accomplish what we want. By doing that, we&rsquo;ll be telling the compiler if two classes are covariant or contravariant. Let&rsquo;s see a couple of examples to help understand these concepts.
 Covariance Imagine that we want to model a factory of toys. Let&rsquo;s start by creating an interface that will take a generic type:
 interface Factory&lt;T&gt; { fun create(name: String): T } Now we need to define what we want to produce"/>
@@ -133,7 +133,7 @@ interface Factory&lt;T&gt; { fun create(name: String): T } Now we need to define
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Learning Kotlin: variance and covariance</h1>
+      <h1 class="post-title">Learning Kotlin: covariance and contravariance</h1>
 
       <div class="post-meta">
         <span class="post-time"> 12-11-2022 </span>
@@ -239,8 +239,8 @@ interface Factory&lt;T&gt; { fun create(name: String): T } Now we need to define
 <footer class="post-footer">
       <div class="post-tags">
           <a href="/tags/generics/">generics</a>
-          <a href="/tags/variance/">variance</a>
           <a href="/tags/covariance/">covariance</a>
+          <a href="/tags/contravariance/">contravariance</a>
           </div>
       <nav class="post-nav">
         

@@ -8,7 +8,7 @@
     <language>en</language>
     <lastBuildDate>Sat, 12 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Learning Kotlin: variance and covariance</title>
+      <title>Learning Kotlin: covariance and contravariance</title>
       <link>http://example.org/post/kotlin-variance-covariance/</link>
       <pubDate>Sat, 12 Nov 2022 00:00:00 +0000</pubDate>
       
@@ -222,7 +222,10 @@ As far as I know (correct me in the comments if I&amp;rsquo;m wrong, please), wh
       <guid>http://example.org/post/enabling-application-insights/</guid>
       <description>In our previous articles we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI or Terraform. Once we have a function deployed and accepting traffic, the next obvious thing to do is to monitor it.
 Adding some logs to the function is fairly easy. If you take a look at the signature of the function
-[FunctionName(&amp;#34;HelloWorld&amp;#34;)]public static async Task&amp;lt;IActionResult&amp;gt; Run([HttpTrigger(AuthorizationLevel.Anonymous, &amp;#34;get&amp;#34;, &amp;#34;post&amp;#34;, Route = null)] HttpRequest req,ILogger log) you&amp;rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.</description>
+[FunctionName(&amp;#34;HelloWorld&amp;#34;)]
+public static async Task&amp;lt;IActionResult&amp;gt; Run(
+[HttpTrigger(AuthorizationLevel.Anonymous, &amp;#34;get&amp;#34;, &amp;#34;post&amp;#34;, Route = null)] HttpRequest req,
+ILogger log) you&amp;rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.</description>
     </item>
     
     <item>
@@ -244,7 +247,23 @@ Enable A/B testing Enable blue/green deployments No downtime deployments Easy ro
       <guid>http://example.org/post/deploying-azure-functions-using-zip-deploy/</guid>
       <description>In a previous article we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
-#!/bin/bashlocation=$2stage=$3serviceName=$1-$stageresourceGroupName=$serviceName&amp;#34;-rg&amp;#34;serviceNameToLower=&amp;#34;$(echo $serviceName | tr &amp;#39;[:upper:]&amp;#39; &amp;#39;[:lower:]&amp;#39;)&amp;#34;storageAccountName=&amp;#34;$(echo ${serviceNameToLower//&amp;#34;-&amp;#34;/&amp;#34;&amp;#34;})&amp;#34;echo &amp;#34;Creating resource group&amp;#34;az group create --name $resourceGroupName --location $locationecho &amp;#34;Creating storage account&amp;#34;az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRSecho &amp;#34;Creating function app&amp;#34;az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupNameecho &amp;#34;Publishing function locally&amp;#34;dotnet buildecho &amp;#34;Publisihng function to Azure&amp;#34;func azure functionapp publish $serviceName What are we going to do is to change the last two steps.</description>
+#!/bin/bash
+location=$2
+stage=$3
+serviceName=$1-$stage
+resourceGroupName=$serviceName&amp;#34;-rg&amp;#34;
+serviceNameToLower=&amp;#34;$(echo $serviceName | tr &amp;#39;[:upper:]&amp;#39; &amp;#39;[:lower:]&amp;#39;)&amp;#34;
+storageAccountName=&amp;#34;$(echo ${serviceNameToLower//&amp;#34;-&amp;#34;/&amp;#34;&amp;#34;})&amp;#34;
+echo &amp;#34;Creating resource group&amp;#34;
+az group create --name $resourceGroupName --location $location
+echo &amp;#34;Creating storage account&amp;#34;
+az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRS
+echo &amp;#34;Creating function app&amp;#34;
+az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupName
+echo &amp;#34;Publishing function locally&amp;#34;
+dotnet build
+echo &amp;#34;Publisihng function to Azure&amp;#34;
+func azure functionapp publish $serviceName What are we going to do is to change the last two steps.</description>
     </item>
     
     <item>
@@ -475,7 +494,11 @@ As its name denotes, is a pattern that partially classificates what you match wi
       
       <guid>http://example.org/post/run-nunit3-tests-using-fake/</guid>
       <description>When you have some unit tests developed using NUnit 2.x your FAKE script looks like something like this:
-Target &amp;quot;RunUnitTests&amp;quot; (fun _ -&amp;gt;!! (testDir + &amp;quot;/*.Tests.dll&amp;quot;)|&amp;gt; NUnit (fun p -&amp;gt;{p with ToolPath = &amp;quot;packages/NUnit.Runners/tools/&amp;quot;}))
+Target &amp;quot;RunUnitTests&amp;quot; (fun _ -&amp;gt;
+!! (testDir + &amp;quot;/*.Tests.dll&amp;quot;)
+|&amp;gt; NUnit (fun p -&amp;gt;
+{p with ToolPath = &amp;quot;packages/NUnit.Runners/tools/&amp;quot;})
+)
 But NUnit3 works slightly different. Instead of having a single NUnit.Runners package, that package references some other packages (runner, extensions, etc). One of those packages is NUnit.ConsoleRunner that has the exe inside the tools folder.</description>
     </item>
     
@@ -652,7 +675,25 @@ I have to admit that when I started to hear the term Craftsmanship I was distru
       <guid>http://example.org/post/test-driving-asp-net-routing/</guid>
       <description>In this article we will see how can we test drive the routing configuration of an ASP.Net web application.
 Let&#39;s start with our first test:
-[TestMethod]public void TestSimpleRoute(){RouteCollection routes = new RouteCollection();RouteConfig.RegisterRoutes(routes);// Act - process the routeRouteData result= routes.GetRouteData(CreateHttpContext(&#34;~/Admin/Index&#34;));// AssertAssert.IsNotNull(result);Assert.AreEqual(&#34;controller&#34;, result.Values[&#34;controller&#34;]);Assert.AreEqual(&#34;action&#34;, result.Values[&#34;action&#34;]);}private HttpContextBase CreateHttpContext(string targetUrl = null){var mockRequest = new Mock&amp;lt;HttpRequestBase&amp;gt;();mockRequest.Setup(m =&amp;gt; m.AppRelativeCurrentExecutionFilePath).Returns(targetUrl);mockRequest.</description>
+[TestMethod]
+public void TestSimpleRoute()
+{
+RouteCollection routes = new RouteCollection();
+RouteConfig.RegisterRoutes(routes);
+// Act - process the route
+RouteData result
+= routes.GetRouteData(CreateHttpContext(&#34;~/Admin/Index&#34;));
+// Assert
+Assert.IsNotNull(result);
+Assert.AreEqual(&#34;controller&#34;, result.Values[&#34;controller&#34;]);
+Assert.AreEqual(&#34;action&#34;, result.Values[&#34;action&#34;]);
+}
+private HttpContextBase CreateHttpContext(string targetUrl = null)
+{
+var mockRequest = new Mock&amp;lt;HttpRequestBase&amp;gt;();
+mockRequest.Setup(m =&amp;gt; m.AppRelativeCurrentExecutionFilePath)
+.Returns(targetUrl);
+mockRequest.</description>
     </item>
     
     <item>
@@ -713,7 +754,8 @@ The object oriented solution There are a couple of typical implementations of th
       <guid>http://example.org/post/function-composition-and-pipeline-operator/</guid>
       <description>As Scott Wlaschin points out in his excellent article function composition it&amp;rsquo;s not the same as using the pipeline operator.
 The definition of the pipeline operator is this one:
-let (|&amp;gt;) x f = f xSo, take the thing on the left hand side of the operator and use it as the last parameter on the function in the right hand side.
+let (|&amp;gt;) x f = f x
+So, take the thing on the left hand side of the operator and use it as the last parameter on the function in the right hand side.
 On the other hand, we have this definition for the forward composition operator (&amp;raquo;)</description>
     </item>
     
