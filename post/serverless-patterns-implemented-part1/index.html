@@ -49,7 +49,7 @@
 <meta itemprop="name" content="Serverless Patterns implemented, part 1">
 <meta itemprop="description" content="I think that the best way to learn something is to practice it and to try to explain it, so this is what I&rsquo;m going to do in the next series of posts. These posts will be based on the amazing article from Jeremy Daly about Serverless Patterns. I&rsquo;m not going to copy Jeremy&rsquo;s words here, so for each pattern, go to the article and read it. I&rsquo;ll provide a technical implementation here and I will mention more resources I found interesting."><meta itemprop="datePublished" content="2019-11-13T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2019-11-13T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1059">
+<meta itemprop="wordCount" content="1287">
 <meta itemprop="keywords" content="patterns,serverless framework," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Serverless Patterns implemented, part 1"/>
 <meta name="twitter:description" content="I think that the best way to learn something is to practice it and to try to explain it, so this is what I&rsquo;m going to do in the next series of posts. These posts will be based on the amazing article from Jeremy Daly about Serverless Patterns. I&rsquo;m not going to copy Jeremy&rsquo;s words here, so for each pattern, go to the article and read it. I&rsquo;ll provide a technical implementation here and I will mention more resources I found interesting."/>
@@ -132,8 +132,8 @@
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 1059 words </span>
-          <span class="more-meta"> 5 mins read </span>
+          <span class="more-meta"> 1287 words </span>
+          <span class="more-meta"> 7 mins read </span>
         
       </div>
     </header>
@@ -143,10 +143,14 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#common-setup">Common setup</a></li>
-    <li><a href="#the-simple-webservice">The Simple Webservice</a></li>
-    <li><a href="#the-scalable-webhook">The Scalable Webhook</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#common-setup">Common setup</a></li>
+        <li><a href="#the-simple-webservice">The Simple Webservice</a></li>
+        <li><a href="#the-scalable-webhook">The Scalable Webhook</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -155,254 +159,536 @@
       <p>I think that the best way to learn something is to practice it and to try to explain it, so this is what I&rsquo;m going to do in the next series of posts. These posts will be based on the amazing article from <a href="https://twitter.com/jeremy_daly">Jeremy Daly</a> about <a href="https://www.jeremydaly.com/serverless-microservice-patterns-for-aws">Serverless Patterns</a>. I&rsquo;m not going to copy Jeremy&rsquo;s words here, so for each pattern, go to the article and read it. I&rsquo;ll provide a technical implementation here and I will mention more resources I found interesting. Let&rsquo;s start!</p>
 <h2 id="common-setup">Common setup</h2>
 <p>All the projects will have a common setup, which is fairly simple. First, initialize a NodeJS project:</p>
-<pre tabindex="0"><code>yarn init
-</code></pre><p>Then install the serverless framework as a dev dependency</p>
-<pre tabindex="0"><code>yarn add serverless --dev
-</code></pre><p>And finally create a script to deploy the project</p>
-<pre tabindex="0"><code>&#34;scripts&#34;: {
-    &#34;deploy&#34;: &#34;serverless deploy --aws-profile serverless-local&#34;
-  }
-</code></pre><p>(Assuming that you have a profile called serverless-local, of course)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">yarn init
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Then install the serverless framework as a dev dependency</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">yarn add serverless --dev
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And finally create a script to deploy the project</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&#34;scripts&#34;: {
+</span></span><span class="line"><span class="cl">    &#34;deploy&#34;: &#34;serverless deploy --aws-profile serverless-local&#34;
+</span></span><span class="line"><span class="cl">  }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>(Assuming that you have a profile called serverless-local, of course)</p>
 <h2 id="the-simple-webservice">The Simple Webservice</h2>
 <p>Read the explanation <a href="https://www.jeremydaly.com/serverless-microservice-patterns-for-aws/#simplewebservice">here</a></p>
 <p>To implement this pattern we need to create a service with a DynamoDB table and, at least, a function that get or sets data from it. So the <code>serverless.yml</code> will look like this:</p>
-<pre tabindex="0"><code>service: SimpleWebService
-
-plugins:
-  - serverless-iam-roles-per-function
-
-provider:
-  name: aws
-  runtime: nodejs10.x
-  region: ${opt:region, self:custom.defaultRegion}
-
-custom:
-  defaultRegion: eu-west-1
-  tableName: ${self:provider.region}-SimpleWebServiceTable
-
-functions:
-  GetItem:
-    handler: src/functions/getItem.handler
-    events:
-      - http:
-          method: get
-          path: item/{itemId}
-    environment:
-      tableName: ${self:custom.tableName}
-    iamRoleStatements:
-      - Effect: Allow
-        Action: dynamodb:getItem
-        Resource: !GetAtt SimpleWebServiceTable.Arn
-
-  PutItem:
-    handler: src/functions/putItem.handler
-    events:
-      - http:
-          method: post
-          path: item
-    environment:
-      tableName: ${self:custom.tableName}
-    iamRoleStatements:
-      - Effect: Allow
-        Action: dynamodb:putItem
-        Resource: !GetAtt SimpleWebServiceTable.Arn
-
-resources:
-  Resources:
-    SimpleWebServiceTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        KeySchema:
-          - AttributeName: id
-            KeyType: &#39;HASH&#39;
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: &#39;N&#39;
-        BillingMode: PAY_PER_REQUEST
-        TableName: ${self:custom.tableName}
-</code></pre><p>We&rsquo;ll need to install the <code>serverless-iam-roles-per-function</code> plugin. We&rsquo;re creating a DyanamoDB table and passing the name to the functions via environment variable. In each function, we&rsquo;re just giving the permissions it needs.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">service: SimpleWebService
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">plugins:
+</span></span><span class="line"><span class="cl">  - serverless-iam-roles-per-function
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">provider:
+</span></span><span class="line"><span class="cl">  name: aws
+</span></span><span class="line"><span class="cl">  runtime: nodejs10.x
+</span></span><span class="line"><span class="cl">  region: ${opt:region, self:custom.defaultRegion}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">custom:
+</span></span><span class="line"><span class="cl">  defaultRegion: eu-west-1
+</span></span><span class="line"><span class="cl">  tableName: ${self:provider.region}-SimpleWebServiceTable
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">functions:
+</span></span><span class="line"><span class="cl">  GetItem:
+</span></span><span class="line"><span class="cl">    handler: src/functions/getItem.handler
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - http:
+</span></span><span class="line"><span class="cl">          method: get
+</span></span><span class="line"><span class="cl">          path: item/{itemId}
+</span></span><span class="line"><span class="cl">    environment:
+</span></span><span class="line"><span class="cl">      tableName: ${self:custom.tableName}
+</span></span><span class="line"><span class="cl">    iamRoleStatements:
+</span></span><span class="line"><span class="cl">      - Effect: Allow
+</span></span><span class="line"><span class="cl">        Action: dynamodb:getItem
+</span></span><span class="line"><span class="cl">        Resource: !GetAtt SimpleWebServiceTable.Arn
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  PutItem:
+</span></span><span class="line"><span class="cl">    handler: src/functions/putItem.handler
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - http:
+</span></span><span class="line"><span class="cl">          method: post
+</span></span><span class="line"><span class="cl">          path: item
+</span></span><span class="line"><span class="cl">    environment:
+</span></span><span class="line"><span class="cl">      tableName: ${self:custom.tableName}
+</span></span><span class="line"><span class="cl">    iamRoleStatements:
+</span></span><span class="line"><span class="cl">      - Effect: Allow
+</span></span><span class="line"><span class="cl">        Action: dynamodb:putItem
+</span></span><span class="line"><span class="cl">        Resource: !GetAtt SimpleWebServiceTable.Arn
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">resources:
+</span></span><span class="line"><span class="cl">  Resources:
+</span></span><span class="line"><span class="cl">    SimpleWebServiceTable:
+</span></span><span class="line"><span class="cl">      Type: AWS::DynamoDB::Table
+</span></span><span class="line"><span class="cl">      Properties:
+</span></span><span class="line"><span class="cl">        KeySchema:
+</span></span><span class="line"><span class="cl">          - AttributeName: id
+</span></span><span class="line"><span class="cl">            KeyType: &#39;HASH&#39;
+</span></span><span class="line"><span class="cl">        AttributeDefinitions:
+</span></span><span class="line"><span class="cl">          - AttributeName: id
+</span></span><span class="line"><span class="cl">            AttributeType: &#39;N&#39;
+</span></span><span class="line"><span class="cl">        BillingMode: PAY_PER_REQUEST
+</span></span><span class="line"><span class="cl">        TableName: ${self:custom.tableName}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We&rsquo;ll need to install the <code>serverless-iam-roles-per-function</code> plugin. We&rsquo;re creating a DyanamoDB table and passing the name to the functions via environment variable. In each function, we&rsquo;re just giving the permissions it needs.</p>
 <p>Let&rsquo;s take a look at the implementation of the PutItem function:</p>
-<pre tabindex="0"><code>const AWS = require(&#34;aws-sdk&#34;);
-
-const dynamodb = new AWS.DynamoDB.DocumentClient();
-const tableName = process.env.tableName;
-
-module.exports.handler = async (event) =&gt; {
-  const body = JSON.parse(event.body);
-  const id = parseInt(body.id);
-  const name = body.name;
-
-  const params = {
-    TableName: tableName,
-    Item: {
-      &#39;id&#39; : id,
-      &#39;name&#39; : name
-    }
-  };
-
-  const resp = await dynamodb.put(params).promise();
-
-  const res = {
-    statusCode: 200,
-    body: JSON.stringify(resp)
-  };
-
-  return res;
-};
-</code></pre><p>And finally let&rsquo;s take a look at the implementation of the GetItem function:</p>
-<pre tabindex="0"><code>const AWS = require(&#34;aws-sdk&#34;);
-
-const dynamodb = new AWS.DynamoDB.DocumentClient();
-const tableName = process.env.tableName;
-
-module.exports.handler = async (event) =&gt; {
-  const id = event.pathParameters.itemId;
-
-  const req = {
-    TableName: tableName,
-    Key: {
-        &#39;id&#39;: parseInt(id)
-      }
-  };
-
-  const resp = await dynamodb.get(req).promise();
-
-  const res = {
-    statusCode: 200,
-    body: JSON.stringify(resp.Item)
-  };
-
-  return res;
-};
-</code></pre><p>You can check the full solution <a href="https://github.com/vgaltes/ServerlessPatterns/tree/master/SimpleWebService">here</a>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">const AWS = require(&#34;aws-sdk&#34;);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">const dynamodb = new AWS.DynamoDB.DocumentClient();
+</span></span><span class="line"><span class="cl">const tableName = process.env.tableName;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">module.exports.handler = async (event) =&gt; {
+</span></span><span class="line"><span class="cl">  const body = JSON.parse(event.body);
+</span></span><span class="line"><span class="cl">  const id = parseInt(body.id);
+</span></span><span class="line"><span class="cl">  const name = body.name;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  const params = {
+</span></span><span class="line"><span class="cl">    TableName: tableName,
+</span></span><span class="line"><span class="cl">    Item: {
+</span></span><span class="line"><span class="cl">      &#39;id&#39; : id,
+</span></span><span class="line"><span class="cl">      &#39;name&#39; : name
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">  };
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  const resp = await dynamodb.put(params).promise();
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  const res = {
+</span></span><span class="line"><span class="cl">    statusCode: 200,
+</span></span><span class="line"><span class="cl">    body: JSON.stringify(resp)
+</span></span><span class="line"><span class="cl">  };
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  return res;
+</span></span><span class="line"><span class="cl">};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And finally let&rsquo;s take a look at the implementation of the GetItem function:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">const AWS = require(&#34;aws-sdk&#34;);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">const dynamodb = new AWS.DynamoDB.DocumentClient();
+</span></span><span class="line"><span class="cl">const tableName = process.env.tableName;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">module.exports.handler = async (event) =&gt; {
+</span></span><span class="line"><span class="cl">  const id = event.pathParameters.itemId;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  const req = {
+</span></span><span class="line"><span class="cl">    TableName: tableName,
+</span></span><span class="line"><span class="cl">    Key: {
+</span></span><span class="line"><span class="cl">        &#39;id&#39;: parseInt(id)
+</span></span><span class="line"><span class="cl">      }
+</span></span><span class="line"><span class="cl">  };
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  const resp = await dynamodb.get(req).promise();
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  const res = {
+</span></span><span class="line"><span class="cl">    statusCode: 200,
+</span></span><span class="line"><span class="cl">    body: JSON.stringify(resp.Item)
+</span></span><span class="line"><span class="cl">  };
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  return res;
+</span></span><span class="line"><span class="cl">};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>You can check the full solution <a href="https://github.com/vgaltes/ServerlessPatterns/tree/master/SimpleWebService">here</a>.</p>
 <h2 id="the-scalable-webhook">The Scalable Webhook</h2>
 <p>Read the explanation <a href="https://www.jeremydaly.com/serverless-microservice-patterns-for-aws/#scalablewebhook">here</a>.</p>
 <p>In this pattern, we&rsquo;re going to introduce an SQS queue between two services and that queue will have a dead letter queue in case we find some error. So, let´s start with the <code>serverless.yml</code> file:</p>
-<pre tabindex="0"><code>service: ScalableWebhook
-
-plugins:
-  - serverless-iam-roles-per-function
-
-provider:
-  name: aws
-  runtime: nodejs10.x
-  region: ${opt:region, self:custom.defaultRegion}
-
-custom:
-  defaultRegion: eu-west-1
-
-functions:
-  Flooder:
-    handler: src/functions/flooder.handler
-    events:
-      - http:
-          method: post
-          path: flooder
-    environment:
-      queueUrl: !Ref WorkerQueue
-    iamRoleStatements:
-      - Effect: Allow
-        Action: SQS:SendMessage
-        Resource: !GetAtt WorkerQueue.Arn
-
-  Worker:
-    handler: src/functions/worker.handler
-    memorySize: 256
-    reservedConcurrency: 5
-    events:
-      - sqs:
-          batchSize: 10
-          arn: !GetAtt WorkerQueue.Arn
-
-  DLQReader:
-    handler: src/function/dlqReader.handler
-    events:
-      - sqs:
-          batchSize: 10
-          arn: !GetAtt ReceiverDeadLetterQueue.Arn
-
-resources:
-  Resources:
-    WorkerQueue:
-      Type: &#34;AWS::SQS::Queue&#34;
-      Properties:
-        QueueName: &#34;WorkerQueue&#34;
-        VisibilityTimeout: 30 # 20 seconds
-        MessageRetentionPeriod: 60 # 60 seconds
-        RedrivePolicy:
-          deadLetterTargetArn: !GetAtt ReceiverDeadLetterQueue.Arn
-          maxReceiveCount: 3
-
-    ReceiverDeadLetterQueue:
-      Type: &#34;AWS::SQS::Queue&#34;
-      Properties:
-        QueueName: &#34;WorkerDLQ&#34;
-        MessageRetentionPeriod: 1209600 # 14 days in seconds
-</code></pre><p>This file is a bit more complicated than the previous one. The interesting bits are in the queue definition, where we&rsquo;re setting the properties of the queue. We&rsquo;re going to explain now what those parameters are, but I strongly recommend you to read <a href="https://www.jeremydaly.com/serverless-consumers-with-lambda-and-sqs-triggers/">this article</a> from Jeremy about SQS queues, and please read all the comments as well as there is interesting information there. You can also take a look at <a href="https://cloudly.tech/blog/aws-lambda-sqs-trigger-error-handling/">this article</a> where the author explains how the error handling in SQS works. And finally, you can go to the <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-dead-letter-queue.html">official documentation</a>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">service: ScalableWebhook
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">plugins:
+</span></span><span class="line"><span class="cl">  - serverless-iam-roles-per-function
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">provider:
+</span></span><span class="line"><span class="cl">  name: aws
+</span></span><span class="line"><span class="cl">  runtime: nodejs10.x
+</span></span><span class="line"><span class="cl">  region: ${opt:region, self:custom.defaultRegion}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">custom:
+</span></span><span class="line"><span class="cl">  defaultRegion: eu-west-1
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">functions:
+</span></span><span class="line"><span class="cl">  Flooder:
+</span></span><span class="line"><span class="cl">    handler: src/functions/flooder.handler
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - http:
+</span></span><span class="line"><span class="cl">          method: post
+</span></span><span class="line"><span class="cl">          path: flooder
+</span></span><span class="line"><span class="cl">    environment:
+</span></span><span class="line"><span class="cl">      queueUrl: !Ref WorkerQueue
+</span></span><span class="line"><span class="cl">    iamRoleStatements:
+</span></span><span class="line"><span class="cl">      - Effect: Allow
+</span></span><span class="line"><span class="cl">        Action: SQS:SendMessage
+</span></span><span class="line"><span class="cl">        Resource: !GetAtt WorkerQueue.Arn
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  Worker:
+</span></span><span class="line"><span class="cl">    handler: src/functions/worker.handler
+</span></span><span class="line"><span class="cl">    memorySize: 256
+</span></span><span class="line"><span class="cl">    reservedConcurrency: 5
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - sqs:
+</span></span><span class="line"><span class="cl">          batchSize: 10
+</span></span><span class="line"><span class="cl">          arn: !GetAtt WorkerQueue.Arn
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  DLQReader:
+</span></span><span class="line"><span class="cl">    handler: src/function/dlqReader.handler
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - sqs:
+</span></span><span class="line"><span class="cl">          batchSize: 10
+</span></span><span class="line"><span class="cl">          arn: !GetAtt ReceiverDeadLetterQueue.Arn
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">resources:
+</span></span><span class="line"><span class="cl">  Resources:
+</span></span><span class="line"><span class="cl">    WorkerQueue:
+</span></span><span class="line"><span class="cl">      Type: &#34;AWS::SQS::Queue&#34;
+</span></span><span class="line"><span class="cl">      Properties:
+</span></span><span class="line"><span class="cl">        QueueName: &#34;WorkerQueue&#34;
+</span></span><span class="line"><span class="cl">        VisibilityTimeout: 30 # 20 seconds
+</span></span><span class="line"><span class="cl">        MessageRetentionPeriod: 60 # 60 seconds
+</span></span><span class="line"><span class="cl">        RedrivePolicy:
+</span></span><span class="line"><span class="cl">          deadLetterTargetArn: !GetAtt ReceiverDeadLetterQueue.Arn
+</span></span><span class="line"><span class="cl">          maxReceiveCount: 3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    ReceiverDeadLetterQueue:
+</span></span><span class="line"><span class="cl">      Type: &#34;AWS::SQS::Queue&#34;
+</span></span><span class="line"><span class="cl">      Properties:
+</span></span><span class="line"><span class="cl">        QueueName: &#34;WorkerDLQ&#34;
+</span></span><span class="line"><span class="cl">        MessageRetentionPeriod: 1209600 # 14 days in seconds
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This file is a bit more complicated than the previous one. The interesting bits are in the queue definition, where we&rsquo;re setting the properties of the queue. We&rsquo;re going to explain now what those parameters are, but I strongly recommend you to read <a href="https://www.jeremydaly.com/serverless-consumers-with-lambda-and-sqs-triggers/">this article</a> from Jeremy about SQS queues, and please read all the comments as well as there is interesting information there. You can also take a look at <a href="https://cloudly.tech/blog/aws-lambda-sqs-trigger-error-handling/">this article</a> where the author explains how the error handling in SQS works. And finally, you can go to the <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-dead-letter-queue.html">official documentation</a>.</p>
 <p>The <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html">visibility timeout</a> is the time that the message remains in the queue without other consumers being able to receive and process the message, waiting for the confirmation (or the error) from the original consumer. If, after this time the queue has not receive the deletion request from the original consumer, the queue makes the message available for the next consumer.</p>
 <p>The message retention period is the time a message is placed on a queue before being deleted by the system if nobody consumes it. The maximum is 14 days.</p>
 <p>The <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-configure-dead-letter-queue.html">redrive policy</a> is where we specify what happens when a message can&rsquo;t be processed by the consumer. In our case, we&rsquo;re saying that we would like to specify a DLQ and that a messsage will go to the DLQ after three failed attempts to be processed.</p>
 <p>The code of the flooder is the same (or very similar) than the one Jeremy has in his post about SQS:</p>
-<pre tabindex="0"><code>const AWS = require(&#39;aws-sdk&#39;);
-const SQS = new AWS.SQS();
-
-module.exports.handler = async (event, context) =&gt; {
-    const body = JSON.parse(event.body);
-    const times = parseInt(body.times);
-    const queue = process.env.queueUrl;
-
-    console.log(`Queue is: ${queue}`);
-
-    for (let i=0; i&lt;times; i++) {
-        await SQS.sendMessageBatch({ Entries: createMessages(), QueueUrl: queue }).promise()
-    }
-
-    return {
-        statusCode: 200,
-        body: JSON.stringify(&#34;all done&#34;)
-    };
-}
-
-const createMessages = () =&gt; {
-    let entries = []
-   
-    for (let i=0; i&lt;10; i++) {
-        entries.push({
-          Id: &#39;id&#39;+parseInt(Math.random()*1000000),
-          MessageBody: &#39;value&#39;+Math.random()
-        })
-    }
-    return entries
-}
-</code></pre><p>And the code of the worker and the DLQReader are basically the same:</p>
-<pre tabindex="0"><code>let counter = 1
-let messageCount = 0
-let funcId = &#39;id&#39;+parseInt(Math.random()*1000)
- 
-module.exports.handler = async (event) =&gt; {
-    counter++;
-
-    if (counter % 10 === 0){
-        throw new Error(&#39;Simulating error&#39;);
-    }
-    
-    // Record number of messages received
-    if (event.Records) {
-        messageCount += event.Records.length
-    }
-    console.log(funcId + &#39; REUSE: &#39;, counter)
-    console.log(funcId + &#39; Message Count: &#39;, messageCount)
-    console.log(JSON.stringify(event))
-    console.log(funcId + &#39; processing...&#39;);
-    await sleep(2000);
-    console.log(funcId + &#39; job done!&#39;);
-    return &#39;done&#39;
-};
-
-const sleep = (milliseconds) =&gt; {
-    return new Promise(resolve =&gt; setTimeout(resolve, milliseconds))
-}
-</code></pre><p>You can check the full solution <a href="https://github.com/vgaltes/ServerlessPatterns/tree/master/ScalableWebhook">here</a>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">const AWS = require(&#39;aws-sdk&#39;);
+</span></span><span class="line"><span class="cl">const SQS = new AWS.SQS();
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">module.exports.handler = async (event, context) =&gt; {
+</span></span><span class="line"><span class="cl">    const body = JSON.parse(event.body);
+</span></span><span class="line"><span class="cl">    const times = parseInt(body.times);
+</span></span><span class="line"><span class="cl">    const queue = process.env.queueUrl;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    console.log(`Queue is: ${queue}`);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    for (let i=0; i&lt;times; i++) {
+</span></span><span class="line"><span class="cl">        await SQS.sendMessageBatch({ Entries: createMessages(), QueueUrl: queue }).promise()
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    return {
+</span></span><span class="line"><span class="cl">        statusCode: 200,
+</span></span><span class="line"><span class="cl">        body: JSON.stringify(&#34;all done&#34;)
+</span></span><span class="line"><span class="cl">    };
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">const createMessages = () =&gt; {
+</span></span><span class="line"><span class="cl">    let entries = []
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl">    for (let i=0; i&lt;10; i++) {
+</span></span><span class="line"><span class="cl">        entries.push({
+</span></span><span class="line"><span class="cl">          Id: &#39;id&#39;+parseInt(Math.random()*1000000),
+</span></span><span class="line"><span class="cl">          MessageBody: &#39;value&#39;+Math.random()
+</span></span><span class="line"><span class="cl">        })
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    return entries
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And the code of the worker and the DLQReader are basically the same:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">let counter = 1
+</span></span><span class="line"><span class="cl">let messageCount = 0
+</span></span><span class="line"><span class="cl">let funcId = &#39;id&#39;+parseInt(Math.random()*1000)
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">module.exports.handler = async (event) =&gt; {
+</span></span><span class="line"><span class="cl">    counter++;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    if (counter % 10 === 0){
+</span></span><span class="line"><span class="cl">        throw new Error(&#39;Simulating error&#39;);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    // Record number of messages received
+</span></span><span class="line"><span class="cl">    if (event.Records) {
+</span></span><span class="line"><span class="cl">        messageCount += event.Records.length
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    console.log(funcId + &#39; REUSE: &#39;, counter)
+</span></span><span class="line"><span class="cl">    console.log(funcId + &#39; Message Count: &#39;, messageCount)
+</span></span><span class="line"><span class="cl">    console.log(JSON.stringify(event))
+</span></span><span class="line"><span class="cl">    console.log(funcId + &#39; processing...&#39;);
+</span></span><span class="line"><span class="cl">    await sleep(2000);
+</span></span><span class="line"><span class="cl">    console.log(funcId + &#39; job done!&#39;);
+</span></span><span class="line"><span class="cl">    return &#39;done&#39;
+</span></span><span class="line"><span class="cl">};
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">const sleep = (milliseconds) =&gt; {
+</span></span><span class="line"><span class="cl">    return new Promise(resolve =&gt; setTimeout(resolve, milliseconds))
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>You can check the full solution <a href="https://github.com/vgaltes/ServerlessPatterns/tree/master/ScalableWebhook">here</a>.</p>
 <h2 id="summary">Summary</h2>
 <p>In this article, we&rsquo;ve seen the implementation from a couple of patterns from <a href="https://www.jeremydaly.com/serverless-microservice-patterns-for-aws">this</a> great article from <a href="https://twitter.com/jeremy_daly">Jeremy Daly</a>. We&rsquo;ll continue with that in following article.</p>
 <p>Hope it helps!!</p>

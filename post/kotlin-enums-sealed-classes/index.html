@@ -55,7 +55,7 @@ One of the differences between a sealed class and an enum is that a subclass of 
 Sealed classes A sealed class is a class that we know all its subclasses at compile time. We can&rsquo;t declare a subclass of a sealed class outside the module where it&rsquo;s defined.
 One of the differences between a sealed class and an enum is that a subclass of a sealed class can have multiple instances, each with its own state."><meta itemprop="datePublished" content="2022-11-06T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2022-11-06T00:00:00+00:00" />
-<meta itemprop="wordCount" content="573">
+<meta itemprop="wordCount" content="641">
 <meta itemprop="keywords" content="sealed class,enum," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Learning Kotlin: sealed classes and enums"/>
 <meta name="twitter:description" content="In Kotlin we have two constructs that alow us to create a closed typed hierarchy: sealed classes and enums. Let&rsquo;s take a look to them and see the differences amongst them.
@@ -140,8 +140,8 @@ One of the differences between a sealed class and an enum is that a subclass of 
         <div class="post-category">
             <a href="/categories/kotlin/"> kotlin </a>
             </div>
-          <span class="more-meta"> 573 words </span>
-          <span class="more-meta"> 3 mins read </span>
+          <span class="more-meta"> 641 words </span>
+          <span class="more-meta"> 4 mins read </span>
         
       </div>
     </header>
@@ -151,9 +151,13 @@ One of the differences between a sealed class and an enum is that a subclass of 
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#sealed-classes">Sealed classes</a></li>
-    <li><a href="#enums">Enums</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#sealed-classes">Sealed classes</a></li>
+        <li><a href="#enums">Enums</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -165,89 +169,199 @@ One of the differences between a sealed class and an enum is that a subclass of 
 <p>One of the differences between a sealed class and an enum is that a subclass of a sealed class can have multiple instances, each with its own state.</p>
 <p>A subclass of a sealed class can have its own methods and properties.</p>
 <p>Let&rsquo;s take a look to an example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">sealed</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Error</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FileError</span>(<span style="color:#66d9ef">val</span> fileName: String, <span style="color:#66d9ef">val</span> severity: Int): Error() {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">changeDrive</span>(): String = <span style="color:#e6db74">&#34;Changing drive&#34;</span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NetworkError</span>(<span style="color:#66d9ef">val</span> address: String, <span style="color:#66d9ef">val</span> severity: Int): Error() {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">retry</span>(): String = <span style="color:#e6db74">&#34;Retrying&#34;</span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EsotericError</span>(<span style="color:#66d9ef">val</span> reason: String, <span style="color:#66d9ef">val</span> severity: Int): Error() {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">pray</span>(): String = <span style="color:#e6db74">&#34;Praying&#34;</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Here we have a sealed class and three subclasses, each of them with their own method. How can we use them?</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">process</span>(error: Error) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> action = <span style="color:#66d9ef">when</span> (error) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">is</span> FileError <span style="color:#f92672">-&gt;</span> {
-</span></span><span style="display:flex;"><span>            error.changeDrive()
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">is</span> NetworkError <span style="color:#f92672">-&gt;</span> {
-</span></span><span style="display:flex;"><span>            error.retry()
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">is</span> EsotericError <span style="color:#f92672">-&gt;</span> {
-</span></span><span style="display:flex;"><span>            error.pray()
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    println(action)
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>One interesting benefit of sealed classes is that when you use them in a when expression, if the expression is an expression and not an statement (so, you are using the result), you don&rsquo;t need to use the else clause in the expression if it covers all the cases (like in the previous example).</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">sealed</span> <span class="k">class</span> <span class="nc">Error</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">FileError</span><span class="p">(</span><span class="k">val</span> <span class="py">fileName</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="k">val</span> <span class="py">severity</span><span class="p">:</span> <span class="n">Int</span><span class="p">):</span> <span class="n">Error</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fun</span> <span class="nf">changeDrive</span><span class="p">():</span> <span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;Changing drive&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">NetworkError</span><span class="p">(</span><span class="k">val</span> <span class="py">address</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="k">val</span> <span class="py">severity</span><span class="p">:</span> <span class="n">Int</span><span class="p">):</span> <span class="n">Error</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fun</span> <span class="nf">retry</span><span class="p">():</span> <span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;Retrying&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">EsotericError</span><span class="p">(</span><span class="k">val</span> <span class="py">reason</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="k">val</span> <span class="py">severity</span><span class="p">:</span> <span class="n">Int</span><span class="p">):</span> <span class="n">Error</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">fun</span> <span class="nf">pray</span><span class="p">():</span> <span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;Praying&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Here we have a sealed class and three subclasses, each of them with their own method. How can we use them?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">fun</span> <span class="nf">process</span><span class="p">(</span><span class="n">error</span><span class="p">:</span> <span class="n">Error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="py">action</span> <span class="p">=</span> <span class="k">when</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">is</span> <span class="n">FileError</span> <span class="o">-&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">error</span><span class="p">.</span><span class="n">changeDrive</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">is</span> <span class="n">NetworkError</span> <span class="o">-&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">error</span><span class="p">.</span><span class="n">retry</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">is</span> <span class="n">EsotericError</span> <span class="o">-&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">error</span><span class="p">.</span><span class="n">pray</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">println</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>One interesting benefit of sealed classes is that when you use them in a when expression, if the expression is an expression and not an statement (so, you are using the result), you don&rsquo;t need to use the else clause in the expression if it covers all the cases (like in the previous example).</p>
 <p>We can use sealed classes when we are dealing with a set of alternative classes. One important characteristic is that they can hold instance-specific data.</p>
 <h2 id="enums">Enums</h2>
 <p>It&rsquo;s a way to represent a constant set of possible options.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DangerLevel</span> {
-</span></span><span style="display:flex;"><span>    HIGH, MEDIUM, LOW
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>We can use enums easily in a when expression</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">process</span>(d: DangerLevel){
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">when</span>(d) {
-</span></span><span style="display:flex;"><span>        DangerLevel.HIGH <span style="color:#f92672">-&gt;</span> { <span style="color:#75715e">/* Do something */</span>}
-</span></span><span style="display:flex;"><span>        DangerLevel.MEDIUM <span style="color:#f92672">-&gt;</span> { <span style="color:#75715e">/* Do something */</span>}
-</span></span><span style="display:flex;"><span>        DangerLevel.LOW <span style="color:#f92672">-&gt;</span> { <span style="color:#75715e">/* Do something */</span>}
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>We can add properties and functions to an enum if we like</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DangerLevel</span> (<span style="color:#66d9ef">val</span> level: Int){
-</span></span><span style="display:flex;"><span>    HIGH(<span style="color:#ae81ff">3</span>),
-</span></span><span style="display:flex;"><span>    MEDIUM(<span style="color:#ae81ff">2</span>),
-</span></span><span style="display:flex;"><span>    LOW(<span style="color:#ae81ff">1</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getLevel</span>() = <span style="color:#e6db74">&#34;Level is </span><span style="color:#e6db74">$level</span><span style="color:#e6db74">&#34;</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>And we can even have functions inside each value</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DangerLevel</span> (<span style="color:#66d9ef">val</span> level: Int){
-</span></span><span style="display:flex;"><span>    HIGH(<span style="color:#ae81ff">3</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getLevel</span>(): String = <span style="color:#e6db74">&#34;This is dangerous&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    MEDIUM(<span style="color:#ae81ff">2</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getLevel</span>(): String = <span style="color:#e6db74">&#34;This is not that dangerous&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    LOW(<span style="color:#ae81ff">1</span>){
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getLevel</span>(): String = <span style="color:#e6db74">&#34;This is not dangerous&#34;</span>
-</span></span><span style="display:flex;"><span>    };
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getLevel</span>(): String
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>This is kind of nice, but it would be more elegant to define this as an extension function</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DangerLevel</span> (<span style="color:#66d9ef">val</span> level: Int){
-</span></span><span style="display:flex;"><span>    HIGH(<span style="color:#ae81ff">3</span>),
-</span></span><span style="display:flex;"><span>    MEDIUM(<span style="color:#ae81ff">2</span>),
-</span></span><span style="display:flex;"><span>    LOW(<span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">DangerLevel</span>.getLevel(): String {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">when</span>(<span style="color:#66d9ef">this</span>) {
-</span></span><span style="display:flex;"><span>        DangerLevel.HIGH <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#34;This is dangerous&#34;</span>
-</span></span><span style="display:flex;"><span>        DangerLevel.MEDIUM <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#34;This is not that dangerous&#34;</span>
-</span></span><span style="display:flex;"><span>        DangerLevel.LOW <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#34;This is not dangerous&#34;</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Enums have convenient properties and methods that help us to work with them:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">enum</span> <span class="k">class</span> <span class="nc">DangerLevel</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HIGH</span><span class="p">,</span> <span class="n">MEDIUM</span><span class="p">,</span> <span class="n">LOW</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We can use enums easily in a when expression</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">fun</span> <span class="nf">process</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">DangerLevel</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="k">when</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DangerLevel</span><span class="p">.</span><span class="n">HIGH</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="cm">/* Do something */</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DangerLevel</span><span class="p">.</span><span class="n">MEDIUM</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="cm">/* Do something */</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DangerLevel</span><span class="p">.</span><span class="n">LOW</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="cm">/* Do something */</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We can add properties and functions to an enum if we like</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">enum</span> <span class="k">class</span> <span class="nc">DangerLevel</span> <span class="p">(</span><span class="k">val</span> <span class="py">level</span><span class="p">:</span> <span class="n">Int</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HIGH</span><span class="p">(</span><span class="m">3</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MEDIUM</span><span class="p">(</span><span class="m">2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOW</span><span class="p">(</span><span class="m">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">fun</span> <span class="nf">getLevel</span><span class="p">()</span> <span class="p">=</span> <span class="s2">&#34;Level is </span><span class="si">$level</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And we can even have functions inside each value</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">enum</span> <span class="k">class</span> <span class="nc">DangerLevel</span> <span class="p">(</span><span class="k">val</span> <span class="py">level</span><span class="p">:</span> <span class="n">Int</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HIGH</span><span class="p">(</span><span class="m">3</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">override</span> <span class="k">fun</span> <span class="nf">getLevel</span><span class="p">():</span> <span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;This is dangerous&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MEDIUM</span><span class="p">(</span><span class="m">2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">override</span> <span class="k">fun</span> <span class="nf">getLevel</span><span class="p">():</span> <span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;This is not that dangerous&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOW</span><span class="p">(</span><span class="m">1</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="k">override</span> <span class="k">fun</span> <span class="nf">getLevel</span><span class="p">():</span> <span class="n">String</span> <span class="p">=</span> <span class="s2">&#34;This is not dangerous&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">abstract</span> <span class="k">fun</span> <span class="nf">getLevel</span><span class="p">():</span> <span class="n">String</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is kind of nice, but it would be more elegant to define this as an extension function</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">enum</span> <span class="k">class</span> <span class="nc">DangerLevel</span> <span class="p">(</span><span class="k">val</span> <span class="py">level</span><span class="p">:</span> <span class="n">Int</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="n">HIGH</span><span class="p">(</span><span class="m">3</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MEDIUM</span><span class="p">(</span><span class="m">2</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">LOW</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">fun</span> <span class="nf">DangerLevel</span><span class="p">.</span><span class="n">getLevel</span><span class="p">():</span> <span class="n">String</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">when</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DangerLevel</span><span class="p">.</span><span class="n">HIGH</span> <span class="o">-&gt;</span> <span class="s2">&#34;This is dangerous&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DangerLevel</span><span class="p">.</span><span class="n">MEDIUM</span> <span class="o">-&gt;</span> <span class="s2">&#34;This is not that dangerous&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">DangerLevel</span><span class="p">.</span><span class="n">LOW</span> <span class="o">-&gt;</span> <span class="s2">&#34;This is not dangerous&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Enums have convenient properties and methods that help us to work with them:</p>
 <ul>
 <li>name: returns the name of Enum&rsquo;s instance</li>
 <li>values(): returns an array of all items of Enum</li>
 <li>ordinal: returns the position of Enum&rsquo;s instance</li>
-<li>valueOf(<!-- raw HTML omitted -->): returns an instance of Enum by its name with String type and case sensitivity</li>
+<li>valueOf(<String>): returns an instance of Enum by its name with String type and case sensitivity</li>
 </ul>
 <p>Other nice properties of enums are that their serialization/deserialization is simple and efficient, and they have automatically implemented toString, hashCode and equals methods.</p>
 <h2 id="summary">Summary</h2>

@@ -55,7 +55,7 @@ To answer the first question, what we could do is rely on the git log -L:functio
 One of the things I&rsquo;d like to do is to track the evolution of a function. Has it been modified a lot? How many people has been working on it? Is the function too long?
 To answer the first question, what we could do is rely on the git log -L:function:file command to give us all the changes a function has suffered."><meta itemprop="datePublished" content="2017-09-06T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2017-09-06T00:00:00+00:00" />
-<meta itemprop="wordCount" content="908">
+<meta itemprop="wordCount" content="949">
 <meta itemprop="keywords" content="javascript,antlr," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ANTLR and JavaScript"/>
 <meta name="twitter:description" content="In the last few weeks I&rsquo;ve been working on Crystal Gazer, a nodejs console application to gather information from your Git repository. You can find it on GitHub and on NPM.
@@ -140,7 +140,7 @@ To answer the first question, what we could do is rely on the git log -L:functio
         <div class="post-category">
             <a href="/categories/crystalgazer/"> crystalgazer </a>
             </div>
-          <span class="more-meta"> 908 words </span>
+          <span class="more-meta"> 949 words </span>
           <span class="more-meta"> 5 mins read </span>
         
       </div>
@@ -151,16 +151,20 @@ To answer the first question, what we could do is rely on the git log -L:functio
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#first-attempt">First attempt</a></li>
-    <li><a href="#antlr">ANTLR</a>
+    <li>
       <ul>
-        <li><a href="#create-the-lexer-parser-and-the-listener-from-the-grammar">Create the lexer, parser and the listener from the grammar.</a></li>
-        <li><a href="#prepare-a-nodejs-project">Prepare a nodejs project</a></li>
-        <li><a href="#creating-the-listener">Creating the listener</a></li>
-        <li><a href="#putting-all-together">Putting all together</a></li>
+        <li><a href="#first-attempt">First attempt</a></li>
+        <li><a href="#antlr">ANTLR</a>
+          <ul>
+            <li><a href="#create-the-lexer-parser-and-the-listener-from-the-grammar">Create the lexer, parser and the listener from the grammar.</a></li>
+            <li><a href="#prepare-a-nodejs-project">Prepare a nodejs project</a></li>
+            <li><a href="#creating-the-listener">Creating the listener</a></li>
+            <li><a href="#putting-all-together">Putting all together</a></li>
+          </ul>
+        </li>
+        <li><a href="#summary">Summary</a></li>
       </ul>
     </li>
-    <li><a href="#summary">Summary</a></li>
   </ul>
 </nav>
   </div>
@@ -180,20 +184,51 @@ To answer the first question, what we could do is rely on the git log -L:functio
 <p>In a <strong>VERY</strong> short way, antlr uses a lexer to create tokens from your input, then uses these tokens to initialize the parser that creates the AST. When you traverse the tree, you get notified in the listener about the different things it finds.</p>
 <p>To create these three files, we&rsquo;ll need to use the antlr tool. So, let&rsquo;s <a href="http://www.antlr.org/download/antlr-4.7-complete.jar">download</a> the tool and make it accessible. Follow these <a href="https://github.com/antlr/antlr4/blob/master/doc/getting-started.md">instructions</a> just changing 4.5.3 to 4.7.</p>
 <p>Now we can use the tool to generate the lexer. Download CSharpLexer.g4 from the <a href="https://github.com/antlr/grammars-v4/tree/master/csharp">grammars repository</a> and copy it to your project folder. Run the following command:</p>
-<pre tabindex="0"><code>antlr4 -Dlanguage=JavaScript CSharpLexer.g4
-</code></pre><p>This will generate CSharpLexer.js and CSharpLexer.tokens.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">antlr4 -Dlanguage=JavaScript CSharpLexer.g4
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This will generate CSharpLexer.js and CSharpLexer.tokens.</p>
 <p>We need to do the same for <a href="https://github.com/antlr/grammars-v4/blob/master/csharp/CSharpParser.g4">CSharpParser.g4</a>. So run the following command:</p>
-<pre tabindex="0"><code>antlr4 -Dlanguage=JavaScript CSharpParser.g4
-</code></pre><p>In this case this command will generate CSharpParser.js, CSharpParser.tokens and CSharpParserListener.js.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">antlr4 -Dlanguage=JavaScript CSharpParser.g4
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In this case this command will generate CSharpParser.js, CSharpParser.tokens and CSharpParserListener.js.</p>
 <h3 id="prepare-a-nodejs-project">Prepare a nodejs project</h3>
 <p>We&rsquo;re going to create a nodejs project to use all this stuff. Let&rsquo;s add antlr4 to it:</p>
-<pre tabindex="0"><code>npm install antlr4 --save
-</code></pre><p>Create a file called index.js and import the neccessary modules:</p>
-<pre tabindex="0"><code>const antlr4 = require(&#39;antlr4/index&#39;);
-const fs = require(&#39;fs&#39;);
-const CSharpParser = require(&#39;./CSharpParser.js&#39;);
-const CSharpLexer = require(&#39;./CSharpLexer.js&#39;);
-</code></pre><p>If you now run this script you&rsquo;ll get errors loading the CSharpLexer module. That&rsquo;s because the file generated has some invalid identifiers:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">npm install antlr4 --save
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Create a file called index.js and import the neccessary modules:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">const antlr4 = require(&#39;antlr4/index&#39;);
+</span></span><span class="line"><span class="cl">const fs = require(&#39;fs&#39;);
+</span></span><span class="line"><span class="cl">const CSharpParser = require(&#39;./CSharpParser.js&#39;);
+</span></span><span class="line"><span class="cl">const CSharpLexer = require(&#39;./CSharpLexer.js&#39;);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>If you now run this script you&rsquo;ll get errors loading the CSharpLexer module. That&rsquo;s because the file generated has some invalid identifiers:</p>
 <ul>
 <li>In the line 5 there&rsquo;s a <code>import java.util.Stack;</code> which is obviously invalid in JavaScript. Just comment out (or delete) the line.</li>
 <li>In the lines 1770 to 1773 (both included) there is some C# code. Just change each variable initialisation by <code>var &lt;variable_name&gt;</code>.</li>
@@ -202,44 +237,90 @@ const CSharpLexer = require(&#39;./CSharpLexer.js&#39;);
 <h3 id="creating-the-listener">Creating the listener</h3>
 <p>With the help of ANTLR we&rsquo;ve created a CSHarpListener. We can use that listener as a <em>base class</em> for more specific listeners. As we want to get the names of the different methods of the file, let&rsquo;s create a listener for that.</p>
 <p>Create a file called CSharpFunctionListener.js and copy the following code:</p>
-<pre tabindex="0"><code>const antlr4 = require(&#39;antlr4/index&#39;);
-const CSharpLexer = require(&#39;./CSharpLexer&#39;);
-const CSharpParser = require(&#39;./CSharpParser&#39;);
-var CSharpListener = require(&#39;./CSharpParserListener&#39;).CSharpParserListener;
-
-CSharpFunctionListener = function(res) {
-    this.Res = res;    
-    CSharpListener.call(this); // inherit default listener
-    return this;
-};
- 
-// inherit default listener
-CSharpFunctionListener.prototype = Object.create(CSharpListener.prototype);
-CSharpFunctionListener.prototype.constructor = CSharpFunctionListener;
-
-
-CSharpFunctionListener.prototype.enterMethod_member_name = function(ctx){
-    this.Res.push(ctx.getText());
-}
-
-exports.CSharpFunctionListener = CSharpFunctionListener;
-</code></pre><p>Nothing too special here. The important part is that we&rsquo;re overriding the <em>enterMethod_member_name</em> method, which is the method that will be called when the parser finds a method name.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">const antlr4 = require(&#39;antlr4/index&#39;);
+</span></span><span class="line"><span class="cl">const CSharpLexer = require(&#39;./CSharpLexer&#39;);
+</span></span><span class="line"><span class="cl">const CSharpParser = require(&#39;./CSharpParser&#39;);
+</span></span><span class="line"><span class="cl">var CSharpListener = require(&#39;./CSharpParserListener&#39;).CSharpParserListener;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">CSharpFunctionListener = function(res) {
+</span></span><span class="line"><span class="cl">    this.Res = res;    
+</span></span><span class="line"><span class="cl">    CSharpListener.call(this); // inherit default listener
+</span></span><span class="line"><span class="cl">    return this;
+</span></span><span class="line"><span class="cl">};
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">// inherit default listener
+</span></span><span class="line"><span class="cl">CSharpFunctionListener.prototype = Object.create(CSharpListener.prototype);
+</span></span><span class="line"><span class="cl">CSharpFunctionListener.prototype.constructor = CSharpFunctionListener;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">CSharpFunctionListener.prototype.enterMethod_member_name = function(ctx){
+</span></span><span class="line"><span class="cl">    this.Res.push(ctx.getText());
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">exports.CSharpFunctionListener = CSharpFunctionListener;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Nothing too special here. The important part is that we&rsquo;re overriding the <em>enterMethod_member_name</em> method, which is the method that will be called when the parser finds a method name.</p>
 <h3 id="putting-all-together">Putting all together</h3>
 <p>Time to use all this stuff. Go back to your index.js file and add the following code:</p>
-<pre tabindex="0"><code>var input = fs.readFileSync(&#39;aFile.cs&#39;).toString();
-
-var chars = new antlr4.InputStream(input);
-var lexer = new CSharpLexer.CSharpLexer(chars);
-var tokens  = new antlr4.CommonTokenStream(lexer);
-var parser = new CSharpParser.CSharpParser(tokens);
-
-var tree = parser.namespace_member_declarations();   
-var res = [];
-var csharpClass = new CSharpFunctionListener(res);
-antlr4.tree.ParseTreeWalker.DEFAULT.walk(csharpClass, tree);
-
-console.log(&#34;Function names: &#34;, res.join(&#39;,&#39;));
-</code></pre><p>As you can see, we&rsquo;re creating the lexer and the parser. Then, we use antlr to traverse the tree and pass the listener in order to be notified.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">var input = fs.readFileSync(&#39;aFile.cs&#39;).toString();
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">var chars = new antlr4.InputStream(input);
+</span></span><span class="line"><span class="cl">var lexer = new CSharpLexer.CSharpLexer(chars);
+</span></span><span class="line"><span class="cl">var tokens  = new antlr4.CommonTokenStream(lexer);
+</span></span><span class="line"><span class="cl">var parser = new CSharpParser.CSharpParser(tokens);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">var tree = parser.namespace_member_declarations();   
+</span></span><span class="line"><span class="cl">var res = [];
+</span></span><span class="line"><span class="cl">var csharpClass = new CSharpFunctionListener(res);
+</span></span><span class="line"><span class="cl">antlr4.tree.ParseTreeWalker.DEFAULT.walk(csharpClass, tree);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">console.log(&#34;Function names: &#34;, res.join(&#39;,&#39;));
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see, we&rsquo;re creating the lexer and the parser. Then, we use antlr to traverse the tree and pass the listener in order to be notified.</p>
 <p>If you run it, you will get the names of the functions.</p>
 <h2 id="summary">Summary</h2>
 <p>This is the first thing I do with antlr and it&rsquo;s been really pleasant. The only problem was removing the invalid code from the lexer and that&rsquo;s all. Expect a new version of Crystal Gazer using some antlr magic soon!!</p>

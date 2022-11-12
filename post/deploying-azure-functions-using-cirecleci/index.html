@@ -52,7 +52,7 @@ Creating a new docker image As we saw, if we want to deploy the Function App usi
 <meta itemprop="description" content="In the last article we saw how to deploy an azure function from the CLI. In this article we&rsquo;ll see how we can use the same script to deploy the function from a continuous integration environment. In this case we&rsquo;ll use CircleCI.
 Creating a new docker image As we saw, if we want to deploy the Function App using the same script we&rsquo;d need to use the Azure CLI and the Azure Functions Core Tools."><meta itemprop="datePublished" content="2018-11-15T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2018-11-15T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1288">
+<meta itemprop="wordCount" content="1433">
 <meta itemprop="keywords" content="devops,azure functions,azure," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Deploying Azure Functions using CircleCI"/>
 <meta name="twitter:description" content="In the last article we saw how to deploy an azure function from the CLI. In this article we&rsquo;ll see how we can use the same script to deploy the function from a continuous integration environment. In this case we&rsquo;ll use CircleCI.
@@ -136,7 +136,7 @@ Creating a new docker image As we saw, if we want to deploy the Function App usi
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 1288 words </span>
+          <span class="more-meta"> 1433 words </span>
           <span class="more-meta"> 7 mins read </span>
         
       </div>
@@ -147,12 +147,16 @@ Creating a new docker image As we saw, if we want to deploy the Function App usi
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#creating-a-new-docker-image">Creating a new docker image</a></li>
-    <li><a href="#create-a-new-service-principal">Create a new Service Principal</a></li>
-    <li><a href="#create-a-new-build-definition">Create a new build definition</a></li>
-    <li><a href="#adding-settings">Adding settings</a></li>
-    <li><a href="#adding-localsettingsjson">Adding local.settings.json</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#creating-a-new-docker-image">Creating a new docker image</a></li>
+        <li><a href="#create-a-new-service-principal">Create a new Service Principal</a></li>
+        <li><a href="#create-a-new-build-definition">Create a new build definition</a></li>
+        <li><a href="#adding-settings">Adding settings</a></li>
+        <li><a href="#adding-localsettingsjson">Adding local.settings.json</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -165,174 +169,385 @@ Creating a new docker image As we saw, if we want to deploy the Function App usi
 <p>What will happen is that the build will not work. It will complain that the <code>org-global</code> context doesn&rsquo;t exist. What do you need to do is to create this context. So, go <code>Settings -&gt; Contexts</code> and add a new context.</p>
 <p><img src="/images/AddContext.png" alt="Add context"></p>
 <p>Now, if you rebuild the workflow it won&rsquo;t work either, because the file has some errors. Let&rsquo;s fix this errors replacing the current content of the file by this (feel free to change the name of the image and the tag, but if you do this, remember to change the name of the image in the test_image job):</p>
-<pre tabindex="0"><code>image_config: &amp;image_config
-
-  IMAGE_NAME: azurefunctionsbuildanddeploy
-
-  IMAGE_TAG: &#34;1.0&#34;
-
-  LINUX_VERSION: UBUNTU_XENIAL
-
-  PYTHON_VERSION_NUM: 3.7.1
-
-  JAVA: false
-
-  MYSQL_CLIENT: false
-
-  POSTGRES_CLIENT: false
-
-  DOCKERIZE: false
-
-  BROWSERS: false
-
-version: 2
-jobs:
-  build:
-    machine: true
-    environment:
-      &lt;&lt;: *image_config
-
-    steps:
-      - checkout
-
-      - run: bash scripts/generate.sh &gt; Dockerfile
-
-      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-
-      - run: docker build -t $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG .
-
-      - run: docker push $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG &amp;&amp; sleep 10
-
-      - store_artifacts:
-          path: Dockerfile
-
-  test_image:
-    docker:
-      - image: $DOCKER_USERNAME/azurefunctionsbuildanddeploy:1.0
-        environment:
-          &lt;&lt;: *image_config
-
-    steps:
-      - checkout
-
-      - run:
-          name: bats tests
-          command: |
-            mkdir -p test_results/bats
-            bats scripts/tests.bats | \
-            perl scripts/tap-to-junit.sh &gt; \
-            test_results/bats/results.xml
-
-      - store_test_results:
-          path: test_results
-
-      - store_artifacts:
-          path: test_results
-
-workflows:
-  version: 2
-  dockerfile_wizard:
-    jobs:
-      - build:
-          context: org-global
-
-      - test_image:
-          context: org-global
-          requires:
-            - build
-</code></pre><p>So, let&rsquo;s commit and push and see this working.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">image_config: &amp;image_config
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  IMAGE_NAME: azurefunctionsbuildanddeploy
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  IMAGE_TAG: &#34;1.0&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  LINUX_VERSION: UBUNTU_XENIAL
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  PYTHON_VERSION_NUM: 3.7.1
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  JAVA: false
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  MYSQL_CLIENT: false
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  POSTGRES_CLIENT: false
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  DOCKERIZE: false
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  BROWSERS: false
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">version: 2
+</span></span><span class="line"><span class="cl">jobs:
+</span></span><span class="line"><span class="cl">  build:
+</span></span><span class="line"><span class="cl">    machine: true
+</span></span><span class="line"><span class="cl">    environment:
+</span></span><span class="line"><span class="cl">      &lt;&lt;: *image_config
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    steps:
+</span></span><span class="line"><span class="cl">      - checkout
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      - run: bash scripts/generate.sh &gt; Dockerfile
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      - run: docker build -t $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG .
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      - run: docker push $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG &amp;&amp; sleep 10
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      - store_artifacts:
+</span></span><span class="line"><span class="cl">          path: Dockerfile
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  test_image:
+</span></span><span class="line"><span class="cl">    docker:
+</span></span><span class="line"><span class="cl">      - image: $DOCKER_USERNAME/azurefunctionsbuildanddeploy:1.0
+</span></span><span class="line"><span class="cl">        environment:
+</span></span><span class="line"><span class="cl">          &lt;&lt;: *image_config
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    steps:
+</span></span><span class="line"><span class="cl">      - checkout
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      - run:
+</span></span><span class="line"><span class="cl">          name: bats tests
+</span></span><span class="line"><span class="cl">          command: |
+</span></span><span class="line"><span class="cl">            mkdir -p test_results/bats
+</span></span><span class="line"><span class="cl">            bats scripts/tests.bats | \
+</span></span><span class="line"><span class="cl">            perl scripts/tap-to-junit.sh &gt; \
+</span></span><span class="line"><span class="cl">            test_results/bats/results.xml
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      - store_test_results:
+</span></span><span class="line"><span class="cl">          path: test_results
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      - store_artifacts:
+</span></span><span class="line"><span class="cl">          path: test_results
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">workflows:
+</span></span><span class="line"><span class="cl">  version: 2
+</span></span><span class="line"><span class="cl">  dockerfile_wizard:
+</span></span><span class="line"><span class="cl">    jobs:
+</span></span><span class="line"><span class="cl">      - build:
+</span></span><span class="line"><span class="cl">          context: org-global
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      - test_image:
+</span></span><span class="line"><span class="cl">          context: org-global
+</span></span><span class="line"><span class="cl">          requires:
+</span></span><span class="line"><span class="cl">            - build
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So, let&rsquo;s commit and push and see this working.</p>
 <p>The next step is to install the tools we need. How this works, is that CircleCI will create the Dockerfile running the <code>generate.sh</code> script. If you take a look at the script you will see that is creating a Dockerfile using echo&rsquo;s. So, what we need to do is update this script to install what we need. Take into account that if you change your base image (Ubuntu Xenial) you might need to change some of the following instructinos. Let&rsquo;s start adding what we need to install the AzureCLI:</p>
-<pre tabindex="0"><code>echo &#34;# install Azure CLI
-RUN apt-get update \
-  &amp;&amp; apt-get install apt-transport-https -y \
-  &amp;&amp; echo &#39;deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ xenial main&#39; | tee /etc/apt/sources.list.d/azure-cli.list \
-  &amp;&amp; apt-get install curl -y \
-  &amp;&amp; curl -L https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-  &amp;&amp; apt-get update \
-  &amp;&amp; apt-get install libssl-dev libffi-dev python-dev apt-transport-https azure-cli -y&#34;
-</code></pre><p>The next step is to install the .Net Core SDK:</p>
-<pre tabindex="0"><code>echo &#34;#dotnet sdk
-RUN apt-get install wget \
-  &amp;&amp; wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb \
-  &amp;&amp; dpkg -i packages-microsoft-prod.deb \
-  &amp;&amp; apt-get update \
-  &amp;&amp; apt-get install dotnet-sdk-2.1 -y&#34;
-</code></pre><p>And finally let&rsquo;s install the Azure Functions Core Tools:</p>
-<pre tabindex="0"><code>echo &#34;#Azure Functions core tools
-RUN apt-get install azure-functions-core-tools -y&#34;
-</code></pre><p>Next step is to add some tests to check that everything is correctly installed. This project is using <a href="https://github.com/bats-core/bats-core">BATS</a> to perform the tests. So, let&rsquo;s add some tests to make sure we&rsquo;ve installed everything correctly. Edit the tests.bats file and add the following lines at the end of the file:</p>
-<pre tabindex="0"><code>@test &#34;dotnet&#34; {
-  dotnet --version
-}
-
-@test &#34;azure cli&#34; {
-  az --version
-}
-
-@test &#34;azure functions core tools&#34; {
-  func --version
-}
-</code></pre><p>Cool, you can now commit and push and hopefully you&rsquo;ll see the build passing a new docker image in your Docker Hub account. It&rsquo;s time to create a build definition for our Azure Functions project.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">echo &#34;# install Azure CLI
+</span></span><span class="line"><span class="cl">RUN apt-get update \
+</span></span><span class="line"><span class="cl">  &amp;&amp; apt-get install apt-transport-https -y \
+</span></span><span class="line"><span class="cl">  &amp;&amp; echo &#39;deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ xenial main&#39; | tee /etc/apt/sources.list.d/azure-cli.list \
+</span></span><span class="line"><span class="cl">  &amp;&amp; apt-get install curl -y \
+</span></span><span class="line"><span class="cl">  &amp;&amp; curl -L https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+</span></span><span class="line"><span class="cl">  &amp;&amp; apt-get update \
+</span></span><span class="line"><span class="cl">  &amp;&amp; apt-get install libssl-dev libffi-dev python-dev apt-transport-https azure-cli -y&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The next step is to install the .Net Core SDK:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">echo &#34;#dotnet sdk
+</span></span><span class="line"><span class="cl">RUN apt-get install wget \
+</span></span><span class="line"><span class="cl">  &amp;&amp; wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb \
+</span></span><span class="line"><span class="cl">  &amp;&amp; dpkg -i packages-microsoft-prod.deb \
+</span></span><span class="line"><span class="cl">  &amp;&amp; apt-get update \
+</span></span><span class="line"><span class="cl">  &amp;&amp; apt-get install dotnet-sdk-2.1 -y&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And finally let&rsquo;s install the Azure Functions Core Tools:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">echo &#34;#Azure Functions core tools
+</span></span><span class="line"><span class="cl">RUN apt-get install azure-functions-core-tools -y&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Next step is to add some tests to check that everything is correctly installed. This project is using <a href="https://github.com/bats-core/bats-core">BATS</a> to perform the tests. So, let&rsquo;s add some tests to make sure we&rsquo;ve installed everything correctly. Edit the tests.bats file and add the following lines at the end of the file:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">@test &#34;dotnet&#34; {
+</span></span><span class="line"><span class="cl">  dotnet --version
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">@test &#34;azure cli&#34; {
+</span></span><span class="line"><span class="cl">  az --version
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">@test &#34;azure functions core tools&#34; {
+</span></span><span class="line"><span class="cl">  func --version
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Cool, you can now commit and push and hopefully you&rsquo;ll see the build passing a new docker image in your Docker Hub account. It&rsquo;s time to create a build definition for our Azure Functions project.</p>
 <h2 id="create-a-new-service-principal">Create a new Service Principal</h2>
 <p>When we deployed the Function App from our local environment, we used <code>az login</code> with a username and a password. From our CI agent we will use a service principal. So, the first thing we need is to create a new one. Open a new terminal session and type <code>az ad sp create-for-rbac --name &lt;ServicePrincipalName&gt; --password &lt;PASSWORD&gt;</code>. You can find more information about how to create a service principal <a href="https://docs.microsoft.com/en-gb/cli/azure/create-an-azure-service-principal-azure-cli?toc=%2Fazure%2Fazure-resource-manager%2Ftoc.json&amp;view=azure-cli-latest">here</a>.</p>
 <h2 id="create-a-new-build-definition">Create a new build definition</h2>
 <p>Let&rsquo;s go to your Azure Functions project (the one we created in the last article) and create a folder called <code>.circleci</code> with a file called <code>config.yml</code> inside. This is our build definition file.</p>
 <p>First thing we need to do is to specify that we want to use our newly created image to build this project. So, add this as the first lines of your config.yml file:</p>
-<pre tabindex="0"><code>version: 2
-jobs:
-  build:
-    docker:
-      - image: vicencgarcia/azurefunctionsbuildanddeploy:1.0
-
-    working_directory: ~/repo
-</code></pre><p>Next, we need to specify the different steps of our build. The first one is to checkout the code:</p>
-<pre tabindex="0"><code>   steps:
-      - checkout
-</code></pre><p>Then, we need to login into our Azure account:</p>
-<pre tabindex="0"><code>      - run:
-          name: Login into azure
-          command: az login --service-principal -u $azPrincipal -p $azPassword -t $azTenant
-</code></pre><p>As you can see, we&rsquo;re using three environment variables. So, you&rsquo;ll need to add them to the project settings. You&rsquo;ll have the information from the step where you&rsquo;ve created the Service Principal.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">version: 2
+</span></span><span class="line"><span class="cl">jobs:
+</span></span><span class="line"><span class="cl">  build:
+</span></span><span class="line"><span class="cl">    docker:
+</span></span><span class="line"><span class="cl">      - image: vicencgarcia/azurefunctionsbuildanddeploy:1.0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    working_directory: ~/repo
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Next, we need to specify the different steps of our build. The first one is to checkout the code:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">   steps:
+</span></span><span class="line"><span class="cl">      - checkout
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Then, we need to login into our Azure account:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">      - run:
+</span></span><span class="line"><span class="cl">          name: Login into azure
+</span></span><span class="line"><span class="cl">          command: az login --service-principal -u $azPrincipal -p $azPassword -t $azTenant
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see, we&rsquo;re using three environment variables. So, you&rsquo;ll need to add them to the project settings. You&rsquo;ll have the information from the step where you&rsquo;ve created the Service Principal.</p>
 <p>And finally, we need to deploy the Function App:</p>
-<pre tabindex="0"><code>      - run:
-          name: Deploy
-          command: ./deploy.sh AFTestDeploy westeurope uat
-</code></pre><p>Feel free to change the service name, the location and the stage.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">      - run:
+</span></span><span class="line"><span class="cl">          name: Deploy
+</span></span><span class="line"><span class="cl">          command: ./deploy.sh AFTestDeploy westeurope uat
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Feel free to change the service name, the location and the stage.</p>
 <p>Let&rsquo;s commit, push and see if we&rsquo;ve deployed the Function App.</p>
 <h2 id="adding-settings">Adding settings</h2>
 <p>The build is green, which is good, but if we go to the portal we&rsquo;ll see that everything has beed deployed but the HelloWorld function. What has happened? Let&rsquo;s take a look at the build output:</p>
-<pre tabindex="0"><code>  Restore completed in 2.12 sec for /root/repo/TestDeploy.csproj.
-  TestDeploy -&gt; /root/repo/bin/Debug/netcoreapp2.1/bin/TestDeploy.dll
-
-Build succeeded.
-    0 Warning(s)
-    0 Error(s)
-
-Time Elapsed 00:00:04.92
-Publisihng function to Azure
-Getting site publishing info...
-Preparing archive...
-Uploading content...
-Upload completed successfully.
-Deployment completed successfully.
-Syncing triggers...
-Functions in AFTestDeploy-uat:
-</code></pre><p>Weird. The .Net SDK is not publishing anything in the /root/repo/bin/Debug/netcoreapp2.1/publish folder, and therefore nothing is deployed to Azure. What&rsquo;s happening?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">  Restore completed in 2.12 sec for /root/repo/TestDeploy.csproj.
+</span></span><span class="line"><span class="cl">  TestDeploy -&gt; /root/repo/bin/Debug/netcoreapp2.1/bin/TestDeploy.dll
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Build succeeded.
+</span></span><span class="line"><span class="cl">    0 Warning(s)
+</span></span><span class="line"><span class="cl">    0 Error(s)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Time Elapsed 00:00:04.92
+</span></span><span class="line"><span class="cl">Publisihng function to Azure
+</span></span><span class="line"><span class="cl">Getting site publishing info...
+</span></span><span class="line"><span class="cl">Preparing archive...
+</span></span><span class="line"><span class="cl">Uploading content...
+</span></span><span class="line"><span class="cl">Upload completed successfully.
+</span></span><span class="line"><span class="cl">Deployment completed successfully.
+</span></span><span class="line"><span class="cl">Syncing triggers...
+</span></span><span class="line"><span class="cl">Functions in AFTestDeploy-uat:
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Weird. The .Net SDK is not publishing anything in the /root/repo/bin/Debug/netcoreapp2.1/publish folder, and therefore nothing is deployed to Azure. What&rsquo;s happening?</p>
 <h2 id="adding-localsettingsjson">Adding local.settings.json</h2>
 <p>It turns out that the Azure Functions Core Tools needs a parameter that exists on the local.settings.json file. But this file is on the .gitignore file and it&rsquo;s not safe to upload it to the repository. What can we do? Well, we can create the minimum file that we need in order to be able to deploy the function. Let&rsquo;s add this step to our build configuration file, just before the deploy step:</p>
-<pre tabindex="0"><code>      - run:
-          name: Create local.settings.json
-          command: |
-            cat &gt; local.settings.json &lt;&lt; EOF
-            {
-              &#34;IsEncrypted&#34;: false,
-              &#34;Values&#34;: {
-                &#34;AzureWebStorage&#34;: &#34;&#34;,
-                &#34;FUNCTIONS_WORKER_RUNTIME&#34;: &#34;dotnet&#34;
-              }
-            }
-            EOF
-</code></pre><p>Let&rsquo;s commit and push and see if the function is deployed&hellip;</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">      - run:
+</span></span><span class="line"><span class="cl">          name: Create local.settings.json
+</span></span><span class="line"><span class="cl">          command: |
+</span></span><span class="line"><span class="cl">            cat &gt; local.settings.json &lt;&lt; EOF
+</span></span><span class="line"><span class="cl">            {
+</span></span><span class="line"><span class="cl">              &#34;IsEncrypted&#34;: false,
+</span></span><span class="line"><span class="cl">              &#34;Values&#34;: {
+</span></span><span class="line"><span class="cl">                &#34;AzureWebStorage&#34;: &#34;&#34;,
+</span></span><span class="line"><span class="cl">                &#34;FUNCTIONS_WORKER_RUNTIME&#34;: &#34;dotnet&#34;
+</span></span><span class="line"><span class="cl">              }
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">            EOF
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s commit and push and see if the function is deployed&hellip;</p>
 <p><img src="/images/deployment.png" alt="Deployment"></p>
 <p>Voilà! Here it is!</p>
 <h2 id="summary">Summary</h2>

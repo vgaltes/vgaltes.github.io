@@ -52,7 +52,7 @@ Goal What I want to accomplish is that a system that lives in our infrastructure
 <meta itemprop="description" content="This week I wanted to investigate how to use a Pub/Sub mechanism in an on-premise environment without needing to install anything else in our infrastructure, so using a managed service. I also wanted to make my first tests with CDK. Let me show you what I did.
 Goal What I want to accomplish is that a system that lives in our infrastructure communicates asynchronously with another system on it. It&rsquo;s easy to simulate the sender of the message with a console application, but for the receiver I&rsquo;ll need a public HTTP endpoint."><meta itemprop="datePublished" content="2020-06-14T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-06-14T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1142">
+<meta itemprop="wordCount" content="1296">
 <meta itemprop="keywords" content="patterns,serverless framework," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Lambda in .NET Core and SNS"/>
 <meta name="twitter:description" content="This week I wanted to investigate how to use a Pub/Sub mechanism in an on-premise environment without needing to install anything else in our infrastructure, so using a managed service. I also wanted to make my first tests with CDK. Let me show you what I did.
@@ -136,8 +136,8 @@ Goal What I want to accomplish is that a system that lives in our infrastructure
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 1142 words </span>
-          <span class="more-meta"> 6 mins read </span>
+          <span class="more-meta"> 1296 words </span>
+          <span class="more-meta"> 7 mins read </span>
         
       </div>
     </header>
@@ -147,11 +147,15 @@ Goal What I want to accomplish is that a system that lives in our infrastructure
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#goal">Goal</a></li>
-    <li><a href="#lambda-function-using-net-core">Lambda function using .NET Core</a></li>
-    <li><a href="#sns-topic">SNS Topic</a></li>
-    <li><a href="#sending-messages">Sending messages</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#goal">Goal</a></li>
+        <li><a href="#lambda-function-using-net-core">Lambda function using .NET Core</a></li>
+        <li><a href="#sns-topic">SNS Topic</a></li>
+        <li><a href="#sending-messages">Sending messages</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -162,191 +166,441 @@ Goal What I want to accomplish is that a system that lives in our infrastructure
 <p>What I want to accomplish is that a system that lives in our infrastructure communicates asynchronously with another system on it. It&rsquo;s easy to simulate the sender of the message with a console application, but for the receiver I&rsquo;ll need a public HTTP endpoint. The easiest way I know to have a public HTTP endpoint is by having a Lambda function published via API Gateway, so let me do this. The experiment is still valid because, at the end, is just an HTTP endpoint.</p>
 <h2 id="lambda-function-using-net-core">Lambda function using .NET Core</h2>
 <p>I took advantage of the situation to develop a lambda function in .NET Core for the first time. I&rsquo;ll be using the <a href="https://serverless.com">Serverless framework</a> so you need to install and configure it. Once you&rsquo;ve done that, create a folder for the entire system (I&rsquo;ve called it <code>SNSSample</code>) and type this command in your preferred terminal:</p>
-<pre tabindex="0"><code>serverless create --template aws-csharp --path ReceiveSNSNotification
-</code></pre><p>This will create the barebones of a Lambda function in .NET Core. To accomplish our mission, we&rsquo;ll need to add a couple of NuGet packages:</p>
-<pre tabindex="0"><code>dotnet add package Amazon.Lambda.APIGatewayEvents
-dotnet add package AWSSDK.SimpleNotificationService
-</code></pre><p>We need the first one to be able to have the needed request and response objects for API Gateway. We need the second one to be able to parse an SNS message.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">serverless create --template aws-csharp --path ReceiveSNSNotification
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This will create the barebones of a Lambda function in .NET Core. To accomplish our mission, we&rsquo;ll need to add a couple of NuGet packages:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">dotnet</span> <span class="nx">add</span> <span class="kn">package</span> <span class="nx">Amazon</span><span class="p">.</span><span class="nx">Lambda</span><span class="p">.</span><span class="nx">APIGatewayEvents</span>
+</span></span><span class="line"><span class="cl"><span class="nx">dotnet</span> <span class="nx">add</span> <span class="kn">package</span> <span class="nx">AWSSDK</span><span class="p">.</span><span class="nx">SimpleNotificationService</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We need the first one to be able to have the needed request and response objects for API Gateway. We need the second one to be able to parse an SNS message.</p>
 <p>And now it&rsquo;s time to take a look at the code of the function</p>
-<pre tabindex="0"><code>using Amazon.Lambda.Core;
-using Amazon.Lambda.APIGatewayEvents;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
-
-[assembly:LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
-namespace AwsDotnetCsharp
-{
-    public class Handler
-    {
-       public async Task&lt;APIGatewayProxyResponse&gt; Hello(
-APIGatewayProxyRequest request, ILambdaContext context)
-       {
-          context.Logger.LogLine(&#34;Let&#39;s try this thing&#34;);
-          context.Logger.Log(request.Body);
-
-          var message = Amazon.SimpleNotificationService.Util.Message.ParseMessage(request.Body);
-
-          if (message.IsSubscriptionType)
-          {
-              context.Logger.LogLine(&#34;Subscription notification&#34; + message.SubscribeURL);
-              HttpClient client = new HttpClient();
-              HttpResponseMessage notificationResponse = await client.GetAsync(message.SubscribeURL);
-
-              context.Logger.LogLine(&#34;Subscription responded with &#34; + notificationResponse.StatusCode);
-          }
-          if (message.IsNotificationType) // PROCESS NOTIFICATIONS
-          {
-              context.Logger.LogLine(&#34;Notification!&#34;);
-              context.Logger.Log(message.MessageText);
-          }
-
-          //do stuff
-            
-          var response = new APIGatewayProxyResponse
-          {
-              StatusCode = 200,
-              Body = &#34;Hello from .net&#34;,
-              Headers = new Dictionary&lt;string, string&gt;
-              { 
-                  { &#34;Content-Type&#34;, &#34;application/json&#34; }, 
-                  { &#34;Access-Control-Allow-Origin&#34;, &#34;*&#34; } 
-              }
-          };
-
-          return response;
-       }
-    }
-}
-</code></pre><p>When you create an HTTPS subscription in SNS, you need the subscription to be confirmed by the receiver endpoint. The way to do that is to visit the URL that SNS sends to it in the confirmation message. That what we do in the first part of the function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">using Amazon.Lambda.Core;
+</span></span><span class="line"><span class="cl">using Amazon.Lambda.APIGatewayEvents;
+</span></span><span class="line"><span class="cl">using System.Collections.Generic;
+</span></span><span class="line"><span class="cl">using System.Net.Http;
+</span></span><span class="line"><span class="cl">using System.Threading.Tasks;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">[assembly:LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
+</span></span><span class="line"><span class="cl">namespace AwsDotnetCsharp
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    public class Handler
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">       public async Task&lt;APIGatewayProxyResponse&gt; Hello(
+</span></span><span class="line"><span class="cl">APIGatewayProxyRequest request, ILambdaContext context)
+</span></span><span class="line"><span class="cl">       {
+</span></span><span class="line"><span class="cl">          context.Logger.LogLine(&#34;Let&#39;s try this thing&#34;);
+</span></span><span class="line"><span class="cl">          context.Logger.Log(request.Body);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">          var message = Amazon.SimpleNotificationService.Util.Message.ParseMessage(request.Body);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">          if (message.IsSubscriptionType)
+</span></span><span class="line"><span class="cl">          {
+</span></span><span class="line"><span class="cl">              context.Logger.LogLine(&#34;Subscription notification&#34; + message.SubscribeURL);
+</span></span><span class="line"><span class="cl">              HttpClient client = new HttpClient();
+</span></span><span class="line"><span class="cl">              HttpResponseMessage notificationResponse = await client.GetAsync(message.SubscribeURL);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">              context.Logger.LogLine(&#34;Subscription responded with &#34; + notificationResponse.StatusCode);
+</span></span><span class="line"><span class="cl">          }
+</span></span><span class="line"><span class="cl">          if (message.IsNotificationType) // PROCESS NOTIFICATIONS
+</span></span><span class="line"><span class="cl">          {
+</span></span><span class="line"><span class="cl">              context.Logger.LogLine(&#34;Notification!&#34;);
+</span></span><span class="line"><span class="cl">              context.Logger.Log(message.MessageText);
+</span></span><span class="line"><span class="cl">          }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">          //do stuff
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">          var response = new APIGatewayProxyResponse
+</span></span><span class="line"><span class="cl">          {
+</span></span><span class="line"><span class="cl">              StatusCode = 200,
+</span></span><span class="line"><span class="cl">              Body = &#34;Hello from .net&#34;,
+</span></span><span class="line"><span class="cl">              Headers = new Dictionary&lt;string, string&gt;
+</span></span><span class="line"><span class="cl">              { 
+</span></span><span class="line"><span class="cl">                  { &#34;Content-Type&#34;, &#34;application/json&#34; }, 
+</span></span><span class="line"><span class="cl">                  { &#34;Access-Control-Allow-Origin&#34;, &#34;*&#34; } 
+</span></span><span class="line"><span class="cl">              }
+</span></span><span class="line"><span class="cl">          };
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">          return response;
+</span></span><span class="line"><span class="cl">       }
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>When you create an HTTPS subscription in SNS, you need the subscription to be confirmed by the receiver endpoint. The way to do that is to visit the URL that SNS sends to it in the confirmation message. That what we do in the first part of the function.</p>
 <p>Once the subscription is confirmed, you will receive the message and you&rsquo;ll be able to do what you need with it.</p>
 <p>The last step is to correctly configure the <code>serverless.yml</code> file, which should look like like this:</p>
-<pre tabindex="0"><code>service: receivesnsnotification
-
-provider:
-  name: aws
-  runtime: dotnetcore3.1
-  region: eu-west-2
-
-package:
-  individually: true
-
-functions:
-  hello:
-    handler: CsharpHandlers::AwsDotnetCsharp.Handler::Hello
-
-    package:
-      artifact: bin/Release/netcoreapp3.1/hello.zip
-
-    events:
-      - http:
-          path: notification
-          method: post
-</code></pre><p>Nothing super-special here, we just need an endpoint that responds to a POST request.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">service: receivesnsnotification
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">provider:
+</span></span><span class="line"><span class="cl">  name: aws
+</span></span><span class="line"><span class="cl">  runtime: dotnetcore3.1
+</span></span><span class="line"><span class="cl">  region: eu-west-2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">package:
+</span></span><span class="line"><span class="cl">  individually: true
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">functions:
+</span></span><span class="line"><span class="cl">  hello:
+</span></span><span class="line"><span class="cl">    handler: CsharpHandlers::AwsDotnetCsharp.Handler::Hello
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    package:
+</span></span><span class="line"><span class="cl">      artifact: bin/Release/netcoreapp3.1/hello.zip
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - http:
+</span></span><span class="line"><span class="cl">          path: notification
+</span></span><span class="line"><span class="cl">          method: post
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Nothing super-special here, we just need an endpoint that responds to a POST request.</p>
 <p>Let&rsquo;s deploy this! First, we need to build the package. To build it, we can use the script that the Serverless framework has created for us:</p>
-<pre tabindex="0"><code>.\build.cmd
-</code></pre><p>And now, we can deploy the lambda function. In my case, I have a profile configured called <code>serverless-local</code> so I need to type this:</p>
-<pre tabindex="0"><code>serverless deploy --aws-profile serverless-local
-</code></pre><p>Make sure you write down the URL of the Lambda function because we&rsquo;ll need it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">.\build.cmd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And now, we can deploy the lambda function. In my case, I have a profile configured called <code>serverless-local</code> so I need to type this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">serverless deploy --aws-profile serverless-local
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Make sure you write down the URL of the Lambda function because we&rsquo;ll need it.</p>
 <h2 id="sns-topic">SNS Topic</h2>
 <p>The next step is to create the SNS topic. We&rsquo;ll use <a href="https://docs.aws.amazon.com/cdk/">CDK</a> to do this.</p>
 <p>Let&rsquo;s first create a folder just below our main folder called IaC. Go inside the folder and run the following command:</p>
-<pre tabindex="0"><code>cdk init --language csharp
-</code></pre><p>This will create the barebones of a CDK project using C# as a language to define your infrastructure.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cdk init --language csharp
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This will create the barebones of a CDK project using C# as a language to define your infrastructure.</p>
 <p>In order to create an SNS endpoint, we&rsquo;ll need a couple of NuGet packages. Type these commands in the <code>IaC\src\IaC</code> folder:</p>
-<pre tabindex="0"><code>dotnet add package Amazon.CDK.AWS.SNS
-dotnet add package Amazon.CDK.AWS.SNS.Subscriptions
-</code></pre><p>It&rsquo;s time to define our infrastructure, which is basically an SNS topic with a HTTP subscription:</p>
-<pre tabindex="0"><code>using Amazon.CDK;
-using Amazon.CDK.AWS.SNS;
-using Amazon.CDK.AWS.SNS.Subscriptions;
-
-namespace IaC
-{
-    public class IaCStack : Stack
-    {
-        internal IaCStack(Construct scope, string id, IStackProps props = null) : base(scope, id, props)
-        {
-            Topic topic = new Topic(this, &#34;SNSCDKTopic&#34;, new TopicProps {
-                DisplayName = &#34;Sample subscription topic&#34;
-            });
-
-            topic.AddSubscription(new UrlSubscription(&#34;https://xxxxxxx.execute-api.eu-west-2.amazonaws.com/dev/notification&#34;));
-        }
-    }
-}
-</code></pre><p>Quite easy, isn&rsquo;t it?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">dotnet</span> <span class="nx">add</span> <span class="kn">package</span> <span class="nx">Amazon</span><span class="p">.</span><span class="nx">CDK</span><span class="p">.</span><span class="nx">AWS</span><span class="p">.</span><span class="nx">SNS</span>
+</span></span><span class="line"><span class="cl"><span class="nx">dotnet</span> <span class="nx">add</span> <span class="kn">package</span> <span class="nx">Amazon</span><span class="p">.</span><span class="nx">CDK</span><span class="p">.</span><span class="nx">AWS</span><span class="p">.</span><span class="nx">SNS</span><span class="p">.</span><span class="nx">Subscriptions</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It&rsquo;s time to define our infrastructure, which is basically an SNS topic with a HTTP subscription:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">using Amazon.CDK;
+</span></span><span class="line"><span class="cl">using Amazon.CDK.AWS.SNS;
+</span></span><span class="line"><span class="cl">using Amazon.CDK.AWS.SNS.Subscriptions;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">namespace IaC
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    public class IaCStack : Stack
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        internal IaCStack(Construct scope, string id, IStackProps props = null) : base(scope, id, props)
+</span></span><span class="line"><span class="cl">        {
+</span></span><span class="line"><span class="cl">            Topic topic = new Topic(this, &#34;SNSCDKTopic&#34;, new TopicProps {
+</span></span><span class="line"><span class="cl">                DisplayName = &#34;Sample subscription topic&#34;
+</span></span><span class="line"><span class="cl">            });
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            topic.AddSubscription(new UrlSubscription(&#34;https://xxxxxxx.execute-api.eu-west-2.amazonaws.com/dev/notification&#34;));
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Quite easy, isn&rsquo;t it?</p>
 <p>In a production environment you&rsquo;d need to configure retries and DLQ. We&rsquo;ll see that in future posts.</p>
 <p>Go back to the main IaC folder and deploy the infrastructure:</p>
-<pre tabindex="0"><code>cdk deploy --profile serverless-local
-</code></pre><p>If you now go the AWS Console, you will see that the subscription is confirmed <img src="/images/confirmed-subscription.png" alt="Confirmed subscription"></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">cdk deploy --profile serverless-local
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>If you now go the AWS Console, you will see that the subscription is confirmed <img src="/images/confirmed-subscription.png" alt="Confirmed subscription"></p>
 <p>And if you go to CloudWatch you&rsquo;ll see that the endpoint has been called. <img src="/images/confirmed-subscription.png" alt="Confirmed subscription"></p>
 <p>Please, go to the AWS Console and write down the ARN of the SNS topic because we&rsquo;ll need it in the next step.</p>
 <h2 id="sending-messages">Sending messages</h2>
 <p>Now it&rsquo;s time to send a message to the topic. Go to the root folder and create a Console App:</p>
-<pre tabindex="0"><code>dotnet new solution -n SendSNSNotification -o SendSNSNotification
-cd SendSNSNotification
-dotnet new console -n SendSNSNotificationApp
-dotnet sln add SendSNSNotificationApp\SendSNSNotificationApp.csproj
-</code></pre><p>Go inside the folder and add the following packages</p>
-<pre tabindex="0"><code>dotnet add package AWSSDK.Core
-dotnet add package AWSSDK.Extensions.NETCore.Setup
-dotnet add package AWSSDK.SimpleNotificationService
-dotnet add package Microsoft.Extensions.Configuration
-dotnet add package Microsoft.Extensions.Configuration.FileExtensions
-dotnet add package Microsoft.Extensions.Configuration.Json
-</code></pre><p>Create an <code>appsettings.json</code> file with the following structure (use your profile and the region you preffer):</p>
-<pre tabindex="0"><code>{
-    &#34;AWS&#34;: {
-      &#34;Profile&#34;: &#34;serverless-local&#34;,
-      &#34;Region&#34;: &#34;eu-west-2&#34;
-    }
-}
-</code></pre><p>And make sure the file is copied to the output directory by adding this to the csproj:</p>
-<pre tabindex="0"><code>&lt;ItemGroup&gt;
-  &lt;Content Include=&#34;appsettings.json&#34;&gt;
-    &lt;CopyToOutputDirectory&gt;PreserveNewest&lt;/CopyToOutputDirectory&gt;
-  &lt;/Content&gt;
-&lt;/ItemGroup&gt;
-</code></pre><p>And finally, write the code to send the message:</p>
-<pre tabindex="0"><code>using System;
-using System.Threading.Tasks;
-using Amazon.SimpleNotificationService;
-using Amazon.SimpleNotificationService.Model;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.FileExtensions;
-using Microsoft.Extensions.Configuration.Json;
-
-namespace SendSNSNotificationApp
-{
-    class Program
-    {
-        static async Task Main(string[] args)
-        {
-            IConfiguration config = new ConfigurationBuilder()
-                .AddJsonFile(&#34;appsettings.json&#34;, true, true)
-                .Build();
-
-            var options = config.GetAWSOptions();
-            var snsClient = options.CreateServiceClient&lt;IAmazonSimpleNotificationService&gt;();
-
-            var request = new PublishRequest
-            {
-                Message = $&#34;Test at {DateTime.UtcNow.ToLongTimeString()}&#34;,
-                TopicArn = &#34;arn:aws:sns:eu-west-2:xxxxxxxxx:IaCStack-SNSCDKTopic5427996C-1GCQIX0GC8ICE&#34;,
-            };
-
-            await snsClient.PublishAsync(request);
-
-            Console.WriteLine(&#34;Message sent&#34;);
-        }
-    }
-}
-</code></pre><p>As you can see, we&rsquo;re loading the configuration file and using the <code>GetAWSOptions</code> to get an object which can be used to create the client. Finally, you just need to create the request and send it. If you want to do the same in a ASP .NET Core application, you can follow <a href="https://www.stevejgordon.co.uk/publishing-to-aws-simple-notification-service-sns-from-asp-net-core">this post</a> by <a href="https://twitter.com/stevejgordon">Steve Gordon</a>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">dotnet new solution -n SendSNSNotification -o SendSNSNotification
+</span></span><span class="line"><span class="cl">cd SendSNSNotification
+</span></span><span class="line"><span class="cl">dotnet new console -n SendSNSNotificationApp
+</span></span><span class="line"><span class="cl">dotnet sln add SendSNSNotificationApp\SendSNSNotificationApp.csproj
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Go inside the folder and add the following packages</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">dotnet</span> <span class="nx">add</span> <span class="kn">package</span> <span class="nx">AWSSDK</span><span class="p">.</span><span class="nx">Core</span>
+</span></span><span class="line"><span class="cl"><span class="nx">dotnet</span> <span class="nx">add</span> <span class="kn">package</span> <span class="nx">AWSSDK</span><span class="p">.</span><span class="nx">Extensions</span><span class="p">.</span><span class="nx">NETCore</span><span class="p">.</span><span class="nx">Setup</span>
+</span></span><span class="line"><span class="cl"><span class="nx">dotnet</span> <span class="nx">add</span> <span class="kn">package</span> <span class="nx">AWSSDK</span><span class="p">.</span><span class="nx">SimpleNotificationService</span>
+</span></span><span class="line"><span class="cl"><span class="nx">dotnet</span> <span class="nx">add</span> <span class="kn">package</span> <span class="nx">Microsoft</span><span class="p">.</span><span class="nx">Extensions</span><span class="p">.</span><span class="nx">Configuration</span>
+</span></span><span class="line"><span class="cl"><span class="nx">dotnet</span> <span class="nx">add</span> <span class="kn">package</span> <span class="nx">Microsoft</span><span class="p">.</span><span class="nx">Extensions</span><span class="p">.</span><span class="nx">Configuration</span><span class="p">.</span><span class="nx">FileExtensions</span>
+</span></span><span class="line"><span class="cl"><span class="nx">dotnet</span> <span class="nx">add</span> <span class="kn">package</span> <span class="nx">Microsoft</span><span class="p">.</span><span class="nx">Extensions</span><span class="p">.</span><span class="nx">Configuration</span><span class="p">.</span><span class="nx">Json</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Create an <code>appsettings.json</code> file with the following structure (use your profile and the region you preffer):</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    &#34;AWS&#34;: {
+</span></span><span class="line"><span class="cl">      &#34;Profile&#34;: &#34;serverless-local&#34;,
+</span></span><span class="line"><span class="cl">      &#34;Region&#34;: &#34;eu-west-2&#34;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And make sure the file is copied to the output directory by adding this to the csproj:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;ItemGroup&gt;
+</span></span><span class="line"><span class="cl">  &lt;Content Include=&#34;appsettings.json&#34;&gt;
+</span></span><span class="line"><span class="cl">    &lt;CopyToOutputDirectory&gt;PreserveNewest&lt;/CopyToOutputDirectory&gt;
+</span></span><span class="line"><span class="cl">  &lt;/Content&gt;
+</span></span><span class="line"><span class="cl">&lt;/ItemGroup&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And finally, write the code to send the message:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">using System;
+</span></span><span class="line"><span class="cl">using System.Threading.Tasks;
+</span></span><span class="line"><span class="cl">using Amazon.SimpleNotificationService;
+</span></span><span class="line"><span class="cl">using Amazon.SimpleNotificationService.Model;
+</span></span><span class="line"><span class="cl">using Microsoft.Extensions.Configuration;
+</span></span><span class="line"><span class="cl">using Microsoft.Extensions.Configuration.FileExtensions;
+</span></span><span class="line"><span class="cl">using Microsoft.Extensions.Configuration.Json;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">namespace SendSNSNotificationApp
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    class Program
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        static async Task Main(string[] args)
+</span></span><span class="line"><span class="cl">        {
+</span></span><span class="line"><span class="cl">            IConfiguration config = new ConfigurationBuilder()
+</span></span><span class="line"><span class="cl">                .AddJsonFile(&#34;appsettings.json&#34;, true, true)
+</span></span><span class="line"><span class="cl">                .Build();
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            var options = config.GetAWSOptions();
+</span></span><span class="line"><span class="cl">            var snsClient = options.CreateServiceClient&lt;IAmazonSimpleNotificationService&gt;();
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            var request = new PublishRequest
+</span></span><span class="line"><span class="cl">            {
+</span></span><span class="line"><span class="cl">                Message = $&#34;Test at {DateTime.UtcNow.ToLongTimeString()}&#34;,
+</span></span><span class="line"><span class="cl">                TopicArn = &#34;arn:aws:sns:eu-west-2:xxxxxxxxx:IaCStack-SNSCDKTopic5427996C-1GCQIX0GC8ICE&#34;,
+</span></span><span class="line"><span class="cl">            };
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            await snsClient.PublishAsync(request);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            Console.WriteLine(&#34;Message sent&#34;);
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see, we&rsquo;re loading the configuration file and using the <code>GetAWSOptions</code> to get an object which can be used to create the client. Finally, you just need to create the request and send it. If you want to do the same in a ASP .NET Core application, you can follow <a href="https://www.stevejgordon.co.uk/publishing-to-aws-simple-notification-service-sns-from-asp-net-core">this post</a> by <a href="https://twitter.com/stevejgordon">Steve Gordon</a>.</p>
 <p>You can now build and run the application</p>
-<pre tabindex="0"><code>dotnet build
-dotnet run
-</code></pre><p>and take a look at cloudwatch to see that the message is there!</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">dotnet build
+</span></span><span class="line"><span class="cl">dotnet run
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and take a look at cloudwatch to see that the message is there!</p>
 <p><img src="/images/confirmed-subscription.png" alt="Confirmed subscription"></p>
 <h2 id="summary">Summary</h2>
 <p>In this article we&rsquo;ve seen how to create an SNS topic, subscribe to it and send a message to it. You can use this to send asynchronous messages between your services, even if they are deployed in your own infrastructure. Hope it helps!</p>

@@ -128,7 +128,7 @@
       <div class="post-category">
           <a href="/categories/serverless/"> serverless </a>
           </div>
-        <span class="more-meta"> 1140 words </span>
+        <span class="more-meta"> 1204 words </span>
         <span class="more-meta"> 6 mins read </span>
     </div>
   </header>
@@ -152,7 +152,7 @@ As far as I know (correct me in the comments if I&rsquo;m wrong, please), when y
       <div class="post-category">
           <a href="/categories/serverless/"> serverless </a>
           </div>
-        <span class="more-meta"> 580 words </span>
+        <span class="more-meta"> 606 words </span>
         <span class="more-meta"> 3 mins read </span>
     </div>
   </header>
@@ -161,7 +161,7 @@ As far as I know (correct me in the comments if I&rsquo;m wrong, please), when y
     <div class="post-summary">
       In our previous articles we&rsquo;ve seen how to deploy a Function App using the Azure CLI or Terraform. Once we have a function deployed and accepting traffic, the next obvious thing to do is to monitor it.
 Adding some logs to the function is fairly easy. If you take a look at the signature of the function
-[FunctionName(&#34;HelloWorld&#34;)]public static async Task&lt;IActionResult&gt; Run([HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] HttpRequest req,ILogger log) you&rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.
+1 2 3 4 [FunctionName(&#34;HelloWorld&#34;)] public static async Task&lt;IActionResult&gt; Run( [HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] HttpRequest req, ILogger log) you&rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.
     </div>
     <div class="read-more">
       <a href="/post/enabling-application-insights/" class="read-more-link">Read more...</a>
@@ -177,7 +177,7 @@ Adding some logs to the function is fairly easy. If you take a look at the signa
       <div class="post-category">
           <a href="/categories/serverless/"> serverless </a>
           </div>
-        <span class="more-meta"> 894 words </span>
+        <span class="more-meta"> 1005 words </span>
         <span class="more-meta"> 5 mins read </span>
     </div>
   </header>
@@ -202,7 +202,7 @@ Enable A/B testing Enable blue/green deployments No downtime deployments Easy ro
       <div class="post-category">
           <a href="/categories/serverless/"> serverless </a>
           </div>
-        <span class="more-meta"> 306 words </span>
+        <span class="more-meta"> 332 words </span>
         <span class="more-meta"> 2 mins read </span>
     </div>
   </header>
@@ -211,7 +211,7 @@ Enable A/B testing Enable blue/green deployments No downtime deployments Easy ro
     <div class="post-summary">
       In a previous article we&rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
-#!/bin/bashlocation=$2stage=$3serviceName=$1-$stageresourceGroupName=$serviceName&#34;-rg&#34;serviceNameToLower=&#34;$(echo $serviceName | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&#34;storageAccountName=&#34;$(echo ${serviceNameToLower//&#34;-&#34;/&#34;&#34;})&#34;echo &#34;Creating resource group&#34;az group create --name $resourceGroupName --location $locationecho &#34;Creating storage account&#34;az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRSecho &#34;Creating function app&#34;az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupNameecho &#34;Publishing function locally&#34;dotnet buildecho &#34;Publisihng function to Azure&#34;func azure functionapp publish $serviceName What are we going to do is to change the last two steps.
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 #!
     </div>
     <div class="read-more">
       <a href="/post/deploying-azure-functions-using-zip-deploy/" class="read-more-link">Read more...</a>
@@ -227,7 +227,7 @@ Fixing the script. We already have a deployment script. It is something like thi
       <div class="post-category">
           <a href="/categories/serverless/"> serverless </a>
           </div>
-        <span class="more-meta"> 494 words </span>
+        <span class="more-meta"> 580 words </span>
         <span class="more-meta"> 3 mins read </span>
     </div>
   </header>
@@ -252,7 +252,7 @@ Building the package What Terraform is going to do is take advantage of the Zip 
       <div class="post-category">
           <a href="/categories/serverless/"> serverless </a>
           </div>
-        <span class="more-meta"> 1288 words </span>
+        <span class="more-meta"> 1433 words </span>
         <span class="more-meta"> 7 mins read </span>
     </div>
   </header>
@@ -276,7 +276,7 @@ Creating a new docker image As we saw, if we want to deploy the Function App usi
       <div class="post-category">
           <a href="/categories/serverless/"> serverless </a>
           </div>
-        <span class="more-meta"> 1262 words </span>
+        <span class="more-meta"> 1273 words </span>
         <span class="more-meta"> 6 mins read </span>
     </div>
   </header>
@@ -299,7 +299,7 @@ Creating a new docker image As we saw, if we want to deploy the Function App usi
       <div class="post-category">
           <a href="/categories/serverless/"> serverless </a>
           </div>
-        <span class="more-meta"> 1167 words </span>
+        <span class="more-meta"> 1231 words </span>
         <span class="more-meta"> 6 mins read </span>
     </div>
   </header>
@@ -323,7 +323,7 @@ Background The moment your application starts to be a little bit more complex, y
       <div class="post-category">
           <a href="/categories/serverless/"> serverless </a>
           </div>
-        <span class="more-meta"> 1921 words </span>
+        <span class="more-meta"> 2059 words </span>
         <span class="more-meta"> 10 mins read </span>
     </div>
   </header>
@@ -346,7 +346,7 @@ Background The moment your application starts to be a little bit more complex, y
       <div class="post-category">
           <a href="/categories/devops/"> devops </a>
           </div>
-        <span class="more-meta"> 1094 words </span>
+        <span class="more-meta"> 1222 words </span>
         <span class="more-meta"> 6 mins read </span>
     </div>
   </header>

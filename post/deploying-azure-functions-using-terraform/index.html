@@ -55,7 +55,7 @@ Building the package What Terraform is going to do is take advantage of the Zip 
 Prerequisites In order to follow this article you will need the .Net SDK 2.1, the Azure CLI and Terraform installed in your laptop/container/VM/whatever.
 Building the package What Terraform is going to do is take advantage of the Zip deployment capability (More on this in a future article)."><meta itemprop="datePublished" content="2018-11-16T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2018-11-16T00:00:00+00:00" />
-<meta itemprop="wordCount" content="494">
+<meta itemprop="wordCount" content="580">
 <meta itemprop="keywords" content="devops,azure functions,azure," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Deploying Azure Functions using Terraform"/>
 <meta name="twitter:description" content="In previous articles (I, II) we&rsquo;ve seen how to deploy an Azure Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to deploy it using Terraform.
@@ -140,7 +140,7 @@ Building the package What Terraform is going to do is take advantage of the Zip 
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 494 words </span>
+          <span class="more-meta"> 580 words </span>
           <span class="more-meta"> 3 mins read </span>
         
       </div>
@@ -151,11 +151,15 @@ Building the package What Terraform is going to do is take advantage of the Zip 
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#prerequisites">Prerequisites</a></li>
-    <li><a href="#building-the-package">Building the package</a></li>
-    <li><a href="#create-the-terraform-script">Create the Terraform script</a></li>
-    <li><a href="#deploying">Deploying</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#building-the-package">Building the package</a></li>
+        <li><a href="#create-the-terraform-script">Create the Terraform script</a></li>
+        <li><a href="#deploying">Deploying</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -166,101 +170,229 @@ Building the package What Terraform is going to do is take advantage of the Zip 
 <p>In order to follow this article you will need the .Net SDK 2.1, the Azure CLI and Terraform installed in your laptop/container/VM/whatever.</p>
 <h2 id="building-the-package">Building the package</h2>
 <p>What Terraform is going to do is take advantage of the <a href="https://docs.microsoft.com/en-us/azure/azure-functions/deployment-zip-push">Zip deployment</a> capability (More on this in a future article). So, what we need to do first is to create a zip with the contents we&rsquo;d like to deploy. We&rsquo;ll call this zip <code>functionapp.zip</code> To do that, you can use this script:</p>
-<pre tabindex="0"><code>dotnet publish
-pushd bin/Debug/netcoreapp2.1/publish
-zip -r -X ../../../../functionapp.zip *
-popd
-</code></pre><h2 id="create-the-terraform-script">Create the Terraform script</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">dotnet publish
+</span></span><span class="line"><span class="cl">pushd bin/Debug/netcoreapp2.1/publish
+</span></span><span class="line"><span class="cl">zip -r -X ../../../../functionapp.zip *
+</span></span><span class="line"><span class="cl">popd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="create-the-terraform-script">Create the Terraform script</h2>
 <p>Let&rsquo;s start creating the terraform script. Create a folder in your project called <code>infrastructure</code> and create file called, for example, <code>functionapp.tf</code>. Open the file to edit its contents.</p>
 <p>The first thing we&rsquo;ll need to do is specify the <a href="https://www.terraform.io/docs/providers/azurerm/d/resource_group.html">Resource Group</a> we&rsquo;d like to create:</p>
-<pre tabindex="0"><code>resource &#34;azurerm_resource_group&#34; &#34;rg-testDeployTF&#34; {
-  name     = &#34;rg-testDeployTF&#34;
-  location = &#34;westeurope&#34;
-}
-</code></pre><p>Then, we need to specify the <a href="https://www.terraform.io/docs/providers/azurerm/r/storage_account.html">Storage Account</a>:</p>
-<pre tabindex="0"><code>resource &#34;azurerm_storage_account&#34; &#34;sa-testDeployTF&#34; {
-  name                     = &#34;testdeploytfsa&#34;
-  resource_group_name      = &#34;${azurerm_resource_group.rg-testDeployTF.name}&#34;
-  location                 = &#34;${azurerm_resource_group.rg-testDeployTF.location}&#34;
-  account_tier             = &#34;Standard&#34;
-  account_replication_type = &#34;LRS&#34;
-}
-</code></pre><p>It&rsquo;s time to specify the <a href="https://www.terraform.io/docs/providers/azurerm/d/app_service_plan.html">Service Plan</a>:</p>
-<pre tabindex="0"><code>resource &#34;azurerm_app_service_plan&#34; &#34;sp-testDeployTF&#34; {
-  name                = &#34;sp-testDeployTF&#34;
-  location            = &#34;${azurerm_resource_group.rg-testDeployTF.location}&#34;
-  resource_group_name = &#34;${azurerm_resource_group.rg-testDeployTF.name}&#34;
-  kind                = &#34;FunctionApp&#34;
-
-  sku {
-    tier = &#34;Dynamic&#34;
-    size = &#34;Y1&#34;
-  }
-}
-</code></pre><p>Now it&rsquo;s time to update the recently created zip file into a <a href="https://www.terraform.io/docs/providers/azurerm/r/storage_blob.html">blob</a>. We&rsquo;d need to create a blob inside a <a href="https://www.terraform.io/docs/providers/azurerm/r/storage_container.html">storage container</a>:</p>
-<pre tabindex="0"><code>resource &#34;azurerm_storage_container&#34; &#34;sc-testDeployTF&#34; {
-  name                  = &#34;function-releases&#34;
-  resource_group_name   = &#34;${azurerm_resource_group.rg-testDeployTF.name}&#34;
-  storage_account_name  = &#34;${azurerm_storage_account.sa-testDeployTF.name}&#34;
-  container_access_type = &#34;private&#34;
-}
-
-resource &#34;azurerm_storage_blob&#34; &#34;sb-testDeployTF&#34; {
-  name = &#34;functionapp.zip&#34;
-
-  resource_group_name    = &#34;${azurerm_resource_group.rg-testDeployTF.name}&#34;
-  storage_account_name   = &#34;${azurerm_storage_account.sa-testDeployTF.name}&#34;
-  storage_container_name = &#34;${azurerm_storage_container.sc-testDeployTF.name}&#34;
-
-  type   = &#34;block&#34;
-  source = &#34;./../functionapp.zip&#34;
-}
-</code></pre><p>In order that the Function App has access to this blob, we need to create a <a href="https://www.terraform.io/docs/providers/azurerm/d/storage_account_sas.html">Shared Access Signature</a>:</p>
-<pre tabindex="0"><code>data &#34;azurerm_storage_account_sas&#34; &#34;sas-testDeployTF&#34; {
-  connection_string = &#34;${azurerm_storage_account.sa-testDeployTF.primary_connection_string}&#34;
-  https_only        = false
-
-  resource_types {
-    service   = false
-    container = false
-    object    = true
-  }
-
-  services {
-    blob  = true
-    queue = false
-    table = false
-    file  = false
-  }
-
-  start  = &#34;2018-03-21&#34;
-  expiry = &#34;2028-03-21&#34;
-
-  permissions {
-    read    = true
-    write   = false
-    delete  = false
-    list    = false
-    add     = false
-    create  = false
-    update  = false
-    process = false
-  }
-}
-</code></pre><p>And finally we need to create the Function App and tell it that it needs to take the code from the uploaded zip file:</p>
-<pre tabindex="0"><code>resource &#34;azurerm_function_app&#34; &#34;testDeployTF&#34; {
-  name                      = &#34;testDeployTF&#34;
-  location                  = &#34;${azurerm_resource_group.rg-testDeployTF.location}&#34;
-  resource_group_name       = &#34;${azurerm_resource_group.rg-testDeployTF.name}&#34;
-  app_service_plan_id       = &#34;${azurerm_app_service_plan.sp-testDeployTF.id}&#34;
-  storage_connection_string = &#34;${azurerm_storage_account.sa-testDeployTF.primary_connection_string}&#34;
-
-  app_settings {
-    HASH            = &#34;${base64sha256(file(&#34;./../functionapp.zip&#34;))}&#34;
-    WEBSITE_USE_ZIP = &#34;https://${azurerm_storage_account.sa-testDeployTF.name}.blob.core.windows.net/${azurerm_storage_container.sc-testDeployTF.name}/${azurerm_storage_blob.sb-testDeployTF.name}${data.azurerm_storage_account_sas.sas-testDeployTF.sas}&#34;
-  }
-}
-</code></pre><h2 id="deploying">Deploying</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">resource &#34;azurerm_resource_group&#34; &#34;rg-testDeployTF&#34; {
+</span></span><span class="line"><span class="cl">  name     = &#34;rg-testDeployTF&#34;
+</span></span><span class="line"><span class="cl">  location = &#34;westeurope&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Then, we need to specify the <a href="https://www.terraform.io/docs/providers/azurerm/r/storage_account.html">Storage Account</a>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">resource &#34;azurerm_storage_account&#34; &#34;sa-testDeployTF&#34; {
+</span></span><span class="line"><span class="cl">  name                     = &#34;testdeploytfsa&#34;
+</span></span><span class="line"><span class="cl">  resource_group_name      = &#34;${azurerm_resource_group.rg-testDeployTF.name}&#34;
+</span></span><span class="line"><span class="cl">  location                 = &#34;${azurerm_resource_group.rg-testDeployTF.location}&#34;
+</span></span><span class="line"><span class="cl">  account_tier             = &#34;Standard&#34;
+</span></span><span class="line"><span class="cl">  account_replication_type = &#34;LRS&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It&rsquo;s time to specify the <a href="https://www.terraform.io/docs/providers/azurerm/d/app_service_plan.html">Service Plan</a>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">resource &#34;azurerm_app_service_plan&#34; &#34;sp-testDeployTF&#34; {
+</span></span><span class="line"><span class="cl">  name                = &#34;sp-testDeployTF&#34;
+</span></span><span class="line"><span class="cl">  location            = &#34;${azurerm_resource_group.rg-testDeployTF.location}&#34;
+</span></span><span class="line"><span class="cl">  resource_group_name = &#34;${azurerm_resource_group.rg-testDeployTF.name}&#34;
+</span></span><span class="line"><span class="cl">  kind                = &#34;FunctionApp&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  sku {
+</span></span><span class="line"><span class="cl">    tier = &#34;Dynamic&#34;
+</span></span><span class="line"><span class="cl">    size = &#34;Y1&#34;
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now it&rsquo;s time to update the recently created zip file into a <a href="https://www.terraform.io/docs/providers/azurerm/r/storage_blob.html">blob</a>. We&rsquo;d need to create a blob inside a <a href="https://www.terraform.io/docs/providers/azurerm/r/storage_container.html">storage container</a>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">resource &#34;azurerm_storage_container&#34; &#34;sc-testDeployTF&#34; {
+</span></span><span class="line"><span class="cl">  name                  = &#34;function-releases&#34;
+</span></span><span class="line"><span class="cl">  resource_group_name   = &#34;${azurerm_resource_group.rg-testDeployTF.name}&#34;
+</span></span><span class="line"><span class="cl">  storage_account_name  = &#34;${azurerm_storage_account.sa-testDeployTF.name}&#34;
+</span></span><span class="line"><span class="cl">  container_access_type = &#34;private&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">resource &#34;azurerm_storage_blob&#34; &#34;sb-testDeployTF&#34; {
+</span></span><span class="line"><span class="cl">  name = &#34;functionapp.zip&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  resource_group_name    = &#34;${azurerm_resource_group.rg-testDeployTF.name}&#34;
+</span></span><span class="line"><span class="cl">  storage_account_name   = &#34;${azurerm_storage_account.sa-testDeployTF.name}&#34;
+</span></span><span class="line"><span class="cl">  storage_container_name = &#34;${azurerm_storage_container.sc-testDeployTF.name}&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  type   = &#34;block&#34;
+</span></span><span class="line"><span class="cl">  source = &#34;./../functionapp.zip&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In order that the Function App has access to this blob, we need to create a <a href="https://www.terraform.io/docs/providers/azurerm/d/storage_account_sas.html">Shared Access Signature</a>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">data &#34;azurerm_storage_account_sas&#34; &#34;sas-testDeployTF&#34; {
+</span></span><span class="line"><span class="cl">  connection_string = &#34;${azurerm_storage_account.sa-testDeployTF.primary_connection_string}&#34;
+</span></span><span class="line"><span class="cl">  https_only        = false
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  resource_types {
+</span></span><span class="line"><span class="cl">    service   = false
+</span></span><span class="line"><span class="cl">    container = false
+</span></span><span class="line"><span class="cl">    object    = true
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  services {
+</span></span><span class="line"><span class="cl">    blob  = true
+</span></span><span class="line"><span class="cl">    queue = false
+</span></span><span class="line"><span class="cl">    table = false
+</span></span><span class="line"><span class="cl">    file  = false
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  start  = &#34;2018-03-21&#34;
+</span></span><span class="line"><span class="cl">  expiry = &#34;2028-03-21&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  permissions {
+</span></span><span class="line"><span class="cl">    read    = true
+</span></span><span class="line"><span class="cl">    write   = false
+</span></span><span class="line"><span class="cl">    delete  = false
+</span></span><span class="line"><span class="cl">    list    = false
+</span></span><span class="line"><span class="cl">    add     = false
+</span></span><span class="line"><span class="cl">    create  = false
+</span></span><span class="line"><span class="cl">    update  = false
+</span></span><span class="line"><span class="cl">    process = false
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And finally we need to create the Function App and tell it that it needs to take the code from the uploaded zip file:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">resource &#34;azurerm_function_app&#34; &#34;testDeployTF&#34; {
+</span></span><span class="line"><span class="cl">  name                      = &#34;testDeployTF&#34;
+</span></span><span class="line"><span class="cl">  location                  = &#34;${azurerm_resource_group.rg-testDeployTF.location}&#34;
+</span></span><span class="line"><span class="cl">  resource_group_name       = &#34;${azurerm_resource_group.rg-testDeployTF.name}&#34;
+</span></span><span class="line"><span class="cl">  app_service_plan_id       = &#34;${azurerm_app_service_plan.sp-testDeployTF.id}&#34;
+</span></span><span class="line"><span class="cl">  storage_connection_string = &#34;${azurerm_storage_account.sa-testDeployTF.primary_connection_string}&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  app_settings {
+</span></span><span class="line"><span class="cl">    HASH            = &#34;${base64sha256(file(&#34;./../functionapp.zip&#34;))}&#34;
+</span></span><span class="line"><span class="cl">    WEBSITE_USE_ZIP = &#34;https://${azurerm_storage_account.sa-testDeployTF.name}.blob.core.windows.net/${azurerm_storage_container.sc-testDeployTF.name}/${azurerm_storage_blob.sb-testDeployTF.name}${data.azurerm_storage_account_sas.sas-testDeployTF.sas}&#34;
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="deploying">Deploying</h2>
 <p>It&rsquo;s time to cd into the infrastructure folder, login into azure using <code>az login</code> and type <code>terraform apply</code>.</p>
 <p><img src="/images/AzureFunctionTerraform.png" alt="Azure Function Terraform"></p>
 <p>Here it is! The Function App deployed into Azure :-)</p>

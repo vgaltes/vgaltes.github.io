@@ -55,7 +55,7 @@ As its name denotes, is a pattern that partially classificates what you match wi
 There are different kinds of pattern matching. In this post we&rsquo;re going to take a look at a partial classification active pattern that takes an argument and returns a value.
 As its name denotes, is a pattern that partially classificates what you match with it. That means that doesn&rsquo;t try to define all possible options but just one."><meta itemprop="datePublished" content="2016-10-17T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2016-10-17T00:00:00+00:00" />
-<meta itemprop="wordCount" content="364">
+<meta itemprop="wordCount" content="372">
 <meta itemprop="keywords" content="F#,Pattern matching,Active patterns," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Partial classification active pattern"/>
 <meta name="twitter:description" content="Pattern matching is a powerful and amazing characteristic of F#. Actually, is so amazing that Microsoft is starting to port it to C#.
@@ -140,7 +140,7 @@ As its name denotes, is a pattern that partially classificates what you match wi
         <div class="post-category">
             <a href="/categories/fsharp/"> FSharp </a>
             </div>
-          <span class="more-meta"> 364 words </span>
+          <span class="more-meta"> 372 words </span>
           <span class="more-meta"> 2 mins read </span>
         
       </div>
@@ -157,18 +157,44 @@ As its name denotes, is a pattern that partially classificates what you match wi
 <p>There are different kinds of pattern matching. In this post we&rsquo;re going to take a look at a partial classification active pattern that takes an argument and returns a value.</p>
 <p>As its name denotes, is a pattern that partially classificates what you match with it. That means that doesn&rsquo;t try to define all possible options but just one. This is quite convenient when using an active pattern to define a business rule of your domain, because you can split the different cases in different partial active patterns making your code much more readable.</p>
 <p>You will identify a partial active pattern because the definition looks something like this:</p>
-<pre tabindex="0"><code>let (|WithRemainder|_|) divisor divident =
-    // active pattern code
-</code></pre><p>You can see between brackets the name of the classification followed by the wilcard name (_), the two of them between |. Just after that you can see the two arguments that the function will take.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">let (|WithRemainder|_|) divisor divident =
+</span></span><span class="line"><span class="cl">    // active pattern code
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>You can see between brackets the name of the classification followed by the wilcard name (_), the two of them between |. Just after that you can see the two arguments that the function will take.</p>
 <p>This kind of active pattern has to return an Option value. In our case, we are going to return the remainder, if any. So our active pattern will look like:</p>
-<pre tabindex="0"><code>let (|WithRemainder|_|) divisor dividend =
-    let remainder = dividend % divisor
-    if remainder &lt;&gt; 0 then Some remainder else None
-</code></pre><p>How we use it? Well, the first time you see this active pattern applied can seem a bit difficult to understand (at least it was for me! :P), but is not that difficult:</p>
-<pre tabindex="0"><code>match 10 with
-| WithRemainder 3 r -&gt; printfn &#34;The remainder is %d&#34; r
-| _ -&gt; printfn &#34;No remainder&#34;
-</code></pre><p>The difficult part here is to see that the value in the match sentence is passed as the last argument of the active pattern. For example, in our case 3 is the divisor (first argument), 10 is the dividend (second argument) and r is what the pattern returns inside the Option type, in this case the remainder (is not the Option type, is the value itself). Once you understand that, there will be no secrets for you to create and use this kind of active pattern!</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">let (|WithRemainder|_|) divisor dividend =
+</span></span><span class="line"><span class="cl">    let remainder = dividend % divisor
+</span></span><span class="line"><span class="cl">    if remainder &lt;&gt; 0 then Some remainder else None
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>How we use it? Well, the first time you see this active pattern applied can seem a bit difficult to understand (at least it was for me! :P), but is not that difficult:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">match 10 with
+</span></span><span class="line"><span class="cl">| WithRemainder 3 r -&gt; printfn &#34;The remainder is %d&#34; r
+</span></span><span class="line"><span class="cl">| _ -&gt; printfn &#34;No remainder&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The difficult part here is to see that the value in the match sentence is passed as the last argument of the active pattern. For example, in our case 3 is the divisor (first argument), 10 is the dividend (second argument) and r is what the pattern returns inside the Option type, in this case the remainder (is not the Option type, is the value itself). Once you understand that, there will be no secrets for you to create and use this kind of active pattern!</p>
 
     </div>
 

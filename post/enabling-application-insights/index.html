@@ -18,7 +18,7 @@
 
 <meta name="author" content="Vicenç García" /><meta name="description" content="In our previous articles we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI or Terraform. Once we have a function deployed and accepting traffic, the next obvious thing to do is to monitor it.
 Adding some logs to the function is fairly easy. If you take a look at the signature of the function
-[FunctionName(&amp;#34;HelloWorld&amp;#34;)]public static async Task&amp;lt;IActionResult&amp;gt; Run([HttpTrigger(AuthorizationLevel.Anonymous, &amp;#34;get&amp;#34;, &amp;#34;post&amp;#34;, Route = null)] HttpRequest req,ILogger log) you&amp;rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log." />
+1 2 3 4 [FunctionName(&amp;#34;HelloWorld&amp;#34;)] public static async Task&amp;lt;IActionResult&amp;gt; Run( [HttpTrigger(AuthorizationLevel.Anonymous, &amp;#34;get&amp;#34;, &amp;#34;post&amp;#34;, Route = null)] HttpRequest req, ILogger log) you&amp;rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log." />
 
 
 
@@ -44,7 +44,7 @@ Adding some logs to the function is fairly easy. If you take a look at the signa
 <meta property="og:title" content="Deploying Azure Functions - Enabling Application Insights" />
 <meta property="og:description" content="In our previous articles we&rsquo;ve seen how to deploy a Function App using the Azure CLI or Terraform. Once we have a function deployed and accepting traffic, the next obvious thing to do is to monitor it.
 Adding some logs to the function is fairly easy. If you take a look at the signature of the function
-[FunctionName(&#34;HelloWorld&#34;)]public static async Task&lt;IActionResult&gt; Run([HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] HttpRequest req,ILogger log) you&rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log." />
+1 2 3 4 [FunctionName(&#34;HelloWorld&#34;)] public static async Task&lt;IActionResult&gt; Run( [HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] HttpRequest req, ILogger log) you&rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://example.org/post/enabling-application-insights/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2018-11-20T00:00:00+00:00" />
@@ -53,14 +53,14 @@ Adding some logs to the function is fairly easy. If you take a look at the signa
 <meta itemprop="name" content="Deploying Azure Functions - Enabling Application Insights">
 <meta itemprop="description" content="In our previous articles we&rsquo;ve seen how to deploy a Function App using the Azure CLI or Terraform. Once we have a function deployed and accepting traffic, the next obvious thing to do is to monitor it.
 Adding some logs to the function is fairly easy. If you take a look at the signature of the function
-[FunctionName(&#34;HelloWorld&#34;)]public static async Task&lt;IActionResult&gt; Run([HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] HttpRequest req,ILogger log) you&rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log."><meta itemprop="datePublished" content="2018-11-20T00:00:00+00:00" />
+1 2 3 4 [FunctionName(&#34;HelloWorld&#34;)] public static async Task&lt;IActionResult&gt; Run( [HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] HttpRequest req, ILogger log) you&rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log."><meta itemprop="datePublished" content="2018-11-20T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2018-11-20T00:00:00+00:00" />
-<meta itemprop="wordCount" content="580">
+<meta itemprop="wordCount" content="606">
 <meta itemprop="keywords" content="devops,azure functions,azure," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Deploying Azure Functions - Enabling Application Insights"/>
 <meta name="twitter:description" content="In our previous articles we&rsquo;ve seen how to deploy a Function App using the Azure CLI or Terraform. Once we have a function deployed and accepting traffic, the next obvious thing to do is to monitor it.
 Adding some logs to the function is fairly easy. If you take a look at the signature of the function
-[FunctionName(&#34;HelloWorld&#34;)]public static async Task&lt;IActionResult&gt; Run([HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] HttpRequest req,ILogger log) you&rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log."/>
+1 2 3 4 [FunctionName(&#34;HelloWorld&#34;)] public static async Task&lt;IActionResult&gt; Run( [HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] HttpRequest req, ILogger log) you&rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -140,7 +140,7 @@ Adding some logs to the function is fairly easy. If you take a look at the signa
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 580 words </span>
+          <span class="more-meta"> 606 words </span>
           <span class="more-meta"> 3 mins read </span>
         
       </div>
@@ -151,14 +151,18 @@ Adding some logs to the function is fairly easy. If you take a look at the signa
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#azure-storage">Azure storage</a></li>
-    <li><a href="#application-insights">Application insights</a>
+    <li>
       <ul>
-        <li><a href="#enabling-using-azure-cli">Enabling using Azure CLI</a></li>
-        <li><a href="#enabling-using-terraform">Enabling using Terraform</a></li>
+        <li><a href="#azure-storage">Azure storage</a></li>
+        <li><a href="#application-insights">Application insights</a>
+          <ul>
+            <li><a href="#enabling-using-azure-cli">Enabling using Azure CLI</a></li>
+            <li><a href="#enabling-using-terraform">Enabling using Terraform</a></li>
+          </ul>
+        </li>
+        <li><a href="#summary">Summary</a></li>
       </ul>
     </li>
-    <li><a href="#summary">Summary</a></li>
   </ul>
 </nav>
   </div>
@@ -166,11 +170,21 @@ Adding some logs to the function is fairly easy. If you take a look at the signa
     <div class="post-content">
       <p>In our previous articles we&rsquo;ve seen how to deploy a Function App using the <a href="http://vgaltes.com/post/deploying-azure-functions-using-zip-deploy/">Azure CLI</a> or <a href="http://vgaltes.com/post/deploying-azure-functions-using-terraform/">Terraform</a>. Once we have a function deployed and accepting traffic, the next obvious thing to do is to monitor it.</p>
 <p>Adding some logs to the function is fairly easy. If you take a look at the signature of the function</p>
-<pre tabindex="0"><code>[FunctionName(&#34;HelloWorld&#34;)]
-    public static async Task&lt;IActionResult&gt; Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] HttpRequest req,
-        ILogger log)
-</code></pre><p>you&rsquo;ll see that we hava a parameter of type <code>ILogger</code> that we can use to, yes, you guessed it right, log. The object has some helper methods that will allow you to log using different log levels and it&rsquo;s <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-monitoring#structured-logging">quite easy</a> to use structured logging too.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[FunctionName(&#34;HelloWorld&#34;)]
+</span></span><span class="line"><span class="cl">    public static async Task&lt;IActionResult&gt; Run(
+</span></span><span class="line"><span class="cl">        [HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] HttpRequest req,
+</span></span><span class="line"><span class="cl">        ILogger log)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>you&rsquo;ll see that we hava a parameter of type <code>ILogger</code> that we can use to, yes, you guessed it right, log. The object has some helper methods that will allow you to log using different log levels and it&rsquo;s <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-monitoring#structured-logging">quite easy</a> to use structured logging too.</p>
 <p>But, where can I see those logs?</p>
 <h2 id="azure-storage">Azure storage</h2>
 <p>By default, logs go to the Azure Storage. You can find it under your subscription -&gt; &lt;storage_account_name&gt; -&gt; File Shares -&gt; Function App name -&gt; LogFiles -&gt; application -&gt; functions -&gt; function -&gt; &lt;function_name&gt;. Easy to remember, isn&rsquo;t it?</p>
@@ -179,35 +193,93 @@ Adding some logs to the function is fairly easy. If you take a look at the signa
 <p>The proposed solution by Microsoft is to use Application Insights. Application Insights will give us much more information and will allow us to query our logs in a much easier way. Application insights is not enabled by default, so we will need to enable it.</p>
 <h3 id="enabling-using-azure-cli">Enabling using Azure CLI</h3>
 <p>First we&rsquo;ll take a look on how to do this via the Azure CLI. We&rsquo;ll include this in our deployment script. First we need to create the Application Insights resource:</p>
-<pre tabindex="0"><code>az resource create --resource-group $resourceGroupName --resource-type &#34;Microsoft.Insights/components&#34; --name $appInsightsName --location $location --properties &#39;{&#34;ApplicationType&#34;:&#34;web&#34;}&#39;
-</code></pre><p>next we need to get the instrumentation key, that we will need to add to the application settings of the Function App:</p>
-<pre tabindex="0"><code>appInsightsInstrumentationKey=&#34;$(az resource show -g $resourceGroupName -n $appInsightsName --resource-type &#39;Microsoft.Insights/components&#39; --query properties.InstrumentationKey)&#34;
-</code></pre><p>this instrumentation key comes with quotes, which we need to remove:</p>
-<pre tabindex="0"><code>appInsightsInstrumentationKey=&#34;${appInsightsInstrumentationKey%\&#34;}&#34;
-appInsightsInstrumentationKey=&#34;${appInsightsInstrumentationKey#\&#34;}&#34;
-</code></pre><p>and finally, after the Function App is created, we need to add the instrumentation key to the application settings:</p>
-<pre tabindex="0"><code>az functionapp config appsettings set -g $resourceGroupName -n $serviceName --settings APPINSIGHTS_INSTRUMENTATIONKEY=$appInsightsInstrumentationKey
-</code></pre><h3 id="enabling-using-terraform">Enabling using Terraform</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">az resource create --resource-group $resourceGroupName --resource-type &#34;Microsoft.Insights/components&#34; --name $appInsightsName --location $location --properties &#39;{&#34;ApplicationType&#34;:&#34;web&#34;}&#39;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>next we need to get the instrumentation key, that we will need to add to the application settings of the Function App:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">appInsightsInstrumentationKey=&#34;$(az resource show -g $resourceGroupName -n $appInsightsName --resource-type &#39;Microsoft.Insights/components&#39; --query properties.InstrumentationKey)&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>this instrumentation key comes with quotes, which we need to remove:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">appInsightsInstrumentationKey=&#34;${appInsightsInstrumentationKey%\&#34;}&#34;
+</span></span><span class="line"><span class="cl">appInsightsInstrumentationKey=&#34;${appInsightsInstrumentationKey#\&#34;}&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and finally, after the Function App is created, we need to add the instrumentation key to the application settings:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">az functionapp config appsettings set -g $resourceGroupName -n $serviceName --settings APPINSIGHTS_INSTRUMENTATIONKEY=$appInsightsInstrumentationKey
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="enabling-using-terraform">Enabling using Terraform</h3>
 <p>We can achieve the same results via Terraform. First, we need to create the Application Insights resource:</p>
-<pre tabindex="0"><code>resource &#34;azurerm_application_insights&#34; &#34;service-application-insights&#34; {
-  name                = &#34;ai-${local.service_name}&#34;
-  location            = &#34;${azurerm_resource_group.service-resource-group.location}&#34;
-  resource_group_name = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
-  application_type    = &#34;Web&#34;
-}
-</code></pre><p>and then we need to set up the application setting when we create the Function App:</p>
-<pre tabindex="0"><code>resource &#34;azurerm_function_app&#34; &#34;service-function-app&#34; {
-  name                      = &#34;${local.service_name}&#34;
-  location                  = &#34;${azurerm_resource_group.service-resource-group.location}&#34;
-  resource_group_name       = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
-  app_service_plan_id       = &#34;${azurerm_app_service_plan.service-service-plan.id}&#34;
-  storage_connection_string = &#34;${azurerm_storage_account.service-storage-account.primary_connection_string}&#34;
-
-  app_settings {
-    APPINSIGHTS_INSTRUMENTATIONKEY = &#34;${azurerm_application_insights.service-application-insights.instrumentation_key}&#34;
-  }
-}
-</code></pre><p>And that&rsquo;s all we need. We now have Application Insights enabled in our Function App.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">resource &#34;azurerm_application_insights&#34; &#34;service-application-insights&#34; {
+</span></span><span class="line"><span class="cl">  name                = &#34;ai-${local.service_name}&#34;
+</span></span><span class="line"><span class="cl">  location            = &#34;${azurerm_resource_group.service-resource-group.location}&#34;
+</span></span><span class="line"><span class="cl">  resource_group_name = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
+</span></span><span class="line"><span class="cl">  application_type    = &#34;Web&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and then we need to set up the application setting when we create the Function App:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">resource &#34;azurerm_function_app&#34; &#34;service-function-app&#34; {
+</span></span><span class="line"><span class="cl">  name                      = &#34;${local.service_name}&#34;
+</span></span><span class="line"><span class="cl">  location                  = &#34;${azurerm_resource_group.service-resource-group.location}&#34;
+</span></span><span class="line"><span class="cl">  resource_group_name       = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
+</span></span><span class="line"><span class="cl">  app_service_plan_id       = &#34;${azurerm_app_service_plan.service-service-plan.id}&#34;
+</span></span><span class="line"><span class="cl">  storage_connection_string = &#34;${azurerm_storage_account.service-storage-account.primary_connection_string}&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  app_settings {
+</span></span><span class="line"><span class="cl">    APPINSIGHTS_INSTRUMENTATIONKEY = &#34;${azurerm_application_insights.service-application-insights.instrumentation_key}&#34;
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And that&rsquo;s all we need. We now have Application Insights enabled in our Function App.</p>
 <h2 id="summary">Summary</h2>
 <p>In this article we&rsquo;ve seen how to enable Application Insights in our Function App, via Azure CLI and Terraform.</p>
 <p>Observability it&rsquo;s a broader topic that just logging. Application insights should help there quite a lot. Another thing to consider is how to handle correlation ids in our application, and how make that those correlation ids make sense with all the information that Application Insights give us. What we want is that, using a simple query, know what happened to an invocation of a service. We&rsquo;ll talk about that hopefully in a future post.</p>

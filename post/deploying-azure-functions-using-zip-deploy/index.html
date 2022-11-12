@@ -18,7 +18,7 @@
 
 <meta name="author" content="Vicenç García" /><meta name="description" content="In a previous article we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
-#!/bin/bashlocation=$2stage=$3serviceName=$1-$stageresourceGroupName=$serviceName&amp;#34;-rg&amp;#34;serviceNameToLower=&amp;#34;$(echo $serviceName | tr &amp;#39;[:upper:]&amp;#39; &amp;#39;[:lower:]&amp;#39;)&amp;#34;storageAccountName=&amp;#34;$(echo ${serviceNameToLower//&amp;#34;-&amp;#34;/&amp;#34;&amp;#34;})&amp;#34;echo &amp;#34;Creating resource group&amp;#34;az group create --name $resourceGroupName --location $locationecho &amp;#34;Creating storage account&amp;#34;az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRSecho &amp;#34;Creating function app&amp;#34;az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupNameecho &amp;#34;Publishing function locally&amp;#34;dotnet buildecho &amp;#34;Publisihng function to Azure&amp;#34;func azure functionapp publish $serviceName What are we going to do is to change the last two steps." />
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 #!" />
 
 
 
@@ -44,7 +44,7 @@ Fixing the script. We already have a deployment script. It is something like thi
 <meta property="og:title" content="Deploying Azure Functions using Zip Deploy" />
 <meta property="og:description" content="In a previous article we&rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
-#!/bin/bashlocation=$2stage=$3serviceName=$1-$stageresourceGroupName=$serviceName&#34;-rg&#34;serviceNameToLower=&#34;$(echo $serviceName | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&#34;storageAccountName=&#34;$(echo ${serviceNameToLower//&#34;-&#34;/&#34;&#34;})&#34;echo &#34;Creating resource group&#34;az group create --name $resourceGroupName --location $locationecho &#34;Creating storage account&#34;az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRSecho &#34;Creating function app&#34;az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupNameecho &#34;Publishing function locally&#34;dotnet buildecho &#34;Publisihng function to Azure&#34;func azure functionapp publish $serviceName What are we going to do is to change the last two steps." />
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 #!" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://example.org/post/deploying-azure-functions-using-zip-deploy/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2018-11-17T00:00:00+00:00" />
@@ -53,14 +53,14 @@ Fixing the script. We already have a deployment script. It is something like thi
 <meta itemprop="name" content="Deploying Azure Functions using Zip Deploy">
 <meta itemprop="description" content="In a previous article we&rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
-#!/bin/bashlocation=$2stage=$3serviceName=$1-$stageresourceGroupName=$serviceName&#34;-rg&#34;serviceNameToLower=&#34;$(echo $serviceName | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&#34;storageAccountName=&#34;$(echo ${serviceNameToLower//&#34;-&#34;/&#34;&#34;})&#34;echo &#34;Creating resource group&#34;az group create --name $resourceGroupName --location $locationecho &#34;Creating storage account&#34;az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRSecho &#34;Creating function app&#34;az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupNameecho &#34;Publishing function locally&#34;dotnet buildecho &#34;Publisihng function to Azure&#34;func azure functionapp publish $serviceName What are we going to do is to change the last two steps."><meta itemprop="datePublished" content="2018-11-17T00:00:00+00:00" />
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 #!"><meta itemprop="datePublished" content="2018-11-17T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2018-11-17T00:00:00+00:00" />
-<meta itemprop="wordCount" content="306">
+<meta itemprop="wordCount" content="332">
 <meta itemprop="keywords" content="devops,azure functions,azure," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Deploying Azure Functions using Zip Deploy"/>
 <meta name="twitter:description" content="In a previous article we&rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
-#!/bin/bashlocation=$2stage=$3serviceName=$1-$stageresourceGroupName=$serviceName&#34;-rg&#34;serviceNameToLower=&#34;$(echo $serviceName | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&#34;storageAccountName=&#34;$(echo ${serviceNameToLower//&#34;-&#34;/&#34;&#34;})&#34;echo &#34;Creating resource group&#34;az group create --name $resourceGroupName --location $locationecho &#34;Creating storage account&#34;az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRSecho &#34;Creating function app&#34;az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupNameecho &#34;Publishing function locally&#34;dotnet buildecho &#34;Publisihng function to Azure&#34;func azure functionapp publish $serviceName What are we going to do is to change the last two steps."/>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 #!"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -140,7 +140,7 @@ Fixing the script. We already have a deployment script. It is something like thi
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 306 words </span>
+          <span class="more-meta"> 332 words </span>
           <span class="more-meta"> 2 mins read </span>
         
       </div>
@@ -151,15 +151,19 @@ Fixing the script. We already have a deployment script. It is something like thi
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#fixing-the-script">Fixing the script.</a>
+    <li>
       <ul>
-        <li><a href="#publshing-the-function-locally">Publshing the function locally</a></li>
-        <li><a href="#publishing-the-function-app-to-azure">Publishing the Function App to Azure</a></li>
+        <li><a href="#fixing-the-script">Fixing the script.</a>
+          <ul>
+            <li><a href="#publshing-the-function-locally">Publshing the function locally</a></li>
+            <li><a href="#publishing-the-function-app-to-azure">Publishing the Function App to Azure</a></li>
+          </ul>
+        </li>
+        <li><a href="#testing">Testing</a></li>
+        <li><a href="#ci-implications">CI implications</a></li>
+        <li><a href="#summary">Summary</a></li>
       </ul>
     </li>
-    <li><a href="#testing">Testing</a></li>
-    <li><a href="#ci-implications">CI implications</a></li>
-    <li><a href="#summary">Summary</a></li>
   </ul>
 </nav>
   </div>
@@ -168,38 +172,82 @@ Fixing the script. We already have a deployment script. It is something like thi
       <p>In a <a href="http://vgaltes.com/post/deploying-azure-functions-an-introduction/">previous article</a> we&rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&rsquo;ll see how to get rid of the help of the latter and use the <a href="https://docs.microsoft.com/en-us/azure/azure-functions/deployment-zip-push">Zip Deploy</a> feauture.</p>
 <h2 id="fixing-the-script">Fixing the script.</h2>
 <p>We already have a deployment script. It is something like this:</p>
-<pre tabindex="0"><code>#!/bin/bash
-location=$2
-stage=$3
-serviceName=$1-$stage
-resourceGroupName=$serviceName&#34;-rg&#34;
-serviceNameToLower=&#34;$(echo $serviceName | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&#34;
-storageAccountName=&#34;$(echo ${serviceNameToLower//&#34;-&#34;/&#34;&#34;})&#34;
-echo &#34;Creating resource group&#34;
-az group create --name $resourceGroupName --location $location
-echo &#34;Creating storage account&#34;
-az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRS
-echo &#34;Creating function app&#34;
-az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupName
-echo &#34;Publishing function locally&#34;
-dotnet build
-echo &#34;Publisihng function to Azure&#34;
-func azure functionapp publish $serviceName
-</code></pre><p>What are we going to do is to change the last two steps.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nv">location</span><span class="o">=</span><span class="nv">$2</span>
+</span></span><span class="line"><span class="cl"><span class="nv">stage</span><span class="o">=</span><span class="nv">$3</span>
+</span></span><span class="line"><span class="cl"><span class="nv">serviceName</span><span class="o">=</span><span class="nv">$1</span>-<span class="nv">$stage</span>
+</span></span><span class="line"><span class="cl"><span class="nv">resourceGroupName</span><span class="o">=</span><span class="nv">$serviceName</span><span class="s2">&#34;-rg&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">serviceNameToLower</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$serviceName</span> <span class="p">|</span> tr <span class="s1">&#39;[:upper:]&#39;</span> <span class="s1">&#39;[:lower:]&#39;</span><span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">storageAccountName</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span><span class="nb">echo</span> <span class="si">${</span><span class="nv">serviceNameToLower</span><span class="p">//</span><span class="s2">&#34;-&#34;</span><span class="p">/</span><span class="s2">&#34;&#34;</span><span class="si">}</span><span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Creating resource group&#34;</span>
+</span></span><span class="line"><span class="cl">az group create --name <span class="nv">$resourceGroupName</span> --location <span class="nv">$location</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Creating storage account&#34;</span>
+</span></span><span class="line"><span class="cl">az storage account create --name <span class="nv">$storageAccountName</span> --location <span class="nv">$location</span> --resource-group <span class="nv">$resourceGroupName</span> --sku Standard_LRS
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Creating function app&#34;</span>
+</span></span><span class="line"><span class="cl">az functionapp create --name <span class="nv">$serviceName</span> --storage-account <span class="nv">$storageAccountName</span> --consumption-plan-location westeurope --resource-group <span class="nv">$resourceGroupName</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Publishing function locally&#34;</span>
+</span></span><span class="line"><span class="cl">dotnet build
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Publisihng function to Azure&#34;</span>
+</span></span><span class="line"><span class="cl">func azure functionapp publish <span class="nv">$serviceName</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>What are we going to do is to change the last two steps.</p>
 <h3 id="publshing-the-function-locally">Publshing the function locally</h3>
 <p>Now, what we&rsquo;ll need to do is to create a zip from the result of publishing the project.</p>
-<pre tabindex="0"><code>echo &#34;Publishing function locally&#34;
-mkdir publish
-rm -rf publish/*
-dotnet publish
-pushd bin/Debug/netcoreapp2.1/publish
-zip -r -X ../../../../publish/$serviceName.zip *
-popd
-</code></pre><h3 id="publishing-the-function-app-to-azure">Publishing the Function App to Azure</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">echo &#34;Publishing function locally&#34;
+</span></span><span class="line"><span class="cl">mkdir publish
+</span></span><span class="line"><span class="cl">rm -rf publish/*
+</span></span><span class="line"><span class="cl">dotnet publish
+</span></span><span class="line"><span class="cl">pushd bin/Debug/netcoreapp2.1/publish
+</span></span><span class="line"><span class="cl">zip -r -X ../../../../publish/$serviceName.zip *
+</span></span><span class="line"><span class="cl">popd
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="publishing-the-function-app-to-azure">Publishing the Function App to Azure</h3>
 <p>And finally we need to use the Azure CLI to push that zip.</p>
-<pre tabindex="0"><code>echo &#34;Publisihng function to Azure&#34;
-az webapp deployment source config-zip -g $resourceGroupName -n $serviceName --src ./publish/$serviceName.zip
-</code></pre><h2 id="testing">Testing</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">echo &#34;Publisihng function to Azure&#34;
+</span></span><span class="line"><span class="cl">az webapp deployment source config-zip -g $resourceGroupName -n $serviceName --src ./publish/$serviceName.zip
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="testing">Testing</h2>
 <p>Let&rsquo;s call the script and see if it works:
 <code> ./deploy.sh testZipDeploy westeurope uat</code></p>
 <p><img src="/images/ZipDeploy.png" alt="Zip deployment"></p>

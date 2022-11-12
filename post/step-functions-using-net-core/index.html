@@ -17,9 +17,9 @@
 
 
 <meta name="author" content="Vicenç García" /><meta name="description" content="If my good friend Alan Gorton is right
-we&amp;rsquo;d better be prepared. In this article we&amp;rsquo;ll see how we can develop AWS Lambda Functions using .Net Core and deploy them and Step Functions using the serverless framework.
-Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&amp;rsquo;re going to need.
-Let&amp;rsquo;s start with ." />
+Functions will eat servers. #serverless https://t.co/4Rc1cDnM73
+&amp;mdash; Alan Gorton (@develogue) February 19, 2017we&amp;rsquo;d better be prepared. In this article we&amp;rsquo;ll see how we can develop AWS Lambda Functions using .Net Core and deploy them and Step Functions using the serverless framework.
+Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&amp;rsquo;re going to need." />
 
 
 
@@ -44,9 +44,9 @@ Let&amp;rsquo;s start with ." />
 
 <meta property="og:title" content="AWS Step Functions using .Net Core" />
 <meta property="og:description" content="If my good friend Alan Gorton is right
-we&rsquo;d better be prepared. In this article we&rsquo;ll see how we can develop AWS Lambda Functions using .Net Core and deploy them and Step Functions using the serverless framework.
-Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&rsquo;re going to need.
-Let&rsquo;s start with ." />
+Functions will eat servers. #serverless https://t.co/4Rc1cDnM73
+&mdash; Alan Gorton (@develogue) February 19, 2017we&rsquo;d better be prepared. In this article we&rsquo;ll see how we can develop AWS Lambda Functions using .Net Core and deploy them and Step Functions using the serverless framework.
+Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&rsquo;re going to need." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://example.org/post/step-functions-using-net-core/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2017-06-15T00:00:00+00:00" />
@@ -54,17 +54,17 @@ Let&rsquo;s start with ." />
 
 <meta itemprop="name" content="AWS Step Functions using .Net Core">
 <meta itemprop="description" content="If my good friend Alan Gorton is right
-we&rsquo;d better be prepared. In this article we&rsquo;ll see how we can develop AWS Lambda Functions using .Net Core and deploy them and Step Functions using the serverless framework.
-Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&rsquo;re going to need.
-Let&rsquo;s start with ."><meta itemprop="datePublished" content="2017-06-15T00:00:00+00:00" />
+Functions will eat servers. #serverless https://t.co/4Rc1cDnM73
+&mdash; Alan Gorton (@develogue) February 19, 2017we&rsquo;d better be prepared. In this article we&rsquo;ll see how we can develop AWS Lambda Functions using .Net Core and deploy them and Step Functions using the serverless framework.
+Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&rsquo;re going to need."><meta itemprop="datePublished" content="2017-06-15T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2017-06-15T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1528">
+<meta itemprop="wordCount" content="1541">
 <meta itemprop="keywords" content="fsharp,aws,serverless,step functions,net core," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="AWS Step Functions using .Net Core"/>
 <meta name="twitter:description" content="If my good friend Alan Gorton is right
-we&rsquo;d better be prepared. In this article we&rsquo;ll see how we can develop AWS Lambda Functions using .Net Core and deploy them and Step Functions using the serverless framework.
-Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&rsquo;re going to need.
-Let&rsquo;s start with ."/>
+Functions will eat servers. #serverless https://t.co/4Rc1cDnM73
+&mdash; Alan Gorton (@develogue) February 19, 2017we&rsquo;d better be prepared. In this article we&rsquo;ll see how we can develop AWS Lambda Functions using .Net Core and deploy them and Step Functions using the serverless framework.
+Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&rsquo;re going to need."/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -144,7 +144,7 @@ Let&rsquo;s start with ."/>
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 1528 words </span>
+          <span class="more-meta"> 1541 words </span>
           <span class="more-meta"> 8 mins read </span>
         
       </div>
@@ -155,19 +155,25 @@ Let&rsquo;s start with ."/>
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#installing-dependencies">Installing dependencies</a></li>
-    <li><a href="#accessing-aws">Accessing AWS</a></li>
-    <li><a href="#folder-structure">Folder structure</a></li>
-    <li><a href="#creating-a-lambda-function">Creating a lambda function</a></li>
-    <li><a href="#a-basic-step-function">A basic step function</a></li>
-    <li><a href="#a-bit-of-fsharp">A bit of FSharp</a></li>
+    <li>
+      <ul>
+        <li><a href="#installing-dependencies">Installing dependencies</a></li>
+        <li><a href="#accessing-aws">Accessing AWS</a></li>
+        <li><a href="#folder-structure">Folder structure</a></li>
+        <li><a href="#creating-a-lambda-function">Creating a lambda function</a></li>
+        <li><a href="#a-basic-step-function">A basic step function</a></li>
+        <li><a href="#a-bit-of-fsharp">A bit of FSharp</a></li>
+      </ul>
+    </li>
+    <li><a href="#summary">Summary</a></li>
   </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
       <p>If my good friend Alan Gorton is right</p>
-<!-- raw HTML omitted -->
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Functions will eat servers. <a href="https://twitter.com/hashtag/serverless?src=hash">#serverless</a> <a href="https://t.co/4Rc1cDnM73">https://t.co/4Rc1cDnM73</a></p>&mdash; Alan Gorton (@develogue) <a href="https://twitter.com/develogue/status/833331425332121600">February 19, 2017</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 <p>we&rsquo;d better be prepared. In this article we&rsquo;ll see how we can develop <a href="https://aws.amazon.com/lambda/">AWS Lambda Functions</a> using <a href="https://www.microsoft.com/net/core">.Net Core</a> and deploy them and Step Functions using the serverless framework.</p>
 <h2 id="installing-dependencies">Installing dependencies</h2>
 <p>You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&rsquo;re going to need.</p>

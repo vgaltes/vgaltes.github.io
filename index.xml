@@ -15,7 +15,7 @@
       <guid>http://example.org/post/kotlin-variance-covariance/</guid>
       <description>When we work with generics, sometimes we need to help the compiler in order to accomplish what we want. By doing that, we&amp;rsquo;ll be telling the compiler if two classes are covariant or contravariant. Let&amp;rsquo;s see a couple of examples to help understand these concepts.
 Covariance Imagine that we want to model a factory of toys. Let&amp;rsquo;s start by creating an interface that will take a generic type:
-interface Factory&amp;lt;T&amp;gt; { fun create(name: String): T } Now we need to define what we want to produce</description>
+1 2 3 interface Factory&amp;lt;T&amp;gt; { fun create(name: String): T } Now we need to define what we want to produce</description>
     </item>
     
     <item>
@@ -125,8 +125,8 @@ If you read the article, you will see that this DLQ is complementary to the DLQ 
       <guid>http://example.org/post/serverless-patterns-implemented-part2/</guid>
       <description>In this article I will continue with the implementation of some Serverless Patterns described in this article from Jeremy Daly about [Serverless Patterns]. Check the first post here Let&amp;rsquo;s start!
 Common setup All the projects will have a common setup, which is fairly simple. First, initialize a NodeJS project:
-yarn init Then install the serverless framework as a dev dependency
-yarn add serverless --dev And finally create a script to deploy the project</description>
+1 yarn init Then install the serverless framework as a dev dependency
+1 yarn add serverless --dev And finally create a script to deploy the project</description>
     </item>
     
     <item>
@@ -222,10 +222,7 @@ As far as I know (correct me in the comments if I&amp;rsquo;m wrong, please), wh
       <guid>http://example.org/post/enabling-application-insights/</guid>
       <description>In our previous articles we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI or Terraform. Once we have a function deployed and accepting traffic, the next obvious thing to do is to monitor it.
 Adding some logs to the function is fairly easy. If you take a look at the signature of the function
-[FunctionName(&amp;#34;HelloWorld&amp;#34;)]
-public static async Task&amp;lt;IActionResult&amp;gt; Run(
-[HttpTrigger(AuthorizationLevel.Anonymous, &amp;#34;get&amp;#34;, &amp;#34;post&amp;#34;, Route = null)] HttpRequest req,
-ILogger log) you&amp;rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.</description>
+1 2 3 4 [FunctionName(&amp;#34;HelloWorld&amp;#34;)] public static async Task&amp;lt;IActionResult&amp;gt; Run( [HttpTrigger(AuthorizationLevel.Anonymous, &amp;#34;get&amp;#34;, &amp;#34;post&amp;#34;, Route = null)] HttpRequest req, ILogger log) you&amp;rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.</description>
     </item>
     
     <item>
@@ -247,23 +244,7 @@ Enable A/B testing Enable blue/green deployments No downtime deployments Easy ro
       <guid>http://example.org/post/deploying-azure-functions-using-zip-deploy/</guid>
       <description>In a previous article we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
-#!/bin/bash
-location=$2
-stage=$3
-serviceName=$1-$stage
-resourceGroupName=$serviceName&amp;#34;-rg&amp;#34;
-serviceNameToLower=&amp;#34;$(echo $serviceName | tr &amp;#39;[:upper:]&amp;#39; &amp;#39;[:lower:]&amp;#39;)&amp;#34;
-storageAccountName=&amp;#34;$(echo ${serviceNameToLower//&amp;#34;-&amp;#34;/&amp;#34;&amp;#34;})&amp;#34;
-echo &amp;#34;Creating resource group&amp;#34;
-az group create --name $resourceGroupName --location $location
-echo &amp;#34;Creating storage account&amp;#34;
-az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRS
-echo &amp;#34;Creating function app&amp;#34;
-az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupName
-echo &amp;#34;Publishing function locally&amp;#34;
-dotnet build
-echo &amp;#34;Publisihng function to Azure&amp;#34;
-func azure functionapp publish $serviceName What are we going to do is to change the last two steps.</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 #!</description>
     </item>
     
     <item>
@@ -414,9 +395,9 @@ The parallel state allows you to create parallel branches of execution in your s
       
       <guid>http://example.org/post/step-functions-using-net-core/</guid>
       <description>If my good friend Alan Gorton is right
-we&amp;rsquo;d better be prepared. In this article we&amp;rsquo;ll see how we can develop AWS Lambda Functions using .Net Core and deploy them and Step Functions using the serverless framework.
-Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&amp;rsquo;re going to need.
-Let&amp;rsquo;s start with .</description>
+Functions will eat servers. #serverless https://t.co/4Rc1cDnM73
+&amp;mdash; Alan Gorton (@develogue) February 19, 2017we&amp;rsquo;d better be prepared. In this article we&amp;rsquo;ll see how we can develop AWS Lambda Functions using .Net Core and deploy them and Step Functions using the serverless framework.
+Installing dependencies You should be able to follow this tutorial using a Windows machine or a Mac. The first step is to install all the things we&amp;rsquo;re going to need.</description>
     </item>
     
     <item>
@@ -494,11 +475,7 @@ As its name denotes, is a pattern that partially classificates what you match wi
       
       <guid>http://example.org/post/run-nunit3-tests-using-fake/</guid>
       <description>When you have some unit tests developed using NUnit 2.x your FAKE script looks like something like this:
-Target &amp;quot;RunUnitTests&amp;quot; (fun _ -&amp;gt;
-!! (testDir + &amp;quot;/*.Tests.dll&amp;quot;)
-|&amp;gt; NUnit (fun p -&amp;gt;
-{p with ToolPath = &amp;quot;packages/NUnit.Runners/tools/&amp;quot;})
-)
+Target &amp;quot;RunUnitTests&amp;quot; (fun _ -&amp;gt;!! (testDir + &amp;quot;/*.Tests.dll&amp;quot;)|&amp;gt; NUnit (fun p -&amp;gt;{p with ToolPath = &amp;quot;packages/NUnit.Runners/tools/&amp;quot;}))
 But NUnit3 works slightly different. Instead of having a single NUnit.Runners package, that package references some other packages (runner, extensions, etc). One of those packages is NUnit.ConsoleRunner that has the exe inside the tools folder.</description>
     </item>
     
@@ -519,8 +496,9 @@ Depending on the environment you work the reaction to these news are usually som
       
       <guid>http://example.org/post/rpg-combat-kata/</guid>
       <description>A couple of weeks ago I saw these tweets (in Spanish):
-As I respect enormously Modesto and Xabi&amp;rsquo;s opinion and I trust on the skills of a Carlos Ble&amp;rsquo;s apprentice, I decided to do the kata at home. And as I keep trying to learn F#, that would be the chosen language.
-I recommend you to do the kata, is a very interesting one. In case you want to do it, please stop reading now and come back when you have finished it, as I&amp;rsquo;m going to explain how I solved it.</description>
+Hoy en la ofi hemos empezado la mañana con la RPG Combat kata de @SuuiGD que hicimos en el #scpna :-D https://t.co/vsK0OucncD
+&amp;mdash; Xabi Sáez de Ocáriz (@ziraco) June 22, 2016@SuuiGD @ziraco a mi me flipó tanto que estoy haciendo la versión &amp;quot;Extended&amp;quot;.si sigo así, le pongo UI y al store! ;)
+&amp;mdash; Modesto San Juan (@msanjuan) June 22, 2016As I respect enormously Modesto and Xabi&amp;rsquo;s opinion and I trust on the skills of a Carlos Ble&amp;rsquo;s apprentice, I decided to do the kata at home.</description>
     </item>
     
     <item>
@@ -675,25 +653,7 @@ I have to admit that when I started to hear the term Craftsmanship I was distru
       <guid>http://example.org/post/test-driving-asp-net-routing/</guid>
       <description>In this article we will see how can we test drive the routing configuration of an ASP.Net web application.
 Let&#39;s start with our first test:
-[TestMethod]
-public void TestSimpleRoute()
-{
-RouteCollection routes = new RouteCollection();
-RouteConfig.RegisterRoutes(routes);
-// Act - process the route
-RouteData result
-= routes.GetRouteData(CreateHttpContext(&#34;~/Admin/Index&#34;));
-// Assert
-Assert.IsNotNull(result);
-Assert.AreEqual(&#34;controller&#34;, result.Values[&#34;controller&#34;]);
-Assert.AreEqual(&#34;action&#34;, result.Values[&#34;action&#34;]);
-}
-private HttpContextBase CreateHttpContext(string targetUrl = null)
-{
-var mockRequest = new Mock&amp;lt;HttpRequestBase&amp;gt;();
-mockRequest.Setup(m =&amp;gt; m.AppRelativeCurrentExecutionFilePath)
-.Returns(targetUrl);
-mockRequest.</description>
+[TestMethod]public void TestSimpleRoute(){RouteCollection routes = new RouteCollection();RouteConfig.RegisterRoutes(routes);// Act - process the routeRouteData result= routes.GetRouteData(CreateHttpContext(&#34;~/Admin/Index&#34;));// AssertAssert.IsNotNull(result);Assert.AreEqual(&#34;controller&#34;, result.Values[&#34;controller&#34;]);Assert.AreEqual(&#34;action&#34;, result.Values[&#34;action&#34;]);}private HttpContextBase CreateHttpContext(string targetUrl = null){var mockRequest = new Mock&amp;lt;HttpRequestBase&amp;gt;();mockRequest.Setup(m =&amp;gt; m.AppRelativeCurrentExecutionFilePath).Returns(targetUrl);mockRequest.</description>
     </item>
     
     <item>
@@ -754,8 +714,7 @@ The object oriented solution There are a couple of typical implementations of th
       <guid>http://example.org/post/function-composition-and-pipeline-operator/</guid>
       <description>As Scott Wlaschin points out in his excellent article function composition it&amp;rsquo;s not the same as using the pipeline operator.
 The definition of the pipeline operator is this one:
-let (|&amp;gt;) x f = f x
-So, take the thing on the left hand side of the operator and use it as the last parameter on the function in the right hand side.
+let (|&amp;gt;) x f = f xSo, take the thing on the left hand side of the operator and use it as the last parameter on the function in the right hand side.
 On the other hand, we have this definition for the forward composition operator (&amp;raquo;)</description>
     </item>
     
@@ -799,7 +758,7 @@ Suave.Experimental Experimental is a component available via NuGet that allows u
 Sequence creation As with arrays there are several ways to create a sequence.
 Create from a range expression
 You can create a new sequence from a range expression. In this case, instead of using [| and |] you should use { and }
-let numbers = {1..20} Create from a sequence expression</description>
+1 let numbers = {1..20} Create from a sequence expression</description>
     </item>
     
   </channel>

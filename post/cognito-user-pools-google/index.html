@@ -52,7 +52,7 @@ In this article, we&rsquo;ll see how we can adapt our previous code to allow use
 <meta itemprop="description" content="In the previous article, we saw how to secure an API Gateway endpoint using Cognito user pools. We used the built-in capabilities of the user pools to create the users, sign them up, etc. But many applications nowadays don&rsquo;t create users on their own; they use [social login] and rely on third-party social services such as Facebook or Google to manage users for them.
 In this article, we&rsquo;ll see how we can adapt our previous code to allow users to sign-up and sign-in to our service using their Google account."><meta itemprop="datePublished" content="2019-10-31T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2019-10-31T00:00:00+00:00" />
-<meta itemprop="wordCount" content="861">
+<meta itemprop="wordCount" content="903">
 <meta itemprop="keywords" content="authentication,serverless framework,cognito,amplify,federation," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Cognito User Pools, Google federation and AWS Amplify"/>
 <meta name="twitter:description" content="In the previous article, we saw how to secure an API Gateway endpoint using Cognito user pools. We used the built-in capabilities of the user pools to create the users, sign them up, etc. But many applications nowadays don&rsquo;t create users on their own; they use [social login] and rely on third-party social services such as Facebook or Google to manage users for them.
@@ -136,7 +136,7 @@ In this article, we&rsquo;ll see how we can adapt our previous code to allow use
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 861 words </span>
+          <span class="more-meta"> 903 words </span>
           <span class="more-meta"> 5 mins read </span>
         
       </div>
@@ -147,16 +147,20 @@ In this article, we&rsquo;ll see how we can adapt our previous code to allow use
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#google-api-configuration">Google API Configuration</a></li>
-    <li><a href="#cognito-user-pool">Cognito User Pool</a>
+    <li>
       <ul>
-        <li><a href="#user-pool-client">User Pool Client</a></li>
-        <li><a href="#domain-name">Domain name</a></li>
-        <li><a href="#idnetity-provider">Idnetity provider</a></li>
+        <li><a href="#google-api-configuration">Google API Configuration</a></li>
+        <li><a href="#cognito-user-pool">Cognito User Pool</a>
+          <ul>
+            <li><a href="#user-pool-client">User Pool Client</a></li>
+            <li><a href="#domain-name">Domain name</a></li>
+            <li><a href="#idnetity-provider">Idnetity provider</a></li>
+          </ul>
+        </li>
+        <li><a href="#client-app">Client App</a></li>
+        <li><a href="#summary">Summary</a></li>
       </ul>
     </li>
-    <li><a href="#client-app">Client App</a></li>
-    <li><a href="#summary">Summary</a></li>
   </ul>
 </nav>
   </div>
@@ -169,8 +173,8 @@ In this article, we&rsquo;ll see how we can adapt our previous code to allow use
 <p>We&rsquo;re ready now to configure a new Google app that we&rsquo;ll link to our user pool. Go to the <a href="https://console.developers.google.com/">Google developer console</a>, click on the <em>Credentials</em> menu, click on <em>Create credentials</em> and select the <em>OAuth Client Id</em> option. Select <em>Web application</em> and fill the form:</p>
 <ul>
 <li>In <em>Name</em>, write your service name or something that makes sense to you.</li>
-<li>In <em>Authorised JavaScript origins</em>, write https://<!-- raw HTML omitted -->.auth.eu-west-1.amazoncognito.com, where <em>your-service</em> is the subdomain we created previously.</li>
-<li>In <em>Authorised redirect URIs</em>, write https://<!-- raw HTML omitted -->.auth.eu-west-1.amazoncognito.com/oauth2/idpresponse</li>
+<li>In <em>Authorised JavaScript origins</em>, write https://<your-service>.auth.eu-west-1.amazoncognito.com, where <em>your-service</em> is the subdomain we created previously.</li>
+<li>In <em>Authorised redirect URIs</em>, write https://<your-service>.auth.eu-west-1.amazoncognito.com/oauth2/idpresponse</li>
 </ul>
 <p>Click on <em>Create</em> and select the application from the list to see the <em>Client ID</em> and the <em>Client secret</em>. Write them down because we&rsquo;re going to need them.</p>
 <p><img src="/images/AddGoogleApp.png" alt="Configure Google App"></p>
@@ -178,62 +182,134 @@ In this article, we&rsquo;ll see how we can adapt our previous code to allow use
 <p>Now it&rsquo;s time to update our user pool in the serverless.yml. We will need to change the User Pool Client, and we&rsquo;ll need to create a domain name and an identity provider.</p>
 <h3 id="user-pool-client">User Pool Client</h3>
 <p>In this section, we&rsquo;ll need to set up the bits we need to set up Google and OAuth. So, add this to our previous definition of the user pool client.</p>
-<pre tabindex="0"><code>SupportedIdentityProviders: 
-  - Google
-CallbackURLs: 
-  - http://localhost:8080
-LogoutURLs:
-  - http://localhost:8080
-AllowedOAuthFlows:
-  - implicit
-AllowedOAuthScopes: 
-  - email
-  - openid
-  - aws.cognito.signin.user.admin
-AllowedOAuthFlowsUserPoolClient: true
-</code></pre><p>What we&rsquo;re setting is the information you will see under the <em>App Client Settings</em> menu entry of the User Pool in the AWS console. We&rsquo;re saying that we want integration with Google, our callbacks URL&rsquo;s (change them to something appropriate for you), the allowed scopes, and the implicit grant OAuth flow.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SupportedIdentityProviders: 
+</span></span><span class="line"><span class="cl">  - Google
+</span></span><span class="line"><span class="cl">CallbackURLs: 
+</span></span><span class="line"><span class="cl">  - http://localhost:8080
+</span></span><span class="line"><span class="cl">LogoutURLs:
+</span></span><span class="line"><span class="cl">  - http://localhost:8080
+</span></span><span class="line"><span class="cl">AllowedOAuthFlows:
+</span></span><span class="line"><span class="cl">  - implicit
+</span></span><span class="line"><span class="cl">AllowedOAuthScopes: 
+</span></span><span class="line"><span class="cl">  - email
+</span></span><span class="line"><span class="cl">  - openid
+</span></span><span class="line"><span class="cl">  - aws.cognito.signin.user.admin
+</span></span><span class="line"><span class="cl">AllowedOAuthFlowsUserPoolClient: true
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>What we&rsquo;re setting is the information you will see under the <em>App Client Settings</em> menu entry of the User Pool in the AWS console. We&rsquo;re saying that we want integration with Google, our callbacks URL&rsquo;s (change them to something appropriate for you), the allowed scopes, and the implicit grant OAuth flow.</p>
 <h3 id="domain-name">Domain name</h3>
 <p>We&rsquo;ll need to create a new cloudformation resource on the serverless.yml file. It should be something like this:</p>
-<pre tabindex="0"><code>CognitoUserPoolDomain:
-  Type: AWS::Cognito::UserPoolDomain
-  Properties: 
-    Domain: &lt;your-service&gt;
-    UserPoolId: 
-      Ref: CognitoUserPool
-</code></pre><p>Make sure that what you put in the Domain name is the same that you put in the Google configuration. You don&rsquo;t need the <code>auth.eu-west-1.amazoncognito.com</code> here, just the subdomain name</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">CognitoUserPoolDomain:
+</span></span><span class="line"><span class="cl">  Type: AWS::Cognito::UserPoolDomain
+</span></span><span class="line"><span class="cl">  Properties: 
+</span></span><span class="line"><span class="cl">    Domain: &lt;your-service&gt;
+</span></span><span class="line"><span class="cl">    UserPoolId: 
+</span></span><span class="line"><span class="cl">      Ref: CognitoUserPool
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Make sure that what you put in the Domain name is the same that you put in the Google configuration. You don&rsquo;t need the <code>auth.eu-west-1.amazoncognito.com</code> here, just the subdomain name</p>
 <h3 id="idnetity-provider">Idnetity provider</h3>
 <p>Now it&rsquo;s time to add the identity provider. Let&rsquo;s put this in the serverless.yml file:</p>
-<pre tabindex="0"><code>CognitoUserPoolIdentityProvider:
-  Type: AWS::Cognito::UserPoolIdentityProvider
-  Properties: 
-    ProviderName: Google
-    AttributeMapping:
-      email: emailAddress
-    ProviderDetails:
-      client_id: &lt;your-clientid&gt;
-      client_secret: &lt;your-client-secret&gt;
-      authorize_scopes: email openid
-    ProviderType: Google
-    UserPoolId: 
-      Ref: CognitoUserPool
-</code></pre><p>The bits that will change between providers will be the ones inside ProviderDetails.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">CognitoUserPoolIdentityProvider:
+</span></span><span class="line"><span class="cl">  Type: AWS::Cognito::UserPoolIdentityProvider
+</span></span><span class="line"><span class="cl">  Properties: 
+</span></span><span class="line"><span class="cl">    ProviderName: Google
+</span></span><span class="line"><span class="cl">    AttributeMapping:
+</span></span><span class="line"><span class="cl">      email: emailAddress
+</span></span><span class="line"><span class="cl">    ProviderDetails:
+</span></span><span class="line"><span class="cl">      client_id: &lt;your-clientid&gt;
+</span></span><span class="line"><span class="cl">      client_secret: &lt;your-client-secret&gt;
+</span></span><span class="line"><span class="cl">      authorize_scopes: email openid
+</span></span><span class="line"><span class="cl">    ProviderType: Google
+</span></span><span class="line"><span class="cl">    UserPoolId: 
+</span></span><span class="line"><span class="cl">      Ref: CognitoUserPool
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The bits that will change between providers will be the ones inside ProviderDetails.</p>
 <p>We can now redeploy the user pool. The id and the application id shouldn&rsquo;t have change, but make sure that they are the same that you&rsquo;re using in your authenticated endpoint as authenticator and the ones that you have in the client application as the Auth configuration (take a look at the <a href="https://vgaltes.com/post/api-gw-basic-auth/">previous article</a> if you need help with this)</p>
 <h2 id="client-app">Client App</h2>
 <p>The client app will change a little bit. Now we won&rsquo;t have a separate sign-up and sign-in button, as everything will go through our social login. In terms of code, the only change will be the function we&rsquo;ll use to sign in the user. Let&rsquo;s go step by step.</p>
 <p>The first thing will be to add a new piece of configuration to Amplify. So, go where you&rsquo;re calling the <em>configure</em> function and this to the object you&rsquo;re passing:</p>
-<pre tabindex="0"><code>oauth: {
-  domain: &#34;&lt;your-service&gt;.auth.eu-west-1.amazoncognito.com&#34;,
-  scope : [&#39;email&#39;, &#39;openid&#39;,&#39;aws.cognito.signin.user.admin&#39;],
-  redirectSignIn: &#34;http://localhost:8080&#34;,
-  redirectSignOut: &#34;http://localhost:8080&#34;,
-  responseType: &#34;token&#34;
-}
-</code></pre><p>Now, Amplify will know where to go when we ask it to use social login.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">oauth: {
+</span></span><span class="line"><span class="cl">  domain: &#34;&lt;your-service&gt;.auth.eu-west-1.amazoncognito.com&#34;,
+</span></span><span class="line"><span class="cl">  scope : [&#39;email&#39;, &#39;openid&#39;,&#39;aws.cognito.signin.user.admin&#39;],
+</span></span><span class="line"><span class="cl">  redirectSignIn: &#34;http://localhost:8080&#34;,
+</span></span><span class="line"><span class="cl">  redirectSignOut: &#34;http://localhost:8080&#34;,
+</span></span><span class="line"><span class="cl">  responseType: &#34;token&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now, Amplify will know where to go when we ask it to use social login.</p>
 <p>And finally, let&rsquo;s write the function that will respond to a click on the new button we&rsquo;ve created.</p>
-<pre tabindex="0"><code>GoogleSigninButton.addEventListener(&#39;click&#39;, async evt =&gt; {
-  await Auth.federatedSignIn({provider: &#39;Google&#39;});
-});
-</code></pre><p>With this, you&rsquo;ll be redirected to Google to authenticate and, once you&rsquo;re authenticated, it will get you back to <code>http://localhost:8080</code> with the user signed in (or signed up and signed in).</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">GoogleSigninButton.addEventListener(&#39;click&#39;, async evt =&gt; {
+</span></span><span class="line"><span class="cl">  await Auth.federatedSignIn({provider: &#39;Google&#39;});
+</span></span><span class="line"><span class="cl">});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>With this, you&rsquo;ll be redirected to Google to authenticate and, once you&rsquo;re authenticated, it will get you back to <code>http://localhost:8080</code> with the user signed in (or signed up and signed in).</p>
 <h2 id="summary">Summary</h2>
 <p>In this article, we&rsquo;ve seen how we can use Google as social login for our application. The documentation in Cloudformation and Amplify has some gaps, so hope this helps!</p>
 

@@ -55,7 +55,7 @@ Enable A/B testing Enable blue/green deployments No downtime deployments Easy ro
 Why deployment slots Being able to deploy into slots and decide which slot you use in production has many benefits. To name some of them:
 Enable A/B testing Enable blue/green deployments No downtime deployments Easy rollback system So, let&rsquo;s take a look on how can we use them in Function apps."><meta itemprop="datePublished" content="2018-11-18T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2018-11-18T00:00:00+00:00" />
-<meta itemprop="wordCount" content="894">
+<meta itemprop="wordCount" content="1005">
 <meta itemprop="keywords" content="devops,azure functions,azure," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Deploying Azure Functions using slots"/>
 <meta name="twitter:description" content="In previous articles we&rsquo;ve seen how to deploy a Function App using Azure Functions Core Tools, Terraform and Azure CLI with Zip Deploy. In this article we&rsquo;re going to take a look on how to deploy Function apps using deployment slots.
@@ -140,7 +140,7 @@ Enable A/B testing Enable blue/green deployments No downtime deployments Easy ro
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 894 words </span>
+          <span class="more-meta"> 1005 words </span>
           <span class="more-meta"> 5 mins read </span>
         
       </div>
@@ -151,21 +151,25 @@ Enable A/B testing Enable blue/green deployments No downtime deployments Easy ro
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#why-deployment-slots">Why deployment slots</a></li>
-    <li><a href="#creating-a-deployment-slot">Creating a deployment slot</a>
+    <li>
       <ul>
-        <li><a href="#using-terraform">Using terraform</a></li>
-        <li><a href="#using-azure-cli">Using Azure CLI</a></li>
-        <li><a href="#important-warning">Important warning</a></li>
+        <li><a href="#why-deployment-slots">Why deployment slots</a></li>
+        <li><a href="#creating-a-deployment-slot">Creating a deployment slot</a>
+          <ul>
+            <li><a href="#using-terraform">Using terraform</a></li>
+            <li><a href="#using-azure-cli">Using Azure CLI</a></li>
+            <li><a href="#important-warning">Important warning</a></li>
+          </ul>
+        </li>
+        <li><a href="#swapping-slots">Swapping slots</a>
+          <ul>
+            <li><a href="#using-terraform-1">Using Terraform</a></li>
+            <li><a href="#using-azure-cli-1">Using Azure CLI</a></li>
+          </ul>
+        </li>
+        <li><a href="#summary">Summary</a></li>
       </ul>
     </li>
-    <li><a href="#swapping-slots">Swapping slots</a>
-      <ul>
-        <li><a href="#using-terraform-1">Using Terraform</a></li>
-        <li><a href="#using-azure-cli-1">Using Azure CLI</a></li>
-      </ul>
-    </li>
-    <li><a href="#summary">Summary</a></li>
   </ul>
 </nav>
   </div>
@@ -185,133 +189,280 @@ Enable A/B testing Enable blue/green deployments No downtime deployments Easy ro
 <p>Deployment slots are not available in Azure Function Core Tools and it seems is not going to be in a <a href="https://github.com/Azure/azure-functions-core-tools/issues/227">near future</a>. So, we&rsquo;ll use Terraform and the Azure CLI to deal with them.</p>
 <h3 id="using-terraform">Using terraform</h3>
 <p>Let&rsquo;s start using Terraform. We&rsquo;ll a slightly different version of the code we ended up doing in the <a href="http://vgaltes.com/post/deploying-azure-functions-using-terraform/">previous article</a>. I&rsquo;ve just added a local variable to specify the name of the service and use more generic names in the resources, so you can re-use the script more easily:</p>
-<pre tabindex="0"><code>locals {
-  service_name = &#34;testSlotsTF&#34;
-}
-
-resource &#34;azurerm_resource_group&#34; &#34;service-resource-group&#34; {
-  name     = &#34;rg-${local.service_name}&#34;
-  location = &#34;westeurope&#34;
-}
-
-resource &#34;azurerm_storage_account&#34; &#34;service-storage-account&#34; {
-  name                     = &#34;${lower(local.service_name)}sa&#34;
-  resource_group_name      = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
-  location                 = &#34;${azurerm_resource_group.service-resource-group.location}&#34;
-  account_tier             = &#34;Standard&#34;
-  account_replication_type = &#34;LRS&#34;
-}
-
-resource &#34;azurerm_app_service_plan&#34; &#34;service-service-plan&#34; {
-  name                = &#34;sp-${local.service_name}&#34;
-  location            = &#34;${azurerm_resource_group.service-resource-group.location}&#34;
-  resource_group_name = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
-  kind                = &#34;FunctionApp&#34;
-
-    sku {
-    tier = &#34;Dynamic&#34;
-    size = &#34;Y1&#34;
-  }
-}
-
-resource &#34;azurerm_storage_container&#34; &#34;service-storage-container&#34; {
-  name                  = &#34;function-releases&#34;
-  resource_group_name   = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
-  storage_account_name  = &#34;${azurerm_storage_account.service-storage-account.name}&#34;
-  container_access_type = &#34;private&#34;
-}
-
-resource &#34;azurerm_storage_blob&#34; &#34;service-storage-blob&#34; {
-  name = &#34;functionapp.zip&#34;
-
-  resource_group_name    = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
-  storage_account_name   = &#34;${azurerm_storage_account.service-storage-account.name}&#34;
-  storage_container_name = &#34;${azurerm_storage_container.service-storage-container.name}&#34;
-
-  type   = &#34;block&#34;
-  source = &#34;./../functionapp.zip&#34;
-}
-
-data &#34;azurerm_storage_account_sas&#34; &#34;service-storage-account-sas&#34; {
-  connection_string = &#34;${azurerm_storage_account.service-storage-account.primary_connection_string}&#34;
-  https_only        = false
-
-  resource_types {
-    service   = false
-    container = false
-    object    = true
-  }
-
-  services {
-    blob  = true
-    queue = false
-    table = false
-    file  = false
-  }
-
-  start  = &#34;2018-03-21&#34;
-  expiry = &#34;2028-03-21&#34;
-
-  permissions {
-    read    = true
-    write   = false
-    delete  = false
-    list    = false
-    add     = false
-    create  = false
-    update  = false
-    process = false
-  }
-}
-
-resource &#34;azurerm_function_app&#34; &#34;service-function-app&#34; {
-  name                      = &#34;${local.service_name}&#34;
-  location                  = &#34;${azurerm_resource_group.service-resource-group.location}&#34;
-  resource_group_name       = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
-  app_service_plan_id       = &#34;${azurerm_app_service_plan.service-service-plan.id}&#34;
-  storage_connection_string = &#34;${azurerm_storage_account.service-storage-account.primary_connection_string}&#34;
-
-  app_settings {
-    HASH            = &#34;${base64sha256(file(&#34;./../functionapp.zip&#34;))}&#34;
-    WEBSITE_USE_ZIP = &#34;https://${azurerm_storage_account.service-storage-account.name}.blob.core.windows.net/${azurerm_storage_container.service-storage-container.name}/${azurerm_storage_blob.service-storage-blob.name}${data.azurerm_storage_account_sas.service-storage-account-sas.sas}&#34;
-  }
-}
-</code></pre><p>What are we going to do is to create a function app with no functions inside yet, and then create a staging slot with some code there. So, let&rsquo;s start commenting out the <code>app_settings</code> block of the function app. Now, it&rsquo;s time to add the staging slot, this time with some functions inside:</p>
-<pre tabindex="0"><code>resource &#34;azurerm_app_service_slot&#34; &#34;service-slot-staging&#34; {
-  name                = &#34;staging&#34;
-  app_service_name    = &#34;${azurerm_function_app.service-function-app.name}&#34;
-  location            = &#34;${azurerm_resource_group.service-resource-group.location}&#34;
-  resource_group_name = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
-  app_service_plan_id = &#34;${azurerm_app_service_plan.service-service-plan.id}&#34;
-
-  app_settings {
-    HASH            = &#34;${base64sha256(file(&#34;./../functionapp.zip&#34;))}&#34;
-    WEBSITE_USE_ZIP = &#34;https://${azurerm_storage_account.service-storage-account.name}.blob.core.windows.net/${azurerm_storage_container.service-storage-container.name}/${azurerm_storage_blob.service-storage-blob.name}${data.azurerm_storage_account_sas.service-storage-account-sas.sas}&#34;
-  }
-}
-</code></pre><p>And that&rsquo;s all. If you <code>terraform apply</code> these changes you will see that you have a function app with no code, and a staging slot with a function there.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span><span class="lnt">89
+</span><span class="lnt">90
+</span><span class="lnt">91
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">locals {
+</span></span><span class="line"><span class="cl">  service_name = &#34;testSlotsTF&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">resource &#34;azurerm_resource_group&#34; &#34;service-resource-group&#34; {
+</span></span><span class="line"><span class="cl">  name     = &#34;rg-${local.service_name}&#34;
+</span></span><span class="line"><span class="cl">  location = &#34;westeurope&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">resource &#34;azurerm_storage_account&#34; &#34;service-storage-account&#34; {
+</span></span><span class="line"><span class="cl">  name                     = &#34;${lower(local.service_name)}sa&#34;
+</span></span><span class="line"><span class="cl">  resource_group_name      = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
+</span></span><span class="line"><span class="cl">  location                 = &#34;${azurerm_resource_group.service-resource-group.location}&#34;
+</span></span><span class="line"><span class="cl">  account_tier             = &#34;Standard&#34;
+</span></span><span class="line"><span class="cl">  account_replication_type = &#34;LRS&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">resource &#34;azurerm_app_service_plan&#34; &#34;service-service-plan&#34; {
+</span></span><span class="line"><span class="cl">  name                = &#34;sp-${local.service_name}&#34;
+</span></span><span class="line"><span class="cl">  location            = &#34;${azurerm_resource_group.service-resource-group.location}&#34;
+</span></span><span class="line"><span class="cl">  resource_group_name = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
+</span></span><span class="line"><span class="cl">  kind                = &#34;FunctionApp&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    sku {
+</span></span><span class="line"><span class="cl">    tier = &#34;Dynamic&#34;
+</span></span><span class="line"><span class="cl">    size = &#34;Y1&#34;
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">resource &#34;azurerm_storage_container&#34; &#34;service-storage-container&#34; {
+</span></span><span class="line"><span class="cl">  name                  = &#34;function-releases&#34;
+</span></span><span class="line"><span class="cl">  resource_group_name   = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
+</span></span><span class="line"><span class="cl">  storage_account_name  = &#34;${azurerm_storage_account.service-storage-account.name}&#34;
+</span></span><span class="line"><span class="cl">  container_access_type = &#34;private&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">resource &#34;azurerm_storage_blob&#34; &#34;service-storage-blob&#34; {
+</span></span><span class="line"><span class="cl">  name = &#34;functionapp.zip&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  resource_group_name    = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
+</span></span><span class="line"><span class="cl">  storage_account_name   = &#34;${azurerm_storage_account.service-storage-account.name}&#34;
+</span></span><span class="line"><span class="cl">  storage_container_name = &#34;${azurerm_storage_container.service-storage-container.name}&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  type   = &#34;block&#34;
+</span></span><span class="line"><span class="cl">  source = &#34;./../functionapp.zip&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">data &#34;azurerm_storage_account_sas&#34; &#34;service-storage-account-sas&#34; {
+</span></span><span class="line"><span class="cl">  connection_string = &#34;${azurerm_storage_account.service-storage-account.primary_connection_string}&#34;
+</span></span><span class="line"><span class="cl">  https_only        = false
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  resource_types {
+</span></span><span class="line"><span class="cl">    service   = false
+</span></span><span class="line"><span class="cl">    container = false
+</span></span><span class="line"><span class="cl">    object    = true
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  services {
+</span></span><span class="line"><span class="cl">    blob  = true
+</span></span><span class="line"><span class="cl">    queue = false
+</span></span><span class="line"><span class="cl">    table = false
+</span></span><span class="line"><span class="cl">    file  = false
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  start  = &#34;2018-03-21&#34;
+</span></span><span class="line"><span class="cl">  expiry = &#34;2028-03-21&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  permissions {
+</span></span><span class="line"><span class="cl">    read    = true
+</span></span><span class="line"><span class="cl">    write   = false
+</span></span><span class="line"><span class="cl">    delete  = false
+</span></span><span class="line"><span class="cl">    list    = false
+</span></span><span class="line"><span class="cl">    add     = false
+</span></span><span class="line"><span class="cl">    create  = false
+</span></span><span class="line"><span class="cl">    update  = false
+</span></span><span class="line"><span class="cl">    process = false
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">resource &#34;azurerm_function_app&#34; &#34;service-function-app&#34; {
+</span></span><span class="line"><span class="cl">  name                      = &#34;${local.service_name}&#34;
+</span></span><span class="line"><span class="cl">  location                  = &#34;${azurerm_resource_group.service-resource-group.location}&#34;
+</span></span><span class="line"><span class="cl">  resource_group_name       = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
+</span></span><span class="line"><span class="cl">  app_service_plan_id       = &#34;${azurerm_app_service_plan.service-service-plan.id}&#34;
+</span></span><span class="line"><span class="cl">  storage_connection_string = &#34;${azurerm_storage_account.service-storage-account.primary_connection_string}&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  app_settings {
+</span></span><span class="line"><span class="cl">    HASH            = &#34;${base64sha256(file(&#34;./../functionapp.zip&#34;))}&#34;
+</span></span><span class="line"><span class="cl">    WEBSITE_USE_ZIP = &#34;https://${azurerm_storage_account.service-storage-account.name}.blob.core.windows.net/${azurerm_storage_container.service-storage-container.name}/${azurerm_storage_blob.service-storage-blob.name}${data.azurerm_storage_account_sas.service-storage-account-sas.sas}&#34;
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>What are we going to do is to create a function app with no functions inside yet, and then create a staging slot with some code there. So, let&rsquo;s start commenting out the <code>app_settings</code> block of the function app. Now, it&rsquo;s time to add the staging slot, this time with some functions inside:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">resource &#34;azurerm_app_service_slot&#34; &#34;service-slot-staging&#34; {
+</span></span><span class="line"><span class="cl">  name                = &#34;staging&#34;
+</span></span><span class="line"><span class="cl">  app_service_name    = &#34;${azurerm_function_app.service-function-app.name}&#34;
+</span></span><span class="line"><span class="cl">  location            = &#34;${azurerm_resource_group.service-resource-group.location}&#34;
+</span></span><span class="line"><span class="cl">  resource_group_name = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
+</span></span><span class="line"><span class="cl">  app_service_plan_id = &#34;${azurerm_app_service_plan.service-service-plan.id}&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  app_settings {
+</span></span><span class="line"><span class="cl">    HASH            = &#34;${base64sha256(file(&#34;./../functionapp.zip&#34;))}&#34;
+</span></span><span class="line"><span class="cl">    WEBSITE_USE_ZIP = &#34;https://${azurerm_storage_account.service-storage-account.name}.blob.core.windows.net/${azurerm_storage_container.service-storage-container.name}/${azurerm_storage_blob.service-storage-blob.name}${data.azurerm_storage_account_sas.service-storage-account-sas.sas}&#34;
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And that&rsquo;s all. If you <code>terraform apply</code> these changes you will see that you have a function app with no code, and a staging slot with a function there.</p>
 <p><img src="/images/DeploySlotTF.png" alt="Deploy Slot Terraform"></p>
 <h3 id="using-azure-cli">Using Azure CLI</h3>
 <p>We can accomplish the same using the Azure CLI. The only caveat here is that you&rsquo;re not going to find the slots commands under the <code>functionapp</code> command but under the <code>webapp</code> command. So, what you need to create a slot is the following command:</p>
-<pre tabindex="0"><code>az webapp deployment slot create --name &lt;functionAppName&gt; --resource-group &lt;resourceGroupName&gt; --slot &lt;slotName&gt;
-</code></pre><p>To deploy the function into that slot, you can use the same Zip Deploy command we used befor, but adding the &ndash;slot option:</p>
-<pre tabindex="0"><code>az webapp deployment source config-zip -g &lt;resourceGroupName&gt; -n &lt;functionAppName&gt; --src &lt;path/to/source.zip&gt; --slot &lt;slotName&gt;
-</code></pre><h3 id="important-warning">Important warning</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">az webapp deployment slot create --name &lt;functionAppName&gt; --resource-group &lt;resourceGroupName&gt; --slot &lt;slotName&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>To deploy the function into that slot, you can use the same Zip Deploy command we used befor, but adding the &ndash;slot option:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">az webapp deployment source config-zip -g &lt;resourceGroupName&gt; -n &lt;functionAppName&gt; --src &lt;path/to/source.zip&gt; --slot &lt;slotName&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="important-warning">Important warning</h3>
 <p>DON&rsquo;T CREATE A SLOT CALLED PRODUCTION!!! Production is the name of the &ldquo;default slot&rdquo; that Azure uses, so if we try to create a slot called production, the operation will fail. Even worse, if we do that with Terraform, when we rename or remove the slot from our script, Terraform will try to remove or rename the production slot and the operation will fail because we&rsquo;re not allowed to do that and we&rsquo;ll end up in an annoying state. In case you do this, you will need to manually remove the slot from <code>terraform.tfstate</code> file.</p>
 <h2 id="swapping-slots">Swapping slots</h2>
 <p>At this time we&rsquo;ve created a staging slot, we deployed some code there, we checked that everything is correct and we&rsquo;d like to promote this to the production slot.</p>
 <h3 id="using-terraform-1">Using Terraform</h3>
 <p>You can use Terraform to swith slots. We&rsquo;ll, not directly to switch slots, but to say which slot should use into the production one. To do that, you can use the <a href="https://www.terraform.io/docs/providers/azurerm/r/app_service_active_slot.html">active slot</a> resource. In our case, we could use:</p>
-<pre tabindex="0"><code>resource &#34;azurerm_app_service_active_slot&#34; &#34;service-active-slot&#34; {
-  resource_group_name   = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
-  app_service_name      = &#34;${azurerm_function_app.service-function-app.name}&#34;
-  app_service_slot_name = &#34;${azurerm_app_service_slot.service-slot-staging.name}&#34;
-}
-</code></pre><p>To be honest, I&rsquo;m not sure how to integrate the operation of setting the active slot using Terraform. Any ideas will be welcomed in the comments :-)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">resource &#34;azurerm_app_service_active_slot&#34; &#34;service-active-slot&#34; {
+</span></span><span class="line"><span class="cl">  resource_group_name   = &#34;${azurerm_resource_group.service-resource-group.name}&#34;
+</span></span><span class="line"><span class="cl">  app_service_name      = &#34;${azurerm_function_app.service-function-app.name}&#34;
+</span></span><span class="line"><span class="cl">  app_service_slot_name = &#34;${azurerm_app_service_slot.service-slot-staging.name}&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>To be honest, I&rsquo;m not sure how to integrate the operation of setting the active slot using Terraform. Any ideas will be welcomed in the comments :-)</p>
 <h3 id="using-azure-cli-1">Using Azure CLI</h3>
 <p>To swap between two slots we just need to run the following command:</p>
-<pre tabindex="0"><code>az webapp deployment slot swap  -g &lt;resourceGroupName&gt; -n &lt;functionAppName&gt; --slot &lt;sourceSlot&gt; --target-slot &lt;targetSlot&gt;
-</code></pre><p>If you want to promote a slot to production, the targetSlot name needs to be <code>production</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">az webapp deployment slot swap  -g &lt;resourceGroupName&gt; -n &lt;functionAppName&gt; --slot &lt;sourceSlot&gt; --target-slot &lt;targetSlot&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>If you want to promote a slot to production, the targetSlot name needs to be <code>production</code>.</p>
 <p>Let&rsquo;s take a look at the portal to see if the operation has succeeded:</p>
 <p><img src="/images/DeploySlotAfterSwap.png" alt="Deploy Slot After Swap"></p>
 <p>Perfect! Now we have our function in production and an empty staging slot.</p>

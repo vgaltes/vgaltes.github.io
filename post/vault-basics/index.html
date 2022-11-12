@@ -52,7 +52,7 @@ Today we&rsquo;re going to see how can we configure and use the basics of Vault.
 <meta itemprop="description" content="Vault from HashiCorp is an amazing tool to manage the secrets on your organisation. It not only can help you to manage what they call static secrets that you can write and read, but also allows you to manage dynamic secrets to, for example, create temporary users in a MySQL database with certain permissions. It helps you to have a more secure organization.
 Today we&rsquo;re going to see how can we configure and use the basics of Vault."><meta itemprop="datePublished" content="2017-12-16T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2017-12-16T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1747">
+<meta itemprop="wordCount" content="1896">
 <meta itemprop="keywords" content="vault,security," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Vault basics"/>
 <meta name="twitter:description" content="Vault from HashiCorp is an amazing tool to manage the secrets on your organisation. It not only can help you to manage what they call static secrets that you can write and read, but also allows you to manage dynamic secrets to, for example, create temporary users in a MySQL database with certain permissions. It helps you to have a more secure organization.
@@ -136,7 +136,7 @@ Today we&rsquo;re going to see how can we configure and use the basics of Vault.
         <div class="post-category">
             <a href="/categories/devops/"> devops </a>
             </div>
-          <span class="more-meta"> 1747 words </span>
+          <span class="more-meta"> 1896 words </span>
           <span class="more-meta"> 9 mins read </span>
         
       </div>
@@ -147,16 +147,20 @@ Today we&rsquo;re going to see how can we configure and use the basics of Vault.
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#environment">Environment</a></li>
-    <li><a href="#unsealing-vault">Unsealing Vault</a></li>
-    <li><a href="#configure-an-admin-user">Configure an admin user</a>
+    <li>
       <ul>
-        <li><a href="#policies">Policies</a></li>
-        <li><a href="#users">Users</a></li>
+        <li><a href="#environment">Environment</a></li>
+        <li><a href="#unsealing-vault">Unsealing Vault</a></li>
+        <li><a href="#configure-an-admin-user">Configure an admin user</a>
+          <ul>
+            <li><a href="#policies">Policies</a></li>
+            <li><a href="#users">Users</a></li>
+          </ul>
+        </li>
+        <li><a href="#managing-secrets">Managing secrets</a></li>
+        <li><a href="#summary">Summary</a></li>
       </ul>
     </li>
-    <li><a href="#managing-secrets">Managing secrets</a></li>
-    <li><a href="#summary">Summary</a></li>
   </ul>
 </nav>
   </div>
@@ -167,34 +171,72 @@ Today we&rsquo;re going to see how can we configure and use the basics of Vault.
 <h2 id="environment">Environment</h2>
 <p>We&rsquo;re going to define a non-production ready environment for our tests. If you want to learn what you should do to productionise this environment, please follow their <a href="https://www.vaultproject.io/guides/production.html">hardening</a> guide.</p>
 <p>Let&rsquo;s start then. Assuming that you already have docker installed, let&rsquo;s create a docker compose file to create the vault server. Create a folder in your laptop and create a file called <em>docker-compose.yml</em> with the following content:</p>
-<pre tabindex="0"><code>version: &#39;3&#39;
- 
-services:
-  vault:
-    image: vault
-    container_name: vault.server
-    ports:
-      - 8200:8200
-    volumes:
-      - ./etc/vault.server/config:/mnt/vault/config
-      - ./etc/vault.server/data:/mnt/vault/data
-      - ./etc/vault.server/logs:/mnt/vault/logs
-    restart: always
-    cap_add:
-      - IPC_LOCK
-    environment:
-      VAULT_ADDR: http://127.0.0.1:8200
-    entrypoint: vault server -config=&#34;/mnt/vault/config/config.hcl&#34;
-</code></pre><p>This will bring up a new container named vault.server from the vault image. We&rsquo;re defining the three volumes that vault will use, we&rsquo;re exposing the address of the server in case we want to access it within the container, exposing the port vault is using and, finally, setting the entry point to the command use to start a vault server. As you can see, the command needs a configuration file that we don&rsquo;t have yet. Let&rsquo;s go to <em>&lt;base_folder&gt;/etc/vault.server/config</em> and create the config.hcl file with the following content:</p>
-<pre tabindex="0"><code>storage &#34;file&#34; {
-        path = &#34;/mnt/vault/data&#34;
-}
-
-listener &#34;tcp&#34; {
-        address = &#34;0.0.0.0:8200&#34;
-        tls_disable = 1
-}
-</code></pre><p>Using this file, we&rsquo;re saying to Vault that we want a server opened at port 8200, that doesn&rsquo;t use https, and that will use the file system as a storage. If you want, you can use other <a href="https://www.vaultproject.io/docs/configuration/storage/index.html">storages</a>, being Consul the most popular one.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">version: &#39;3&#39;
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">services:
+</span></span><span class="line"><span class="cl">  vault:
+</span></span><span class="line"><span class="cl">    image: vault
+</span></span><span class="line"><span class="cl">    container_name: vault.server
+</span></span><span class="line"><span class="cl">    ports:
+</span></span><span class="line"><span class="cl">      - 8200:8200
+</span></span><span class="line"><span class="cl">    volumes:
+</span></span><span class="line"><span class="cl">      - ./etc/vault.server/config:/mnt/vault/config
+</span></span><span class="line"><span class="cl">      - ./etc/vault.server/data:/mnt/vault/data
+</span></span><span class="line"><span class="cl">      - ./etc/vault.server/logs:/mnt/vault/logs
+</span></span><span class="line"><span class="cl">    restart: always
+</span></span><span class="line"><span class="cl">    cap_add:
+</span></span><span class="line"><span class="cl">      - IPC_LOCK
+</span></span><span class="line"><span class="cl">    environment:
+</span></span><span class="line"><span class="cl">      VAULT_ADDR: http://127.0.0.1:8200
+</span></span><span class="line"><span class="cl">    entrypoint: vault server -config=&#34;/mnt/vault/config/config.hcl&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This will bring up a new container named vault.server from the vault image. We&rsquo;re defining the three volumes that vault will use, we&rsquo;re exposing the address of the server in case we want to access it within the container, exposing the port vault is using and, finally, setting the entry point to the command use to start a vault server. As you can see, the command needs a configuration file that we don&rsquo;t have yet. Let&rsquo;s go to <em>&lt;base_folder&gt;/etc/vault.server/config</em> and create the config.hcl file with the following content:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">storage &#34;file&#34; {
+</span></span><span class="line"><span class="cl">        path = &#34;/mnt/vault/data&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">listener &#34;tcp&#34; {
+</span></span><span class="line"><span class="cl">        address = &#34;0.0.0.0:8200&#34;
+</span></span><span class="line"><span class="cl">        tls_disable = 1
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Using this file, we&rsquo;re saying to Vault that we want a server opened at port 8200, that doesn&rsquo;t use https, and that will use the file system as a storage. If you want, you can use other <a href="https://www.vaultproject.io/docs/configuration/storage/index.html">storages</a>, being Consul the most popular one.</p>
 <p>Now, we can bring up the container. Let&rsquo;s go to your working folder and type <em>docker-compose up</em></p>
 <p>You should see the result of starting vault in your console.
 <img src="/images/server.vault.up.png" alt="Container startup log"></p>
@@ -202,166 +244,415 @@ listener &#34;tcp&#34; {
 <p>Now it&rsquo;s time to configure Vault. By default, Vault creates a token (the defatul authentication mechanism) for root access. We can use this token to make the initial set up of Vault. But first, we need to unseal Vault.</p>
 <h2 id="unsealing-vault">Unsealing Vault</h2>
 <p>First of all, we need to initialise Vault. Initializing Vault means creating the root token we&rsquo;ve already talked about and, much more important, creating the unsealing keys to, you can image, unseal Vault. to initialise Vault we use the command <em>vault init</em>. This will create 5 keys for us and we&rsquo;ll need to provide three of them to unseal Vault. To change this configuration, use the parameters <em>-key-shares</em> and <em>-key-threshold</em>. Let&rsquo;s then use 5 shares and 2 shares as threshold: <em>vault init -key-shares=5 -key-threshold=2</em>.</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault init -key-shares=5 -key-threshold=2
-Error initializing Vault: Put https://127.0.0.1:8200/v1/sys/init: http: server gave HTTP response to HTTPS client
-</code></pre><p>Oops! We can&rsquo;t connect to Vault! This is because, by default, the vault cli tries to connect using https to localhost and using port 8200. In our case, localhost and port 8200 are correct, but we&rsquo;ve disabled TLS, so we need to connect via http. Let&rsquo;s configure our terminal to connect to the right place: *export VAULT_ADDR=http://127.0.0.1:8200
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault init -key-shares=5 -key-threshold=2
+</span></span><span class="line"><span class="cl">Error initializing Vault: Put https://127.0.0.1:8200/v1/sys/init: http: server gave HTTP response to HTTPS client
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Oops! We can&rsquo;t connect to Vault! This is because, by default, the vault cli tries to connect using https to localhost and using port 8200. In our case, localhost and port 8200 are correct, but we&rsquo;ve disabled TLS, so we need to connect via http. Let&rsquo;s configure our terminal to connect to the right place: *export VAULT_ADDR=http://127.0.0.1:8200
 *</p>
 <p>Let&rsquo;s try to run the init command again. Now, you should see something like this:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault init -key-shares=5 -key-threshold=2
-Unseal Key 1: JjPOZr3C27PkMUT+NMAANsE9LD/EMOxeg4LrazntoL29
-Unseal Key 2: HEiabCxFrigrcoKBqKMD0SI2cIQqF8rIai1/7iMynQ2z
-Unseal Key 3: GmjlrY/kYko2zwWMvG1Y5Ts3VZWEEg8dsqUx1Fab7R1f
-Unseal Key 4: D1GSRtVE3vvw1Inbwiv5ohJK/nmJgAuIcISTQx7+N4za
-Unseal Key 5: O4PkY3gMbHMOnSdMenyMyD21Au+zrv8VelihpDQPM+W6
-Initial Root Token: f1682479-2a28-d577-c3de-521431116581
-
-Vault initialized with 5 keys and a key threshold of 2. Please
-securely distribute the above keys. When the vault is re-sealed,
-restarted, or stopped, you must provide at least 2 of these keys
-to unseal it again.
-
-Vault does not store the master key. Without at least 2 keys,
-your vault will remain permanently sealed.
-</code></pre><p>As the message indicates, every time the server is re-sealed (using <em>vault seal</em>) or restarted we&rsquo;ll need to provide two of these keys. Save them in a secure place, encrypt them and make an spell to protect them.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault init -key-shares=5 -key-threshold=2
+</span></span><span class="line"><span class="cl">Unseal Key 1: JjPOZr3C27PkMUT+NMAANsE9LD/EMOxeg4LrazntoL29
+</span></span><span class="line"><span class="cl">Unseal Key 2: HEiabCxFrigrcoKBqKMD0SI2cIQqF8rIai1/7iMynQ2z
+</span></span><span class="line"><span class="cl">Unseal Key 3: GmjlrY/kYko2zwWMvG1Y5Ts3VZWEEg8dsqUx1Fab7R1f
+</span></span><span class="line"><span class="cl">Unseal Key 4: D1GSRtVE3vvw1Inbwiv5ohJK/nmJgAuIcISTQx7+N4za
+</span></span><span class="line"><span class="cl">Unseal Key 5: O4PkY3gMbHMOnSdMenyMyD21Au+zrv8VelihpDQPM+W6
+</span></span><span class="line"><span class="cl">Initial Root Token: f1682479-2a28-d577-c3de-521431116581
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Vault initialized with 5 keys and a key threshold of 2. Please
+</span></span><span class="line"><span class="cl">securely distribute the above keys. When the vault is re-sealed,
+</span></span><span class="line"><span class="cl">restarted, or stopped, you must provide at least 2 of these keys
+</span></span><span class="line"><span class="cl">to unseal it again.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Vault does not store the master key. Without at least 2 keys,
+</span></span><span class="line"><span class="cl">your vault will remain permanently sealed.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As the message indicates, every time the server is re-sealed (using <em>vault seal</em>) or restarted we&rsquo;ll need to provide two of these keys. Save them in a secure place, encrypt them and make an spell to protect them.</p>
 <p>And now, finally, we can unseal the server. Type <em>vault unseal</em>. You will see</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault unseal
-Key (will be hidden): 
-</code></pre><p>Paste there one of the keys and repeat the process as many times as the threshold you used in the initialisation phase.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault unseal
+</span></span><span class="line"><span class="cl">Key (will be hidden): 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Paste there one of the keys and repeat the process as many times as the threshold you used in the initialisation phase.</p>
 <p>When you have finally unsealed the server, you should see something like this:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault unseal
-Key (will be hidden): 
-Sealed: false
-Key Shares: 5
-Key Threshold: 2
-Unseal Progress: 0
-Unseal Nonce: 
-</code></pre><p>Awesome. It&rsquo;s time to configure Vault!</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault unseal
+</span></span><span class="line"><span class="cl">Key (will be hidden): 
+</span></span><span class="line"><span class="cl">Sealed: false
+</span></span><span class="line"><span class="cl">Key Shares: 5
+</span></span><span class="line"><span class="cl">Key Threshold: 2
+</span></span><span class="line"><span class="cl">Unseal Progress: 0
+</span></span><span class="line"><span class="cl">Unseal Nonce: 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Awesome. It&rsquo;s time to configure Vault!</p>
 <h2 id="configure-an-admin-user">Configure an admin user</h2>
 <p>You can use different <a href="https://www.vaultproject.io/docs/auth/index.html">authentication backends</a> in Vault, like GitHub, Okta or LDAP. In this example, we&rsquo;re going to use username &amp; password.</p>
 <p>To make any action in this stage, we need to use the root token. Let&rsquo;s grab it from the result of the init command and use it: <em>vault auth &lt;token&gt;</em></p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault auth f1682479-2a28-d577-c3de-521431116581
-Successfully authenticated! You are now logged in.
-token: f1682479-2a28-d577-c3de-521431116581
-token_duration: 0
-token_policies: [root]
-</code></pre><p>Now we need to enable the authentication backend: <em>vault auth-enable userpass</em></p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault auth-enable userpass
-Successfully enabled &#39;userpass&#39; at &#39;userpass&#39;!
-</code></pre><h3 id="policies">Policies</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault auth f1682479-2a28-d577-c3de-521431116581
+</span></span><span class="line"><span class="cl">Successfully authenticated! You are now logged in.
+</span></span><span class="line"><span class="cl">token: f1682479-2a28-d577-c3de-521431116581
+</span></span><span class="line"><span class="cl">token_duration: 0
+</span></span><span class="line"><span class="cl">token_policies: [root]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we need to enable the authentication backend: <em>vault auth-enable userpass</em></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault auth-enable userpass
+</span></span><span class="line"><span class="cl">Successfully enabled &#39;userpass&#39; at &#39;userpass&#39;!
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="policies">Policies</h3>
 <p>Vault uses <a href="https://www.vaultproject.io/docs/concepts/policies.html">policies</a> to grant and permit access to paths (everything in Vault is path based). So, the first thing we need to do is to create a policy for our new brand admin user. Create a file called adminpolicy.hcl with the following contents:</p>
-<pre tabindex="0"><code>#authorization
-path &#34;auth/userpass/*&#34; {
-  capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
-}
-
-#policies
-path &#34;sys/policy/*&#34; {
-  capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
-}
-</code></pre><p>With this policy, a user will be able to manage users and policies, which is what we need by now. Add this policy using the following command:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault write sys/policy/admins policy=@&#34;adminpolicy.hcl&#34;
-Success! Data written to: sys/policy/admins
-</code></pre><p>As we already said, everything is a path in Vault, policies not being an exception. To write a new policy, we need to write in the path <em>sys/policy/&lt;name&gt;</em>. If we want, we can read the recently created policy:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault read sys/policy/admins
-Key  	Value
----  	-----
-name 	admins
-rules	#authorization
-	path &#34;auth/userpass/*&#34; {
-	  capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
-	}
-
-	#policies
-	path &#34;sys/policy/*&#34; {
-	  capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
-	}
-</code></pre><p>It&rsquo;s time to create a user linked to this policy.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">#authorization
+</span></span><span class="line"><span class="cl">path &#34;auth/userpass/*&#34; {
+</span></span><span class="line"><span class="cl">  capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#policies
+</span></span><span class="line"><span class="cl">path &#34;sys/policy/*&#34; {
+</span></span><span class="line"><span class="cl">  capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>With this policy, a user will be able to manage users and policies, which is what we need by now. Add this policy using the following command:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault write sys/policy/admins policy=@&#34;adminpolicy.hcl&#34;
+</span></span><span class="line"><span class="cl">Success! Data written to: sys/policy/admins
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As we already said, everything is a path in Vault, policies not being an exception. To write a new policy, we need to write in the path <em>sys/policy/&lt;name&gt;</em>. If we want, we can read the recently created policy:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault read sys/policy/admins
+</span></span><span class="line"><span class="cl">Key  	Value
+</span></span><span class="line"><span class="cl">---  	-----
+</span></span><span class="line"><span class="cl">name 	admins
+</span></span><span class="line"><span class="cl">rules	#authorization
+</span></span><span class="line"><span class="cl">	path &#34;auth/userpass/*&#34; {
+</span></span><span class="line"><span class="cl">	  capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
+</span></span><span class="line"><span class="cl">	}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	#policies
+</span></span><span class="line"><span class="cl">	path &#34;sys/policy/*&#34; {
+</span></span><span class="line"><span class="cl">	  capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
+</span></span><span class="line"><span class="cl">	}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It&rsquo;s time to create a user linked to this policy.</p>
 <h3 id="users">Users</h3>
 <p>To create a user that uses this policy, we need to run the following command:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault write auth/userpass/users/admin password=abcd policies=admins
-Success! Data written to: auth/userpass/users/admin
-</code></pre><p>As always, we&rsquo;re writing to a path.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault write auth/userpass/users/admin password=abcd policies=admins
+</span></span><span class="line"><span class="cl">Success! Data written to: auth/userpass/users/admin
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As always, we&rsquo;re writing to a path.</p>
 <p>Now we can use this new user to create other users. Let&rsquo;s try that. First, we need to authenticate to Vault using this user</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault auth -method=userpass username=admin password=abcd
-Successfully authenticated! You are now logged in.
-The token below is already saved in the session. You do not
-need to &#34;vault auth&#34; again with the token.
-token: b54fe4f4-060f-b68b-ea7c-ffddea53e7c2
-token_duration: 2764800
-token_policies: [admins default]
-MacBook-Pro:TestVault vga$ 
-</code></pre><p>Time to create a new user. We&rsquo;d like to create a user with permissions to write secrets in his private space and secretes in a team space. Create a file called <em>&lt;username&gt;.hcl</em> (in my case username = vgaltes) with the following content (replace vgaltes with your username and team with your team name):</p>
-<pre tabindex="0"><code>#user authentication
-path &#34;auth/userpass/users/vgaltes&#34; {
-  capabilities = [&#34;update&#34;]
-}
-
-#own secrets
-path &#34;secret/vgaltes/*&#34; {
-  capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
-}
-
-#team secrets
-path &#34;secret/team/*&#34; {
-  capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
-}
-</code></pre><p>With the first part of the policy, we&rsquo;re allowing the user to change her password. With the second part, we&rsquo;re allowing the user to manage his own space (well, a space named as his username), and with the third one we&rsquo;re allowing the user to manage the team space.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault auth -method=userpass username=admin password=abcd
+</span></span><span class="line"><span class="cl">Successfully authenticated! You are now logged in.
+</span></span><span class="line"><span class="cl">The token below is already saved in the session. You do not
+</span></span><span class="line"><span class="cl">need to &#34;vault auth&#34; again with the token.
+</span></span><span class="line"><span class="cl">token: b54fe4f4-060f-b68b-ea7c-ffddea53e7c2
+</span></span><span class="line"><span class="cl">token_duration: 2764800
+</span></span><span class="line"><span class="cl">token_policies: [admins default]
+</span></span><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Time to create a new user. We&rsquo;d like to create a user with permissions to write secrets in his private space and secretes in a team space. Create a file called <em>&lt;username&gt;.hcl</em> (in my case username = vgaltes) with the following content (replace vgaltes with your username and team with your team name):</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">#user authentication
+</span></span><span class="line"><span class="cl">path &#34;auth/userpass/users/vgaltes&#34; {
+</span></span><span class="line"><span class="cl">  capabilities = [&#34;update&#34;]
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#own secrets
+</span></span><span class="line"><span class="cl">path &#34;secret/vgaltes/*&#34; {
+</span></span><span class="line"><span class="cl">  capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#team secrets
+</span></span><span class="line"><span class="cl">path &#34;secret/team/*&#34; {
+</span></span><span class="line"><span class="cl">  capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>With the first part of the policy, we&rsquo;re allowing the user to change her password. With the second part, we&rsquo;re allowing the user to manage his own space (well, a space named as his username), and with the third one we&rsquo;re allowing the user to manage the team space.</p>
 <p>Time to add the policy:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault write sys/policy/vgaltes-policy policy=@&#34;vgaltespolicy.hcl&#34;
-Success! Data written to: sys/policy/vgaltes-policy
-</code></pre><p>Now we can crate a user associated to this policy:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault write auth/userpass/users/vgaltes password=abcd policies=vgaltes-policy
-Success! Data written to: auth/userpass/users/vgaltes
-</code></pre><p>User created!! Let&rsquo;s write and read some secrets.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault write sys/policy/vgaltes-policy policy=@&#34;vgaltespolicy.hcl&#34;
+</span></span><span class="line"><span class="cl">Success! Data written to: sys/policy/vgaltes-policy
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we can crate a user associated to this policy:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault write auth/userpass/users/vgaltes password=abcd policies=vgaltes-policy
+</span></span><span class="line"><span class="cl">Success! Data written to: auth/userpass/users/vgaltes
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>User created!! Let&rsquo;s write and read some secrets.</p>
 <h2 id="managing-secrets">Managing secrets</h2>
 <p>We have now created a new user. We&rsquo;ve sent an email to him telling that his user has been created and that his password is <em>abcd</em>. The password is not very secure, so we urge him to change it as soon as possible. Let&rsquo;s see what he can do.</p>
 <p>First of all he need to authenticate into Vault. Easy peasy, we already know how to do that:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault auth -method=userpass username=vgaltes password=abcd
-Successfully authenticated! You are now logged in.
-The token below is already saved in the session. You do not
-need to &#34;vault auth&#34; again with the token.
-token: 2a6e67a9-9b3a-39a7-5b29-bc3cecf79151
-token_duration: 2764800
-token_policies: [default vgaltes-policy]
-MacBook-Pro:TestVault vga$ 
-</code></pre><p>Time to change the password. As always, we just need to write into a specific path:</p>
-<pre tabindex="0"><code>vault write auth/userpass/users/vgaltes password=abcd1234
-</code></pre><p>We can try now to authenticate using the old password. Hopefully it won&rsquo;t work:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault auth -method=userpass username=vgaltes password=abcd
-Error making API request.
-
-URL: PUT http://127.0.0.1:8200/v1/auth/userpass/login/vgaltes
-Code: 400. Errors:
-
-* invalid username or password
-</code></pre><p>Awesome! Let&rsquo;s try with the new password. Now, we&rsquo;re not going to provide the password, so the cli will ask for it:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault auth -method=userpass username=vgaltes
-Password (will be hidden): 
-Successfully authenticated! You are now logged in.
-The token below is already saved in the session. You do not
-need to &#34;vault auth&#34; again with the token.
-token: 12de59c3-a23e-7dea-eff0-42dfeb8b73fd
-token_duration: 2764799
-token_policies: [default vgaltes-policy]
-</code></pre><p>Now we&rsquo;re ready to write our first secret. Let&rsquo;s start with something simple:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault write secret/vgaltes/hello value=world
-Success! Data written to: secret/vgaltes/hello
-</code></pre><p>Let&rsquo;s try to read it now:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault read secret/vgaltes/hello
-Key             	Value
----             	-----
-refresh_interval	768h0m0s
-value           	world
-</code></pre><p>Cool! We can do the same with the team space. Just change &lt;username&gt; for &lt;teamname&gt;.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault auth -method=userpass username=vgaltes password=abcd
+</span></span><span class="line"><span class="cl">Successfully authenticated! You are now logged in.
+</span></span><span class="line"><span class="cl">The token below is already saved in the session. You do not
+</span></span><span class="line"><span class="cl">need to &#34;vault auth&#34; again with the token.
+</span></span><span class="line"><span class="cl">token: 2a6e67a9-9b3a-39a7-5b29-bc3cecf79151
+</span></span><span class="line"><span class="cl">token_duration: 2764800
+</span></span><span class="line"><span class="cl">token_policies: [default vgaltes-policy]
+</span></span><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Time to change the password. As always, we just need to write into a specific path:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">vault write auth/userpass/users/vgaltes password=abcd1234
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We can try now to authenticate using the old password. Hopefully it won&rsquo;t work:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault auth -method=userpass username=vgaltes password=abcd
+</span></span><span class="line"><span class="cl">Error making API request.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">URL: PUT http://127.0.0.1:8200/v1/auth/userpass/login/vgaltes
+</span></span><span class="line"><span class="cl">Code: 400. Errors:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">* invalid username or password
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Awesome! Let&rsquo;s try with the new password. Now, we&rsquo;re not going to provide the password, so the cli will ask for it:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault auth -method=userpass username=vgaltes
+</span></span><span class="line"><span class="cl">Password (will be hidden): 
+</span></span><span class="line"><span class="cl">Successfully authenticated! You are now logged in.
+</span></span><span class="line"><span class="cl">The token below is already saved in the session. You do not
+</span></span><span class="line"><span class="cl">need to &#34;vault auth&#34; again with the token.
+</span></span><span class="line"><span class="cl">token: 12de59c3-a23e-7dea-eff0-42dfeb8b73fd
+</span></span><span class="line"><span class="cl">token_duration: 2764799
+</span></span><span class="line"><span class="cl">token_policies: [default vgaltes-policy]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we&rsquo;re ready to write our first secret. Let&rsquo;s start with something simple:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault write secret/vgaltes/hello value=world
+</span></span><span class="line"><span class="cl">Success! Data written to: secret/vgaltes/hello
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s try to read it now:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault read secret/vgaltes/hello
+</span></span><span class="line"><span class="cl">Key             	Value
+</span></span><span class="line"><span class="cl">---             	-----
+</span></span><span class="line"><span class="cl">refresh_interval	768h0m0s
+</span></span><span class="line"><span class="cl">value           	world
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Cool! We can do the same with the team space. Just change &lt;username&gt; for &lt;teamname&gt;.</p>
 <p>Let&rsquo;s try to write to someone else&rsquo;s space:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault write secret/peter/hello value=world
-Error writing data to secret/peter/hello: Error making API request.
-
-URL: PUT http://127.0.0.1:8200/v1/secret/peter/hello
-Code: 403. Errors:
-
-* permission denied
-</code></pre><p>As expected, we can&rsquo;t write to that path.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-zed" data-lang="zed"><span class="line"><span class="cl"><span class="n">MacBook</span><span class="o">-</span><span class="n">Pro</span><span class="o">:</span><span class="n">TestVault</span><span class="w"> </span><span class="n">vga</span><span class="err">$</span><span class="w"> </span><span class="n">vault</span><span class="w"> </span><span class="n">write</span><span class="w"> </span><span class="nn">secret/peter/</span><span class="n">hello</span><span class="w"> </span><span class="n">value</span><span class="o">=</span><span class="n">world</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">Error</span><span class="w"> </span><span class="n">writing</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="nn">secret/peter/</span><span class="n">hello</span><span class="o">:</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="n">making</span><span class="w"> </span><span class="n">API</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">URL</span><span class="o">:</span><span class="w"> </span><span class="n">PUT</span><span class="w"> </span><span class="n">http</span><span class="o">:</span><span class="c1">//127.0.0.1:8200/v1/secret/peter/hello
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Code</span><span class="o">:</span><span class="w"> </span><span class="err">403</span><span class="p">.</span><span class="w"> </span><span class="n">Errors</span><span class="o">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">*</span><span class="w"> </span><span class="kd">permission</span><span class="w"> </span><span class="n">denied</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>As expected, we can&rsquo;t write to that path.</p>
 <h2 id="summary">Summary</h2>
 <p>We&rsquo;ve set up a basic (but operational) Vault server. We know how to create policies and users, and how those users can log in into the system and create and read secrets. In the next article, we&rsquo;ll see how we can use Vault to create temporary users in a MySQL database.</p>
 

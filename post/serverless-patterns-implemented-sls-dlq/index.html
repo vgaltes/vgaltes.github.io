@@ -52,7 +52,7 @@ If you read the article, you will see that this DLQ is complementary to the DLQ 
 <meta itemprop="description" content="In the last two articles (here and here) we implemented some of the Serverless Patterns described in this article from Jeremy Daly. In this article, we&rsquo;re going to concentrate in just one pattern, the Notifier. We&rsquo;re going to do this, because of the [recent announcement] from AWS that you can now use an SQS queue as a Dead Letter Queue for an SNS topic.
 If you read the article, you will see that this DLQ is complementary to the DLQ you might define in a function that is triggered by an SNS topic, as Otavio Ferreira explains here."><meta itemprop="datePublished" content="2019-11-26T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2019-11-26T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1033">
+<meta itemprop="wordCount" content="1129">
 <meta itemprop="keywords" content="patterns,serverless framework," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Serverless Patterns implemented: using an SQS queue as a DLQ for a SNS topic"/>
 <meta name="twitter:description" content="In the last two articles (here and here) we implemented some of the Serverless Patterns described in this article from Jeremy Daly. In this article, we&rsquo;re going to concentrate in just one pattern, the Notifier. We&rsquo;re going to do this, because of the [recent announcement] from AWS that you can now use an SQS queue as a Dead Letter Queue for an SNS topic.
@@ -136,8 +136,8 @@ If you read the article, you will see that this DLQ is complementary to the DLQ 
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 1033 words </span>
-          <span class="more-meta"> 5 mins read </span>
+          <span class="more-meta"> 1129 words </span>
+          <span class="more-meta"> 6 mins read </span>
         
       </div>
     </header>
@@ -147,9 +147,13 @@ If you read the article, you will see that this DLQ is complementary to the DLQ 
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#setup">Setup</a></li>
-    <li><a href="#sns-topic">SNS Topic</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#setup">Setup</a></li>
+        <li><a href="#sns-topic">SNS Topic</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -160,121 +164,295 @@ If you read the article, you will see that this DLQ is complementary to the DLQ 
 <p>In this article we&rsquo;re going to see how we can implement this using the <a href="https://serverless.com">Serverless</a> framework. As it&rsquo;s a very new feature of the SNS topics, is not yet implemented, so we&rsquo;re going to need to write quite a bit of CloudFormation. I&rsquo;m sure the folks from Serverless are already working on making this easier to use.</p>
 <h2 id="setup">Setup</h2>
 <p>As usual, let&rsquo;s do the basic steps to setup our project. Let&rsquo;s start initializing the nodejs project.</p>
-<pre tabindex="0"><code>yarn init
-</code></pre><p>Then install the serverless framework as a dev dependency</p>
-<pre tabindex="0"><code>yarn add serverless --dev
-</code></pre><p>And finally create a script to deploy the project</p>
-<pre tabindex="0"><code>&#34;scripts&#34;: {
-    &#34;deploy&#34;: &#34;serverless deploy --aws-profile serverless-local&#34;
-  }
-</code></pre><p>(Assuming that you have a profile called serverless-local, of course).</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">yarn init
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Then install the serverless framework as a dev dependency</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">yarn add serverless --dev
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And finally create a script to deploy the project</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&#34;scripts&#34;: {
+</span></span><span class="line"><span class="cl">    &#34;deploy&#34;: &#34;serverless deploy --aws-profile serverless-local&#34;
+</span></span><span class="line"><span class="cl">  }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>(Assuming that you have a profile called serverless-local, of course).</p>
 <p>We will need the <code>serverless-pseudo-parameters</code> plugin as well, so let&rsquo;s install it:</p>
-<pre tabindex="0"><code>yarn add serverless-pseudo-parameters --dev
-</code></pre><p>Now, create a file called <code>serverless.yml</code> and include the usual boilerplate code:</p>
-<pre tabindex="0"><code>service: Notifier
-
-plugins:
-  - serverless-pseudo-parameters
-
-provider:
-  name: aws
-  runtime: nodejs10.x
-  region: ${opt:region, self:custom.defaultRegion}
-  stage: ${opt:stage, self:custom.defaultStage}
-
-custom:
-  defaultStage: dev
-  defaultRegion: eu-west-1
-</code></pre><h2 id="sns-topic">SNS Topic</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">yarn add serverless-pseudo-parameters --dev
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now, create a file called <code>serverless.yml</code> and include the usual boilerplate code:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">service: Notifier
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">plugins:
+</span></span><span class="line"><span class="cl">  - serverless-pseudo-parameters
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">provider:
+</span></span><span class="line"><span class="cl">  name: aws
+</span></span><span class="line"><span class="cl">  runtime: nodejs10.x
+</span></span><span class="line"><span class="cl">  region: ${opt:region, self:custom.defaultRegion}
+</span></span><span class="line"><span class="cl">  stage: ${opt:stage, self:custom.defaultStage}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">custom:
+</span></span><span class="line"><span class="cl">  defaultStage: dev
+</span></span><span class="line"><span class="cl">  defaultRegion: eu-west-1
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="sns-topic">SNS Topic</h2>
 <p>Let&rsquo;s start defining the SNS topic in the resource section of the file. It should look like this:</p>
-<pre tabindex="0"><code>SNSNotifier:
-  Type: AWS::SNS::Topic
-  Properties:
-    DisplayName: ${self:service}-${self:provider.stage}-SNSNotifier
-    TopicName: ${self:service}-${self:provider.stage}-SNSNotifier
-</code></pre><p>Nothing really strange here.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SNSNotifier:
+</span></span><span class="line"><span class="cl">  Type: AWS::SNS::Topic
+</span></span><span class="line"><span class="cl">  Properties:
+</span></span><span class="line"><span class="cl">    DisplayName: ${self:service}-${self:provider.stage}-SNSNotifier
+</span></span><span class="line"><span class="cl">    TopicName: ${self:service}-${self:provider.stage}-SNSNotifier
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Nothing really strange here.</p>
 <p>Now, it&rsquo;s time to declare the SQS queue we&rsquo;re going to use as DLQ for our topic</p>
-<pre tabindex="0"><code>NotifierDLQ:
-  Type: AWS::SQS::Queue
-  Properties:
-    QueueName: ${self:service}-${self:provider.stage}-NotifierDLQ
-</code></pre><p>The next step would be to create the subscription in the SNS topic. The subscription is where we define where do we want the messages to be delivered.</p>
-<pre tabindex="0"><code>NotifierSubscription:
-  Type: AWS::SNS::Subscription
-  Properties: 
-    Endpoint: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-ReadFromSNS-badOne
-    Protocol: lambda
-    TopicArn: !Ref SNSNotifier
-    RedrivePolicy:
-      deadLetterTargetArn: !GetAtt NotifierDLQ.Arn
-</code></pre><p>In this case we&rsquo;re going to define that we&rsquo;ll have a lambda that will be responsible to receive these messages. There are two interesting parts here. The first one is that in the <em>Endpoint</em> section we&rsquo;re defining a lambda that it really doesn&rsquo;t exist. The second one is the RedrivePolice section, where we define the Dead Letter Queue of the topic, in this case the SQS queue previously defined.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">NotifierDLQ:
+</span></span><span class="line"><span class="cl">  Type: AWS::SQS::Queue
+</span></span><span class="line"><span class="cl">  Properties:
+</span></span><span class="line"><span class="cl">    QueueName: ${self:service}-${self:provider.stage}-NotifierDLQ
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The next step would be to create the subscription in the SNS topic. The subscription is where we define where do we want the messages to be delivered.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">NotifierSubscription:
+</span></span><span class="line"><span class="cl">  Type: AWS::SNS::Subscription
+</span></span><span class="line"><span class="cl">  Properties: 
+</span></span><span class="line"><span class="cl">    Endpoint: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-ReadFromSNS-badOne
+</span></span><span class="line"><span class="cl">    Protocol: lambda
+</span></span><span class="line"><span class="cl">    TopicArn: !Ref SNSNotifier
+</span></span><span class="line"><span class="cl">    RedrivePolicy:
+</span></span><span class="line"><span class="cl">      deadLetterTargetArn: !GetAtt NotifierDLQ.Arn
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>In this case we&rsquo;re going to define that we&rsquo;ll have a lambda that will be responsible to receive these messages. There are two interesting parts here. The first one is that in the <em>Endpoint</em> section we&rsquo;re defining a lambda that it really doesn&rsquo;t exist. The second one is the RedrivePolice section, where we define the Dead Letter Queue of the topic, in this case the SQS queue previously defined.</p>
 <p>For this topic to be able to put messages to a lambda (although in the subscription we&rsquo;re simulating that the lambda doesn&rsquo;t exist for some reason) we need to define a lambda permission:</p>
-<pre tabindex="0"><code>LambdaInvokePermissionFromSNS:
-  Type: AWS::Lambda::Permission
-  Properties:
-    Action: lambda:InvokeFunction
-    Principal: sns.amazonaws.com
-    SourceArn: !Ref SNSNotifier
-    FunctionName: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-ReadFromSNS
-  DependsOn: ReadFromSNSLambdaFunction
-</code></pre><p>The lambda resource needs to be already created, that´s why we put the DependsOn clause. You can´t reference a resource created by the serverless framework directly in a CloudFormation resource, but you can do the trick to use the name that the framework will use for the lambda. In this case, is the name of the function with <code>LambdaFunction</code> concatenated.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">LambdaInvokePermissionFromSNS:
+</span></span><span class="line"><span class="cl">  Type: AWS::Lambda::Permission
+</span></span><span class="line"><span class="cl">  Properties:
+</span></span><span class="line"><span class="cl">    Action: lambda:InvokeFunction
+</span></span><span class="line"><span class="cl">    Principal: sns.amazonaws.com
+</span></span><span class="line"><span class="cl">    SourceArn: !Ref SNSNotifier
+</span></span><span class="line"><span class="cl">    FunctionName: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-ReadFromSNS
+</span></span><span class="line"><span class="cl">  DependsOn: ReadFromSNSLambdaFunction
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The lambda resource needs to be already created, that´s why we put the DependsOn clause. You can´t reference a resource created by the serverless framework directly in a CloudFormation resource, but you can do the trick to use the name that the framework will use for the lambda. In this case, is the name of the function with <code>LambdaFunction</code> concatenated.</p>
 <p>(for the purpose of this particular example you can skip this step, but in case you want to see how the messages are delivered to a lambda with no issues, you will need to add it).</p>
 <p>Finally, for the SNS topic to be able to deliver messages to the SQS DLQ we need to define an SQS Queue Policy, where we will tell SQS to allow messages comming from the SNS Topic:</p>
-<pre tabindex="0"><code>NotifierDLQPolicy:
-  Type: AWS::SQS::QueuePolicy
-  Properties:
-    PolicyDocument:
-      {
-        &#34;Version&#34;: &#34;2012-10-17&#34;,
-        &#34;Id&#34;: &#34;NotifierDLQPolicy&#34;,
-        &#34;Statement&#34;: [{
-          &#34;Sid&#34;:&#34;NotifierDLQPolicy001&#34;,
-          &#34;Effect&#34;:&#34;Allow&#34;,
-          &#34;Principal&#34;:&#34;*&#34;,
-          &#34;Action&#34;:&#34;sqs:SendMessage&#34;,
-          &#34;Resource&#34;:&#34;arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:service}-${self:provider.stage}-NotifierDLQ&#34;,
-          &#34;Condition&#34;:{
-            &#34;ArnEquals&#34;:{
-              &#34;aws:SourceArn&#34;:&#34;arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:service}-${self:provider.stage}-SNSNotifier&#34;
-            }
-          }
-        }]
-      }
-  
-    Queues:
-      - !Ref NotifierDLQ
-</code></pre><p>Finally, and outside the resources section, we can define the functions that will read messages from the SNS Topic and the SQS Queue:</p>
-<pre tabindex="0"><code>functions:
-  ReadFromSNS:
-    handler: src/functions/readFromSNS.handler
-    events:
-      - sns:
-          arn: !Ref SNSNotifier
-          topicName: SNSNotifier
-
-  ReadFromDLQ:
-    handler: src/functions/readFromDLQ.handler
-    events:
-      - sqs:
-          batchSize: 1
-          arn: !GetAtt NotifierDLQ.Arn
-</code></pre><p>And the code of both functions. This is the code of the readFromSNS function:</p>
-<pre tabindex="0"><code>module.exports.handler = (event, context) =&gt; {
-  const message = event.Records[0].Sns.Message;
-
-  console.log(`Message received via SNS. ${message}`) ;
-
-  return &#34;all done&#34;;
-};
-</code></pre><p>And this is the code of the readFromDLQ function:</p>
-<pre tabindex="0"><code>module.exports.handler = (event, context) =&gt; {
-  const message = JSON.stringify(event.Records[0]);
-
-  console.log(`Message received in DLQ. ${message}`) ;
-
-  return &#34;all done&#34;;
-};
-</code></pre><p>If we deploy, the serverless framework would have been added the subscription for the <em>ReadFromSNS</em> lambda in the SNS topic. You can delete it manually if you want to make sure that the message never gets there.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">NotifierDLQPolicy:
+</span></span><span class="line"><span class="cl">  Type: AWS::SQS::QueuePolicy
+</span></span><span class="line"><span class="cl">  Properties:
+</span></span><span class="line"><span class="cl">    PolicyDocument:
+</span></span><span class="line"><span class="cl">      {
+</span></span><span class="line"><span class="cl">        &#34;Version&#34;: &#34;2012-10-17&#34;,
+</span></span><span class="line"><span class="cl">        &#34;Id&#34;: &#34;NotifierDLQPolicy&#34;,
+</span></span><span class="line"><span class="cl">        &#34;Statement&#34;: [{
+</span></span><span class="line"><span class="cl">          &#34;Sid&#34;:&#34;NotifierDLQPolicy001&#34;,
+</span></span><span class="line"><span class="cl">          &#34;Effect&#34;:&#34;Allow&#34;,
+</span></span><span class="line"><span class="cl">          &#34;Principal&#34;:&#34;*&#34;,
+</span></span><span class="line"><span class="cl">          &#34;Action&#34;:&#34;sqs:SendMessage&#34;,
+</span></span><span class="line"><span class="cl">          &#34;Resource&#34;:&#34;arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:service}-${self:provider.stage}-NotifierDLQ&#34;,
+</span></span><span class="line"><span class="cl">          &#34;Condition&#34;:{
+</span></span><span class="line"><span class="cl">            &#34;ArnEquals&#34;:{
+</span></span><span class="line"><span class="cl">              &#34;aws:SourceArn&#34;:&#34;arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:service}-${self:provider.stage}-SNSNotifier&#34;
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">          }
+</span></span><span class="line"><span class="cl">        }]
+</span></span><span class="line"><span class="cl">      }
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    Queues:
+</span></span><span class="line"><span class="cl">      - !Ref NotifierDLQ
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Finally, and outside the resources section, we can define the functions that will read messages from the SNS Topic and the SQS Queue:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">functions:
+</span></span><span class="line"><span class="cl">  ReadFromSNS:
+</span></span><span class="line"><span class="cl">    handler: src/functions/readFromSNS.handler
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - sns:
+</span></span><span class="line"><span class="cl">          arn: !Ref SNSNotifier
+</span></span><span class="line"><span class="cl">          topicName: SNSNotifier
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  ReadFromDLQ:
+</span></span><span class="line"><span class="cl">    handler: src/functions/readFromDLQ.handler
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - sqs:
+</span></span><span class="line"><span class="cl">          batchSize: 1
+</span></span><span class="line"><span class="cl">          arn: !GetAtt NotifierDLQ.Arn
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And the code of both functions. This is the code of the readFromSNS function:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">module.exports.handler = (event, context) =&gt; {
+</span></span><span class="line"><span class="cl">  const message = event.Records[0].Sns.Message;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  console.log(`Message received via SNS. ${message}`) ;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  return &#34;all done&#34;;
+</span></span><span class="line"><span class="cl">};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And this is the code of the readFromDLQ function:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">module.exports.handler = (event, context) =&gt; {
+</span></span><span class="line"><span class="cl">  const message = JSON.stringify(event.Records[0]);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  console.log(`Message received in DLQ. ${message}`) ;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  return &#34;all done&#34;;
+</span></span><span class="line"><span class="cl">};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>If we deploy, the serverless framework would have been added the subscription for the <em>ReadFromSNS</em> lambda in the SNS topic. You can delete it manually if you want to make sure that the message never gets there.</p>
 <p>And that&rsquo;s it. If you now try to put a message in the topic (using the console, or the CLI, or the SDK) you will see that the message ends up in the DLQ.</p>
 <p>You can check the code <a href="https://github.com/vgaltes/ServerlessPatterns/tree/master/Notifier">here</a>.</p>
 <h2 id="summary">Summary</h2>

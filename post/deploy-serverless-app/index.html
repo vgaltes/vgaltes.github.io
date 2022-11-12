@@ -49,7 +49,7 @@
 <meta itemprop="name" content="Deploying a serverless application">
 <meta itemprop="description" content="Starting with AWS Lambda is really easy. You can even write a function in the browser! But that&rsquo;s not how you should work on a daily basis. You must have a CI/CD pipeline set up, you probably have two accounts (one for production and another one for development), you need a repeatable and reliable way to create your infrastructure and so on. In this article I&rsquo;ll show you how to create a simple continuous delivery pipeline that brings us closer to a professional application development."><meta itemprop="datePublished" content="2018-04-19T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2018-04-19T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1921">
+<meta itemprop="wordCount" content="2059">
 <meta itemprop="keywords" content="devops,lambda,circleci,aws," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Deploying a serverless application"/>
 <meta name="twitter:description" content="Starting with AWS Lambda is really easy. You can even write a function in the browser! But that&rsquo;s not how you should work on a daily basis. You must have a CI/CD pipeline set up, you probably have two accounts (one for production and another one for development), you need a repeatable and reliable way to create your infrastructure and so on. In this article I&rsquo;ll show you how to create a simple continuous delivery pipeline that brings us closer to a professional application development."/>
@@ -132,7 +132,7 @@
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 1921 words </span>
+          <span class="more-meta"> 2059 words </span>
           <span class="more-meta"> 10 mins read </span>
         
       </div>
@@ -143,21 +143,25 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#disclaimer">Disclaimer</a></li>
-    <li><a href="#pre-requisites">Pre-requisites</a></li>
-    <li><a href="#a-basic-ci-pipeline">A basic CI pipeline</a>
+    <li>
       <ul>
-        <li><a href="#configure-circleci">Configure CircleCI</a></li>
+        <li><a href="#disclaimer">Disclaimer</a></li>
+        <li><a href="#pre-requisites">Pre-requisites</a></li>
+        <li><a href="#a-basic-ci-pipeline">A basic CI pipeline</a>
+          <ul>
+            <li><a href="#configure-circleci">Configure CircleCI</a></li>
+          </ul>
+        </li>
+        <li><a href="#aws-assume-role">AWS Assume role</a>
+          <ul>
+            <li><a href="#test-2---cli-using-profiles">Test 2 - CLI Using profiles</a></li>
+            <li><a href="#test-3---getting-the-credentials-using-the-cli">Test 3 - Getting the credentials using the CLI</a></li>
+          </ul>
+        </li>
+        <li><a href="#deploying-to-production-using-circleci">Deploying to production using CircleCI</a></li>
+        <li><a href="#final-touch">Final touch</a></li>
       </ul>
     </li>
-    <li><a href="#aws-assume-role">AWS Assume role</a>
-      <ul>
-        <li><a href="#test-2---cli-using-profiles">Test 2 - CLI Using profiles</a></li>
-        <li><a href="#test-3---getting-the-credentials-using-the-cli">Test 3 - Getting the credentials using the CLI</a></li>
-      </ul>
-    </li>
-    <li><a href="#deploying-to-production-using-circleci">Deploying to production using CircleCI</a></li>
-    <li><a href="#final-touch">Final touch</a></li>
   </ul>
 </nav>
   </div>
@@ -178,71 +182,156 @@
 </ul>
 <p>##Sample application</p>
 <p>Let&rsquo;s start by creating a <em>VERY</em> simple NodeJS serverless application. So, open a terminal, create a new folder wherever you want, cd to it and type:</p>
-<pre tabindex="0"><code>serverless create --template aws-nodejs
-</code></pre><p>This will create a basic serverless project with a function that just says hello. Now it&rsquo;s time to add a test to that function. Create a file called handler.spec.js and copy the following code in it:</p>
-<pre tabindex="0"><code>const mocha = require(&#39;mocha&#39;);
-const chai = require(&#39;chai&#39;);
-const should = chai.should();
-
-const handler = require(&#39;./handler&#39;);
-
-describe(&#34;The handler function&#34;, () =&gt; {
-    it(&#34;returns a message&#34;, () =&gt; {
-        handler.hello(undefined, undefined, function(error, response){
-            let body = JSON.parse(response.body);
-            body.message.should.be.equal(&#39;Go Serverless v1.0! Your function executed successfully!&#39;);
-        });
-    });
-});
-</code></pre><p>Before being able to run this test, you need to install the packages:</p>
-<pre tabindex="0"><code>npm install --save-dev mocha
-npm install --save-dev chai
-</code></pre><p>We&rsquo;re now very close to be able to run the test. Just add the following line inside the scripts section of the package.json file:</p>
-<pre tabindex="0"><code>&#34;test&#34;: &#34;./node_modules/.bin/mocha **/*.spec.js&#34;
-</code></pre><p>Run <em>npm test</em> and you should see a test passing</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">serverless create --template aws-nodejs
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This will create a basic serverless project with a function that just says hello. Now it&rsquo;s time to add a test to that function. Create a file called handler.spec.js and copy the following code in it:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">const mocha = require(&#39;mocha&#39;);
+</span></span><span class="line"><span class="cl">const chai = require(&#39;chai&#39;);
+</span></span><span class="line"><span class="cl">const should = chai.should();
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">const handler = require(&#39;./handler&#39;);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">describe(&#34;The handler function&#34;, () =&gt; {
+</span></span><span class="line"><span class="cl">    it(&#34;returns a message&#34;, () =&gt; {
+</span></span><span class="line"><span class="cl">        handler.hello(undefined, undefined, function(error, response){
+</span></span><span class="line"><span class="cl">            let body = JSON.parse(response.body);
+</span></span><span class="line"><span class="cl">            body.message.should.be.equal(&#39;Go Serverless v1.0! Your function executed successfully!&#39;);
+</span></span><span class="line"><span class="cl">        });
+</span></span><span class="line"><span class="cl">    });
+</span></span><span class="line"><span class="cl">});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Before being able to run this test, you need to install the packages:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">npm install --save-dev mocha
+</span></span><span class="line"><span class="cl">npm install --save-dev chai
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We&rsquo;re now very close to be able to run the test. Just add the following line inside the scripts section of the package.json file:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&#34;test&#34;: &#34;./node_modules/.bin/mocha **/*.spec.js&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Run <em>npm test</em> and you should see a test passing</p>
 <p><img src="/images/CDServerlessArticle-1.png" alt="A test"></p>
 <p>And that&rsquo;s all! As I told you, we&rsquo;re not going to be famous for writing a super-complex application.</p>
 <h2 id="a-basic-ci-pipeline">A basic CI pipeline</h2>
 <p>Now it&rsquo;s time to start working on our CI pipeline. I&rsquo;ve chosen <a href="https://circleci.com">CircleCI</a> because it&rsquo;s a PAAS service and I wanted to try it out. Choose your preferred CI system here, the steps will be very similar.</p>
 <p>As we&rsquo;re using CircleCI, we need to create a folder named .circleci in the root of our project and a file named config.yml inside it. Do it and copy the followint yaml code in the file.</p>
-<pre tabindex="0"><code>version: 2
-jobs:
-  build:
-    docker:
-      - image: circleci/node:8.10
-
-    working_directory: ~/repo
-
-    steps:
-      - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum &#34;package.json&#34; }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      - run:
-          name: Install Serverless CLI and dependencies
-          command: |
-            sudo npm i -g serverless
-            npm install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum &#34;package.json&#34; }}
-        
-      # run tests!
-      - run: 
-          name: Run tests with coverage
-          command: npm test --coverage
-
-      - run:
-          name: Deploy application
-          command: sls deploy --stage pre
-</code></pre><p>The code is pretty straightforward. We&rsquo;re using a docker image with Node 8.10 inside it, checking out the code, installing the serverless framework, installing our project dependencies, run some unit tests and deploy to a stage called pre.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">version: 2
+</span></span><span class="line"><span class="cl">jobs:
+</span></span><span class="line"><span class="cl">  build:
+</span></span><span class="line"><span class="cl">    docker:
+</span></span><span class="line"><span class="cl">      - image: circleci/node:8.10
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    working_directory: ~/repo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    steps:
+</span></span><span class="line"><span class="cl">      - checkout
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      # Download and cache dependencies
+</span></span><span class="line"><span class="cl">      - restore_cache:
+</span></span><span class="line"><span class="cl">          keys:
+</span></span><span class="line"><span class="cl">          - v1-dependencies-{{ checksum &#34;package.json&#34; }}
+</span></span><span class="line"><span class="cl">          # fallback to using the latest cache if no exact match is found
+</span></span><span class="line"><span class="cl">          - v1-dependencies-
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      - run:
+</span></span><span class="line"><span class="cl">          name: Install Serverless CLI and dependencies
+</span></span><span class="line"><span class="cl">          command: |
+</span></span><span class="line"><span class="cl">            sudo npm i -g serverless
+</span></span><span class="line"><span class="cl">            npm install
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      - save_cache:
+</span></span><span class="line"><span class="cl">          paths:
+</span></span><span class="line"><span class="cl">            - node_modules
+</span></span><span class="line"><span class="cl">          key: v1-dependencies-{{ checksum &#34;package.json&#34; }}
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">      # run tests!
+</span></span><span class="line"><span class="cl">      - run: 
+</span></span><span class="line"><span class="cl">          name: Run tests with coverage
+</span></span><span class="line"><span class="cl">          command: npm test --coverage
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      - run:
+</span></span><span class="line"><span class="cl">          name: Deploy application
+</span></span><span class="line"><span class="cl">          command: sls deploy --stage pre
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The code is pretty straightforward. We&rsquo;re using a docker image with Node 8.10 inside it, checking out the code, installing the serverless framework, installing our project dependencies, run some unit tests and deploy to a stage called pre.</p>
 <h3 id="configure-circleci">Configure CircleCI</h3>
 <p>Before pushing this file to github, we need to configure CircleCI to listen to our repository and execute the accions we set on the config.yml. First of all, create an administrator user for you CI (I named it circleci) and disable the console password so it only can access via code.</p>
 <p>First of all, go to <em>Add projects</em> and click on the <em>Set Up Project</em> button of the project you want to add. Check that the operating system is linux and that the languaje is Node and click Start building. This will fire your first build.</p>
@@ -267,15 +356,29 @@ jobs:
 <p>We now have the role created. We now have to change user accounts (or groups) in our dev account to allow them to switch to this role and hence, access the production account.</p>
 <p>We&rsquo;re going to do this for a particular user, but you can choose a group as well. That will depend on how do you want to organise your team and your organisation. Do you want everybody to be able to deploy directly to prod or we just want that the CI user can deploy to prod? Second approach sounds sensible.</p>
 <p>So, go to your dev account, go to IAM service and select the user you want to give permissions to. Click on permissions -&gt; add inline policy and use the following JSON:</p>
-<pre tabindex="0"><code>{
-  &#34;Version&#34;: &#34;2012-10-17&#34;,
-  &#34;Statement&#34;: {
-    &#34;Effect&#34;: &#34;Allow&#34;,
-    &#34;Action&#34;: &#34;sts:AssumeRole&#34;,
-    &#34;Resource&#34;: &#34;arn:aws:iam::262170986110:role/circleci_role&#34;
-  }
-}
-</code></pre><p><img src="/images/CDServerlessArticle-7.png" alt="Create new policy"></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  &#34;Version&#34;: &#34;2012-10-17&#34;,
+</span></span><span class="line"><span class="cl">  &#34;Statement&#34;: {
+</span></span><span class="line"><span class="cl">    &#34;Effect&#34;: &#34;Allow&#34;,
+</span></span><span class="line"><span class="cl">    &#34;Action&#34;: &#34;sts:AssumeRole&#34;,
+</span></span><span class="line"><span class="cl">    &#34;Resource&#34;: &#34;arn:aws:iam::262170986110:role/circleci_role&#34;
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/images/CDServerlessArticle-7.png" alt="Create new policy"></p>
 <p>Click on review and set a name for the policy, for example <em>allow-assume-circleci-role-production</em></p>
 <p>It&rsquo;s time to test it that works. We can do 4 types of tests:</p>
 <p>### Test 1 - Using the UI
@@ -291,98 +394,221 @@ role_arn = arn:aws:iam::262170986110:role/circleci_role
 source_profile = vgaltes-serverless</p>
 <p>The source profile is the named profile of your dev account and the role arn is the arn on the production account, the role you want to assume.</p>
 <p>Let&rsquo;s try this. Go to your project base folder and type:</p>
-<pre tabindex="0"><code>aws s3 ls —-profile vgaltes-prod
-</code></pre><p>And you should see your S3 buckets on the production account.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">aws s3 ls —-profile vgaltes-prod
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And you should see your S3 buckets on the production account.</p>
 <h3 id="test-3---getting-the-credentials-using-the-cli">Test 3 - Getting the credentials using the CLI</h3>
 <p>The third option you have (and the first one that will lead us to what we&rsquo;d need to do in the CI environment) is to retrieve the credentials needed to log into the production account (a temporary ones) via AWS STS. Open the console and type:</p>
-<pre tabindex="0"><code>aws sts assume-role --role-arn &#34;arn:aws:iam::262170986110:role/circleci_role&#34; --role-session-name &#34;Vgaltes-Prod&#34; --profile vgaltes-serverless
-</code></pre><p>Where the role arn is the role you want to assume and profile is your dev profile.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">aws sts assume-role --role-arn &#34;arn:aws:iam::262170986110:role/circleci_role&#34; --role-session-name &#34;Vgaltes-Prod&#34; --profile vgaltes-serverless
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Where the role arn is the role you want to assume and profile is your dev profile.</p>
 <p>This command should return something like this:</p>
-<pre tabindex="0"><code>{
-    &#34;AssumedRoleUser&#34;: {
-        &#34;AssumedRoleId&#34;: &#34;AROAIHUHXX66KCXPBZHP4:Vgaltes-Prod&#34;, 
-        &#34;Arn&#34;: &#34;arn:aws:sts::262170986110:assumed-role/circleci_role/Vgaltes-Prod&#34;
-    }, 
-    &#34;Credentials&#34;: {
-        &#34;SecretAccessKey&#34;: &#34;Q833K5zxeaWiWI1hBbbmfTYF01Px72imuvcGB3TA&#34;, 
-        &#34;SessionToken&#34;: &#34;FQoDYXdzENz//////////wEaDKbdCGIckdfH7OdGcyLwAY1V/m+S38Fu/Mh+KHWNbg58kfm7047AAMYZR1kVdFjuvr/idqEHLqkYq3aRWr2G+x1ZM2fQeB0RaHTlNpQ9gxrSFooFRSTSKK3rOpfIHyX9uQN5yPSUotA/At6LRYCqhDEIRsWVYNFFNjjjCgL4N8uyDsZfLcIsZ2zbTV/3oJSOQdm2i07pWwBI5w4J5l4oEgN7vZlq41/HK10jTHKtoYf+xoDUD6fa/R6gUvsphhXJ16Cs9OlhbljvcIweYKrnZCDR/u0GCyLs7PrIyAA1AgEFSqeb3dmI5ONwTpX8GSmLPuTOOfRaHTvbKeI3hyy0hCiJ0ePWBQ==“, 
-        &#34;Expiration&#34;: &#34;2018-04-19T20:05:45Z&#34;, 
-        &#34;AccessKeyId&#34;: &#34;ASIAJMXB2HHJRVWLFMXQ&#34;
-    }
-}
-</code></pre><p>Now we need to use this data. Go to your console and type:</p>
-<pre tabindex="0"><code>export AWS_ACCESS_KEY_ID=ASIAJMXB2HHJRVWLFMXQ
-export AWS_SECRET_ACCESS_KEY=Q833K5zxeaWiWI1hBbbmfTYF01Px72imuvcGB3TA
-export AWS_SESSION_TOKEN=FQoDYXdzENz//////////wEaDKbdCGIckdfH7OdGcyLwAY1V/m+S38Fu/Mh+KHWNbg58kfm7047AAMYZR1kVdFjuvr/idqEHLqkYq3aRWr2G+x1ZM2fQeB0RaHTlNpQ9gxrSFooFRSTSKK3rOpfIHyX9uQN5yPSUotA/At6LRYCqhDEIRsWVYNFFNjjjCgL4N8uyDsZfLcIsZ2zbTV/3oJSOQdm2i07pWwBI5w4J5l4oEgN7vZlq41/HK10jTHKtoYf+xoDUD6fa/R6gUvsphhXJ16Cs9OlhbljvcIweYKrnZCDR/u0GCyLs7PrIyAA1AgEFSqeb3dmI5ONwTpX8GSmLPuTOOfRaHTvbKeI3hyy0hCiJ0ePWBQ==
-</code></pre><p>Obviously you&rsquo;ll need to use what the previous command has returned.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    &#34;AssumedRoleUser&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;AssumedRoleId&#34;: &#34;AROAIHUHXX66KCXPBZHP4:Vgaltes-Prod&#34;, 
+</span></span><span class="line"><span class="cl">        &#34;Arn&#34;: &#34;arn:aws:sts::262170986110:assumed-role/circleci_role/Vgaltes-Prod&#34;
+</span></span><span class="line"><span class="cl">    }, 
+</span></span><span class="line"><span class="cl">    &#34;Credentials&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;SecretAccessKey&#34;: &#34;Q833K5zxeaWiWI1hBbbmfTYF01Px72imuvcGB3TA&#34;, 
+</span></span><span class="line"><span class="cl">        &#34;SessionToken&#34;: &#34;FQoDYXdzENz//////////wEaDKbdCGIckdfH7OdGcyLwAY1V/m+S38Fu/Mh+KHWNbg58kfm7047AAMYZR1kVdFjuvr/idqEHLqkYq3aRWr2G+x1ZM2fQeB0RaHTlNpQ9gxrSFooFRSTSKK3rOpfIHyX9uQN5yPSUotA/At6LRYCqhDEIRsWVYNFFNjjjCgL4N8uyDsZfLcIsZ2zbTV/3oJSOQdm2i07pWwBI5w4J5l4oEgN7vZlq41/HK10jTHKtoYf+xoDUD6fa/R6gUvsphhXJ16Cs9OlhbljvcIweYKrnZCDR/u0GCyLs7PrIyAA1AgEFSqeb3dmI5ONwTpX8GSmLPuTOOfRaHTvbKeI3hyy0hCiJ0ePWBQ==“, 
+</span></span><span class="line"><span class="cl">        &#34;Expiration&#34;: &#34;2018-04-19T20:05:45Z&#34;, 
+</span></span><span class="line"><span class="cl">        &#34;AccessKeyId&#34;: &#34;ASIAJMXB2HHJRVWLFMXQ&#34;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we need to use this data. Go to your console and type:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">export AWS_ACCESS_KEY_ID=ASIAJMXB2HHJRVWLFMXQ
+</span></span><span class="line"><span class="cl">export AWS_SECRET_ACCESS_KEY=Q833K5zxeaWiWI1hBbbmfTYF01Px72imuvcGB3TA
+</span></span><span class="line"><span class="cl">export AWS_SESSION_TOKEN=FQoDYXdzENz//////////wEaDKbdCGIckdfH7OdGcyLwAY1V/m+S38Fu/Mh+KHWNbg58kfm7047AAMYZR1kVdFjuvr/idqEHLqkYq3aRWr2G+x1ZM2fQeB0RaHTlNpQ9gxrSFooFRSTSKK3rOpfIHyX9uQN5yPSUotA/At6LRYCqhDEIRsWVYNFFNjjjCgL4N8uyDsZfLcIsZ2zbTV/3oJSOQdm2i07pWwBI5w4J5l4oEgN7vZlq41/HK10jTHKtoYf+xoDUD6fa/R6gUvsphhXJ16Cs9OlhbljvcIweYKrnZCDR/u0GCyLs7PrIyAA1AgEFSqeb3dmI5ONwTpX8GSmLPuTOOfRaHTvbKeI3hyy0hCiJ0ePWBQ==
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Obviously you&rsquo;ll need to use what the previous command has returned.</p>
 <p>Now, if you type any command using the AWS CLI it will use this user. Let&rsquo;s try this. Open a console and type:</p>
-<pre tabindex="0"><code>aws s3 ls
-</code></pre><p>You should see the same bucket than in the previous example.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">aws s3 ls
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>You should see the same bucket than in the previous example.</p>
 <p>### Test 4 - Automating the STS access
 We&rsquo;re now going to create a bash script to automate what we did in our previous test. Open your favourite editor and type:</p>
-<pre tabindex="0"><code>unset  AWS_SESSION_TOKEN
-
-temp_role=$(aws sts assume-role \
-                    --role-arn &#34;arn:aws:iam::262170986110:role/circleci_role&#34; \
-                    --role-session-name &#34;vgaltes-prod&#34; \
-                    --profile vgaltes-serverless)
-
-export AWS_ACCESS_KEY_ID=$(echo $temp_role | jq .Credentials.AccessKeyId | xargs)
-export AWS_SECRET_ACCESS_KEY=$(echo $temp_role | jq .Credentials.SecretAccessKey | xargs)
-export AWS_SESSION_TOKEN=$(echo $temp_role | jq .Credentials.SessionToken | xargs)
-</code></pre><p>Where role-arn is the role you want to assume and profile is your dev profile. Note that you need to have jq installed.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">unset  AWS_SESSION_TOKEN
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">temp_role=$(aws sts assume-role \
+</span></span><span class="line"><span class="cl">                    --role-arn &#34;arn:aws:iam::262170986110:role/circleci_role&#34; \
+</span></span><span class="line"><span class="cl">                    --role-session-name &#34;vgaltes-prod&#34; \
+</span></span><span class="line"><span class="cl">                    --profile vgaltes-serverless)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">export AWS_ACCESS_KEY_ID=$(echo $temp_role | jq .Credentials.AccessKeyId | xargs)
+</span></span><span class="line"><span class="cl">export AWS_SECRET_ACCESS_KEY=$(echo $temp_role | jq .Credentials.SecretAccessKey | xargs)
+</span></span><span class="line"><span class="cl">export AWS_SESSION_TOKEN=$(echo $temp_role | jq .Credentials.SessionToken | xargs)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Where role-arn is the role you want to assume and profile is your dev profile. Note that you need to have jq installed.</p>
 <p>Give a name to the file (aws-cli-assumerole.sh, for example), give it the required execution permisions (chmod +x aws-cli-assumerole.sh) and source it (source aws-cli-assumerole.sh). Now, you have the production credentials set, so you can try to get the S3 buckets again:</p>
-<pre tabindex="0"><code>aws s3 ls
-</code></pre><p>You should see the production bucket as a result.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">aws s3 ls
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>You should see the production bucket as a result.</p>
 <h2 id="deploying-to-production-using-circleci">Deploying to production using CircleCI</h2>
 <p>It&rsquo;s time now to use the script we&rsquo;ve created to deploy our solution to production. Copy the script into your project, let&rsquo;s say inside a folder called scripts (scripts/aws-cli-assumerole.sh). Now, you need to update your config.yml in order to call the script before deploying to prod. You might need to change your dependencies sections in order to install the AWS CLI.</p>
-<pre tabindex="0"><code>version: 2
-jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:8.10
-
-    working_directory: ~/repo
-
-    steps:
-      - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum &#34;package.json&#34; }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      - run:
-          name: Install Serverless CLI and dependencies
-          command: |
-            sudo npm i -g serverless
-            npm install
-            sudo apt-get install awscli
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum &#34;package.json&#34; }}
-        
-      # run tests!
-      - run: 
-          name: Run tests with coverage
-          command: npm test --coverage
-
-      - run:
-          name: Deploy application
-          command: sls deploy --stage pre
-
-      - run:
-          name: Deploy application
-          command: |
-            chmod +x scripts/aws-cli-assumerole.sh
-            source scripts/aws-cli-assumerole.sh
-            sls deploy --stage prod
-</code></pre><p>Let&rsquo;s push this change and see if it works! (Note: the bill might take a bit more time to run now, as it has to install the AWS CLI. A possible workaround is to use a Docker image with the CLI already installed. Check the CircleCI documentation to know how to do this.)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">version: 2
+</span></span><span class="line"><span class="cl">jobs:
+</span></span><span class="line"><span class="cl">  build:
+</span></span><span class="line"><span class="cl">    docker:
+</span></span><span class="line"><span class="cl">      # specify the version you desire here
+</span></span><span class="line"><span class="cl">      - image: circleci/node:8.10
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    working_directory: ~/repo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    steps:
+</span></span><span class="line"><span class="cl">      - checkout
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      # Download and cache dependencies
+</span></span><span class="line"><span class="cl">      - restore_cache:
+</span></span><span class="line"><span class="cl">          keys:
+</span></span><span class="line"><span class="cl">          - v1-dependencies-{{ checksum &#34;package.json&#34; }}
+</span></span><span class="line"><span class="cl">          # fallback to using the latest cache if no exact match is found
+</span></span><span class="line"><span class="cl">          - v1-dependencies-
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      - run:
+</span></span><span class="line"><span class="cl">          name: Install Serverless CLI and dependencies
+</span></span><span class="line"><span class="cl">          command: |
+</span></span><span class="line"><span class="cl">            sudo npm i -g serverless
+</span></span><span class="line"><span class="cl">            npm install
+</span></span><span class="line"><span class="cl">            sudo apt-get install awscli
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      - save_cache:
+</span></span><span class="line"><span class="cl">          paths:
+</span></span><span class="line"><span class="cl">            - node_modules
+</span></span><span class="line"><span class="cl">          key: v1-dependencies-{{ checksum &#34;package.json&#34; }}
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">      # run tests!
+</span></span><span class="line"><span class="cl">      - run: 
+</span></span><span class="line"><span class="cl">          name: Run tests with coverage
+</span></span><span class="line"><span class="cl">          command: npm test --coverage
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      - run:
+</span></span><span class="line"><span class="cl">          name: Deploy application
+</span></span><span class="line"><span class="cl">          command: sls deploy --stage pre
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">      - run:
+</span></span><span class="line"><span class="cl">          name: Deploy application
+</span></span><span class="line"><span class="cl">          command: |
+</span></span><span class="line"><span class="cl">            chmod +x scripts/aws-cli-assumerole.sh
+</span></span><span class="line"><span class="cl">            source scripts/aws-cli-assumerole.sh
+</span></span><span class="line"><span class="cl">            sls deploy --stage prod
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s push this change and see if it works! (Note: the bill might take a bit more time to run now, as it has to install the AWS CLI. A possible workaround is to use a Docker image with the CLI already installed. Check the CircleCI documentation to know how to do this.)</p>
 <p><img src="/images/BuildProd-1.png" alt="Production build"></p>
 <p>Build looks promising, let&rsquo;s take a look at our production account:</p>
 <p><img src="/images/BuildProd-2.png" alt="Lamda deployed in production"></p>

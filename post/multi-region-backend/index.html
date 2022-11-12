@@ -49,7 +49,7 @@
 <meta itemprop="name" content="Set up a multi-region active-active backend">
 <meta itemprop="description" content="Congratulations! Your startup is starting to bring attention to many people and you&rsquo;re starting to have clients from different countries and continents. But your lambdas and API gateway are still in your initial region, and that might add some latency to some users. Apart from that, you want to increase the reliability of your system. So, you decide to go multi-region. Can you do that easily? In this article, we&rsquo;ll see how to do that."><meta itemprop="datePublished" content="2019-11-08T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2019-11-08T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1520">
+<meta itemprop="wordCount" content="1735">
 <meta itemprop="keywords" content="api gateway,serverless framework,route 53," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Set up a multi-region active-active backend"/>
 <meta name="twitter:description" content="Congratulations! Your startup is starting to bring attention to many people and you&rsquo;re starting to have clients from different countries and continents. But your lambdas and API gateway are still in your initial region, and that might add some latency to some users. Apart from that, you want to increase the reliability of your system. So, you decide to go multi-region. Can you do that easily? In this article, we&rsquo;ll see how to do that."/>
@@ -132,8 +132,8 @@
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 1520 words </span>
-          <span class="more-meta"> 8 mins read </span>
+          <span class="more-meta"> 1735 words </span>
+          <span class="more-meta"> 9 mins read </span>
         
       </div>
     </header>
@@ -143,13 +143,17 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#dynamodb-global-tables">DynamoDB Global Tables</a></li>
-    <li><a href="#api">API</a></li>
-    <li><a href="#regional-endpoints-certificates-and-custom-domain-names">Regional endpoints, certificates and custom domain names</a></li>
-    <li><a href="#health-checks">Health checks</a></li>
-    <li><a href="#route-policy">Route policy</a></li>
-    <li><a href="#testing">Testing</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#dynamodb-global-tables">DynamoDB Global Tables</a></li>
+        <li><a href="#api">API</a></li>
+        <li><a href="#regional-endpoints-certificates-and-custom-domain-names">Regional endpoints, certificates and custom domain names</a></li>
+        <li><a href="#health-checks">Health checks</a></li>
+        <li><a href="#route-policy">Route policy</a></li>
+        <li><a href="#testing">Testing</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -161,231 +165,501 @@ This article is a based in <a href="https://read.acloud.guru/building-a-serverle
 <h2 id="dynamodb-global-tables">DynamoDB Global Tables</h2>
 <p>DynamoDB <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html">Global Tables</a> allows us to create multi-region multi-master tables. DynamoDB will replicate our data accross all the regions we specify, and we won&rsquo;t need to worry about anything.</p>
 <p>So, first thing is to create a new service with a DynamoDB table with streaming enable. Something like this:</p>
-<pre tabindex="0"><code>service: MultiRegionService
-
-plugins:
-  - serverless-pseudo-parameters
-
-custom:
-  defaultRegion: eu-west-1
-
-provider: 
-  name: aws
-  runtime: nodejs10.x
-  region: ${opt:region, self:custom.defaultRegion}
-
-resources:
-  Resources:
-    MyGlobalTableEU:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        KeySchema:
-          - AttributeName: id
-            KeyType: &#39;HASH&#39;
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: &#39;N&#39;
-        BillingMode: PAY_PER_REQUEST
-        TableName: MyGlobalTable
-        StreamSpecification:
-          StreamViewType: NEW_AND_OLD_IMAGES
-</code></pre><p>And we need to deploy this in two regions, let&rsquo;s say eu-west-1 and us-east-1. So, go to your <code>project.json</code> file and create the following scripts:</p>
-<pre tabindex="0"><code>&#34;deploy:europe&#34;: &#34;serverless deploy --aws-profile serverless-local --region eu-west-1&#34;,
-&#34;deploy:us&#34;: &#34;serverless deploy --aws-profile serverless-local --region us-east-1&#34;,
-</code></pre><p>(change serverless-local for the profile you have configured in your laptop, if you have any.)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">service: MultiRegionService
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">plugins:
+</span></span><span class="line"><span class="cl">  - serverless-pseudo-parameters
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">custom:
+</span></span><span class="line"><span class="cl">  defaultRegion: eu-west-1
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">provider: 
+</span></span><span class="line"><span class="cl">  name: aws
+</span></span><span class="line"><span class="cl">  runtime: nodejs10.x
+</span></span><span class="line"><span class="cl">  region: ${opt:region, self:custom.defaultRegion}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">resources:
+</span></span><span class="line"><span class="cl">  Resources:
+</span></span><span class="line"><span class="cl">    MyGlobalTableEU:
+</span></span><span class="line"><span class="cl">      Type: AWS::DynamoDB::Table
+</span></span><span class="line"><span class="cl">      Properties:
+</span></span><span class="line"><span class="cl">        KeySchema:
+</span></span><span class="line"><span class="cl">          - AttributeName: id
+</span></span><span class="line"><span class="cl">            KeyType: &#39;HASH&#39;
+</span></span><span class="line"><span class="cl">        AttributeDefinitions:
+</span></span><span class="line"><span class="cl">          - AttributeName: id
+</span></span><span class="line"><span class="cl">            AttributeType: &#39;N&#39;
+</span></span><span class="line"><span class="cl">        BillingMode: PAY_PER_REQUEST
+</span></span><span class="line"><span class="cl">        TableName: MyGlobalTable
+</span></span><span class="line"><span class="cl">        StreamSpecification:
+</span></span><span class="line"><span class="cl">          StreamViewType: NEW_AND_OLD_IMAGES
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And we need to deploy this in two regions, let&rsquo;s say eu-west-1 and us-east-1. So, go to your <code>project.json</code> file and create the following scripts:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&#34;deploy:europe&#34;: &#34;serverless deploy --aws-profile serverless-local --region eu-west-1&#34;,
+</span></span><span class="line"><span class="cl">&#34;deploy:us&#34;: &#34;serverless deploy --aws-profile serverless-local --region us-east-1&#34;,
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>(change serverless-local for the profile you have configured in your laptop, if you have any.)</p>
 <p>Now you can run <code>yarn run deploy:europe</code> and <code>yarn run deploy:us</code> and see your tables created in both regions. The next step is to create the Global Table. Unfortunately, you can&rsquo;t do that via Cloudformation, and we need to call an API. So, go again to your <code>package.json</code> file and add the following script:</p>
-<pre tabindex="0"><code>&#34;createGlobalTable&#34;: &#34;aws dynamodb create-global-table --global-table-name MyGlobalTable --replication-group RegionName=eu-west-1 RegionName=us-east-1 --region eu-west-1 --profile serverless-local&#34;
-</code></pre><p>To check that it&rsquo;s working, add manually in the console (or via api or script) an item (<code>id</code> and <code>name</code>) to one of the tables, and see how it gets replicated in the other one. You&rsquo;ll see that DynamoDB has added three of fields, one of them being <code>aws:rep:updateregion</code>, where we&rsquo;ll see the region where the item has been created.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&#34;createGlobalTable&#34;: &#34;aws dynamodb create-global-table --global-table-name MyGlobalTable --replication-group RegionName=eu-west-1 RegionName=us-east-1 --region eu-west-1 --profile serverless-local&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>To check that it&rsquo;s working, add manually in the console (or via api or script) an item (<code>id</code> and <code>name</code>) to one of the tables, and see how it gets replicated in the other one. You&rsquo;ll see that DynamoDB has added three of fields, one of them being <code>aws:rep:updateregion</code>, where we&rsquo;ll see the region where the item has been created.</p>
 <h2 id="api">API</h2>
 <p>Let&rsquo;s create the API now. We&rsquo;re going to create and endpoint to put items on DynamoDB and another one for getting them. We&rsquo;ll also need a status endpoint that we&rsquo;ll use later. Let&rsquo;s add the functions to the <code>serverless.yml</code> file, which should look like this:</p>
-<pre tabindex="0"><code>service: MultiRegionService
-
-plugins:
-  - serverless-iam-roles-per-function
-  - serverless-pseudo-parameters
-
-custom:
-  defaultRegion: eu-west-1
-
-provider: 
-  name: aws
-  runtime: nodejs10.x
-  region: ${opt:region, self:custom.defaultRegion}
-
-functions:
-  GetItem:
-    handler: src/functions/getItem.handler
-    events:
-      - http:
-          method: get
-          path: item/{itemId}
-          cors: true
-    environment:
-      tableName: MyGlobalTable
-    iamRoleStatements:
-      - Effect: Allow
-        Action: dynamodb:getItem
-        Resource: arn:aws:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/MyGlobalTable
-
-  PutItem:
-    handler: src/functions/putItem.handler
-    events:
-      - http:
-          method: post
-          path: item
-          cors: true
-    environment:
-      tableName: MyGlobalTable
-    iamRoleStatements:
-      - Effect: Allow
-        Action: dynamodb:putItem
-        Resource: arn:aws:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/MyGlobalTable
-
-  HealthCheck:
-    handler: src/functions/health.handler
-    events:
-      - http:
-          method: get
-          path: health
-          cors: true
-    environment:
-      status: 200
-
-resources:
-  Resources:
-    MyGlobalTableEU:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        KeySchema:
-          - AttributeName: id
-            KeyType: &#39;HASH&#39;
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: &#39;N&#39;
-        BillingMode: PAY_PER_REQUEST
-        TableName: MyGlobalTable
-        StreamSpecification:
-          StreamViewType: NEW_AND_OLD_IMAGES
-</code></pre><p>As you can see, we have three funtions here. The health function just takes a value from an environment variable which you shouldn&rsquo;t do in a real-life scenario.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">service: MultiRegionService
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">plugins:
+</span></span><span class="line"><span class="cl">  - serverless-iam-roles-per-function
+</span></span><span class="line"><span class="cl">  - serverless-pseudo-parameters
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">custom:
+</span></span><span class="line"><span class="cl">  defaultRegion: eu-west-1
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">provider: 
+</span></span><span class="line"><span class="cl">  name: aws
+</span></span><span class="line"><span class="cl">  runtime: nodejs10.x
+</span></span><span class="line"><span class="cl">  region: ${opt:region, self:custom.defaultRegion}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">functions:
+</span></span><span class="line"><span class="cl">  GetItem:
+</span></span><span class="line"><span class="cl">    handler: src/functions/getItem.handler
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - http:
+</span></span><span class="line"><span class="cl">          method: get
+</span></span><span class="line"><span class="cl">          path: item/{itemId}
+</span></span><span class="line"><span class="cl">          cors: true
+</span></span><span class="line"><span class="cl">    environment:
+</span></span><span class="line"><span class="cl">      tableName: MyGlobalTable
+</span></span><span class="line"><span class="cl">    iamRoleStatements:
+</span></span><span class="line"><span class="cl">      - Effect: Allow
+</span></span><span class="line"><span class="cl">        Action: dynamodb:getItem
+</span></span><span class="line"><span class="cl">        Resource: arn:aws:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/MyGlobalTable
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  PutItem:
+</span></span><span class="line"><span class="cl">    handler: src/functions/putItem.handler
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - http:
+</span></span><span class="line"><span class="cl">          method: post
+</span></span><span class="line"><span class="cl">          path: item
+</span></span><span class="line"><span class="cl">          cors: true
+</span></span><span class="line"><span class="cl">    environment:
+</span></span><span class="line"><span class="cl">      tableName: MyGlobalTable
+</span></span><span class="line"><span class="cl">    iamRoleStatements:
+</span></span><span class="line"><span class="cl">      - Effect: Allow
+</span></span><span class="line"><span class="cl">        Action: dynamodb:putItem
+</span></span><span class="line"><span class="cl">        Resource: arn:aws:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/MyGlobalTable
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  HealthCheck:
+</span></span><span class="line"><span class="cl">    handler: src/functions/health.handler
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - http:
+</span></span><span class="line"><span class="cl">          method: get
+</span></span><span class="line"><span class="cl">          path: health
+</span></span><span class="line"><span class="cl">          cors: true
+</span></span><span class="line"><span class="cl">    environment:
+</span></span><span class="line"><span class="cl">      status: 200
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">resources:
+</span></span><span class="line"><span class="cl">  Resources:
+</span></span><span class="line"><span class="cl">    MyGlobalTableEU:
+</span></span><span class="line"><span class="cl">      Type: AWS::DynamoDB::Table
+</span></span><span class="line"><span class="cl">      Properties:
+</span></span><span class="line"><span class="cl">        KeySchema:
+</span></span><span class="line"><span class="cl">          - AttributeName: id
+</span></span><span class="line"><span class="cl">            KeyType: &#39;HASH&#39;
+</span></span><span class="line"><span class="cl">        AttributeDefinitions:
+</span></span><span class="line"><span class="cl">          - AttributeName: id
+</span></span><span class="line"><span class="cl">            AttributeType: &#39;N&#39;
+</span></span><span class="line"><span class="cl">        BillingMode: PAY_PER_REQUEST
+</span></span><span class="line"><span class="cl">        TableName: MyGlobalTable
+</span></span><span class="line"><span class="cl">        StreamSpecification:
+</span></span><span class="line"><span class="cl">          StreamViewType: NEW_AND_OLD_IMAGES
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see, we have three funtions here. The health function just takes a value from an environment variable which you shouldn&rsquo;t do in a real-life scenario.</p>
 <p>This is the code of the <em>PutItem</em> function:</p>
-<pre tabindex="0"><code>const AWS = require(&#34;aws-sdk&#34;);
-
-const dynamodb = new AWS.DynamoDB.DocumentClient();
-const tableName = process.env.tableName;
-
-module.exports.handler = async (event) =&gt; {
-  const body = JSON.parse(event.body);
-  const id = parseInt(body.id);
-  const name = body.name;
-
-  const params = {
-    TableName: tableName,
-    Item: {
-      &#39;id&#39; : id,
-      &#39;name&#39; : name
-    }
-  };
-
-  console.log(params);
-
-  const resp = await dynamodb.put(params).promise();
-
-  const res = {
-    statusCode: 200,
-    body: JSON.stringify(resp)
-  };
-
-  return res;
-};
-</code></pre><p>This is the code of the <em>GetItem</em> function:</p>
-<pre tabindex="0"><code>const AWS = require(&#34;aws-sdk&#34;);
-
-const dynamodb = new AWS.DynamoDB.DocumentClient();
-const tableName = process.env.tableName;
-
-module.exports.handler = async (event) =&gt; {
-  const id = event.pathParameters.itemId;
-
-  const req = {
-    TableName: tableName,
-    Key: {
-        &#39;id&#39;: parseInt(id)
-      }
-  };
-
-  console.log(req);
-
-  const resp = await dynamodb.get(req).promise();
-
-  const res = {
-    statusCode: 200,
-    body: JSON.stringify(resp.Item)
-  };
-
-  return res;
-};
-</code></pre><p>And, finally, this is the code of the health function</p>
-<pre tabindex="0"><code>module.exports.handler = async (event) =&gt; {
-  const status = process.env.status;
-
-  const res = {
-    statusCode: status,
-    body: JSON.stringify(&#34;all done&#34;)
-  };
-
-  return res;
-};
-</code></pre><p>Looks great, isn&rsquo;t it? Deploy this service in the same regions we first deployed the DynamoDb tables, <code>us-east-1</code> and <code>eu-west-1</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">const AWS = require(&#34;aws-sdk&#34;);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">const dynamodb = new AWS.DynamoDB.DocumentClient();
+</span></span><span class="line"><span class="cl">const tableName = process.env.tableName;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">module.exports.handler = async (event) =&gt; {
+</span></span><span class="line"><span class="cl">  const body = JSON.parse(event.body);
+</span></span><span class="line"><span class="cl">  const id = parseInt(body.id);
+</span></span><span class="line"><span class="cl">  const name = body.name;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  const params = {
+</span></span><span class="line"><span class="cl">    TableName: tableName,
+</span></span><span class="line"><span class="cl">    Item: {
+</span></span><span class="line"><span class="cl">      &#39;id&#39; : id,
+</span></span><span class="line"><span class="cl">      &#39;name&#39; : name
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">  };
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  console.log(params);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  const resp = await dynamodb.put(params).promise();
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  const res = {
+</span></span><span class="line"><span class="cl">    statusCode: 200,
+</span></span><span class="line"><span class="cl">    body: JSON.stringify(resp)
+</span></span><span class="line"><span class="cl">  };
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  return res;
+</span></span><span class="line"><span class="cl">};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is the code of the <em>GetItem</em> function:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">const AWS = require(&#34;aws-sdk&#34;);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">const dynamodb = new AWS.DynamoDB.DocumentClient();
+</span></span><span class="line"><span class="cl">const tableName = process.env.tableName;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">module.exports.handler = async (event) =&gt; {
+</span></span><span class="line"><span class="cl">  const id = event.pathParameters.itemId;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  const req = {
+</span></span><span class="line"><span class="cl">    TableName: tableName,
+</span></span><span class="line"><span class="cl">    Key: {
+</span></span><span class="line"><span class="cl">        &#39;id&#39;: parseInt(id)
+</span></span><span class="line"><span class="cl">      }
+</span></span><span class="line"><span class="cl">  };
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  console.log(req);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  const resp = await dynamodb.get(req).promise();
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  const res = {
+</span></span><span class="line"><span class="cl">    statusCode: 200,
+</span></span><span class="line"><span class="cl">    body: JSON.stringify(resp.Item)
+</span></span><span class="line"><span class="cl">  };
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  return res;
+</span></span><span class="line"><span class="cl">};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And, finally, this is the code of the health function</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">module.exports.handler = async (event) =&gt; {
+</span></span><span class="line"><span class="cl">  const status = process.env.status;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  const res = {
+</span></span><span class="line"><span class="cl">    statusCode: status,
+</span></span><span class="line"><span class="cl">    body: JSON.stringify(&#34;all done&#34;)
+</span></span><span class="line"><span class="cl">  };
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  return res;
+</span></span><span class="line"><span class="cl">};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Looks great, isn&rsquo;t it? Deploy this service in the same regions we first deployed the DynamoDb tables, <code>us-east-1</code> and <code>eu-west-1</code>.</p>
 <h2 id="regional-endpoints-certificates-and-custom-domain-names">Regional endpoints, certificates and custom domain names</h2>
 <p>A regional endpoint is an endpoint that improves the latency when the requests are originated from the same region as the API. We can create them with the <a href="https://github.com/amplify-education/serverless-domain-manager">serverless-domain-manager</a> plugin that we saw in the <a href="https://vgaltes.com/post/api-gateway-custom-domain/">previous article</a>. Check that article and create a certificate for our endpoints. In this case, as we&rsquo;re using regional endpoints, you must create the same certificate in each region you want to deploy the API. In my case, I used the name <code>multiregion.authenticatedservices.net</code>. Validate the certificate and update the <code>serverless.yml</code> file to include the custom domain part. The difference with the previous article is that now, we don&rsquo;t want to create the record in Route 53 and that the type of the endpoint will be <em>regional</em>.</p>
-<pre tabindex="0"><code>customDomain:
-    domainName: multiregion.authenticatedservices.net
-    basePath: &#39;&#39;
-    stage: ${self:provider.stage}
-    createRoute53Record: false
-    endpointType: regional
-</code></pre><p>Add a couple of scripts in the <code>package.json</code> file to create the domains:</p>
-<pre tabindex="0"><code>&#34;create_domain:europe&#34;: &#34;serverless create_domain --aws-profile serverless-local --region eu-west-1&#34;,
-&#34;create_domain:us&#34;: &#34;serverless create_domain --aws-profile serverless-local --region us-east-1&#34;,
-</code></pre><p>And call them both to create the domains. After waiting up to 40 minutes, you can redeploy again the API in both regions. When you do that, you will see an output like this:</p>
-<pre tabindex="0"><code>Serverless Domain Manager Summary
-Domain Name
-  multiregion.authenticatedservices.net
-Distribution Domain Name
-  Target Domain: d-87n10uz7oc.execute-api.us-east-1.amazonaws.com
-  Hosted Zone Id: Z1UJRXOUMOOFQ8
-</code></pre><p>Please, take not of the <em>target domain</em> for both regions because we will need them.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">customDomain:
+</span></span><span class="line"><span class="cl">    domainName: multiregion.authenticatedservices.net
+</span></span><span class="line"><span class="cl">    basePath: &#39;&#39;
+</span></span><span class="line"><span class="cl">    stage: ${self:provider.stage}
+</span></span><span class="line"><span class="cl">    createRoute53Record: false
+</span></span><span class="line"><span class="cl">    endpointType: regional
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Add a couple of scripts in the <code>package.json</code> file to create the domains:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&#34;create_domain:europe&#34;: &#34;serverless create_domain --aws-profile serverless-local --region eu-west-1&#34;,
+</span></span><span class="line"><span class="cl">&#34;create_domain:us&#34;: &#34;serverless create_domain --aws-profile serverless-local --region us-east-1&#34;,
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And call them both to create the domains. After waiting up to 40 minutes, you can redeploy again the API in both regions. When you do that, you will see an output like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Serverless Domain Manager Summary
+</span></span><span class="line"><span class="cl">Domain Name
+</span></span><span class="line"><span class="cl">  multiregion.authenticatedservices.net
+</span></span><span class="line"><span class="cl">Distribution Domain Name
+</span></span><span class="line"><span class="cl">  Target Domain: d-87n10uz7oc.execute-api.us-east-1.amazonaws.com
+</span></span><span class="line"><span class="cl">  Hosted Zone Id: Z1UJRXOUMOOFQ8
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Please, take not of the <em>target domain</em> for both regions because we will need them.</p>
 <p>You can now test both APIs and make sure they work (they should!).</p>
 <h2 id="health-checks">Health checks</h2>
 <p>We will now need to create a health check for each endpoint in Route 53. Route 53 will use these health checks to decide if it can route traffic to that endpoint.</p>
 <p>I created a new project in a new folder to do this, because I thought it shouldn&rsquo;t be part of my service. This new <code>serverless.yml</code> file looks like this:</p>
-<pre tabindex="0"><code>service: MultiRegionCommonStuff
-
-provider:
-  name: aws
-  runtime: nodejs10.x
-
-custom:
-  domains:
-    us-east-1: &lt;useastendpoint&gt;.execute-api.us-east-1.amazonaws.com
-    eu-west-1: &lt;euwestendpoint&gt;.execute-api.eu-west-1.amazonaws.com
-
-resources:
-  Resources:
-    HealthCheck:
-      Type: AWS::Route53::HealthCheck
-      Properties: 
-        HealthCheckConfig: 
-          EnableSNI: true
-          FailureThreshold: 3
-          FullyQualifiedDomainName: ${self:custom.domains.${self:provider.region}}
-          Port: 443
-          ResourcePath: /dev/health
-          Type: HTTPS
-        HealthCheckTags:
-          - Key: Name
-            Value: MultiRegionHeatlthCheck-${self:provider.region}
-</code></pre><p>You can create both health checks in the same file, or you can do like this and deploy twice. It&rsquo;s up to you. You need, obviously, to change the url of the endpoints to the ones you got when you deploy. You can chech that the creation has been successful in the Route 53 service on the AWS Console.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">service: MultiRegionCommonStuff
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">provider:
+</span></span><span class="line"><span class="cl">  name: aws
+</span></span><span class="line"><span class="cl">  runtime: nodejs10.x
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">custom:
+</span></span><span class="line"><span class="cl">  domains:
+</span></span><span class="line"><span class="cl">    us-east-1: &lt;useastendpoint&gt;.execute-api.us-east-1.amazonaws.com
+</span></span><span class="line"><span class="cl">    eu-west-1: &lt;euwestendpoint&gt;.execute-api.eu-west-1.amazonaws.com
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">resources:
+</span></span><span class="line"><span class="cl">  Resources:
+</span></span><span class="line"><span class="cl">    HealthCheck:
+</span></span><span class="line"><span class="cl">      Type: AWS::Route53::HealthCheck
+</span></span><span class="line"><span class="cl">      Properties: 
+</span></span><span class="line"><span class="cl">        HealthCheckConfig: 
+</span></span><span class="line"><span class="cl">          EnableSNI: true
+</span></span><span class="line"><span class="cl">          FailureThreshold: 3
+</span></span><span class="line"><span class="cl">          FullyQualifiedDomainName: ${self:custom.domains.${self:provider.region}}
+</span></span><span class="line"><span class="cl">          Port: 443
+</span></span><span class="line"><span class="cl">          ResourcePath: /dev/health
+</span></span><span class="line"><span class="cl">          Type: HTTPS
+</span></span><span class="line"><span class="cl">        HealthCheckTags:
+</span></span><span class="line"><span class="cl">          - Key: Name
+</span></span><span class="line"><span class="cl">            Value: MultiRegionHeatlthCheck-${self:provider.region}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>You can create both health checks in the same file, or you can do like this and deploy twice. It&rsquo;s up to you. You need, obviously, to change the url of the endpoints to the ones you got when you deploy. You can chech that the creation has been successful in the Route 53 service on the AWS Console.</p>
 <h2 id="route-policy">Route policy</h2>
 <p>Before adding the policy we need to grab the target domain name from the endpoint. If you followed the article, you will have them from a previous step. If you&rsquo;ve lost it, go to the <em>Amazon API Gateway</em> service on the AWS console and select <em>Custom Domain Names</em>. Click on your domain and you should see something like this:</p>
 <p><img src="/images/CustomDomainName.png" alt="Custom Domain Name"></p>
@@ -397,19 +671,42 @@ resources:
 <h2 id="testing">Testing</h2>
 <p>How can we test it? Assuming you&rsquo;re in Europe, what we&rsquo;re going to do is to bring down that endpoint and create a new item. When we get that item we&rsquo;ll see that it was created in the <code>us-east-1</code> region.</p>
 <p>To bring down the endpoint, we need to make Route 53 believe that the endpoint is down. So go to the health Lambda function of the <code>eu-west-1</code> region in the AWS console and change the status environment variable to <code>404</code>. Wait until the health check returns failure and create a new item, in my case making a post call to <code>https://multiregion.authenticatedservices.net/item</code> with a body like</p>
-<pre tabindex="0"><code>{
-  &#34;id&#34;: 7,
-  &#34;name&#34;: &#34;postman7&#34;
-}
-</code></pre><p>And now, if you go and get that item at <code>https://multiregion.authenticatedservices.net/item/7</code> you should get back something like this</p>
-<pre tabindex="0"><code>{
-  &#34;aws:rep:deleting&#34;:false,
-  &#34;aws:rep:updateregion&#34;:&#34;us-east-1&#34;,
-  &#34;aws:rep:updatetime&#34;:1573139907.998001,
-  &#34;id&#34;:7,
-  &#34;name&#34;:&#34;postman7&#34;
-}
-</code></pre><p>As you can see, the region is <code>us-east-1</code> !!</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  &#34;id&#34;: 7,
+</span></span><span class="line"><span class="cl">  &#34;name&#34;: &#34;postman7&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And now, if you go and get that item at <code>https://multiregion.authenticatedservices.net/item/7</code> you should get back something like this</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  &#34;aws:rep:deleting&#34;:false,
+</span></span><span class="line"><span class="cl">  &#34;aws:rep:updateregion&#34;:&#34;us-east-1&#34;,
+</span></span><span class="line"><span class="cl">  &#34;aws:rep:updatetime&#34;:1573139907.998001,
+</span></span><span class="line"><span class="cl">  &#34;id&#34;:7,
+</span></span><span class="line"><span class="cl">  &#34;name&#34;:&#34;postman7&#34;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see, the region is <code>us-east-1</code> !!</p>
 <h2 id="summary">Summary</h2>
 <p>In this article, we&rsquo;ve seen how we can create a multi-region active-active backend. This is an adaptation of the original <a href="https://read.acloud.guru/building-a-serverless-multi-region-active-active-backend-36f28bed4ecf">this article</a> from <a href="https://twitter.com/adhorn">Adrian Hornsby</a> but trying to automate as many things as we can.</p>
 <p>Hope it helps!!</p>

@@ -147,11 +147,15 @@ First steps First of all, you will need to set up a couple of things. Don&rsquo;
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#first-steps">First steps</a></li>
-    <li><a href="#continuous-deployment">Continuous deployment</a></li>
-    <li><a href="#code">Code</a></li>
-    <li><a href="#dependencies">Dependencies</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#first-steps">First steps</a></li>
+        <li><a href="#continuous-deployment">Continuous deployment</a></li>
+        <li><a href="#code">Code</a></li>
+        <li><a href="#dependencies">Dependencies</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -305,7 +309,7 @@ In types.fs:</p>
 <ul>
 <li>Add: open System.Runtime.Serialization</li>
 <li>Change the result type to:
-[<!-- raw HTML omitted -->]
+[<DataContract>]
 type Result = {
 [&lt;field: DataMember(Name=&ldquo;Gender&rdquo;)&gt;]
 Gender: string

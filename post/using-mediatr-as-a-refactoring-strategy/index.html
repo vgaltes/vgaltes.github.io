@@ -49,7 +49,7 @@
 <meta itemprop="name" content="Using MediatR as a refactoring strategy">
 <meta itemprop="description" content="Let me introduce you to Rachel, the new developer of the team. Rachel is an excellent developer eager to make a huge impact on the team and the organisation. When Rachel lands in the team, they treat them very well. They show her all the facilities, they teach her on how to make a good coffee with the new and shiny coffee machine and they even deploy to production in her first day."><meta itemprop="datePublished" content="2020-02-13T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-02-13T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1101">
+<meta itemprop="wordCount" content="1161">
 <meta itemprop="keywords" content="refactoring," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Using MediatR as a refactoring strategy"/>
 <meta name="twitter:description" content="Let me introduce you to Rachel, the new developer of the team. Rachel is an excellent developer eager to make a huge impact on the team and the organisation. When Rachel lands in the team, they treat them very well. They show her all the facilities, they teach her on how to make a good coffee with the new and shiny coffee machine and they even deploy to production in her first day."/>
@@ -133,7 +133,7 @@
             <a href="/categories/aspnet-core/"> aspnet core </a>
             <a href="/categories/agile/"> agile </a>
             </div>
-          <span class="more-meta"> 1101 words </span>
+          <span class="more-meta"> 1161 words </span>
           <span class="more-meta"> 6 mins read </span>
         
       </div>
@@ -144,8 +144,12 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#what-can-we-do-about-it">What can we do about it?</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#what-can-we-do-about-it">What can we do about it?</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -162,70 +166,154 @@
 <p>What does it mean for our refactoring? It means that we can start breaking up the application services in smaller handlers that implement each of the methods of it (Ideally splitted in commands and queries). Then, each handler will only have the code of one method of the application service, and will only have the dependencies it needs. Another advantage is that this is a refactor that you can implement method by method, hence it&rsquo;s easy to do applying the <a href="https://deviq.com/boy-scout-rule/">boy scout rule</a>. And finally, if you implment this, you will end up with bunch of folders in your solution which describe the actions and queries that you can make in your system, being that much easier to find what you need and to understand what is the system doing.</p>
 <p>Let&rsquo;s see how we can do this refactoring. As you will see, we can do this quite easily and in a &ldquo;safe&rdquo; manner (in case you don&rsquo;t have tests yet) by &ldquo;just&rdquo; copy and pasting code. Let&rsquo;s see a wee example.</p>
 <p>Imagine that you have this code</p>
-<pre tabindex="0"><code>public class UsersApplicationService
-{
-    public UsersApplicationService(IDependency1 d1, IDependency2 d2, 
-        IDependency3 d3, IDependency4 d4, IDependency5 d5)
-    {
-        // field initialization
-    }
-
-    // Lots of methods
-
-    public LoginResult LoginUser(string userName, string password)
-    {
-        // work with d1
-
-        // work with d2
-
-        // return result
-    }
-
-    // More methods
-}
-</code></pre><p>Let&rsquo;s start by creating a folder called <code>Commands\LoginUser</code>. Let&rsquo;s then create there a file called LoginUserResponse, that would be something like this:</p>
-<pre tabindex="0"><code>public class LoginUserResponse
-{
-    public LoginUserResponse(LoginResult result)
-    {
-        Result = result;
-    }
-
-    public LoginResult Result {get;}
-}
-</code></pre><p>Then, let&rsquo;s create a class that will define the request. In our case we need to wrap <em>username</em> and <em>password</em> in a class. We need to indicate to MediatR that this will be a request, implementing the <code>IRequest&lt;&gt;</code> interface:</p>
-<pre tabindex="0"><code>public class LoginUserRequest : IRequest&lt;LoginUserResponse&gt;
-{
-    public LoginUserRequest(string username, string password)
-    {
-        Username = username;
-        Password = password;
-    }
-
-    public string Username { get; }
-    public string Password { get; }
-}
-</code></pre><p>And finally, we need to create the handler. This will be a class that implements the <code>IRequestHandler&lt;,&gt;</code> interface and that will have a method that receives a <code>LoginUserRequest</code> and returns a <code>LoginUserResponse</code>. This class will only need two dependencies to be injected and we&rsquo;ll just need to copy the code that we had in the application service method and just change the points where we use the username and password (or create a variable for it) and the object that we return (that will include the previous return object).</p>
-<pre tabindex="0"><code>public class LoginUserHandler : IRequestHandler&lt;LoginUserRequest, LoginUserResponse&gt;
-{
-    public LoginUserHandler(IDependency1 d1, IDependency2 d2)
-    {
-        // field initialization
-    }
-
-    public Task&lt;LoginUserResponse&gt; Handle(LoginUserRequest request, CancellationToken cancellationToken)
-    {
-        var username = request.UserName; // we can inline it afterwards
-        var password = request.Password; // we can inline it afterwards
-
-        // work with d1 
-
-        // work with d2
-
-        // return result =&gt; Task.FromResult(new LoginUserResponse(result));
-    }
-}
-</code></pre><p>Finally, we&rsquo;ll need to change the controller to use mediator instead of calling the application service directly.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">public class UsersApplicationService
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    public UsersApplicationService(IDependency1 d1, IDependency2 d2, 
+</span></span><span class="line"><span class="cl">        IDependency3 d3, IDependency4 d4, IDependency5 d5)
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        // field initialization
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    // Lots of methods
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    public LoginResult LoginUser(string userName, string password)
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        // work with d1
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        // work with d2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        // return result
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    // More methods
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s start by creating a folder called <code>Commands\LoginUser</code>. Let&rsquo;s then create there a file called LoginUserResponse, that would be something like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">public class LoginUserResponse
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    public LoginUserResponse(LoginResult result)
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        Result = result;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    public LoginResult Result {get;}
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Then, let&rsquo;s create a class that will define the request. In our case we need to wrap <em>username</em> and <em>password</em> in a class. We need to indicate to MediatR that this will be a request, implementing the <code>IRequest&lt;&gt;</code> interface:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">public class LoginUserRequest : IRequest&lt;LoginUserResponse&gt;
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    public LoginUserRequest(string username, string password)
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        Username = username;
+</span></span><span class="line"><span class="cl">        Password = password;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    public string Username { get; }
+</span></span><span class="line"><span class="cl">    public string Password { get; }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And finally, we need to create the handler. This will be a class that implements the <code>IRequestHandler&lt;,&gt;</code> interface and that will have a method that receives a <code>LoginUserRequest</code> and returns a <code>LoginUserResponse</code>. This class will only need two dependencies to be injected and we&rsquo;ll just need to copy the code that we had in the application service method and just change the points where we use the username and password (or create a variable for it) and the object that we return (that will include the previous return object).</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">public class LoginUserHandler : IRequestHandler&lt;LoginUserRequest, LoginUserResponse&gt;
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    public LoginUserHandler(IDependency1 d1, IDependency2 d2)
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        // field initialization
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    public Task&lt;LoginUserResponse&gt; Handle(LoginUserRequest request, CancellationToken cancellationToken)
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">        var username = request.UserName; // we can inline it afterwards
+</span></span><span class="line"><span class="cl">        var password = request.Password; // we can inline it afterwards
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        // work with d1 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        // work with d2
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        // return result =&gt; Task.FromResult(new LoginUserResponse(result));
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Finally, we&rsquo;ll need to change the controller to use mediator instead of calling the application service directly.</p>
 <p>If we want to add unit tests afterward, those will be easier to setup, as we only will have two dependencies. They will live in the same folder structure as the source code, so they will be easy to find.</p>
 <p>And if we want to add validation, we can do that easily using behaviors. If the validation already exist in the method, we can move it to a validator quite easily.</p>
 <h2 id="summary">Summary</h2>

@@ -52,7 +52,7 @@ Amazon Cognito User Pools As the documentation says, a user pool is a user direc
 <meta itemprop="description" content="In many occasions, you don&rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated users. In this article we&rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&rsquo;s start!
 Amazon Cognito User Pools As the documentation says, a user pool is a user directory in Amazon Cognito. You can allow your users to sign-up, sign-in, etc."><meta itemprop="datePublished" content="2019-10-18T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2019-10-18T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1375">
+<meta itemprop="wordCount" content="1602">
 <meta itemprop="keywords" content="authentication,serverless framework,cognito,amplify," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Basic API Gateway endpoint authentication with Cognito User Pools"/>
 <meta name="twitter:description" content="In many occasions, you don&rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated users. In this article we&rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&rsquo;s start!
@@ -136,8 +136,8 @@ Amazon Cognito User Pools As the documentation says, a user pool is a user direc
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 1375 words </span>
-          <span class="more-meta"> 7 mins read </span>
+          <span class="more-meta"> 1602 words </span>
+          <span class="more-meta"> 8 mins read </span>
         
       </div>
     </header>
@@ -147,10 +147,14 @@ Amazon Cognito User Pools As the documentation says, a user pool is a user direc
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#amazon-cognito-user-pools">Amazon Cognito User Pools</a></li>
-    <li><a href="#secured-endpoint">Secured endpoint</a></li>
-    <li><a href="#client-app">Client App</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#amazon-cognito-user-pools">Amazon Cognito User Pools</a></li>
+        <li><a href="#secured-endpoint">Secured endpoint</a></li>
+        <li><a href="#client-app">Client App</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -160,265 +164,618 @@ Amazon Cognito User Pools As the documentation says, a user pool is a user direc
 <h2 id="amazon-cognito-user-pools">Amazon Cognito User Pools</h2>
 <p>As the documentation says, a user pool is a user directory in Amazon Cognito. You can allow your users to sign-up, sign-in, etc. You can also implement social sign-in with other identity providers, but we&rsquo;ll see that another day. Today we&rsquo;re going to create a simple user pool to allow users to sign-up and sign-in using their email.</p>
 <p>We can create a user pool using the console, but as we like Infrastructure as Code, we&rsquo;re going to use the serverless framework to create it. So, go to your preferred terminal, create a folder called, for example, TestCognitoUserPool, and start a new nodejs project. I&rsquo;m going to use yarn this time.</p>
-<pre tabindex="0"><code>yarn init
-</code></pre><p>Now install the serverless framework as dev dependency</p>
-<pre tabindex="0"><code>yarn add serverless --dev
-</code></pre><p>Now, create a file called serverless.yml and copy the following content</p>
-<pre tabindex="0"><code>service: testcognitouserpool
-
-provider:
-  name: aws
-  runtime: nodejs10.x
-  region: ${opt:region, self:custom.defaultRegion}
-  stage: ${opt:stage, self:custom.defaultStage}
-
-custom:
-  defaultRegion: eu-west-1
-  defaultStage: dev${env:SLSUSER, &#34;&#34;}
-
-resources:
-  Resources:
-    CognitoUserPool:
-      Type: AWS::Cognito::UserPool
-      Properties:
-        UserPoolName: ${self:provider.stage}-testauthsls-user-pool
-        UsernameAttributes:
-          - email
-        AutoVerifiedAttributes:
-          - email
-
-    CognitoUserPoolClient:
-      Type: AWS::Cognito::UserPoolClient
-      Properties:
-        ClientName: ${self:provider.stage}-testauthsls--user-pool-client
-        UserPoolId:
-          Ref: CognitoUserPool
-        GenerateSecret: false
-</code></pre><p>We&rsquo;re here creating a basic user pool, where the user will sign-in using her email as username. We&rsquo;re also creating an app client, specifying to not create the client secret, as the Javascript SDK doesn&rsquo;t have support for it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">yarn init
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now install the serverless framework as dev dependency</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">yarn add serverless --dev
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now, create a file called serverless.yml and copy the following content</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">service: testcognitouserpool
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">provider:
+</span></span><span class="line"><span class="cl">  name: aws
+</span></span><span class="line"><span class="cl">  runtime: nodejs10.x
+</span></span><span class="line"><span class="cl">  region: ${opt:region, self:custom.defaultRegion}
+</span></span><span class="line"><span class="cl">  stage: ${opt:stage, self:custom.defaultStage}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">custom:
+</span></span><span class="line"><span class="cl">  defaultRegion: eu-west-1
+</span></span><span class="line"><span class="cl">  defaultStage: dev${env:SLSUSER, &#34;&#34;}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">resources:
+</span></span><span class="line"><span class="cl">  Resources:
+</span></span><span class="line"><span class="cl">    CognitoUserPool:
+</span></span><span class="line"><span class="cl">      Type: AWS::Cognito::UserPool
+</span></span><span class="line"><span class="cl">      Properties:
+</span></span><span class="line"><span class="cl">        UserPoolName: ${self:provider.stage}-testauthsls-user-pool
+</span></span><span class="line"><span class="cl">        UsernameAttributes:
+</span></span><span class="line"><span class="cl">          - email
+</span></span><span class="line"><span class="cl">        AutoVerifiedAttributes:
+</span></span><span class="line"><span class="cl">          - email
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    CognitoUserPoolClient:
+</span></span><span class="line"><span class="cl">      Type: AWS::Cognito::UserPoolClient
+</span></span><span class="line"><span class="cl">      Properties:
+</span></span><span class="line"><span class="cl">        ClientName: ${self:provider.stage}-testauthsls--user-pool-client
+</span></span><span class="line"><span class="cl">        UserPoolId:
+</span></span><span class="line"><span class="cl">          Ref: CognitoUserPool
+</span></span><span class="line"><span class="cl">        GenerateSecret: false
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We&rsquo;re here creating a basic user pool, where the user will sign-in using her email as username. We&rsquo;re also creating an app client, specifying to not create the client secret, as the Javascript SDK doesn&rsquo;t have support for it.</p>
 <p>Let&rsquo;s deploy this. Create a script on your package.json file:</p>
-<pre tabindex="0"><code>&#34;scripts&#34;: {
-    &#34;deploy&#34;: &#34;serverless deploy --aws-profile serverless-local&#34;
-  }
-</code></pre><p>(In my case, I have a profile on my machine called serverless-local. Check the serverless framework <a href="https://serverless.com/framework/docs/providers/aws/guide/credentials/">documentation</a> to see how you can set it up).</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&#34;scripts&#34;: {
+</span></span><span class="line"><span class="cl">    &#34;deploy&#34;: &#34;serverless deploy --aws-profile serverless-local&#34;
+</span></span><span class="line"><span class="cl">  }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>(In my case, I have a profile on my machine called serverless-local. Check the serverless framework <a href="https://serverless.com/framework/docs/providers/aws/guide/credentials/">documentation</a> to see how you can set it up).</p>
 <p>Now, we can finally deploy:</p>
-<pre tabindex="0"><code>yarn run deploy
-</code></pre><p>Now, go to the AWS console and take note of the of the user pool id and the app client id.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">yarn run deploy
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now, go to the AWS console and take note of the of the user pool id and the app client id.</p>
 <h2 id="secured-endpoint">Secured endpoint</h2>
 <p>It&rsquo;s time now to create an api with an unsecured endpoint and a secured one. Return to your terminal and create another folder. Do the same node initializtion we did before and install the serverless-pseudo-prameters plugin, as we&rsquo;ll need it.</p>
-<pre tabindex="0"><code>yarn add serverless-pseudo-parameters --dev
-</code></pre><p>Now create the serverless.yml file with the following content:</p>
-<pre tabindex="0"><code>service: testauthsls
-
-plugins:
-  - serverless-pseudo-parameters
-
-provider:
-  name: aws
-  runtime: nodejs10.x
-  region: ${opt:region, self:custom.defaultRegion}
-  stage: ${opt:stage, self:custom.defaultStage}
-
-custom:
-  defaultRegion: eu-west-1
-  defaultStage: dev${env:SLSUSER, &#34;&#34;}
-
-functions:
-  helloWorld:
-    handler: src/functions/helloWorld.handler
-    events:
-      - http:
-          path: api/helloWorld
-          method: get
-          cors: true
-  helloWorldSecured:
-    handler: src/functions/helloWorldSecured.handler
-    events:
-      - http:
-          path: api/helloWorldSecured
-          method: get
-          cors: true
-          authorizer:
-            name: authorizer
-            arn: arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/&lt;theUserPoolId&gt;
-
-## to add cors to the API GW errors
-resources:
-  Resources:
-    GatewayResponseDefault4XX:
-      Type: &#39;AWS::ApiGateway::GatewayResponse&#39;
-      Properties:
-        ResponseParameters:
-          gatewayresponse.header.Access-Control-Allow-Origin: &#34;&#39;*&#39;&#34;
-          gatewayresponse.header.Access-Control-Allow-Headers: &#34;&#39;*&#39;&#34;
-        ResponseType: DEFAULT_4XX
-        RestApiId:
-          Ref: &#39;ApiGatewayRestApi&#39;
-    GatewayResponseDefault5XX:
-      Type: &#39;AWS::ApiGateway::GatewayResponse&#39;
-      Properties:
-        ResponseParameters:
-          gatewayresponse.header.Access-Control-Allow-Origin: &#34;&#39;*&#39;&#34;
-          gatewayresponse.header.Access-Control-Allow-Headers: &#34;&#39;*&#39;&#34;
-        ResponseType: DEFAULT_5XX
-        RestApiId:
-          Ref: &#39;ApiGatewayRestApi&#39;
-</code></pre><p>Nothing too strange here. First, we&rsquo;re creating a couple endpoints, both with CORS activated. In the secured one, we&rsquo;re saying that the authorizer will be our recently created user pool. In the resources section we&rsquo;re telling API Gateway to add CORS headers when it&rsquo;s failing for any reason, for example for a 401 unauthorized. This way, debugging errors from the client will be easier.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">yarn add serverless-pseudo-parameters --dev
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now create the serverless.yml file with the following content:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">service: testauthsls
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">plugins:
+</span></span><span class="line"><span class="cl">  - serverless-pseudo-parameters
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">provider:
+</span></span><span class="line"><span class="cl">  name: aws
+</span></span><span class="line"><span class="cl">  runtime: nodejs10.x
+</span></span><span class="line"><span class="cl">  region: ${opt:region, self:custom.defaultRegion}
+</span></span><span class="line"><span class="cl">  stage: ${opt:stage, self:custom.defaultStage}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">custom:
+</span></span><span class="line"><span class="cl">  defaultRegion: eu-west-1
+</span></span><span class="line"><span class="cl">  defaultStage: dev${env:SLSUSER, &#34;&#34;}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">functions:
+</span></span><span class="line"><span class="cl">  helloWorld:
+</span></span><span class="line"><span class="cl">    handler: src/functions/helloWorld.handler
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - http:
+</span></span><span class="line"><span class="cl">          path: api/helloWorld
+</span></span><span class="line"><span class="cl">          method: get
+</span></span><span class="line"><span class="cl">          cors: true
+</span></span><span class="line"><span class="cl">  helloWorldSecured:
+</span></span><span class="line"><span class="cl">    handler: src/functions/helloWorldSecured.handler
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - http:
+</span></span><span class="line"><span class="cl">          path: api/helloWorldSecured
+</span></span><span class="line"><span class="cl">          method: get
+</span></span><span class="line"><span class="cl">          cors: true
+</span></span><span class="line"><span class="cl">          authorizer:
+</span></span><span class="line"><span class="cl">            name: authorizer
+</span></span><span class="line"><span class="cl">            arn: arn:aws:cognito-idp:#{AWS::Region}:#{AWS::AccountId}:userpool/&lt;theUserPoolId&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">## to add cors to the API GW errors
+</span></span><span class="line"><span class="cl">resources:
+</span></span><span class="line"><span class="cl">  Resources:
+</span></span><span class="line"><span class="cl">    GatewayResponseDefault4XX:
+</span></span><span class="line"><span class="cl">      Type: &#39;AWS::ApiGateway::GatewayResponse&#39;
+</span></span><span class="line"><span class="cl">      Properties:
+</span></span><span class="line"><span class="cl">        ResponseParameters:
+</span></span><span class="line"><span class="cl">          gatewayresponse.header.Access-Control-Allow-Origin: &#34;&#39;*&#39;&#34;
+</span></span><span class="line"><span class="cl">          gatewayresponse.header.Access-Control-Allow-Headers: &#34;&#39;*&#39;&#34;
+</span></span><span class="line"><span class="cl">        ResponseType: DEFAULT_4XX
+</span></span><span class="line"><span class="cl">        RestApiId:
+</span></span><span class="line"><span class="cl">          Ref: &#39;ApiGatewayRestApi&#39;
+</span></span><span class="line"><span class="cl">    GatewayResponseDefault5XX:
+</span></span><span class="line"><span class="cl">      Type: &#39;AWS::ApiGateway::GatewayResponse&#39;
+</span></span><span class="line"><span class="cl">      Properties:
+</span></span><span class="line"><span class="cl">        ResponseParameters:
+</span></span><span class="line"><span class="cl">          gatewayresponse.header.Access-Control-Allow-Origin: &#34;&#39;*&#39;&#34;
+</span></span><span class="line"><span class="cl">          gatewayresponse.header.Access-Control-Allow-Headers: &#34;&#39;*&#39;&#34;
+</span></span><span class="line"><span class="cl">        ResponseType: DEFAULT_5XX
+</span></span><span class="line"><span class="cl">        RestApiId:
+</span></span><span class="line"><span class="cl">          Ref: &#39;ApiGatewayRestApi&#39;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Nothing too strange here. First, we&rsquo;re creating a couple endpoints, both with CORS activated. In the secured one, we&rsquo;re saying that the authorizer will be our recently created user pool. In the resources section we&rsquo;re telling API Gateway to add CORS headers when it&rsquo;s failing for any reason, for example for a 401 unauthorized. This way, debugging errors from the client will be easier.</p>
 <p>Let&rsquo;s create the files that will hold our functions. Start with <code>src/functions/helloWorld.js</code>:</p>
-<pre tabindex="0"><code>module.exports.handler = async event =&gt; {
-    const res = {
-        statusCode: 200,
-        headers: {
-            &#34;Access-Control-Allow-Origin&#34;: &#34;*&#34;
-        },
-        body: JSON.stringify(&#39;Hello from an unsecured endpoint&#39;)
-    };
-
-    return res;
-};
-</code></pre><p>And now it&rsquo;s time for <code>src/functions/helloWorldSecured.js</code>:</p>
-<pre tabindex="0"><code>module.exports.handler = async event =&gt; {
-    const userEmail = event.requestContext.authorizer.claims.email;
-
-    const res = {
-        statusCode: 200,
-        headers: {
-            &#34;Access-Control-Allow-Origin&#34;: &#34;*&#34;,
-            &#39;Access-Control-Allow-Credentials&#39;: true
-        },
-        body: JSON.stringify(`Hello from an secured endpoint -&gt; ${userEmail}`)
-    };
-
-    return res;
-};
-</code></pre><p>As you can see, we&rsquo;re taking the user email from the event, as it will come with the user information.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">module.exports.handler = async event =&gt; {
+</span></span><span class="line"><span class="cl">    const res = {
+</span></span><span class="line"><span class="cl">        statusCode: 200,
+</span></span><span class="line"><span class="cl">        headers: {
+</span></span><span class="line"><span class="cl">            &#34;Access-Control-Allow-Origin&#34;: &#34;*&#34;
+</span></span><span class="line"><span class="cl">        },
+</span></span><span class="line"><span class="cl">        body: JSON.stringify(&#39;Hello from an unsecured endpoint&#39;)
+</span></span><span class="line"><span class="cl">    };
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    return res;
+</span></span><span class="line"><span class="cl">};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And now it&rsquo;s time for <code>src/functions/helloWorldSecured.js</code>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">module.exports.handler = async event =&gt; {
+</span></span><span class="line"><span class="cl">    const userEmail = event.requestContext.authorizer.claims.email;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    const res = {
+</span></span><span class="line"><span class="cl">        statusCode: 200,
+</span></span><span class="line"><span class="cl">        headers: {
+</span></span><span class="line"><span class="cl">            &#34;Access-Control-Allow-Origin&#34;: &#34;*&#34;,
+</span></span><span class="line"><span class="cl">            &#39;Access-Control-Allow-Credentials&#39;: true
+</span></span><span class="line"><span class="cl">        },
+</span></span><span class="line"><span class="cl">        body: JSON.stringify(`Hello from an secured endpoint -&gt; ${userEmail}`)
+</span></span><span class="line"><span class="cl">    };
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    return res;
+</span></span><span class="line"><span class="cl">};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see, we&rsquo;re taking the user email from the event, as it will come with the user information.</p>
 <p>Let&rsquo;s deploy this (assuming you have the same script as before in the package.json file):</p>
-<pre tabindex="0"><code>yarn run deploy
-</code></pre><p>take note of the endpoint address, as we&rsquo;ll need it in the next step.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">yarn run deploy
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>take note of the endpoint address, as we&rsquo;ll need it in the next step.</p>
 <h2 id="client-app">Client App</h2>
 <p>It&rsquo;s now time to create a client App. For now, we&rsquo;re going to create a basic web site with HTML and Javascrip. I&rsquo;m not going to copy here the HTML that I&rsquo;m using because it&rsquo;s long and awful, but it&rsquo;s just a buch of inputs and buttons.</p>
 <p>Let&rsquo;s see how we can deal with users. First of all you will need to configure the Authentication part of AWS Amplify:</p>
-<pre tabindex="0"><code>import Amplify, { Auth } from &#39;aws-amplify&#39;;
-
-Amplify.configure({
-    Auth: {
-        // REQUIRED - Amazon Cognito Region
-        region: &#39;eu-west-1&#39;,
-
-        // OPTIONAL - Amazon Cognito User Pool ID
-        userPoolId: &#39;eu-west-XXXXX&#39;,
-
-        // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-        userPoolWebClientId: &#39;YYYYYYYYYYYYYYYYYYYYYYYYYY&#39;,
-
-        // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
-        mandatorySignIn: false
-    }
-});
-</code></pre><p>Let&rsquo;s see what we need to call in order to sign-up a new user:</p>
-<pre tabindex="0"><code>SignUpButton.addEventListener(&#39;click&#39;, async (evt) =&gt; {
-  const email = document.getElementById(&#39;SignUpEmail&#39;).value;
-  const password = document.getElementById(&#39;SignUpPassword&#39;).value;
-
-  await Auth.signUp({
-    username: email,
-    password
-    })
-    .then(data =&gt; {
-      console.log(data);
-    })
-    .catch(err =&gt; console.log(err));
-});
-</code></pre><p>As you can see, we need to call the signUp method, passing an object with the username and password. If you use other attributes, you&rsquo;ll need to pass them too, but we&rsquo;ll see that in another article.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">import Amplify, { Auth } from &#39;aws-amplify&#39;;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Amplify.configure({
+</span></span><span class="line"><span class="cl">    Auth: {
+</span></span><span class="line"><span class="cl">        // REQUIRED - Amazon Cognito Region
+</span></span><span class="line"><span class="cl">        region: &#39;eu-west-1&#39;,
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        // OPTIONAL - Amazon Cognito User Pool ID
+</span></span><span class="line"><span class="cl">        userPoolId: &#39;eu-west-XXXXX&#39;,
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
+</span></span><span class="line"><span class="cl">        userPoolWebClientId: &#39;YYYYYYYYYYYYYYYYYYYYYYYYYY&#39;,
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
+</span></span><span class="line"><span class="cl">        mandatorySignIn: false
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s see what we need to call in order to sign-up a new user:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SignUpButton.addEventListener(&#39;click&#39;, async (evt) =&gt; {
+</span></span><span class="line"><span class="cl">  const email = document.getElementById(&#39;SignUpEmail&#39;).value;
+</span></span><span class="line"><span class="cl">  const password = document.getElementById(&#39;SignUpPassword&#39;).value;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  await Auth.signUp({
+</span></span><span class="line"><span class="cl">    username: email,
+</span></span><span class="line"><span class="cl">    password
+</span></span><span class="line"><span class="cl">    })
+</span></span><span class="line"><span class="cl">    .then(data =&gt; {
+</span></span><span class="line"><span class="cl">      console.log(data);
+</span></span><span class="line"><span class="cl">    })
+</span></span><span class="line"><span class="cl">    .catch(err =&gt; console.log(err));
+</span></span><span class="line"><span class="cl">});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see, we need to call the signUp method, passing an object with the username and password. If you use other attributes, you&rsquo;ll need to pass them too, but we&rsquo;ll see that in another article.</p>
 <p>When the user signs up, she will receive an email with a confirmation number. This is configurable (you can receive an SMS, for example), but the default is an email. If you go to the browsers console, you will see the user object with the field confirmed as false.</p>
 <p>So, go to your email, copy the confirmation number and call this function:</p>
-<pre tabindex="0"><code>ConfirmUserButton.addEventListener(&#39;click&#39;, async (evt) =&gt; {
-  const username = document.getElementById(&#39;ConfirmationCodeUser&#39;).value;
-  const code = document.getElementById(&#39;ConfirmationCodeCode&#39;).value;
-
-  await Auth.confirmSignUp(username, code).then(data =&gt; console.log(data))
-    .catch(err =&gt; console.log(err));
-});
-</code></pre><p>Great, the user is now confirmed, we can sign her in:</p>
-<pre tabindex="0"><code>SignInButton.addEventListener(&#39;click&#39;, async (evt) =&gt; {
-  const username = document.getElementById(&#39;SignInLogin&#39;).value;
-  const password = document.getElementById(&#39;SignInPassword&#39;).value;
-
-  await SignIn(username, password);
-});
-
-async function SignIn(username, password) {
-  try {
-      const user = await Auth.signIn(username, password);
-  } catch (err) {
-    if (err.code === &#39;UserNotConfirmedException&#39;) {
-      } else if (err.code === &#39;PasswordResetRequiredException&#39;) {
-      } else if (err.code === &#39;NotAuthorizedException&#39;) {
-      } else if (err.code === &#39;UserNotFoundException&#39;) {
-      } else {
-          console.log(err);
-      }
-  }
-}
-</code></pre><p>Easy peasy. Now, you can get the logged user whenever you want:</p>
-<pre tabindex="0"><code>let refreshAuthenticatedUserInfo = async () =&gt; {
-  await Auth.currentAuthenticatedUser({
-    bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
-  }).then(user =&gt; {
-    UserLoggedInSpan.innerText = user.attributes[&#34;email&#34;]
-  })
-  .catch(err =&gt; {
-    UserLoggedInSpan.innerText = &#39;&#39;;
-    console.log(err)
-  });
-}
-</code></pre><p>And finally, you can log out if you want:</p>
-<pre tabindex="0"><code>LogOutButton.addEventListener(&#39;click&#39;, async (evt) =&gt; {
-  await Auth.signOut()
-    .then(data =&gt; {
-      console.log(data);
-      refreshAuthenticatedUserInfo();
-    })
-    .catch(err =&gt; console.log(err));
-});
-</code></pre><p>But before logging out, we want to make a call to our secured and unsecured endpoints. To do that, we can let Amplify help us again, by using the API module. Let&rsquo;s change the import to:</p>
-<pre tabindex="0"><code>import Amplify, { Auth, API } from &#39;aws-amplify&#39;;
-</code></pre><p>And add the following code to the configuration object we pass to the configure function:</p>
-<pre tabindex="0"><code>API: {
-    endpoints: [
-        {
-            name: &#34;MyAPIGatewayAPI&#34;,
-            endpoint: &#34;https://xxxxxx.execute-api.eu-west-1.amazonaws.com&#34; // your API GW base url
-        }
-    ]
-}
-</code></pre><p>Let&rsquo;s make a call to an non-secured endpoint:</p>
-<pre tabindex="0"><code>RequestToNonSecuredEndpointButton.addEventListener(&#39;click&#39;, async evt =&gt; {
-  await API.get(&#34;MyAPIGatewayAPI&#34;, &#39;/dev/api/helloWorld&#39;).then(response =&gt; {
-    console.log(response);
-  }).catch(error =&gt; {
-      console.log(JSON.stringify(error))
-  });
-});
-</code></pre><p>And finally let&rsquo;s make a call to a secured endpoint:</p>
-<pre tabindex="0"><code>RequestToSecuredEndpointButton.addEventListener(&#39;click&#39;, async evt =&gt; {
-  let myInit = { 
-    headers: { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
-}
-  await API.get(&#34;MyAPIGatewayAPI&#34;, &#39;/dev/api/helloWorldSecured&#39;, myInit).then(response =&gt; {
-      console.log(response);
-  }).catch(error =&gt; {
-      console.log(JSON.stringify(error))
-  });
-});
-</code></pre><p>As you can see, we&rsquo;re constructing the authorization header with Amplify&rsquo;s help. In case all your endpoint is secured, you can put that in the endpoint configuration, doing something like:</p>
-<pre tabindex="0"><code>{
-    name: &#34;MyAPIGatewayAPI&#34;,
-    endpoint: &#34;https://XXXXXXX.execute-api.eu-west-1.amazonaws.com&#34;,
-    custom_header: async () =&gt; { 
-        return { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
-    }
-}
-</code></pre><h2 id="summary">Summary</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ConfirmUserButton.addEventListener(&#39;click&#39;, async (evt) =&gt; {
+</span></span><span class="line"><span class="cl">  const username = document.getElementById(&#39;ConfirmationCodeUser&#39;).value;
+</span></span><span class="line"><span class="cl">  const code = document.getElementById(&#39;ConfirmationCodeCode&#39;).value;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  await Auth.confirmSignUp(username, code).then(data =&gt; console.log(data))
+</span></span><span class="line"><span class="cl">    .catch(err =&gt; console.log(err));
+</span></span><span class="line"><span class="cl">});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Great, the user is now confirmed, we can sign her in:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SignInButton.addEventListener(&#39;click&#39;, async (evt) =&gt; {
+</span></span><span class="line"><span class="cl">  const username = document.getElementById(&#39;SignInLogin&#39;).value;
+</span></span><span class="line"><span class="cl">  const password = document.getElementById(&#39;SignInPassword&#39;).value;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  await SignIn(username, password);
+</span></span><span class="line"><span class="cl">});
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">async function SignIn(username, password) {
+</span></span><span class="line"><span class="cl">  try {
+</span></span><span class="line"><span class="cl">      const user = await Auth.signIn(username, password);
+</span></span><span class="line"><span class="cl">  } catch (err) {
+</span></span><span class="line"><span class="cl">    if (err.code === &#39;UserNotConfirmedException&#39;) {
+</span></span><span class="line"><span class="cl">      } else if (err.code === &#39;PasswordResetRequiredException&#39;) {
+</span></span><span class="line"><span class="cl">      } else if (err.code === &#39;NotAuthorizedException&#39;) {
+</span></span><span class="line"><span class="cl">      } else if (err.code === &#39;UserNotFoundException&#39;) {
+</span></span><span class="line"><span class="cl">      } else {
+</span></span><span class="line"><span class="cl">          console.log(err);
+</span></span><span class="line"><span class="cl">      }
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Easy peasy. Now, you can get the logged user whenever you want:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">let refreshAuthenticatedUserInfo = async () =&gt; {
+</span></span><span class="line"><span class="cl">  await Auth.currentAuthenticatedUser({
+</span></span><span class="line"><span class="cl">    bypassCache: false  // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
+</span></span><span class="line"><span class="cl">  }).then(user =&gt; {
+</span></span><span class="line"><span class="cl">    UserLoggedInSpan.innerText = user.attributes[&#34;email&#34;]
+</span></span><span class="line"><span class="cl">  })
+</span></span><span class="line"><span class="cl">  .catch(err =&gt; {
+</span></span><span class="line"><span class="cl">    UserLoggedInSpan.innerText = &#39;&#39;;
+</span></span><span class="line"><span class="cl">    console.log(err)
+</span></span><span class="line"><span class="cl">  });
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And finally, you can log out if you want:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">LogOutButton.addEventListener(&#39;click&#39;, async (evt) =&gt; {
+</span></span><span class="line"><span class="cl">  await Auth.signOut()
+</span></span><span class="line"><span class="cl">    .then(data =&gt; {
+</span></span><span class="line"><span class="cl">      console.log(data);
+</span></span><span class="line"><span class="cl">      refreshAuthenticatedUserInfo();
+</span></span><span class="line"><span class="cl">    })
+</span></span><span class="line"><span class="cl">    .catch(err =&gt; console.log(err));
+</span></span><span class="line"><span class="cl">});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>But before logging out, we want to make a call to our secured and unsecured endpoints. To do that, we can let Amplify help us again, by using the API module. Let&rsquo;s change the import to:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">import Amplify, { Auth, API } from &#39;aws-amplify&#39;;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And add the following code to the configuration object we pass to the configure function:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">API: {
+</span></span><span class="line"><span class="cl">    endpoints: [
+</span></span><span class="line"><span class="cl">        {
+</span></span><span class="line"><span class="cl">            name: &#34;MyAPIGatewayAPI&#34;,
+</span></span><span class="line"><span class="cl">            endpoint: &#34;https://xxxxxx.execute-api.eu-west-1.amazonaws.com&#34; // your API GW base url
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    ]
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s make a call to an non-secured endpoint:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">RequestToNonSecuredEndpointButton.addEventListener(&#39;click&#39;, async evt =&gt; {
+</span></span><span class="line"><span class="cl">  await API.get(&#34;MyAPIGatewayAPI&#34;, &#39;/dev/api/helloWorld&#39;).then(response =&gt; {
+</span></span><span class="line"><span class="cl">    console.log(response);
+</span></span><span class="line"><span class="cl">  }).catch(error =&gt; {
+</span></span><span class="line"><span class="cl">      console.log(JSON.stringify(error))
+</span></span><span class="line"><span class="cl">  });
+</span></span><span class="line"><span class="cl">});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And finally let&rsquo;s make a call to a secured endpoint:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">RequestToSecuredEndpointButton.addEventListener(&#39;click&#39;, async evt =&gt; {
+</span></span><span class="line"><span class="cl">  let myInit = { 
+</span></span><span class="line"><span class="cl">    headers: { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">  await API.get(&#34;MyAPIGatewayAPI&#34;, &#39;/dev/api/helloWorldSecured&#39;, myInit).then(response =&gt; {
+</span></span><span class="line"><span class="cl">      console.log(response);
+</span></span><span class="line"><span class="cl">  }).catch(error =&gt; {
+</span></span><span class="line"><span class="cl">      console.log(JSON.stringify(error))
+</span></span><span class="line"><span class="cl">  });
+</span></span><span class="line"><span class="cl">});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see, we&rsquo;re constructing the authorization header with Amplify&rsquo;s help. In case all your endpoint is secured, you can put that in the endpoint configuration, doing something like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    name: &#34;MyAPIGatewayAPI&#34;,
+</span></span><span class="line"><span class="cl">    endpoint: &#34;https://XXXXXXX.execute-api.eu-west-1.amazonaws.com&#34;,
+</span></span><span class="line"><span class="cl">    custom_header: async () =&gt; { 
+</span></span><span class="line"><span class="cl">        return { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="summary">Summary</h2>
 <p>In this article we&rsquo;ve seen how we can secure an endpoint using Cognito User Pools. We&rsquo;ve also seen how can we access those endpoints using Amplify and how we can use Amplify to creat and sign in users. Hope you find it useful!</p>
 
     </div>

@@ -49,7 +49,7 @@
 <meta itemprop="name" content="Using Key Vault secrets in AppSettings">
 <meta itemprop="description" content="In the last article we talked about securing Azure Functions and we saw how to insert a message into an Event Hub. To insert the message, we needed the connection string to be in an application setting. This is not the most secure way to store a connection string. We talked that it would be a much better option to store it in Key Vault. Until a couple of days ago, to do that we needed to use a library to get the secret from Key Vault and then use an imperative binding to be able to insert the message into the Event Hub."><meta itemprop="datePublished" content="2018-11-30T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2018-11-30T00:00:00+00:00" />
-<meta itemprop="wordCount" content="972">
+<meta itemprop="wordCount" content="1068">
 <meta itemprop="keywords" content="devops,azure functions,azure," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Using Key Vault secrets in AppSettings"/>
 <meta name="twitter:description" content="In the last article we talked about securing Azure Functions and we saw how to insert a message into an Event Hub. To insert the message, we needed the connection string to be in an application setting. This is not the most secure way to store a connection string. We talked that it would be a much better option to store it in Key Vault. Until a couple of days ago, to do that we needed to use a library to get the secret from Key Vault and then use an imperative binding to be able to insert the message into the Event Hub."/>
@@ -132,8 +132,8 @@
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 972 words </span>
-          <span class="more-meta"> 5 mins read </span>
+          <span class="more-meta"> 1068 words </span>
+          <span class="more-meta"> 6 mins read </span>
         
       </div>
     </header>
@@ -143,8 +143,12 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#creating-the-key-vault">Creating the Key Vault</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#creating-the-key-vault">Creating the Key Vault</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -154,114 +158,270 @@
 <p>But on Wednesday the Azure Functions team released a bunch of <a href="https://azure.microsoft.com/en-us/blog/simplifying-security-for-serverless-and-web-apps-with-azure-functions-and-app-service/">security related features</a>. One of them, is that you can use a secret stored in Key Vault as a value for an application settings. So, we can use Key Vault as the source of our secrets for the declarative bindings without making any change in our code. Let&rsquo;s see how we can do it.</p>
 <h2 id="creating-the-key-vault">Creating the Key Vault</h2>
 <p>As usual, we can do this using the Azure Portal, but we don&rsquo;t really want to use it, so we&rsquo;ll continue using the Azure CLI. Open your preferred terminal and type:</p>
-<pre tabindex="0"><code>keyVaultName=$serviceName-kv
-az keyvault create --name $keyVaultName --resource-group $resourceGroupName --location $location
-</code></pre><p>Next, we need to create a key to encrypt all our passwords. By now we&rsquo;ll tell Key Vault to create it for us.</p>
-<pre tabindex="0"><code>keyVaultKeyName=$keyVaultName-key
-az keyvault key create --vault-name $keyVaultName --name $keyVaultKeyName --protection software
-</code></pre><p>The next thing we need to know is to create the Service Managed Identity of our Function App. We will need it to be able to set a police on the Key Vault so our function can read secrets from there. Let&rsquo;s do this, step by step. First, create the SMI and get the service principal id:</p>
-<pre tabindex="0"><code>spn=&#34;$(az webapp identity assign --name $serviceName --resource-group $resourceGroupName --query principalId)&#34;
-spn=&#34;${spn%\&#34;}&#34;
-spn=&#34;${spn#\&#34;}&#34;
-</code></pre><p>And second, create the policy in the Key Vault:</p>
-<pre tabindex="0"><code>az keyvault set-policy --name $keyVaultName --object-id $spn --secret-permissions get
-</code></pre><p>We now need to create the secret and get its id:</p>
-<pre tabindex="0"><code>secretId=&#34;$(az keyvault secret set --name EventHubConnectionString --vault-name $keyVaultName --value $ehConnectionString --query id)&#34;
-secretId=&#34;${secretId%\&#34;}&#34;
-secretId=&#34;${secretId#\&#34;}&#34;
-</code></pre><p>And finally we need to set the application setting in our function. The setting has to have this format: <code>@Microsoft.KeyVault(SecretUri=&lt;the_uri_of_the_secret_including_the_version&gt;)</code></p>
-<pre tabindex="0"><code>ehConnectionString=&#34;@Microsoft.KeyVault(SecretUri=$secretId)&#34;
-az functionapp config appsettings set -g $resourceGroupName -n $serviceName --settings TestQueueConnectionString=$ehConnectionString
-</code></pre><p>And now we can use this setting in the biding of our function, the same way we used it in the first example of the previous post:</p>
-<pre tabindex="0"><code>[FunctionName(&#34;HelloWorld&#34;)]
-public static ActionResult Run(
-    [HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] CustomObject req,
-    [EventHub(&#34;pings&#34;, Connection = &#34;TestQueueConnectionString&#34;)] out string ehMessage,
-    ILogger log)
-{
-  string name = req?.name;
-
-  ehMessage = &#34;Message from output binding from key vault&#34;;
-
-  return name != null
-      ? (ActionResult)new OkObjectResult($&#34;Hello again, this time with custom request object, {name}&#34;)
-      : new BadRequestObjectResult(&#34;Please pass a name on the query string or in the request body&#34;);
-}
-</code></pre><p>And that&rsquo;s all. This is how we used a secret stored in Key Vault in a declarative binding.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">keyVaultName=$serviceName-kv
+</span></span><span class="line"><span class="cl">az keyvault create --name $keyVaultName --resource-group $resourceGroupName --location $location
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Next, we need to create a key to encrypt all our passwords. By now we&rsquo;ll tell Key Vault to create it for us.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">keyVaultKeyName=$keyVaultName-key
+</span></span><span class="line"><span class="cl">az keyvault key create --vault-name $keyVaultName --name $keyVaultKeyName --protection software
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The next thing we need to know is to create the Service Managed Identity of our Function App. We will need it to be able to set a police on the Key Vault so our function can read secrets from there. Let&rsquo;s do this, step by step. First, create the SMI and get the service principal id:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">spn=&#34;$(az webapp identity assign --name $serviceName --resource-group $resourceGroupName --query principalId)&#34;
+</span></span><span class="line"><span class="cl">spn=&#34;${spn%\&#34;}&#34;
+</span></span><span class="line"><span class="cl">spn=&#34;${spn#\&#34;}&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And second, create the policy in the Key Vault:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">az keyvault set-policy --name $keyVaultName --object-id $spn --secret-permissions get
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We now need to create the secret and get its id:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">secretId=&#34;$(az keyvault secret set --name EventHubConnectionString --vault-name $keyVaultName --value $ehConnectionString --query id)&#34;
+</span></span><span class="line"><span class="cl">secretId=&#34;${secretId%\&#34;}&#34;
+</span></span><span class="line"><span class="cl">secretId=&#34;${secretId#\&#34;}&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And finally we need to set the application setting in our function. The setting has to have this format: <code>@Microsoft.KeyVault(SecretUri=&lt;the_uri_of_the_secret_including_the_version&gt;)</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ehConnectionString=&#34;@Microsoft.KeyVault(SecretUri=$secretId)&#34;
+</span></span><span class="line"><span class="cl">az functionapp config appsettings set -g $resourceGroupName -n $serviceName --settings TestQueueConnectionString=$ehConnectionString
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And now we can use this setting in the biding of our function, the same way we used it in the first example of the previous post:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[FunctionName(&#34;HelloWorld&#34;)]
+</span></span><span class="line"><span class="cl">public static ActionResult Run(
+</span></span><span class="line"><span class="cl">    [HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] CustomObject req,
+</span></span><span class="line"><span class="cl">    [EventHub(&#34;pings&#34;, Connection = &#34;TestQueueConnectionString&#34;)] out string ehMessage,
+</span></span><span class="line"><span class="cl">    ILogger log)
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  string name = req?.name;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  ehMessage = &#34;Message from output binding from key vault&#34;;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  return name != null
+</span></span><span class="line"><span class="cl">      ? (ActionResult)new OkObjectResult($&#34;Hello again, this time with custom request object, {name}&#34;)
+</span></span><span class="line"><span class="cl">      : new BadRequestObjectResult(&#34;Please pass a name on the query string or in the request body&#34;);
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And that&rsquo;s all. This is how we used a secret stored in Key Vault in a declarative binding.</p>
 <p>For the record, this is how our deploy.sh script looks like:</p>
-<pre tabindex="0"><code>#!/bin/bash
-location=$2
-stage=$3
-serviceName=$1-$stage
-BLUE=&#39;\033[0;34m&#39;
-NC=&#39;\033[0m&#39; # No Color
-
-resourceGroupName=$serviceName&#34;-rg&#34;
-appInsightsName=$serviceName&#34;-ai&#34;
-serviceNameToLower=&#34;$(echo $serviceName | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&#34;
-storageAccountName=&#34;$(echo ${serviceNameToLower//&#34;-&#34;/&#34;&#34;})&#34;
-echo -e &#34;${BLUE}Creating resource group${NC}&#34;
-az group create --name $resourceGroupName --location $location
-echo -e &#34;${BLUE}Creating storage account${NC}&#34;
-az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRS
-echo -e &#34;${BLUE}Creating function app${NC}&#34;
-az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location $location --resource-group $resourceGroupName
-echo -e &#34;${BLUE}Creating the app insights resource${NC}&#34;
-az resource create --resource-group $resourceGroupName --resource-type &#34;Microsoft.Insights/components&#34; --name $appInsightsName --location $location --properties &#39;{&#34;ApplicationType&#34;:&#34;web&#34;}&#39;
-appInsightsInstrumentationKey=&#34;$(az resource show -g $resourceGroupName -n $appInsightsName --resource-type &#39;Microsoft.Insights/components&#39; --query properties.InstrumentationKey)&#34;
-appInsightsInstrumentationKey=&#34;${appInsightsInstrumentationKey%\&#34;}&#34;
-appInsightsInstrumentationKey=&#34;${appInsightsInstrumentationKey#\&#34;}&#34;
-echo -e &#34;${BLUE}Instrumentation key = $appInsightsInstrumentationKey${NC}&#34;
-echo -e &#34;${BLUE}Publishing function locally${NC}&#34;
-mkdir publish
-rm -rf publish/*
-dotnet publish
-pushd bin/Debug/netcoreapp2.1/publish
-zip -r -X ../../../../publish/$serviceName.zip *
-popd
-echo -e &#34;${BLUE}Publisihng function to Azure${NC}&#34;
-az webapp deployment source config-zip -g $resourceGroupName -n $serviceName --src ./publish/$serviceName.zip
-#config app settings
-echo -e &#34;${BLUE}Configuring the instrumentation key${NC}&#34;
-az functionapp config appsettings set -g $resourceGroupName -n $serviceName --settings APPINSIGHTS_INSTRUMENTATIONKEY=$appInsightsInstrumentationKey
-
-#Create the event hub
-echo -e &#34;${BLUE}Creating the Event Hub${NC}&#34;
-eventHubNamespaceName=$serviceName&#34;-ehnamespace&#34;
-eventHubName=pings
-az eventhubs namespace create --name $eventHubNamespaceName --resource-group $resourceGroupName --location $location --sku Basic
-az eventhubs eventhub create --name $eventHubName --namespace-name $eventHubNamespaceName --resource-group $resourceGroupName --message-retention 1
-az eventhubs eventhub authorization-rule create --resource-group $resourceGroupName --namespace-name $eventHubNamespaceName --eventhub-name $eventHubName --name Send --rights Send
-ehConnectionString=&#34;$(az eventhubs eventhub authorization-rule keys list --resource-group $resourceGroupName --namespace-name $eventHubNamespaceName --eventhub-name $eventHubName --name Send --query primaryConnectionString)&#34;
-ehConnectionString=&#34;${ehConnectionString%\&#34;}&#34;
-ehConnectionString=&#34;${ehConnectionString#\&#34;}&#34;
-
-#Create the Key Vault
-echo -e &#34;${BLUE}Creating the Key vault${NC}&#34;
-keyVaultName=$serviceName-kv
-keyVaultKeyName=$keyVaultName-key
-az keyvault create --name $keyVaultName --resource-group $resourceGroupName --location $location
-az keyvault key create --vault-name $keyVaultName --name $keyVaultKeyName --protection software
-spn=&#34;$(az webapp identity assign --name $serviceName --resource-group $resourceGroupName --query principalId)&#34;
-spn=&#34;${spn%\&#34;}&#34;
-spn=&#34;${spn#\&#34;}&#34;
-az keyvault set-policy --name $keyVaultName --object-id $spn --secret-permissions get
-secretId=&#34;$(az keyvault secret set --name EventHubConnectionString --vault-name $keyVaultName --value $ehConnectionString --query id)&#34;
-secretId=&#34;${secretId%\&#34;}&#34;
-secretId=&#34;${secretId#\&#34;}&#34;
-ehConnectionString=&#34;@Microsoft.KeyVault(SecretUri=$secretId)&#34;
-az functionapp config appsettings set -g $resourceGroupName -n $serviceName --settings TestQueueConnectionString=$ehConnectionString
-</code></pre><p>You can call it in this way:</p>
-<pre tabindex="0"><code>./deploy.sh TestKeyVault westeurope dev
-</code></pre><h2 id="summary">Summary</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/bash
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="nv">location</span><span class="o">=</span><span class="nv">$2</span>
+</span></span><span class="line"><span class="cl"><span class="nv">stage</span><span class="o">=</span><span class="nv">$3</span>
+</span></span><span class="line"><span class="cl"><span class="nv">serviceName</span><span class="o">=</span><span class="nv">$1</span>-<span class="nv">$stage</span>
+</span></span><span class="line"><span class="cl"><span class="nv">BLUE</span><span class="o">=</span><span class="s1">&#39;\033[0;34m&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">NC</span><span class="o">=</span><span class="s1">&#39;\033[0m&#39;</span> <span class="c1"># No Color</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">resourceGroupName</span><span class="o">=</span><span class="nv">$serviceName</span><span class="s2">&#34;-rg&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">appInsightsName</span><span class="o">=</span><span class="nv">$serviceName</span><span class="s2">&#34;-ai&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">serviceNameToLower</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span><span class="nb">echo</span> <span class="nv">$serviceName</span> <span class="p">|</span> tr <span class="s1">&#39;[:upper:]&#39;</span> <span class="s1">&#39;[:lower:]&#39;</span><span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">storageAccountName</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span><span class="nb">echo</span> <span class="si">${</span><span class="nv">serviceNameToLower</span><span class="p">//</span><span class="s2">&#34;-&#34;</span><span class="p">/</span><span class="s2">&#34;&#34;</span><span class="si">}</span><span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> -e <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">Creating resource group</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">az group create --name <span class="nv">$resourceGroupName</span> --location <span class="nv">$location</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> -e <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">Creating storage account</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">az storage account create --name <span class="nv">$storageAccountName</span> --location <span class="nv">$location</span> --resource-group <span class="nv">$resourceGroupName</span> --sku Standard_LRS
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> -e <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">Creating function app</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">az functionapp create --name <span class="nv">$serviceName</span> --storage-account <span class="nv">$storageAccountName</span> --consumption-plan-location <span class="nv">$location</span> --resource-group <span class="nv">$resourceGroupName</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> -e <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">Creating the app insights resource</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">az resource create --resource-group <span class="nv">$resourceGroupName</span> --resource-type <span class="s2">&#34;Microsoft.Insights/components&#34;</span> --name <span class="nv">$appInsightsName</span> --location <span class="nv">$location</span> --properties <span class="s1">&#39;{&#34;ApplicationType&#34;:&#34;web&#34;}&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">appInsightsInstrumentationKey</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span>az resource show -g <span class="nv">$resourceGroupName</span> -n <span class="nv">$appInsightsName</span> --resource-type <span class="s1">&#39;Microsoft.Insights/components&#39;</span> --query properties.InstrumentationKey<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">appInsightsInstrumentationKey</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">appInsightsInstrumentationKey</span><span class="p">%</span><span class="se">\&#34;</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">appInsightsInstrumentationKey</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">appInsightsInstrumentationKey</span><span class="p">#</span><span class="se">\&#34;</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> -e <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">Instrumentation key = </span><span class="nv">$appInsightsInstrumentationKey</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> -e <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">Publishing function locally</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">mkdir publish
+</span></span><span class="line"><span class="cl">rm -rf publish/*
+</span></span><span class="line"><span class="cl">dotnet publish
+</span></span><span class="line"><span class="cl"><span class="nb">pushd</span> bin/Debug/netcoreapp2.1/publish
+</span></span><span class="line"><span class="cl">zip -r -X ../../../../publish/<span class="nv">$serviceName</span>.zip *
+</span></span><span class="line"><span class="cl"><span class="nb">popd</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> -e <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">Publisihng function to Azure</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">az webapp deployment <span class="nb">source</span> config-zip -g <span class="nv">$resourceGroupName</span> -n <span class="nv">$serviceName</span> --src ./publish/<span class="nv">$serviceName</span>.zip
+</span></span><span class="line"><span class="cl"><span class="c1">#config app settings</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> -e <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">Configuring the instrumentation key</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">az functionapp config appsettings <span class="nb">set</span> -g <span class="nv">$resourceGroupName</span> -n <span class="nv">$serviceName</span> --settings <span class="nv">APPINSIGHTS_INSTRUMENTATIONKEY</span><span class="o">=</span><span class="nv">$appInsightsInstrumentationKey</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#Create the event hub</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> -e <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">Creating the Event Hub</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">eventHubNamespaceName</span><span class="o">=</span><span class="nv">$serviceName</span><span class="s2">&#34;-ehnamespace&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">eventHubName</span><span class="o">=</span>pings
+</span></span><span class="line"><span class="cl">az eventhubs namespace create --name <span class="nv">$eventHubNamespaceName</span> --resource-group <span class="nv">$resourceGroupName</span> --location <span class="nv">$location</span> --sku Basic
+</span></span><span class="line"><span class="cl">az eventhubs eventhub create --name <span class="nv">$eventHubName</span> --namespace-name <span class="nv">$eventHubNamespaceName</span> --resource-group <span class="nv">$resourceGroupName</span> --message-retention <span class="m">1</span>
+</span></span><span class="line"><span class="cl">az eventhubs eventhub authorization-rule create --resource-group <span class="nv">$resourceGroupName</span> --namespace-name <span class="nv">$eventHubNamespaceName</span> --eventhub-name <span class="nv">$eventHubName</span> --name Send --rights Send
+</span></span><span class="line"><span class="cl"><span class="nv">ehConnectionString</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span>az eventhubs eventhub authorization-rule keys list --resource-group <span class="nv">$resourceGroupName</span> --namespace-name <span class="nv">$eventHubNamespaceName</span> --eventhub-name <span class="nv">$eventHubName</span> --name Send --query primaryConnectionString<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ehConnectionString</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">ehConnectionString</span><span class="p">%</span><span class="se">\&#34;</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ehConnectionString</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">ehConnectionString</span><span class="p">#</span><span class="se">\&#34;</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#Create the Key Vault</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> -e <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BLUE</span><span class="si">}</span><span class="s2">Creating the Key vault</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">keyVaultName</span><span class="o">=</span><span class="nv">$serviceName</span>-kv
+</span></span><span class="line"><span class="cl"><span class="nv">keyVaultKeyName</span><span class="o">=</span><span class="nv">$keyVaultName</span>-key
+</span></span><span class="line"><span class="cl">az keyvault create --name <span class="nv">$keyVaultName</span> --resource-group <span class="nv">$resourceGroupName</span> --location <span class="nv">$location</span>
+</span></span><span class="line"><span class="cl">az keyvault key create --vault-name <span class="nv">$keyVaultName</span> --name <span class="nv">$keyVaultKeyName</span> --protection software
+</span></span><span class="line"><span class="cl"><span class="nv">spn</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span>az webapp identity assign --name <span class="nv">$serviceName</span> --resource-group <span class="nv">$resourceGroupName</span> --query principalId<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">spn</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">spn</span><span class="p">%</span><span class="se">\&#34;</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">spn</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">spn</span><span class="p">#</span><span class="se">\&#34;</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">az keyvault set-policy --name <span class="nv">$keyVaultName</span> --object-id <span class="nv">$spn</span> --secret-permissions get
+</span></span><span class="line"><span class="cl"><span class="nv">secretId</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span>az keyvault secret <span class="nb">set</span> --name EventHubConnectionString --vault-name <span class="nv">$keyVaultName</span> --value <span class="nv">$ehConnectionString</span> --query id<span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">secretId</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">secretId</span><span class="p">%</span><span class="se">\&#34;</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">secretId</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">secretId</span><span class="p">#</span><span class="se">\&#34;</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">ehConnectionString</span><span class="o">=</span><span class="s2">&#34;@Microsoft.KeyVault(SecretUri=</span><span class="nv">$secretId</span><span class="s2">)&#34;</span>
+</span></span><span class="line"><span class="cl">az functionapp config appsettings <span class="nb">set</span> -g <span class="nv">$resourceGroupName</span> -n <span class="nv">$serviceName</span> --settings <span class="nv">TestQueueConnectionString</span><span class="o">=</span><span class="nv">$ehConnectionString</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>You can call it in this way:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">./deploy.sh TestKeyVault westeurope dev
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="summary">Summary</h2>
 <p>In this article we&rsquo;ve seen how we can use one of the new security related features of Azure Functions and use a secret stored in Key Vault in a declarative binding. I think it&rsquo;s great news if you use this kind of bindings. Still has room to improve, like that you have to put the version of the secret, but they are working on it. In my opinion, although it will need code changes in your function, it would be better if you can say in the binding that the data come from Key Vault, instead of going through the indirection of the application settings. Maybe something like:</p>
-<pre tabindex="0"><code>FunctionName(&#34;HelloWorld&#34;)]
-public static ActionResult Run(
-    [HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] CustomObject req,
-    [EventHub(&#34;pings&#34;, Connection = &#34;EventHubConnectionString&#34; VaultName = &#34;TestKeyVault-kv&#34;)] out string ehMessage,
-    ILogger log)
-{
-</code></pre><p>What do you think?</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">FunctionName(&#34;HelloWorld&#34;)]
+</span></span><span class="line"><span class="cl">public static ActionResult Run(
+</span></span><span class="line"><span class="cl">    [HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] CustomObject req,
+</span></span><span class="line"><span class="cl">    [EventHub(&#34;pings&#34;, Connection = &#34;EventHubConnectionString&#34; VaultName = &#34;TestKeyVault-kv&#34;)] out string ehMessage,
+</span></span><span class="line"><span class="cl">    ILogger log)
+</span></span><span class="line"><span class="cl">{
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>What do you think?</p>
 
     </div>
 

@@ -45,8 +45,8 @@ If you read the article, you will see that this DLQ is complementary to the DLQ 
       <guid>http://example.org/post/serverless-patterns-implemented-part2/</guid>
       <description>In this article I will continue with the implementation of some Serverless Patterns described in this article from Jeremy Daly about [Serverless Patterns]. Check the first post here Let&amp;rsquo;s start!
 Common setup All the projects will have a common setup, which is fairly simple. First, initialize a NodeJS project:
-yarn init Then install the serverless framework as a dev dependency
-yarn add serverless --dev And finally create a script to deploy the project</description>
+1 yarn init Then install the serverless framework as a dev dependency
+1 yarn add serverless --dev And finally create a script to deploy the project</description>
     </item>
     
     <item>

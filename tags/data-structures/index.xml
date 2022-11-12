@@ -27,7 +27,7 @@ Create from a literal We can create an array with a predefined set of values. To
 Sequence creation As with arrays there are several ways to create a sequence.
 Create from a range expression
 You can create a new sequence from a range expression. In this case, instead of using [| and |] you should use { and }
-let numbers = {1..20} Create from a sequence expression</description>
+1 let numbers = {1..20} Create from a sequence expression</description>
     </item>
     
   </channel>

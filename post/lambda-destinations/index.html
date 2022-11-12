@@ -52,7 +52,7 @@ As usual, the serverless framework implemented this feature quickly. Let&rsquo;s
 <meta itemprop="description" content="AWS recently introduced lambda destinations for asynchronous invocations. So, if you have, let&rsquo;s say, a lambda function attached to an SNS event, you can configure a destination when the execution is successful and a destination when the execution fails. The destination can be either an SQS queue, an SNS topic, EventBridge or another Lambda function.
 As usual, the serverless framework implemented this feature quickly. Let&rsquo;s take a look how to do it and what&rsquo;s the difference with a DLQ."><meta itemprop="datePublished" content="2020-03-29T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2020-03-29T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1222">
+<meta itemprop="wordCount" content="1501">
 <meta itemprop="keywords" content="patterns,serverless framework," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Lambda destinations"/>
 <meta name="twitter:description" content="AWS recently introduced lambda destinations for asynchronous invocations. So, if you have, let&rsquo;s say, a lambda function attached to an SNS event, you can configure a destination when the execution is successful and a destination when the execution fails. The destination can be either an SQS queue, an SNS topic, EventBridge or another Lambda function.
@@ -136,8 +136,8 @@ As usual, the serverless framework implemented this feature quickly. Let&rsquo;s
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 1222 words </span>
-          <span class="more-meta"> 6 mins read </span>
+          <span class="more-meta"> 1501 words </span>
+          <span class="more-meta"> 8 mins read </span>
         
       </div>
     </header>
@@ -147,11 +147,15 @@ As usual, the serverless framework implemented this feature quickly. Let&rsquo;s
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#project-set-up">Project set up</a></li>
-    <li><a href="#testing-the-dlq">Testing the DLQ</a></li>
-    <li><a href="#error-destination">Error destination</a></li>
-    <li><a href="#success-destination">Success destination</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#project-set-up">Project set up</a></li>
+        <li><a href="#testing-the-dlq">Testing the DLQ</a></li>
+        <li><a href="#error-destination">Error destination</a></li>
+        <li><a href="#success-destination">Success destination</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -161,314 +165,695 @@ As usual, the serverless framework implemented this feature quickly. Let&rsquo;s
 <p>As usual, the <a href="https://serverless.com/framework/docs/providers/aws/guide/functions#destinations">serverless framework</a> implemented this feature quickly. Let&rsquo;s take a look how to do it and what&rsquo;s the difference with a DLQ.</p>
 <h2 id="project-set-up">Project set up</h2>
 <p>We&rsquo;re going to demonstrate this by creating a simple project with an asynchronous invocation. We&rsquo;ll have a lambda triggered by an HTTP event that will put a message in an SNS topic. A lambda will be attached to this topic and will trigger an error under some circumstances. This will be the <code>serverless.yml</code> file for this scenario:</p>
-<pre tabindex="0"><code>service: demo-destinations
-
-provider:
-  name: aws
-  runtime: nodejs12.x
-  region: ${opt:region, self:custom.defaultRegion}
-  stage: ${opt:stage, self:custom.defaultStage}
-
-plugins:
-  - serverless-iam-roles-per-function
-  - serverless-pseudo-parameters
-
-custom:
-  defaultRegion: eu-west-1
-  defaultStage: dev${env:SLSUSER, &#34;&#34;}
-  snsTopicName: ${self:service}-topic
-  snsTopic: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.snsTopicName}
-
-functions:
-  entryPoint:
-    handler: src/functions/entryPoint.handler
-    events:
-      - http:
-          path: api/start
-          method: post
-    iamRoleStatements:
-      - Effect: Allow
-        Action: sns:Publish
-        Resource: !Ref SnsTopic
-    environment:
-      snsTopic: ${self:custom.snsTopic}
-  functionWithError:
-    handler: src/functions/functionWithError.handler
-    events:
-      - sns: 
-          arn: !Ref SnsTopic
-          topicName: ${self:custom.snsTopicName}
-
-resources:
-  Resources:
-    SnsTopic:
-      Type: AWS::SNS::Topic
-      Properties: 
-        TopicName: ${self:custom.snsTopicName}
-</code></pre><p>This is our entry point function. As you can see, we need code to put a message on the SNS topic.</p>
-<pre tabindex="0"><code>const AWS = require(&#34;aws-sdk&#34;);
-const SNS = new AWS.SNS();
-
-module.exports.handler = async (event) =&gt; {
-    console.log(JSON.stringify(event));
-
-    const body = JSON.parse(event.body);
-    const type = body.type;
-    const message = body.message;
-    const data = {
-        type,message
-    }
-
-    const params = {
-        Message: JSON.stringify(data),
-        TopicArn: process.env.snsTopic
-      };
-    
-      await SNS.publish(params).promise();
-
-    return {
-        statusCode: 200,
-        body: JSON.stringify({ message })
-    };
-};
-</code></pre><p>And this is the code of the function that is attached to the SNS topic</p>
-<pre tabindex="0"><code>module.exports.handler = async (event) =&gt; {
-    console.log(JSON.stringify(event));
-    const snsMessage = JSON.parse(event.Records[0].Sns.Message);
-
-    const type = snsMessage.type;
-    const message = snsMessage.message;
-
-    if (type === &#34;error&#34;){
-        throw new Error(&#34;Simulating error&#34;);
-    }
-    
-    console.log(`Function not erroring. Dispatching to success destination. Message is ${message}`);
-
-    return {
-        statusCode: 200,
-        body: JSON.stringify({ message })
-    };
-};
-</code></pre><h2 id="testing-the-dlq">Testing the DLQ</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">service: demo-destinations
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">provider:
+</span></span><span class="line"><span class="cl">  name: aws
+</span></span><span class="line"><span class="cl">  runtime: nodejs12.x
+</span></span><span class="line"><span class="cl">  region: ${opt:region, self:custom.defaultRegion}
+</span></span><span class="line"><span class="cl">  stage: ${opt:stage, self:custom.defaultStage}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">plugins:
+</span></span><span class="line"><span class="cl">  - serverless-iam-roles-per-function
+</span></span><span class="line"><span class="cl">  - serverless-pseudo-parameters
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">custom:
+</span></span><span class="line"><span class="cl">  defaultRegion: eu-west-1
+</span></span><span class="line"><span class="cl">  defaultStage: dev${env:SLSUSER, &#34;&#34;}
+</span></span><span class="line"><span class="cl">  snsTopicName: ${self:service}-topic
+</span></span><span class="line"><span class="cl">  snsTopic: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custom.snsTopicName}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">functions:
+</span></span><span class="line"><span class="cl">  entryPoint:
+</span></span><span class="line"><span class="cl">    handler: src/functions/entryPoint.handler
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - http:
+</span></span><span class="line"><span class="cl">          path: api/start
+</span></span><span class="line"><span class="cl">          method: post
+</span></span><span class="line"><span class="cl">    iamRoleStatements:
+</span></span><span class="line"><span class="cl">      - Effect: Allow
+</span></span><span class="line"><span class="cl">        Action: sns:Publish
+</span></span><span class="line"><span class="cl">        Resource: !Ref SnsTopic
+</span></span><span class="line"><span class="cl">    environment:
+</span></span><span class="line"><span class="cl">      snsTopic: ${self:custom.snsTopic}
+</span></span><span class="line"><span class="cl">  functionWithError:
+</span></span><span class="line"><span class="cl">    handler: src/functions/functionWithError.handler
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - sns: 
+</span></span><span class="line"><span class="cl">          arn: !Ref SnsTopic
+</span></span><span class="line"><span class="cl">          topicName: ${self:custom.snsTopicName}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">resources:
+</span></span><span class="line"><span class="cl">  Resources:
+</span></span><span class="line"><span class="cl">    SnsTopic:
+</span></span><span class="line"><span class="cl">      Type: AWS::SNS::Topic
+</span></span><span class="line"><span class="cl">      Properties: 
+</span></span><span class="line"><span class="cl">        TopicName: ${self:custom.snsTopicName}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is our entry point function. As you can see, we need code to put a message on the SNS topic.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">const AWS = require(&#34;aws-sdk&#34;);
+</span></span><span class="line"><span class="cl">const SNS = new AWS.SNS();
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">module.exports.handler = async (event) =&gt; {
+</span></span><span class="line"><span class="cl">    console.log(JSON.stringify(event));
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    const body = JSON.parse(event.body);
+</span></span><span class="line"><span class="cl">    const type = body.type;
+</span></span><span class="line"><span class="cl">    const message = body.message;
+</span></span><span class="line"><span class="cl">    const data = {
+</span></span><span class="line"><span class="cl">        type,message
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    const params = {
+</span></span><span class="line"><span class="cl">        Message: JSON.stringify(data),
+</span></span><span class="line"><span class="cl">        TopicArn: process.env.snsTopic
+</span></span><span class="line"><span class="cl">      };
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">      await SNS.publish(params).promise();
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    return {
+</span></span><span class="line"><span class="cl">        statusCode: 200,
+</span></span><span class="line"><span class="cl">        body: JSON.stringify({ message })
+</span></span><span class="line"><span class="cl">    };
+</span></span><span class="line"><span class="cl">};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And this is the code of the function that is attached to the SNS topic</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">module.exports.handler = async (event) =&gt; {
+</span></span><span class="line"><span class="cl">    console.log(JSON.stringify(event));
+</span></span><span class="line"><span class="cl">    const snsMessage = JSON.parse(event.Records[0].Sns.Message);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    const type = snsMessage.type;
+</span></span><span class="line"><span class="cl">    const message = snsMessage.message;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    if (type === &#34;error&#34;){
+</span></span><span class="line"><span class="cl">        throw new Error(&#34;Simulating error&#34;);
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    console.log(`Function not erroring. Dispatching to success destination. Message is ${message}`);
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    return {
+</span></span><span class="line"><span class="cl">        statusCode: 200,
+</span></span><span class="line"><span class="cl">        body: JSON.stringify({ message })
+</span></span><span class="line"><span class="cl">    };
+</span></span><span class="line"><span class="cl">};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="testing-the-dlq">Testing the DLQ</h2>
 <p>Until we could use destinations, a DLQ was the standard mechanism to handle errors in asynchronous invocations. We can define the onError property on the function to specify the SNS topic we&rsquo;d like the messages to be sent in case of error. Let&rsquo;s do this step by step.</p>
 <p>First, define the DLQ topic name in the custom section.</p>
-<pre tabindex="0"><code>DLQSnsTopicName: ${self:service}-dlqTopic
-</code></pre><p>Next, describe the topic in the resources section:</p>
-<pre tabindex="0"><code>DLQSnsTopic:
-  Type: AWS::SNS::Topic
-  Properties: 
-    TopicName: ${self:custom.DLQSnsTopicName}
-</code></pre><p>And now, change the definition of the function to include the onError property and the required permissions:</p>
-<pre tabindex="0"><code>functionWithError:
-  handler: src/functions/functionWithError.handler
-  events:
-    - sns: 
-        arn: !Ref SnsTopic
-        topicName: ${self:custom.snsTopicName}
-  onError: !Ref DLQSnsTopic
-  iamRoleStatements:
-    - Effect: Allow
-      Action: sns:Publish
-      Resource: !Ref DLQSnsTopic
-</code></pre><p>Finally, we can create a function that subscribes to that queue:</p>
-<pre tabindex="0"><code>functionWithErrorDLQ:
-  handler: src/functions/errorDLQ.handler
-  events:
-    - sns: 
-        arn: !Ref DLQSnsTopic
-        topicName: ${self:custom.DLQSnsTopicName}
-</code></pre><p>And this function can have the following code:</p>
-<pre tabindex="0"><code>module.exports.handler = async (event) =&gt; {
-    console.log(JSON.stringify(event));
-}
-</code></pre><p>Now you can deploy this and call the HTTP endpoint to generate an error in the downstream lambda function. Something like this: <code>curl https://xxxxxx.execute-api.eu-west-1.amazonaws.com/dev/api/start --data '{&quot;type&quot;:&quot;error&quot;, &quot;message&quot;: &quot;hello&quot;}'</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">DLQSnsTopicName: ${self:service}-dlqTopic
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Next, describe the topic in the resources section:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">DLQSnsTopic:
+</span></span><span class="line"><span class="cl">  Type: AWS::SNS::Topic
+</span></span><span class="line"><span class="cl">  Properties: 
+</span></span><span class="line"><span class="cl">    TopicName: ${self:custom.DLQSnsTopicName}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And now, change the definition of the function to include the onError property and the required permissions:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">functionWithError:
+</span></span><span class="line"><span class="cl">  handler: src/functions/functionWithError.handler
+</span></span><span class="line"><span class="cl">  events:
+</span></span><span class="line"><span class="cl">    - sns: 
+</span></span><span class="line"><span class="cl">        arn: !Ref SnsTopic
+</span></span><span class="line"><span class="cl">        topicName: ${self:custom.snsTopicName}
+</span></span><span class="line"><span class="cl">  onError: !Ref DLQSnsTopic
+</span></span><span class="line"><span class="cl">  iamRoleStatements:
+</span></span><span class="line"><span class="cl">    - Effect: Allow
+</span></span><span class="line"><span class="cl">      Action: sns:Publish
+</span></span><span class="line"><span class="cl">      Resource: !Ref DLQSnsTopic
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Finally, we can create a function that subscribes to that queue:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">functionWithErrorDLQ:
+</span></span><span class="line"><span class="cl">  handler: src/functions/errorDLQ.handler
+</span></span><span class="line"><span class="cl">  events:
+</span></span><span class="line"><span class="cl">    - sns: 
+</span></span><span class="line"><span class="cl">        arn: !Ref DLQSnsTopic
+</span></span><span class="line"><span class="cl">        topicName: ${self:custom.DLQSnsTopicName}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And this function can have the following code:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">module.exports.handler = async (event) =&gt; {
+</span></span><span class="line"><span class="cl">    console.log(JSON.stringify(event));
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now you can deploy this and call the HTTP endpoint to generate an error in the downstream lambda function. Something like this: <code>curl https://xxxxxx.execute-api.eu-west-1.amazonaws.com/dev/api/start --data '{&quot;type&quot;:&quot;error&quot;, &quot;message&quot;: &quot;hello&quot;}'</code></p>
 <p>AWS will try to deliver the message three times, and after that, it will put the message in the DLQ. This is an example of the message that will go to the DLQ:</p>
-<pre tabindex="0"><code>{
-    &#34;Records&#34;: [
-        {
-            &#34;EventSource&#34;: &#34;aws:sns&#34;,
-            &#34;EventVersion&#34;: &#34;1.0&#34;,
-            &#34;EventSubscriptionArn&#34;: &#34;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-dlqTopic:c7e1b02b-6f04-4836-8700-83361c10c64f&#34;,
-            &#34;Sns&#34;: {
-                &#34;Type&#34;: &#34;Notification&#34;,
-                &#34;MessageId&#34;: &#34;9695054e-a478-5fde-952f-53b41ccac1db&#34;,
-                &#34;TopicArn&#34;: &#34;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-dlqTopic&#34;,
-                &#34;Subject&#34;: null,
-                &#34;Message&#34;: &#34;{\&#34;Records\&#34;:[{\&#34;EventSource\&#34;:\&#34;aws:sns\&#34;,\&#34;EventVersion\&#34;:\&#34;1.0\&#34;,\&#34;EventSubscriptionArn\&#34;:\&#34;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4\&#34;,\&#34;Sns\&#34;:{\&#34;Type\&#34;:\&#34;Notification\&#34;,\&#34;MessageId\&#34;:\&#34;b83135dc-14b4-5ab3-b336-6326acbf55bb\&#34;,\&#34;TopicArn\&#34;:\&#34;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic\&#34;,\&#34;Subject\&#34;:null,\&#34;Message\&#34;:\&#34;{\\\&#34;type\\\&#34;:\\\&#34;error\\\&#34;,\\\&#34;message\\\&#34;:\\\&#34;hello\\\&#34;}\&#34;,\&#34;Timestamp\&#34;:\&#34;2020-03-29T14:50:51.599Z\&#34;,\&#34;SignatureVersion\&#34;:\&#34;1\&#34;,\&#34;Signature\&#34;:\&#34;IHDgnyGLc9ueIknZbWB4/wx1R/mzuxKomNAZlLScn+c1u+2tvlyJkIFzXsUEKaF67uRDxEMDHMhVL4GWKyBVl18J/awiOUfAxFtHx0pneQ3kmo23lGYi4wNtQ+DrDJhA9E2TfwvGnU/OGhdifWYl2Tw2aVPYcha8WuCxCHTDRZHsxs3UXpRe6rS7gcX5/OtJBJGVH8aAOeW7/oK1hSJ9pM5K17FQdCOg/nISTarwyBqM/ddEV8PS8CTrtn9rxmFCgtM4aLdO3hHdVE3O3yBuMlyJBWGzmXf/+gHwCwczNMW/u/zB1I6A1T07/pL4tYlrQaBl3AkOnJtK8aC6kTvpIQ==\&#34;,\&#34;SigningCertUrl\&#34;:\&#34;https://sns.eu-west-1.amazonaws.com/SimpleNotificationService-a86cb10b4e1f29c941702d737128f7b6.pem\&#34;,\&#34;UnsubscribeUrl\&#34;:\&#34;https://sns.eu-west-1.amazonaws.com/?Action=Unsubscribe&amp;SubscriptionArn=arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4\&#34;,\&#34;MessageAttributes\&#34;:{}}}]}&#34;,
-                &#34;Timestamp&#34;: &#34;2020-03-29T14:53:38.631Z&#34;,
-                &#34;SignatureVersion&#34;: &#34;1&#34;,
-                &#34;Signature&#34;: &#34;YHIpSEbZb1E73lANC/yqh8JG+9EkNFfp+eTAmamfdk6CLYWnfhkurURsP0Cl8kiMTI96KRwHg9FCQcQ3UWzizQIvDsPL35sDOFJBOPLhLL6Itf8kgbAnXx2uWEZUmA//UQGEd6vWkNv3nN3QM43y0UrmzlAMVSS4az1Iv/cG4xqF9JIfapU2wGrvrhAikw4R0LL6qdJd0mzrsZdphWMWEgnZN7/7tlh14tMExBe0zujbp88+c8axzTNjH8l6+KctGPdjZIJZjo0Np25O4dSY7+uGwzc7ogrY6vMUj5Mj8TJCAh7eMbPDEDV3FnESJXKv2epL0mGpc5LWBLShcWwsfg==&#34;,
-                &#34;SigningCertUrl&#34;: &#34;https://sns.eu-west-1.amazonaws.com/SimpleNotificationService-a86cb10b4e1f29c941702d737128f7b6.pem&#34;,
-                &#34;UnsubscribeUrl&#34;: &#34;https://sns.eu-west-1.amazonaws.com/?Action=Unsubscribe&amp;SubscriptionArn=arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-dlqTopic:c7e1b02b-6f04-4836-8700-83361c10c64f&#34;,
-                &#34;MessageAttributes&#34;: {
-                    &#34;RequestID&#34;: {
-                        &#34;Type&#34;: &#34;String&#34;,
-                        &#34;Value&#34;: &#34;86162f4e-6b2c-492f-93de-5e1b9c5f8bd3&#34;
-                    },
-                    &#34;ErrorCode&#34;: {
-                        &#34;Type&#34;: &#34;String&#34;,
-                        &#34;Value&#34;: &#34;200&#34;
-                    },
-                    &#34;ErrorMessage&#34;: {
-                        &#34;Type&#34;: &#34;String&#34;,
-                        &#34;Value&#34;: &#34;Simulating error&#34;
-                    }
-                }
-            }
-        }
-    ]
-}
-</code></pre><p>That&rsquo;s quite good. Let&rsquo;s take a look at what we have to do to get to the same place using destinations.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    &#34;Records&#34;: [
+</span></span><span class="line"><span class="cl">        {
+</span></span><span class="line"><span class="cl">            &#34;EventSource&#34;: &#34;aws:sns&#34;,
+</span></span><span class="line"><span class="cl">            &#34;EventVersion&#34;: &#34;1.0&#34;,
+</span></span><span class="line"><span class="cl">            &#34;EventSubscriptionArn&#34;: &#34;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-dlqTopic:c7e1b02b-6f04-4836-8700-83361c10c64f&#34;,
+</span></span><span class="line"><span class="cl">            &#34;Sns&#34;: {
+</span></span><span class="line"><span class="cl">                &#34;Type&#34;: &#34;Notification&#34;,
+</span></span><span class="line"><span class="cl">                &#34;MessageId&#34;: &#34;9695054e-a478-5fde-952f-53b41ccac1db&#34;,
+</span></span><span class="line"><span class="cl">                &#34;TopicArn&#34;: &#34;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-dlqTopic&#34;,
+</span></span><span class="line"><span class="cl">                &#34;Subject&#34;: null,
+</span></span><span class="line"><span class="cl">                &#34;Message&#34;: &#34;{\&#34;Records\&#34;:[{\&#34;EventSource\&#34;:\&#34;aws:sns\&#34;,\&#34;EventVersion\&#34;:\&#34;1.0\&#34;,\&#34;EventSubscriptionArn\&#34;:\&#34;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4\&#34;,\&#34;Sns\&#34;:{\&#34;Type\&#34;:\&#34;Notification\&#34;,\&#34;MessageId\&#34;:\&#34;b83135dc-14b4-5ab3-b336-6326acbf55bb\&#34;,\&#34;TopicArn\&#34;:\&#34;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic\&#34;,\&#34;Subject\&#34;:null,\&#34;Message\&#34;:\&#34;{\\\&#34;type\\\&#34;:\\\&#34;error\\\&#34;,\\\&#34;message\\\&#34;:\\\&#34;hello\\\&#34;}\&#34;,\&#34;Timestamp\&#34;:\&#34;2020-03-29T14:50:51.599Z\&#34;,\&#34;SignatureVersion\&#34;:\&#34;1\&#34;,\&#34;Signature\&#34;:\&#34;IHDgnyGLc9ueIknZbWB4/wx1R/mzuxKomNAZlLScn+c1u+2tvlyJkIFzXsUEKaF67uRDxEMDHMhVL4GWKyBVl18J/awiOUfAxFtHx0pneQ3kmo23lGYi4wNtQ+DrDJhA9E2TfwvGnU/OGhdifWYl2Tw2aVPYcha8WuCxCHTDRZHsxs3UXpRe6rS7gcX5/OtJBJGVH8aAOeW7/oK1hSJ9pM5K17FQdCOg/nISTarwyBqM/ddEV8PS8CTrtn9rxmFCgtM4aLdO3hHdVE3O3yBuMlyJBWGzmXf/+gHwCwczNMW/u/zB1I6A1T07/pL4tYlrQaBl3AkOnJtK8aC6kTvpIQ==\&#34;,\&#34;SigningCertUrl\&#34;:\&#34;https://sns.eu-west-1.amazonaws.com/SimpleNotificationService-a86cb10b4e1f29c941702d737128f7b6.pem\&#34;,\&#34;UnsubscribeUrl\&#34;:\&#34;https://sns.eu-west-1.amazonaws.com/?Action=Unsubscribe&amp;SubscriptionArn=arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4\&#34;,\&#34;MessageAttributes\&#34;:{}}}]}&#34;,
+</span></span><span class="line"><span class="cl">                &#34;Timestamp&#34;: &#34;2020-03-29T14:53:38.631Z&#34;,
+</span></span><span class="line"><span class="cl">                &#34;SignatureVersion&#34;: &#34;1&#34;,
+</span></span><span class="line"><span class="cl">                &#34;Signature&#34;: &#34;YHIpSEbZb1E73lANC/yqh8JG+9EkNFfp+eTAmamfdk6CLYWnfhkurURsP0Cl8kiMTI96KRwHg9FCQcQ3UWzizQIvDsPL35sDOFJBOPLhLL6Itf8kgbAnXx2uWEZUmA//UQGEd6vWkNv3nN3QM43y0UrmzlAMVSS4az1Iv/cG4xqF9JIfapU2wGrvrhAikw4R0LL6qdJd0mzrsZdphWMWEgnZN7/7tlh14tMExBe0zujbp88+c8axzTNjH8l6+KctGPdjZIJZjo0Np25O4dSY7+uGwzc7ogrY6vMUj5Mj8TJCAh7eMbPDEDV3FnESJXKv2epL0mGpc5LWBLShcWwsfg==&#34;,
+</span></span><span class="line"><span class="cl">                &#34;SigningCertUrl&#34;: &#34;https://sns.eu-west-1.amazonaws.com/SimpleNotificationService-a86cb10b4e1f29c941702d737128f7b6.pem&#34;,
+</span></span><span class="line"><span class="cl">                &#34;UnsubscribeUrl&#34;: &#34;https://sns.eu-west-1.amazonaws.com/?Action=Unsubscribe&amp;SubscriptionArn=arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-dlqTopic:c7e1b02b-6f04-4836-8700-83361c10c64f&#34;,
+</span></span><span class="line"><span class="cl">                &#34;MessageAttributes&#34;: {
+</span></span><span class="line"><span class="cl">                    &#34;RequestID&#34;: {
+</span></span><span class="line"><span class="cl">                        &#34;Type&#34;: &#34;String&#34;,
+</span></span><span class="line"><span class="cl">                        &#34;Value&#34;: &#34;86162f4e-6b2c-492f-93de-5e1b9c5f8bd3&#34;
+</span></span><span class="line"><span class="cl">                    },
+</span></span><span class="line"><span class="cl">                    &#34;ErrorCode&#34;: {
+</span></span><span class="line"><span class="cl">                        &#34;Type&#34;: &#34;String&#34;,
+</span></span><span class="line"><span class="cl">                        &#34;Value&#34;: &#34;200&#34;
+</span></span><span class="line"><span class="cl">                    },
+</span></span><span class="line"><span class="cl">                    &#34;ErrorMessage&#34;: {
+</span></span><span class="line"><span class="cl">                        &#34;Type&#34;: &#34;String&#34;,
+</span></span><span class="line"><span class="cl">                        &#34;Value&#34;: &#34;Simulating error&#34;
+</span></span><span class="line"><span class="cl">                    }
+</span></span><span class="line"><span class="cl">                }
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">    ]
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>That&rsquo;s quite good. Let&rsquo;s take a look at what we have to do to get to the same place using destinations.</p>
 <h2 id="error-destination">Error destination</h2>
 <p>First of all, we need to create the function that will get called:</p>
-<pre tabindex="0"><code>errorDestination:
-    handler: src/functions/errorDestination.handler
-</code></pre><p>As you can see, we don&rsquo;t need to specify any event, as we&rsquo;ll configure the destination to directly call this function.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">errorDestination:
+</span></span><span class="line"><span class="cl">    handler: src/functions/errorDestination.handler
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see, we don&rsquo;t need to specify any event, as we&rsquo;ll configure the destination to directly call this function.</p>
 <p>This function can have the following code:</p>
-<pre tabindex="0"><code>module.exports.handler = async (event) =&gt; {
-    console.log(JSON.stringify(event));
-}
-</code></pre><p>Next, we need to update the main function definition to add the error destination, with the required permissions:</p>
-<pre tabindex="0"><code>functionWithError:
-    handler: src/functions/functionWithError.handler
-    events:
-      - sns: 
-          arn: !Ref SnsTopic
-          topicName: ${self:custom.snsTopicName}
-    destinations:
-      onFailure: errorDestination
-    onError: !Ref DLQSnsTopic
-    iamRoleStatements:
-      - Effect: Allow
-        Action: sns:Publish
-        Resource: !Ref DLQSnsTopic
-      - Effect: Allow
-        Action: lambda:InvokeFunction
-        Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-errorDestination 
-</code></pre><p>And that&rsquo;s all. Let&rsquo;s make the same call and the function will be called at the same time than the DLQ, after the last retry. Let&rsquo;s take a look at the event we get there:</p>
-<pre tabindex="0"><code>{
-    &#34;version&#34;: &#34;1.0&#34;,
-    &#34;timestamp&#34;: &#34;2020-03-29T14:53:38.705Z&#34;,
-    &#34;requestContext&#34;: {
-        &#34;requestId&#34;: &#34;86162f4e-6b2c-492f-93de-5e1b9c5f8bd3&#34;,
-        &#34;functionArn&#34;: &#34;arn:aws:lambda:eu-west-1:XXXXXXXXXXX:function:demo-destinations-dev-functionWithError:$LATEST&#34;,
-        &#34;condition&#34;: &#34;RetriesExhausted&#34;,
-        &#34;approximateInvokeCount&#34;: 3
-    },
-    &#34;requestPayload&#34;: {
-        &#34;Records&#34;: [
-            {
-                &#34;EventSource&#34;: &#34;aws:sns&#34;,
-                &#34;EventVersion&#34;: &#34;1.0&#34;,
-                &#34;EventSubscriptionArn&#34;: &#34;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4&#34;,
-                &#34;Sns&#34;: {
-                    &#34;Type&#34;: &#34;Notification&#34;,
-                    &#34;MessageId&#34;: &#34;b83135dc-14b4-5ab3-b336-6326acbf55bb&#34;,
-                    &#34;TopicArn&#34;: &#34;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic&#34;,
-                    &#34;Subject&#34;: null,
-                    &#34;Message&#34;: &#34;{\&#34;type\&#34;:\&#34;error\&#34;,\&#34;message\&#34;:\&#34;hello\&#34;}&#34;,
-                    &#34;Timestamp&#34;: &#34;2020-03-29T14:50:51.599Z&#34;,
-                    &#34;SignatureVersion&#34;: &#34;1&#34;,
-                    &#34;Signature&#34;: &#34;IHDgnyGLc9ueIknZbWB4/wx1R/mzuxKomNAZlLScn+c1u+2tvlyJkIFzXsUEKaF67uRDxEMDHMhVL4GWKyBVl18J/awiOUfAxFtHx0pneQ3kmo23lGYi4wNtQ+DrDJhA9E2TfwvGnU/OGhdifWYl2Tw2aVPYcha8WuCxCHTDRZHsxs3UXpRe6rS7gcX5/OtJBJGVH8aAOeW7/oK1hSJ9pM5K17FQdCOg/nISTarwyBqM/ddEV8PS8CTrtn9rxmFCgtM4aLdO3hHdVE3O3yBuMlyJBWGzmXf/+gHwCwczNMW/u/zB1I6A1T07/pL4tYlrQaBl3AkOnJtK8aC6kTvpIQ==&#34;,
-                    &#34;SigningCertUrl&#34;: &#34;https://sns.eu-west-1.amazonaws.com/SimpleNotificationService-a86cb10b4e1f29c941702d737128f7b6.pem&#34;,
-                    &#34;UnsubscribeUrl&#34;: &#34;https://sns.eu-west-1.amazonaws.com/?Action=Unsubscribe&amp;SubscriptionArn=arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4&#34;,
-                    &#34;MessageAttributes&#34;: {}
-                }
-            }
-        ]
-    },
-    &#34;responseContext&#34;: {
-        &#34;statusCode&#34;: 200,
-        &#34;executedVersion&#34;: &#34;$LATEST&#34;,
-        &#34;functionError&#34;: &#34;Unhandled&#34;
-    },
-    &#34;responsePayload&#34;: {
-        &#34;errorType&#34;: &#34;Error&#34;,
-        &#34;errorMessage&#34;: &#34;Simulating error&#34;,
-        &#34;trace&#34;: [
-            &#34;Error: Simulating error&#34;,
-            &#34;    at Runtime.module.exports.handler (/var/task/src/functions/functionWithError.js:9:15)&#34;,
-            &#34;    at Runtime.handleOnce (/var/runtime/Runtime.js:66:25)&#34;
-        ]
-    }
-}
-</code></pre><p>The main difference here is that you get a bit more information in this event, with the responseContext and responsePayload properties.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">module.exports.handler = async (event) =&gt; {
+</span></span><span class="line"><span class="cl">    console.log(JSON.stringify(event));
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Next, we need to update the main function definition to add the error destination, with the required permissions:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">functionWithError:
+</span></span><span class="line"><span class="cl">    handler: src/functions/functionWithError.handler
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - sns: 
+</span></span><span class="line"><span class="cl">          arn: !Ref SnsTopic
+</span></span><span class="line"><span class="cl">          topicName: ${self:custom.snsTopicName}
+</span></span><span class="line"><span class="cl">    destinations:
+</span></span><span class="line"><span class="cl">      onFailure: errorDestination
+</span></span><span class="line"><span class="cl">    onError: !Ref DLQSnsTopic
+</span></span><span class="line"><span class="cl">    iamRoleStatements:
+</span></span><span class="line"><span class="cl">      - Effect: Allow
+</span></span><span class="line"><span class="cl">        Action: sns:Publish
+</span></span><span class="line"><span class="cl">        Resource: !Ref DLQSnsTopic
+</span></span><span class="line"><span class="cl">      - Effect: Allow
+</span></span><span class="line"><span class="cl">        Action: lambda:InvokeFunction
+</span></span><span class="line"><span class="cl">        Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-errorDestination 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And that&rsquo;s all. Let&rsquo;s make the same call and the function will be called at the same time than the DLQ, after the last retry. Let&rsquo;s take a look at the event we get there:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    &#34;version&#34;: &#34;1.0&#34;,
+</span></span><span class="line"><span class="cl">    &#34;timestamp&#34;: &#34;2020-03-29T14:53:38.705Z&#34;,
+</span></span><span class="line"><span class="cl">    &#34;requestContext&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;requestId&#34;: &#34;86162f4e-6b2c-492f-93de-5e1b9c5f8bd3&#34;,
+</span></span><span class="line"><span class="cl">        &#34;functionArn&#34;: &#34;arn:aws:lambda:eu-west-1:XXXXXXXXXXX:function:demo-destinations-dev-functionWithError:$LATEST&#34;,
+</span></span><span class="line"><span class="cl">        &#34;condition&#34;: &#34;RetriesExhausted&#34;,
+</span></span><span class="line"><span class="cl">        &#34;approximateInvokeCount&#34;: 3
+</span></span><span class="line"><span class="cl">    },
+</span></span><span class="line"><span class="cl">    &#34;requestPayload&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;Records&#34;: [
+</span></span><span class="line"><span class="cl">            {
+</span></span><span class="line"><span class="cl">                &#34;EventSource&#34;: &#34;aws:sns&#34;,
+</span></span><span class="line"><span class="cl">                &#34;EventVersion&#34;: &#34;1.0&#34;,
+</span></span><span class="line"><span class="cl">                &#34;EventSubscriptionArn&#34;: &#34;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4&#34;,
+</span></span><span class="line"><span class="cl">                &#34;Sns&#34;: {
+</span></span><span class="line"><span class="cl">                    &#34;Type&#34;: &#34;Notification&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;MessageId&#34;: &#34;b83135dc-14b4-5ab3-b336-6326acbf55bb&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;TopicArn&#34;: &#34;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;Subject&#34;: null,
+</span></span><span class="line"><span class="cl">                    &#34;Message&#34;: &#34;{\&#34;type\&#34;:\&#34;error\&#34;,\&#34;message\&#34;:\&#34;hello\&#34;}&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;Timestamp&#34;: &#34;2020-03-29T14:50:51.599Z&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;SignatureVersion&#34;: &#34;1&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;Signature&#34;: &#34;IHDgnyGLc9ueIknZbWB4/wx1R/mzuxKomNAZlLScn+c1u+2tvlyJkIFzXsUEKaF67uRDxEMDHMhVL4GWKyBVl18J/awiOUfAxFtHx0pneQ3kmo23lGYi4wNtQ+DrDJhA9E2TfwvGnU/OGhdifWYl2Tw2aVPYcha8WuCxCHTDRZHsxs3UXpRe6rS7gcX5/OtJBJGVH8aAOeW7/oK1hSJ9pM5K17FQdCOg/nISTarwyBqM/ddEV8PS8CTrtn9rxmFCgtM4aLdO3hHdVE3O3yBuMlyJBWGzmXf/+gHwCwczNMW/u/zB1I6A1T07/pL4tYlrQaBl3AkOnJtK8aC6kTvpIQ==&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;SigningCertUrl&#34;: &#34;https://sns.eu-west-1.amazonaws.com/SimpleNotificationService-a86cb10b4e1f29c941702d737128f7b6.pem&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;UnsubscribeUrl&#34;: &#34;https://sns.eu-west-1.amazonaws.com/?Action=Unsubscribe&amp;SubscriptionArn=arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;MessageAttributes&#34;: {}
+</span></span><span class="line"><span class="cl">                }
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">        ]
+</span></span><span class="line"><span class="cl">    },
+</span></span><span class="line"><span class="cl">    &#34;responseContext&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;statusCode&#34;: 200,
+</span></span><span class="line"><span class="cl">        &#34;executedVersion&#34;: &#34;$LATEST&#34;,
+</span></span><span class="line"><span class="cl">        &#34;functionError&#34;: &#34;Unhandled&#34;
+</span></span><span class="line"><span class="cl">    },
+</span></span><span class="line"><span class="cl">    &#34;responsePayload&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;errorType&#34;: &#34;Error&#34;,
+</span></span><span class="line"><span class="cl">        &#34;errorMessage&#34;: &#34;Simulating error&#34;,
+</span></span><span class="line"><span class="cl">        &#34;trace&#34;: [
+</span></span><span class="line"><span class="cl">            &#34;Error: Simulating error&#34;,
+</span></span><span class="line"><span class="cl">            &#34;    at Runtime.module.exports.handler (/var/task/src/functions/functionWithError.js:9:15)&#34;,
+</span></span><span class="line"><span class="cl">            &#34;    at Runtime.handleOnce (/var/runtime/Runtime.js:66:25)&#34;
+</span></span><span class="line"><span class="cl">        ]
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The main difference here is that you get a bit more information in this event, with the responseContext and responsePayload properties.</p>
 <p>So, you get more information with less hassle, as you don&rsquo;t have to create the topic. It looks like a winner to me!</p>
 <h2 id="success-destination">Success destination</h2>
 <p>We can do a very similar thing when the function succeeds. Let&rsquo;s do this step by step, although it will be the same as the error destination.</p>
 <p>Let&rsquo;s start creating the success function:</p>
-<pre tabindex="0"><code>successDestination:
-  handler: src/functions/errorDestination.handler
-</code></pre><p>With the same code:</p>
-<pre tabindex="0"><code>module.exports.handler = async (event) =&gt; {
-    console.log(JSON.stringify(event));
-}
-</code></pre><p>Now it&rsquo;s time to update the main function definition to add this destination.</p>
-<pre tabindex="0"><code>functionWithError:
-    handler: src/functions/functionWithError.handler
-    events:
-      - sns: 
-          arn: !Ref SnsTopic
-          topicName: ${self:custom.snsTopicName}
-    destinations:
-      onFailure: errorDestination
-      onSuccess: successDestination
-    onError: !Ref DLQSnsTopic
-    iamRoleStatements:
-      - Effect: Allow
-        Action: sns:Publish
-        Resource: !Ref DLQSnsTopic
-      - Effect: Allow
-        Action: lambda:InvokeFunction
-        Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-errorDestination
-      - Effect: Allow
-        Action: lambda:InvokeFunction
-        Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-successDestination
-</code></pre><p>And that&rsquo;s all, let&rsquo;s call the entry point with a payload that doesn&rsquo;t create an error:
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">successDestination:
+</span></span><span class="line"><span class="cl">  handler: src/functions/errorDestination.handler
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>With the same code:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">module.exports.handler = async (event) =&gt; {
+</span></span><span class="line"><span class="cl">    console.log(JSON.stringify(event));
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now it&rsquo;s time to update the main function definition to add this destination.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">functionWithError:
+</span></span><span class="line"><span class="cl">    handler: src/functions/functionWithError.handler
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - sns: 
+</span></span><span class="line"><span class="cl">          arn: !Ref SnsTopic
+</span></span><span class="line"><span class="cl">          topicName: ${self:custom.snsTopicName}
+</span></span><span class="line"><span class="cl">    destinations:
+</span></span><span class="line"><span class="cl">      onFailure: errorDestination
+</span></span><span class="line"><span class="cl">      onSuccess: successDestination
+</span></span><span class="line"><span class="cl">    onError: !Ref DLQSnsTopic
+</span></span><span class="line"><span class="cl">    iamRoleStatements:
+</span></span><span class="line"><span class="cl">      - Effect: Allow
+</span></span><span class="line"><span class="cl">        Action: sns:Publish
+</span></span><span class="line"><span class="cl">        Resource: !Ref DLQSnsTopic
+</span></span><span class="line"><span class="cl">      - Effect: Allow
+</span></span><span class="line"><span class="cl">        Action: lambda:InvokeFunction
+</span></span><span class="line"><span class="cl">        Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-errorDestination
+</span></span><span class="line"><span class="cl">      - Effect: Allow
+</span></span><span class="line"><span class="cl">        Action: lambda:InvokeFunction
+</span></span><span class="line"><span class="cl">        Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${self:provider.stage}-successDestination
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And that&rsquo;s all, let&rsquo;s call the entry point with a payload that doesn&rsquo;t create an error:
 <code>curl https://ukcpjjf9ec.execute-api.eu-west-1.amazonaws.com/dev/api/start --data '{&quot;type&quot;:&quot;success&quot;, &quot;message&quot;: &quot;hello&quot;}'</code></p>
 <p>And we&rsquo;ll get this message in the function:</p>
-<pre tabindex="0"><code>{
-    &#34;version&#34;: &#34;1.0&#34;,
-    &#34;timestamp&#34;: &#34;2020-03-29T15:53:48.122Z&#34;,
-    &#34;requestContext&#34;: {
-        &#34;requestId&#34;: &#34;965949be-107c-4d02-b5c3-de7645cb7671&#34;,
-        &#34;functionArn&#34;: &#34;arn:aws:lambda:eu-west-1:XXXXXXXXXXX:function:demo-destinations-dev-functionWithError:$LATEST&#34;,
-        &#34;condition&#34;: &#34;Success&#34;,
-        &#34;approximateInvokeCount&#34;: 1
-    },
-    &#34;requestPayload&#34;: {
-        &#34;Records&#34;: [
-            {
-                &#34;EventSource&#34;: &#34;aws:sns&#34;,
-                &#34;EventVersion&#34;: &#34;1.0&#34;,
-                &#34;EventSubscriptionArn&#34;: &#34;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4&#34;,
-                &#34;Sns&#34;: {
-                    &#34;Type&#34;: &#34;Notification&#34;,
-                    &#34;MessageId&#34;: &#34;4cbf0cb9-ce8f-59fd-bfe1-5a4308445979&#34;,
-                    &#34;TopicArn&#34;: &#34;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic&#34;,
-                    &#34;Subject&#34;: null,
-                    &#34;Message&#34;: &#34;{\&#34;type\&#34;:\&#34;success\&#34;,\&#34;message\&#34;:\&#34;hello\&#34;}&#34;,
-                    &#34;Timestamp&#34;: &#34;2020-03-29T15:53:47.470Z&#34;,
-                    &#34;SignatureVersion&#34;: &#34;1&#34;,
-                    &#34;Signature&#34;: &#34;gYlc07lDjG+gAe1gD9YlYUgSab9L64NgpPOk2Jx9boAioK1opKK3owNCY9uZWciO2PeFCkDCinhp9JZyUEenEXOcglLhnlnhQeUbpibvHmzRo5jdJa5bjBjkLAZ1ivo8O9r9KhZI+pjUEETLzmwUljp+pvi5PxXw4GKZZaCbQoZRNrkBlNIkJ/gMLfaCngTFQRgZ4PFLdKTT5YYg+F1V51reCyaBIDV1tT9LAHBIp3yMT7LhC0GssmToYp4MNOVUBx1HmJeODl+GjlYI0249tQfZZGqVB4DL8r8dnjHMSqOys7coswIe64UWj2yn78uUxN12+UyXbsdRQm75qlLZMg==&#34;,
-                    &#34;SigningCertUrl&#34;: &#34;https://sns.eu-west-1.amazonaws.com/SimpleNotificationService-a86cb10b4e1f29c941702d737128f7b6.pem&#34;,
-                    &#34;UnsubscribeUrl&#34;: &#34;https://sns.eu-west-1.amazonaws.com/?Action=Unsubscribe&amp;SubscriptionArn=arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4&#34;,
-                    &#34;MessageAttributes&#34;: {}
-                }
-            }
-        ]
-    },
-    &#34;responseContext&#34;: {
-        &#34;statusCode&#34;: 200,
-        &#34;executedVersion&#34;: &#34;$LATEST&#34;
-    },
-    &#34;responsePayload&#34;: {
-        &#34;statusCode&#34;: 200,
-        &#34;body&#34;: &#34;{\&#34;message\&#34;:\&#34;hello\&#34;}&#34;
-    }
-}
-</code></pre><p>The interesting part here is that we can forward events without adding any code to our functions. That&rsquo;s great!! As <a href="https://twitter.com/ben11kehoe">Ben Kehoe</a> once said: &ldquo;hours of coding can save you from minutes of configuration&rdquo;.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">    &#34;version&#34;: &#34;1.0&#34;,
+</span></span><span class="line"><span class="cl">    &#34;timestamp&#34;: &#34;2020-03-29T15:53:48.122Z&#34;,
+</span></span><span class="line"><span class="cl">    &#34;requestContext&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;requestId&#34;: &#34;965949be-107c-4d02-b5c3-de7645cb7671&#34;,
+</span></span><span class="line"><span class="cl">        &#34;functionArn&#34;: &#34;arn:aws:lambda:eu-west-1:XXXXXXXXXXX:function:demo-destinations-dev-functionWithError:$LATEST&#34;,
+</span></span><span class="line"><span class="cl">        &#34;condition&#34;: &#34;Success&#34;,
+</span></span><span class="line"><span class="cl">        &#34;approximateInvokeCount&#34;: 1
+</span></span><span class="line"><span class="cl">    },
+</span></span><span class="line"><span class="cl">    &#34;requestPayload&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;Records&#34;: [
+</span></span><span class="line"><span class="cl">            {
+</span></span><span class="line"><span class="cl">                &#34;EventSource&#34;: &#34;aws:sns&#34;,
+</span></span><span class="line"><span class="cl">                &#34;EventVersion&#34;: &#34;1.0&#34;,
+</span></span><span class="line"><span class="cl">                &#34;EventSubscriptionArn&#34;: &#34;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4&#34;,
+</span></span><span class="line"><span class="cl">                &#34;Sns&#34;: {
+</span></span><span class="line"><span class="cl">                    &#34;Type&#34;: &#34;Notification&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;MessageId&#34;: &#34;4cbf0cb9-ce8f-59fd-bfe1-5a4308445979&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;TopicArn&#34;: &#34;arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;Subject&#34;: null,
+</span></span><span class="line"><span class="cl">                    &#34;Message&#34;: &#34;{\&#34;type\&#34;:\&#34;success\&#34;,\&#34;message\&#34;:\&#34;hello\&#34;}&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;Timestamp&#34;: &#34;2020-03-29T15:53:47.470Z&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;SignatureVersion&#34;: &#34;1&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;Signature&#34;: &#34;gYlc07lDjG+gAe1gD9YlYUgSab9L64NgpPOk2Jx9boAioK1opKK3owNCY9uZWciO2PeFCkDCinhp9JZyUEenEXOcglLhnlnhQeUbpibvHmzRo5jdJa5bjBjkLAZ1ivo8O9r9KhZI+pjUEETLzmwUljp+pvi5PxXw4GKZZaCbQoZRNrkBlNIkJ/gMLfaCngTFQRgZ4PFLdKTT5YYg+F1V51reCyaBIDV1tT9LAHBIp3yMT7LhC0GssmToYp4MNOVUBx1HmJeODl+GjlYI0249tQfZZGqVB4DL8r8dnjHMSqOys7coswIe64UWj2yn78uUxN12+UyXbsdRQm75qlLZMg==&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;SigningCertUrl&#34;: &#34;https://sns.eu-west-1.amazonaws.com/SimpleNotificationService-a86cb10b4e1f29c941702d737128f7b6.pem&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;UnsubscribeUrl&#34;: &#34;https://sns.eu-west-1.amazonaws.com/?Action=Unsubscribe&amp;SubscriptionArn=arn:aws:sns:eu-west-1:XXXXXXXXXXX:demo-destinations-topic:37ded1fd-a827-49c0-9963-660867649cc4&#34;,
+</span></span><span class="line"><span class="cl">                    &#34;MessageAttributes&#34;: {}
+</span></span><span class="line"><span class="cl">                }
+</span></span><span class="line"><span class="cl">            }
+</span></span><span class="line"><span class="cl">        ]
+</span></span><span class="line"><span class="cl">    },
+</span></span><span class="line"><span class="cl">    &#34;responseContext&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;statusCode&#34;: 200,
+</span></span><span class="line"><span class="cl">        &#34;executedVersion&#34;: &#34;$LATEST&#34;
+</span></span><span class="line"><span class="cl">    },
+</span></span><span class="line"><span class="cl">    &#34;responsePayload&#34;: {
+</span></span><span class="line"><span class="cl">        &#34;statusCode&#34;: 200,
+</span></span><span class="line"><span class="cl">        &#34;body&#34;: &#34;{\&#34;message\&#34;:\&#34;hello\&#34;}&#34;
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The interesting part here is that we can forward events without adding any code to our functions. That&rsquo;s great!! As <a href="https://twitter.com/ben11kehoe">Ben Kehoe</a> once said: &ldquo;hours of coding can save you from minutes of configuration&rdquo;.</p>
 <p>The &ldquo;bad&rdquo; news here is that you can&rsquo;t change the event that is sent to the destination, so if you need to do this, you will have to send the event manually.</p>
 <h2 id="summary">Summary</h2>
 <p>In this article, we&rsquo;ve seen how to set up lambda destinations and how they can be a substitute for DLQs. Hope it helps!</p>

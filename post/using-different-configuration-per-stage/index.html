@@ -52,7 +52,7 @@ Background The moment your application starts to be a little bit more complex, y
 <meta itemprop="description" content="In the previous article we saw how to create a basic deployment pipeline for a serverless application. In this article, we&rsquo;re going to enrich the deployment by allowing to have different values for configuration settings in each stage.
 Background The moment your application starts to be a little bit more complex, you need to use configuration settings. These settings can be things like the log level, addresses of external services, usernames and (encrypted) passwords, etc."><meta itemprop="datePublished" content="2018-05-16T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2018-05-16T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1167">
+<meta itemprop="wordCount" content="1231">
 <meta itemprop="keywords" content="devops,lambda,circleci,aws," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Using different configuration per stage"/>
 <meta name="twitter:description" content="In the previous article we saw how to create a basic deployment pipeline for a serverless application. In this article, we&rsquo;re going to enrich the deployment by allowing to have different values for configuration settings in each stage.
@@ -136,7 +136,7 @@ Background The moment your application starts to be a little bit more complex, y
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 1167 words </span>
+          <span class="more-meta"> 1231 words </span>
           <span class="more-meta"> 6 mins read </span>
         
       </div>
@@ -147,14 +147,18 @@ Background The moment your application starts to be a little bit more complex, y
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#background">Background</a></li>
-    <li><a href="#serverless-framework-as-a-dev-dependency">Serverless framework as a dev dependency</a></li>
-    <li><a href="#config-file">Config file</a></li>
-    <li><a href="#loading-the-settings">Loading the settings</a></li>
-    <li><a href="#using-the-settings">Using the settings</a></li>
-    <li><a href="#using-the-environment-variable-in-the-function">Using the environment variable in the function</a></li>
-    <li><a href="#deploying">Deploying</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#background">Background</a></li>
+        <li><a href="#serverless-framework-as-a-dev-dependency">Serverless framework as a dev dependency</a></li>
+        <li><a href="#config-file">Config file</a></li>
+        <li><a href="#loading-the-settings">Loading the settings</a></li>
+        <li><a href="#using-the-settings">Using the settings</a></li>
+        <li><a href="#using-the-environment-variable-in-the-function">Using the environment variable in the function</a></li>
+        <li><a href="#deploying">Deploying</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -166,100 +170,260 @@ Background The moment your application starts to be a little bit more complex, y
 <h2 id="serverless-framework-as-a-dev-dependency">Serverless framework as a dev dependency</h2>
 <p>In the previous article, we installed the serverless framework as a global dependency. Although this is quite convenient, it can be a problem. Different versions of the framework can behave in a different way, or introduce breaking changes and it&rsquo;s not practical that every member of the team has its own version installed. So, a good practice is to install the framework as a dev dependency and always use the version inside node_modules to deploy.</p>
 <p>So let&rsquo;s install the framework as dev dependency:</p>
-<pre tabindex="0"><code>npm install serverless --save-dev
-</code></pre><p>and create some scripts in the package.json file to make our live easier:</p>
-<pre tabindex="0"><code>&#34;deploy&#34;: &#34;./node_modules/.bin/serverless deploy&#34;,
-&#34;deploy:pre&#34;: &#34;./node_modules/.bin/serverless deploy --stage pre&#34;,
-&#34;deploy:prod&#34;: &#34;./node_modules/.bin/serverless deploy --stage prod&#34;
-</code></pre><p>Now we should change the CircleCI config.yml file to use the new way to deploy. We&rsquo;re also going to change how we install the packages in the CI pipeline. So, go to the section named &ldquo;Install Serverless CLI and dependencies&rdquo; and substitute the &ldquo;npm install&rdquo; line with the following ones:</p>
-<pre tabindex="0"><code># update npm
-sudo npm install -g npm
-npm ci
-</code></pre><p>We want to use the new <em>ci</em> command in npm (more info <a href="https://docs.npmjs.com/cli/ci">here</a>) so we need to update npm to the last version. If the docker image you&rsquo;re using has already version 5.7 or above, you can skip this step.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">npm install serverless --save-dev
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>and create some scripts in the package.json file to make our live easier:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&#34;deploy&#34;: &#34;./node_modules/.bin/serverless deploy&#34;,
+</span></span><span class="line"><span class="cl">&#34;deploy:pre&#34;: &#34;./node_modules/.bin/serverless deploy --stage pre&#34;,
+</span></span><span class="line"><span class="cl">&#34;deploy:prod&#34;: &#34;./node_modules/.bin/serverless deploy --stage prod&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now we should change the CircleCI config.yml file to use the new way to deploy. We&rsquo;re also going to change how we install the packages in the CI pipeline. So, go to the section named &ldquo;Install Serverless CLI and dependencies&rdquo; and substitute the &ldquo;npm install&rdquo; line with the following ones:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># update npm
+</span></span><span class="line"><span class="cl">sudo npm install -g npm
+</span></span><span class="line"><span class="cl">npm ci
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We want to use the new <em>ci</em> command in npm (more info <a href="https://docs.npmjs.com/cli/ci">here</a>) so we need to update npm to the last version. If the docker image you&rsquo;re using has already version 5.7 or above, you can skip this step.</p>
 <p>The next step is to change the deployment steps to use the new scripts. The pre-production step should now look like</p>
-<pre tabindex="0"><code>- run:
-    name: Deploy application
-    command: npm run deploy:pre
-</code></pre><p>And the production step should look like:</p>
-<pre tabindex="0"><code>- run:
-    name: Deploy application
-    command: |
-    chmod +x scripts/aws-cli-assumerole.sh
-    source scripts/aws-cli-assumerole.sh
-    npm run deploy:prod
-</code></pre><p>Push the changes and give it a go.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">- run:
+</span></span><span class="line"><span class="cl">    name: Deploy application
+</span></span><span class="line"><span class="cl">    command: npm run deploy:pre
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And the production step should look like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">- run:
+</span></span><span class="line"><span class="cl">    name: Deploy application
+</span></span><span class="line"><span class="cl">    command: |
+</span></span><span class="line"><span class="cl">    chmod +x scripts/aws-cli-assumerole.sh
+</span></span><span class="line"><span class="cl">    source scripts/aws-cli-assumerole.sh
+</span></span><span class="line"><span class="cl">    npm run deploy:prod
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Push the changes and give it a go.</p>
 <h2 id="config-file">Config file</h2>
 <p>It&rsquo;s time to create a config file to store the different settings. For this quick demo, we&rsquo;re just going to use one. So, go to the root of the project (where you have the serverless.yml file), create a file called vars.yml and copy the following content:</p>
-<pre tabindex="0"><code>dev-user:
-  message: &#34;Environment variable from dev-user&#34;
-pre:
-  message: &#34;Environment variable from pre&#34;
-prod:
-  message: &#34;Environment variable from prod&#34;
-</code></pre><p>We&rsquo;re creating a configuration setting called message which will have different values in each environment. We&rsquo;re here defining a stage for the user (more on this later), a stage for pre and stage for prod. What we want is that the developers on their machines use the dev-user settings and that the CI environment uses the pre settings when deploying to pre and the prod settings when deploying to prod.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">dev-user:
+</span></span><span class="line"><span class="cl">  message: &#34;Environment variable from dev-user&#34;
+</span></span><span class="line"><span class="cl">pre:
+</span></span><span class="line"><span class="cl">  message: &#34;Environment variable from pre&#34;
+</span></span><span class="line"><span class="cl">prod:
+</span></span><span class="line"><span class="cl">  message: &#34;Environment variable from prod&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We&rsquo;re creating a configuration setting called message which will have different values in each environment. We&rsquo;re here defining a stage for the user (more on this later), a stage for pre and stage for prod. What we want is that the developers on their machines use the dev-user settings and that the CI environment uses the pre settings when deploying to pre and the prod settings when deploying to prod.</p>
 <h2 id="loading-the-settings">Loading the settings</h2>
 <p>We need now to use this setting on the serverless.yml file. The first thing we need to do is to define the default stage where we want to deploy the application. This will be the user stage. But we want each of our devs to have their own stage, so they can make tests independently of each other. The serverless framework makes this easy, as it already creates the functions and resources with the stage as a part of the name. So what we just need is to provide a different stage name for each user. Let&rsquo;s do this by adding this line to the provider section of the serverless.yaml:</p>
-<pre tabindex="0"><code>stage: dev${env:SLSUSER}
-</code></pre><p>So, if each developer creates an environment variable called SLSUSER on its laptop with a unique value, the serverless framework will use that value when naming the functions.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">stage: dev${env:SLSUSER}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>So, if each developer creates an environment variable called SLSUSER on its laptop with a unique value, the serverless framework will use that value when naming the functions.</p>
 <p>Now it&rsquo;s time to define some custom properties:</p>
-<pre tabindex="0"><code>custom:
-  stage: ${opt:stage, self:provider.stage}
-  default-vars-stage: dev-user
-  vars: ${file(./vars.yml):${opt:stage, self:custom.default-vars-stage}}
-</code></pre><p>The first property is to define the stage we want to use, which will be the stage provided by the arguments of the <em>sls deploy</em> command or, in case we don&rsquo;t provide any, the value of the provider.stage property (which will be the dev user stage).
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">custom:
+</span></span><span class="line"><span class="cl">  stage: ${opt:stage, self:provider.stage}
+</span></span><span class="line"><span class="cl">  default-vars-stage: dev-user
+</span></span><span class="line"><span class="cl">  vars: ${file(./vars.yml):${opt:stage, self:custom.default-vars-stage}}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>The first property is to define the stage we want to use, which will be the stage provided by the arguments of the <em>sls deploy</em> command or, in case we don&rsquo;t provide any, the value of the provider.stage property (which will be the dev user stage).
 The second one is to define the default stage inside the vars.yml file we want to use. Again, the default one will be the dev user stage.
 And finally, we&rsquo;re loading the variables in the vars.yml file. If the user provides the stage argument in the deploy command, we&rsquo;ll use that stage. If not, we&rsquo;ll use the default one, which is the dev-user.</p>
 <h2 id="using-the-settings">Using the settings</h2>
 <p>To demonstrate how we can use those settings, we&rsquo;re going to define an environment variable in the hello function that we&rsquo;ll print. We&rsquo;re also going to define an HTTP event so the invocation will be easier. Let&rsquo;s create the environment variable in the function:</p>
-<pre tabindex="0"><code>environment:
-    MESSAGE: ${self:custom.vars.message}
-</code></pre><p>Thanks to the previous step, we have all the variables in the custom.vars object, so we can access the variable as a property of that object.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">environment:
+</span></span><span class="line"><span class="cl">    MESSAGE: ${self:custom.vars.message}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Thanks to the previous step, we have all the variables in the custom.vars object, so we can access the variable as a property of that object.</p>
 <h2 id="using-the-environment-variable-in-the-function">Using the environment variable in the function</h2>
 <p>Let&rsquo;s change the code of the function to use the environment variable:</p>
-<pre tabindex="0"><code>module.exports.hello = (event, context, callback) =&gt; {
-  const response = {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: `The message is: ${process.env.MESSAGE}`,
-      input: event,
-    }),
-  };
-
-  callback(null, response);
-};
-</code></pre><p>We&rsquo;ll need to change the unit test as well:</p>
-<pre tabindex="0"><code>describe(&#34;The handler function&#34;, () =&gt; {
-    it(&#34;returns a message&#34;, () =&gt; {
-        process.env.MESSAGE = &#34;message&#34;
-        handler.hello(undefined, undefined, function(error, response){
-            let body = JSON.parse(response.body);
-            body.message.should.be.equal(`The message is: message`);
-        });
-    });
-});
-</code></pre><h2 id="deploying">Deploying</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">module.exports.hello = (event, context, callback) =&gt; {
+</span></span><span class="line"><span class="cl">  const response = {
+</span></span><span class="line"><span class="cl">    statusCode: 200,
+</span></span><span class="line"><span class="cl">    body: JSON.stringify({
+</span></span><span class="line"><span class="cl">      message: `The message is: ${process.env.MESSAGE}`,
+</span></span><span class="line"><span class="cl">      input: event,
+</span></span><span class="line"><span class="cl">    }),
+</span></span><span class="line"><span class="cl">  };
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  callback(null, response);
+</span></span><span class="line"><span class="cl">};
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We&rsquo;ll need to change the unit test as well:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">describe(&#34;The handler function&#34;, () =&gt; {
+</span></span><span class="line"><span class="cl">    it(&#34;returns a message&#34;, () =&gt; {
+</span></span><span class="line"><span class="cl">        process.env.MESSAGE = &#34;message&#34;
+</span></span><span class="line"><span class="cl">        handler.hello(undefined, undefined, function(error, response){
+</span></span><span class="line"><span class="cl">            let body = JSON.parse(response.body);
+</span></span><span class="line"><span class="cl">            body.message.should.be.equal(`The message is: message`);
+</span></span><span class="line"><span class="cl">        });
+</span></span><span class="line"><span class="cl">    });
+</span></span><span class="line"><span class="cl">});
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="deploying">Deploying</h2>
 <p>Let&rsquo;s first try to deploy the solution using our dev account:</p>
-<pre tabindex="0"><code>npm run deploy -- --aws-profile vgaltes-dev
-</code></pre><p>This will deploy using a local aws profile called vgaltes-dev. If the deployment is successful, you&rsquo;ll something like this in your console:</p>
-<pre tabindex="0"><code>Service Information
-service: test-circleci
-stage: devvgaltes
-region: us-east-1
-stack: test-circleci-devvgaltes
-api keys:
-  None
-endpoints:
-  GET - https://XXXXXXX.execute-api.us-east-1.amazonaws.com/devvgaltes/hello
-functions:
-  hello: test-circleci-devvgaltes-hello
-</code></pre><p>Note the devvgaltes suffix, as my SLSUSER environment variable is set to vgaltes.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">npm run deploy -- --aws-profile vgaltes-dev
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This will deploy using a local aws profile called vgaltes-dev. If the deployment is successful, you&rsquo;ll something like this in your console:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Service Information
+</span></span><span class="line"><span class="cl">service: test-circleci
+</span></span><span class="line"><span class="cl">stage: devvgaltes
+</span></span><span class="line"><span class="cl">region: us-east-1
+</span></span><span class="line"><span class="cl">stack: test-circleci-devvgaltes
+</span></span><span class="line"><span class="cl">api keys:
+</span></span><span class="line"><span class="cl">  None
+</span></span><span class="line"><span class="cl">endpoints:
+</span></span><span class="line"><span class="cl">  GET - https://XXXXXXX.execute-api.us-east-1.amazonaws.com/devvgaltes/hello
+</span></span><span class="line"><span class="cl">functions:
+</span></span><span class="line"><span class="cl">  hello: test-circleci-devvgaltes-hello
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Note the devvgaltes suffix, as my SLSUSER environment variable is set to vgaltes.</p>
 <p>If you click on the link, you will see a response like:</p>
-<pre tabindex="0"><code>{&#34;message&#34;:&#34;The message is: Environment variable from dev-user&#34;,...
-</code></pre><p>This looks good. Let&rsquo;s push everything and see the result of the deployment using CircleCI. Once the deployment is successful, go to the result of the deployment on pre and the result of the deployment on prod and click on the links. For pre, you should see that the response is:</p>
-<pre tabindex="0"><code>{&#34;message&#34;:&#34;The message is: Environment variable from pre&#34;,...
-</code></pre><p>And for prod the response should be:</p>
-<pre tabindex="0"><code>{&#34;message&#34;:&#34;The message is: Environment variable from prod&#34;,...
-</code></pre><h2 id="summary">Summary</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{&#34;message&#34;:&#34;The message is: Environment variable from dev-user&#34;,...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This looks good. Let&rsquo;s push everything and see the result of the deployment using CircleCI. Once the deployment is successful, go to the result of the deployment on pre and the result of the deployment on prod and click on the links. For pre, you should see that the response is:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{&#34;message&#34;:&#34;The message is: Environment variable from pre&#34;,...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And for prod the response should be:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{&#34;message&#34;:&#34;The message is: Environment variable from prod&#34;,...
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="summary">Summary</h2>
 <p>In this article, we&rsquo;ve seen how we can set different values for a configuration variable per environment. Another option you have is to use <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-paramstore.html">AWS Systems Manager Parameter Store</a>. You can see how to do this in <a href="https://theburningmonk.com/2017/09/you-should-use-ssm-parameter-store-over-lambda-env-variables/">this article</a> from <a href="https://twitter.com/theburningmonk">Yan Cui</a>.</p>
 <p>Hope it helps!</p>
 

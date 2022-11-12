@@ -52,7 +52,7 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
 <meta itemprop="description" content="In the previous article we saw how to send forms using Suave.Experimental as view engine. In this article we&rsquo;re going to use Suave.DotLiquid as view engine. We&rsquo;ll see how we&rsquo;re going to be able to reuse most of the work done previously.
 Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is able to use this library thanks to the pakage Suave.DotLiquid. So, the first thing we need to do is install these packages in our project.">
 
-<meta itemprop="wordCount" content="421">
+<meta itemprop="wordCount" content="429">
 <meta itemprop="keywords" content="F#,Suave,Forms," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Sending forms with Suave, Suave.DotLiquid and Suave.Forms"/>
 <meta name="twitter:description" content="In the previous article we saw how to send forms using Suave.Experimental as view engine. In this article we&rsquo;re going to use Suave.DotLiquid as view engine. We&rsquo;ll see how we&rsquo;re going to be able to reuse most of the work done previously.
@@ -136,8 +136,8 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
         <div class="post-category">
             <a href="/categories/suave/"> Suave </a>
             </div>
-          <span class="more-meta"> 421 words </span>
-          <span class="more-meta"> 2 mins read </span>
+          <span class="more-meta"> 429 words </span>
+          <span class="more-meta"> 3 mins read </span>
         
       </div>
     </header>
@@ -147,11 +147,15 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#suavedotliquid">Suave.DotLiquid</a></li>
-    <li><a href="#reusing-code">Reusing code</a></li>
-    <li><a href="#the-view">The view</a></li>
-    <li><a href="#the-application">The application</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#suavedotliquid">Suave.DotLiquid</a></li>
+        <li><a href="#reusing-code">Reusing code</a></li>
+        <li><a href="#the-view">The view</a></li>
+        <li><a href="#the-application">The application</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -188,7 +192,16 @@ Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is
 &lt;/html&gt;
 </code></pre>
 <p>In this is standard HTML. Let&rsquo;s take a look at the view that will display the Human model to see DotLiquid in action.</p>
-<!-- raw HTML omitted -->
+<html>
+    <head>
+        <title>Forms with DotLiquid</title>
+    </head>
+    <body>
+        <div>Show</div>
+        <div>Name: {{model.Name}}</div>
+        <div>Surname: {{model.Surname}}</div>
+    </body>
+</html>
 <p>As you can see, we are accessing the properties Name and Surname of the model, in this case the Human type defined in the <a href="(http://vgaltes.com/suave/forms-with-suave-experimental-and-suave-forms)">previous article</a>.</p>
 <h2 id="the-application">The application</h2>
 <p>The changes we need to do in our App.fsx are really small.</p>

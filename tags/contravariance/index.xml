@@ -15,7 +15,7 @@
       <guid>http://example.org/post/kotlin-variance-covariance/</guid>
       <description>When we work with generics, sometimes we need to help the compiler in order to accomplish what we want. By doing that, we&amp;rsquo;ll be telling the compiler if two classes are covariant or contravariant. Let&amp;rsquo;s see a couple of examples to help understand these concepts.
 Covariance Imagine that we want to model a factory of toys. Let&amp;rsquo;s start by creating an interface that will take a generic type:
-interface Factory&amp;lt;T&amp;gt; { fun create(name: String): T } Now we need to define what we want to produce</description>
+1 2 3 interface Factory&amp;lt;T&amp;gt; { fun create(name: String): T } Now we need to define what we want to produce</description>
     </item>
     
   </channel>

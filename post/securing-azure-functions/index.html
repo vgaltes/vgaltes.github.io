@@ -52,7 +52,7 @@ As far as I know (correct me in the comments if I&rsquo;m wrong, please), when y
 <meta itemprop="description" content="(Thanks to Francesc Ribera, Alex Casquete and Jerry Liu for their guidance on this topic)
 As far as I know (correct me in the comments if I&rsquo;m wrong, please), when you create a brand new Azure Function, it has access to everything in your subscription as a contributor. That&rsquo;s really not great. When you develop a new Lambda function you have to specify all the permissions that the function has to have."><meta itemprop="datePublished" content="2018-11-23T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2018-11-23T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1140">
+<meta itemprop="wordCount" content="1204">
 <meta itemprop="keywords" content="devops,azure functions,azure," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Securing Azure Functions"/>
 <meta name="twitter:description" content="(Thanks to Francesc Ribera, Alex Casquete and Jerry Liu for their guidance on this topic)
@@ -136,7 +136,7 @@ As far as I know (correct me in the comments if I&rsquo;m wrong, please), when y
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 1140 words </span>
+          <span class="more-meta"> 1204 words </span>
           <span class="more-meta"> 6 mins read </span>
         
       </div>
@@ -147,12 +147,16 @@ As far as I know (correct me in the comments if I&rsquo;m wrong, please), when y
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#shared-access-policy-to-the-rescue">Shared Access Policy to the rescue</a></li>
-    <li><a href="#creating-the-event-hub">Creating the Event Hub</a></li>
-    <li><a href="#writing-to-the-event-hub-using-the-net-library">Writing to the event hub using the .Net library</a></li>
-    <li><a href="#writing-to-the-event-hub-using-an-output-binding">Writing to the event hub using an output binding</a></li>
-    <li><a href="#imperative-binding">Imperative binding</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#shared-access-policy-to-the-rescue">Shared Access Policy to the rescue</a></li>
+        <li><a href="#creating-the-event-hub">Creating the Event Hub</a></li>
+        <li><a href="#writing-to-the-event-hub-using-the-net-library">Writing to the event hub using the .Net library</a></li>
+        <li><a href="#writing-to-the-event-hub-using-an-output-binding">Writing to the event hub using an output binding</a></li>
+        <li><a href="#imperative-binding">Imperative binding</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -160,59 +164,145 @@ As far as I know (correct me in the comments if I&rsquo;m wrong, please), when y
     <div class="post-content">
       <p>(Thanks to Francesc Ribera, <a href="https://acasquete.github.io/">Alex Casquete</a> and <a href="https://stackoverflow.com/questions/53434852/securing-an-azure-function">Jerry Liu</a> for their guidance on this topic)</p>
 <p>As far as I know (correct me in the comments if I&rsquo;m wrong, please), when you create a brand new Azure Function, it has access to everything in your subscription as a contributor. That&rsquo;s really not great. When you develop a new Lambda function you have to specify all the permissions that the function has to have. For example, if you need to query and put items into a DynamoDB table (and you&rsquo;re using the serverless framework), you have to do something like this:</p>
-<pre tabindex="0"><code>functions:
-  watchStream:
-    handler: src/functions/user/watchStream.handler
-    events:
-      - http:
-          path: user/{user_id}/stream
-          method: post
-    environment:
-      videoStreamsTableName: ${self:custom.videoStreamsTableName}
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - dynamodb:Query
-          - dynamodb:PutItem
-        Resource: &#34;arn:aws:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.videoStreamsTableName}&#34;
-</code></pre><p>This is great for many reasons. By default you function doesn&rsquo;t have access to anything, which makes easier to control it. The level of detail that you get is great, as you&rsquo;ve seen, you can define permissions at a table level. And this way of assigning permissions makes easier to follow the <a href="">Least Privilege Principle</a>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">functions:
+</span></span><span class="line"><span class="cl">  watchStream:
+</span></span><span class="line"><span class="cl">    handler: src/functions/user/watchStream.handler
+</span></span><span class="line"><span class="cl">    events:
+</span></span><span class="line"><span class="cl">      - http:
+</span></span><span class="line"><span class="cl">          path: user/{user_id}/stream
+</span></span><span class="line"><span class="cl">          method: post
+</span></span><span class="line"><span class="cl">    environment:
+</span></span><span class="line"><span class="cl">      videoStreamsTableName: ${self:custom.videoStreamsTableName}
+</span></span><span class="line"><span class="cl">    iamRoleStatements:
+</span></span><span class="line"><span class="cl">      - Effect: Allow
+</span></span><span class="line"><span class="cl">        Action:
+</span></span><span class="line"><span class="cl">          - dynamodb:Query
+</span></span><span class="line"><span class="cl">          - dynamodb:PutItem
+</span></span><span class="line"><span class="cl">        Resource: &#34;arn:aws:dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:custom.videoStreamsTableName}&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>This is great for many reasons. By default you function doesn&rsquo;t have access to anything, which makes easier to control it. The level of detail that you get is great, as you&rsquo;ve seen, you can define permissions at a table level. And this way of assigning permissions makes easier to follow the <a href="">Least Privilege Principle</a>.</p>
 <p>But it looks like that the Role Base Security in Azure is still on preview and not available in all the regions, so we need to use some other system to try to access the permissions of our functions.</p>
 <h2 id="shared-access-policy-to-the-rescue">Shared Access Policy to the rescue</h2>
 <p>The Shared Access Policy is a way to grant access to our resources by adding a signature to the connection string. This will tell the resource which operations to accept. In this example we&rsquo;ll try to write to an Event Hub from a function. We&rsquo;ll do this using the .Net client library and an output binding.</p>
 <h2 id="creating-the-event-hub">Creating the Event Hub</h2>
 <p>We need to update our deployment script with the following content:</p>
-<pre tabindex="0"><code>#Create the event hub
-echo -e &#34;${BLUE}Creating the Event Hub${NC}&#34;
-eventHubNamespaceName=$serviceName&#34;-ehnamespace&#34;
-eventHubName=pings
-az eventhubs namespace create --name $eventHubNamespaceName --resource-group $resourceGroupName --location $location --sku Basic
-az eventhubs eventhub create --name $eventHubName --namespace-name $eventHubNamespaceName --resource-group $resourceGroupName --message-retention 1
-az eventhubs eventhub authorization-rule create --resource-group $resourceGroupName --namespace-name $eventHubNamespaceName --eventhub-name $eventHubName --name Send --rights Send
-ehConnectionString=&#34;$(az eventhubs eventhub authorization-rule keys list --resource-group $resourceGroupName --namespace-name $eventHubNamespaceName --eventhub-name $eventHubName --name Send --query primaryConnectionString)&#34;
-ehConnectionString=&#34;${ehConnectionString%\&#34;}&#34;
-ehConnectionString=&#34;${ehConnectionString#\&#34;}&#34;
-az functionapp config appsettings set -g $resourceGroupName -n $serviceName --settings TestQueueConnectionString=$ehConnectionString
-</code></pre><p>First, we need to create the namespace, which is where we&rsquo;ll specify the pricing tier, in this case Basic. Then, we create the event hub. Here, we need to specify the message retention value, because the defuault is 7 and that&rsquo;s a value not supporting in the Basic princing tier. The last step is to create the shared access policy. In this case, we say that we want to call it <code>Send</code> and that it will have just <code>Send</code> rights.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">#Create the event hub
+</span></span><span class="line"><span class="cl">echo -e &#34;${BLUE}Creating the Event Hub${NC}&#34;
+</span></span><span class="line"><span class="cl">eventHubNamespaceName=$serviceName&#34;-ehnamespace&#34;
+</span></span><span class="line"><span class="cl">eventHubName=pings
+</span></span><span class="line"><span class="cl">az eventhubs namespace create --name $eventHubNamespaceName --resource-group $resourceGroupName --location $location --sku Basic
+</span></span><span class="line"><span class="cl">az eventhubs eventhub create --name $eventHubName --namespace-name $eventHubNamespaceName --resource-group $resourceGroupName --message-retention 1
+</span></span><span class="line"><span class="cl">az eventhubs eventhub authorization-rule create --resource-group $resourceGroupName --namespace-name $eventHubNamespaceName --eventhub-name $eventHubName --name Send --rights Send
+</span></span><span class="line"><span class="cl">ehConnectionString=&#34;$(az eventhubs eventhub authorization-rule keys list --resource-group $resourceGroupName --namespace-name $eventHubNamespaceName --eventhub-name $eventHubName --name Send --query primaryConnectionString)&#34;
+</span></span><span class="line"><span class="cl">ehConnectionString=&#34;${ehConnectionString%\&#34;}&#34;
+</span></span><span class="line"><span class="cl">ehConnectionString=&#34;${ehConnectionString#\&#34;}&#34;
+</span></span><span class="line"><span class="cl">az functionapp config appsettings set -g $resourceGroupName -n $serviceName --settings TestQueueConnectionString=$ehConnectionString
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>First, we need to create the namespace, which is where we&rsquo;ll specify the pricing tier, in this case Basic. Then, we create the event hub. Here, we need to specify the message retention value, because the defuault is 7 and that&rsquo;s a value not supporting in the Basic princing tier. The last step is to create the shared access policy. In this case, we say that we want to call it <code>Send</code> and that it will have just <code>Send</code> rights.</p>
 <h2 id="writing-to-the-event-hub-using-the-net-library">Writing to the event hub using the .Net library</h2>
 <p>Let&rsquo;s start writing a message using the .Net library. First of all, add the necessary package:</p>
-<pre tabindex="0"><code>dotnet add package Microsoft.Azure.EventHubs
-</code></pre><p>Import the package</p>
-<pre tabindex="0"><code>using Microsoft.Azure.EventHubs;
-</code></pre><p>Get the configuration setting (in the V2 of Azure Functions we need to use the new <a href="https://blog.jongallant.com/2018/01/azure-function-config/">ConfigurationBuilder</a> class):</p>
-<pre tabindex="0"><code>var config = new ConfigurationBuilder()
-        .SetBasePath(context.FunctionAppDirectory)
-        .AddJsonFile(&#34;local.settings.json&#34;, optional: true, reloadOnChange: true)
-        .AddEnvironmentVariables()
-        .Build();
-</code></pre><p>Get the connection string:</p>
-<pre tabindex="0"><code>var ehConnectionString = config[&#34;TestQueueConnectionString&#34;];
-</code></pre><p>And finally write a message into the event hub:</p>
-<pre tabindex="0"><code>var ehClient = EventHubClient.CreateFromConnectionString(ehConnectionString);
-      await ehClient.SendAsync(new EventData(Encoding.UTF8.GetBytes(&#34;This is a message&#34;)));
-      await ehClient.CloseAsync();
-</code></pre><p>Now it&rsquo;s time to deploy and test our function. As always, run the deployment script:</p>
-<pre tabindex="0"><code>./deploy.sh TestAuth westeurope dev
-</code></pre><p>If we now go to the event hub we&rsquo;ll see that we&rsquo;ve received a message</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">dotnet</span> <span class="nx">add</span> <span class="kn">package</span> <span class="nx">Microsoft</span><span class="p">.</span><span class="nx">Azure</span><span class="p">.</span><span class="nx">EventHubs</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Import the package</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">using Microsoft.Azure.EventHubs;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Get the configuration setting (in the V2 of Azure Functions we need to use the new <a href="https://blog.jongallant.com/2018/01/azure-function-config/">ConfigurationBuilder</a> class):</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">var config = new ConfigurationBuilder()
+</span></span><span class="line"><span class="cl">        .SetBasePath(context.FunctionAppDirectory)
+</span></span><span class="line"><span class="cl">        .AddJsonFile(&#34;local.settings.json&#34;, optional: true, reloadOnChange: true)
+</span></span><span class="line"><span class="cl">        .AddEnvironmentVariables()
+</span></span><span class="line"><span class="cl">        .Build();
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Get the connection string:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">var ehConnectionString = config[&#34;TestQueueConnectionString&#34;];
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And finally write a message into the event hub:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">var ehClient = EventHubClient.CreateFromConnectionString(ehConnectionString);
+</span></span><span class="line"><span class="cl">      await ehClient.SendAsync(new EventData(Encoding.UTF8.GetBytes(&#34;This is a message&#34;)));
+</span></span><span class="line"><span class="cl">      await ehClient.CloseAsync();
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now it&rsquo;s time to deploy and test our function. As always, run the deployment script:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">./deploy.sh TestAuth westeurope dev
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>If we now go to the event hub we&rsquo;ll see that we&rsquo;ve received a message</p>
 <p><img src="/images/MessageReceived.png" alt="A message"></p>
 <p>Let&rsquo;s see what happens if we change the policy. Instead of Read as right, change it to Listen and redeploy. Call the function and you&rsquo;ll see that you&rsquo;re not getting anything back. That&rsquo;s because you&rsquo;ve got an error. If you check the status code you&rsquo;ll see that you&rsquo;ve got a 500.</p>
 <p>Go to your function monitor and you&rsquo;ll see that you&rsquo;ve got an <code>Unauthorised access</code> error.</p>
@@ -220,17 +310,49 @@ az functionapp config appsettings set -g $resourceGroupName -n $serviceName --se
 <h2 id="writing-to-the-event-hub-using-an-output-binding">Writing to the event hub using an output binding</h2>
 <p>An <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-triggers-bindings">output binding</a> is a declarative way to connect to data from our code. I still haven&rsquo;t worked in anger with them, but I have mixed feelings about them. My first impression is that it&rsquo;s too much magic. But let&rsquo;s see and example of how to use them.</p>
 <p>First of all, add the necessary package and import it:</p>
-<pre tabindex="0"><code>dotnet add package Microsoft.Azure.WebJobs.Extensions.EventHubs
-</code></pre><pre tabindex="0"><code>using Microsoft.Azure.WebJobs;
-</code></pre><p>Change the signature of the function to something like:</p>
-<pre tabindex="0"><code>public static ActionResult Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] CustomObject req,
-        [EventHub(&#34;pings&#34;, Connection = &#34;TestQueueConnectionString&#34;)] out string ehMessage,
-        ILogger log)
-    {
-</code></pre><p>And finally write the message to the event hub by just writing it into the out parameter:</p>
-<pre tabindex="0"><code>ehMessage = &#34;Message from output binding&#34;;
-</code></pre><p>Let&rsquo;s deploy and test the function. You should see a new message in the event hub (remember to change the configuration of the Shared Access Policy to Send)</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">dotnet</span> <span class="nx">add</span> <span class="kn">package</span> <span class="nx">Microsoft</span><span class="p">.</span><span class="nx">Azure</span><span class="p">.</span><span class="nx">WebJobs</span><span class="p">.</span><span class="nx">Extensions</span><span class="p">.</span><span class="nx">EventHubs</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">using Microsoft.Azure.WebJobs;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Change the signature of the function to something like:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">public static ActionResult Run(
+</span></span><span class="line"><span class="cl">        [HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] CustomObject req,
+</span></span><span class="line"><span class="cl">        [EventHub(&#34;pings&#34;, Connection = &#34;TestQueueConnectionString&#34;)] out string ehMessage,
+</span></span><span class="line"><span class="cl">        ILogger log)
+</span></span><span class="line"><span class="cl">    {
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And finally write the message to the event hub by just writing it into the out parameter:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ehMessage = &#34;Message from output binding&#34;;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s deploy and test the function. You should see a new message in the event hub (remember to change the configuration of the Shared Access Policy to Send)</p>
 <p>You should see a 200 response..</p>
 <p><img src="/images/EventHubBinding.png" alt="Event Hub binding"></p>
 <p>and a new message in the event hub</p>
@@ -240,30 +362,78 @@ az functionapp config appsettings set -g $resourceGroupName -n $serviceName --se
 <p>So, let&rsquo;s say that we don&rsquo;t want to store the connection string in the application settings. We should store them in something like Key Vault, or Hashicorp Vault, or whatever your organization has. The problem is that we can&rsquo;t use that with a normal binding, so we need to use imperative bindings.</p>
 <p>Note: we&rsquo;re going to explain how to use Key Vault in another article. For now, imagine that we have the connection string in a variable called ehConnectionString.</p>
 <p>First, we need to change the signature of the function to include the Binder object:</p>
-<pre tabindex="0"><code>[FunctionName(&#34;HelloWorld&#34;)]
-    public async static Task&lt;ActionResult&gt; Run(
-        [HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] CustomObject req,
-        ExecutionContext context,
-        Binder binder,
-        ILogger log)
-    {
-</code></pre><p>Then, we need to update the get the settings object:</p>
-<pre tabindex="0"><code>var config = new ConfigurationBuilder()
-        .SetBasePath(context.FunctionAppDirectory)
-        .AddJsonFile(&#34;local.settings.json&#34;, optional: true, reloadOnChange: true)
-        .AddEnvironmentVariables()
-        .Build();
-</code></pre><p>Now, we need to update the setting the binder is going to use:</p>
-<pre tabindex="0"><code>config[&#34;TestQueueConnectionString&#34;] = ehConnectionString;
-</code></pre><p>It&rsquo;s time to create the binding:</p>
-<pre tabindex="0"><code>var output = await binder.BindAsync&lt;IAsyncCollector&lt;string&gt;&gt;(new EventHubAttribute(&#34;pings&#34;)
-    {
-      Connection = &#34;TestQueueConnectionString&#34;
-    });
-</code></pre><p>Note that (I don&rsquo;t know why) we can&rsquo;t use directly a string with the binder, we need to use a collector or an async collector.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">[FunctionName(&#34;HelloWorld&#34;)]
+</span></span><span class="line"><span class="cl">    public async static Task&lt;ActionResult&gt; Run(
+</span></span><span class="line"><span class="cl">        [HttpTrigger(AuthorizationLevel.Anonymous, &#34;get&#34;, &#34;post&#34;, Route = null)] CustomObject req,
+</span></span><span class="line"><span class="cl">        ExecutionContext context,
+</span></span><span class="line"><span class="cl">        Binder binder,
+</span></span><span class="line"><span class="cl">        ILogger log)
+</span></span><span class="line"><span class="cl">    {
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Then, we need to update the get the settings object:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">var config = new ConfigurationBuilder()
+</span></span><span class="line"><span class="cl">        .SetBasePath(context.FunctionAppDirectory)
+</span></span><span class="line"><span class="cl">        .AddJsonFile(&#34;local.settings.json&#34;, optional: true, reloadOnChange: true)
+</span></span><span class="line"><span class="cl">        .AddEnvironmentVariables()
+</span></span><span class="line"><span class="cl">        .Build();
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now, we need to update the setting the binder is going to use:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">config[&#34;TestQueueConnectionString&#34;] = ehConnectionString;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>It&rsquo;s time to create the binding:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">var output = await binder.BindAsync&lt;IAsyncCollector&lt;string&gt;&gt;(new EventHubAttribute(&#34;pings&#34;)
+</span></span><span class="line"><span class="cl">    {
+</span></span><span class="line"><span class="cl">      Connection = &#34;TestQueueConnectionString&#34;
+</span></span><span class="line"><span class="cl">    });
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Note that (I don&rsquo;t know why) we can&rsquo;t use directly a string with the binder, we need to use a collector or an async collector.</p>
 <p>And finally, add the message:</p>
-<pre tabindex="0"><code>await output.AddAsync(&#34;A new message using imperative binding.&#34;);
-</code></pre><h2 id="summary">Summary</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">await output.AddAsync(&#34;A new message using imperative binding.&#34;);
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="summary">Summary</h2>
 <p>In this article we&rsquo;ve seen how to limit what an Azure Function can access. We&rsquo;ve implemented that using Shared Access Policies and we&rsquo;ve seen an example with an Event Hub. We&rsquo;ve also learned how to deploy an event hub using the Azure CLI. We learned how to publish a message into an event hub using the .Net library, an output binding and an imperative binding.</p>
 
     </div>

@@ -49,7 +49,7 @@
 <meta itemprop="name" content="Capturing and forwarding correlation IDs in ASP.NET Core, the easy way">
 <meta itemprop="description" content="The minute after I published my last article about Capturing and forwarding correlation IDs, my very good friend Hugo Biarge send me a Direct Message telling me: &ldquo;Hey man! Have you read this article? This is new from ASP .NET Core 3, and it&rsquo;s an easier solution than the one you explain in the article.&rdquo; So, I took a look, not only at the article but also at the traces that I was already generating, and voilà, everything was already there."><meta itemprop="datePublished" content="2020-01-29T21:03:26+01:00" />
 <meta itemprop="dateModified" content="2020-01-29T21:03:26+01:00" />
-<meta itemprop="wordCount" content="558">
+<meta itemprop="wordCount" content="582">
 <meta itemprop="keywords" content="microservices," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Capturing and forwarding correlation IDs in ASP.NET Core, the easy way"/>
 <meta name="twitter:description" content="The minute after I published my last article about Capturing and forwarding correlation IDs, my very good friend Hugo Biarge send me a Direct Message telling me: &ldquo;Hey man! Have you read this article? This is new from ASP .NET Core 3, and it&rsquo;s an easier solution than the one you explain in the article.&rdquo; So, I took a look, not only at the article but also at the traces that I was already generating, and voilà, everything was already there."/>
@@ -132,7 +132,7 @@
         <div class="post-category">
             <a href="/categories/aspnet-core/"> aspnet core </a>
             </div>
-          <span class="more-meta"> 558 words </span>
+          <span class="more-meta"> 582 words </span>
           <span class="more-meta"> 3 mins read </span>
         
       </div>
@@ -143,7 +143,11 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -160,31 +164,61 @@
 <p>Voilà! Both properties are there in both controllers! That&rsquo;s super cool! We haven&rsquo;t touched a single line of code, and our correlation information is traveling through all our services.</p>
 <p>&ldquo;I see. This is really cool. But I&rsquo;m inspecting the traces, and I can&rsquo;t see any of that correlation information, just the TraceId (and ParentId and SpanId).&rdquo;</p>
 <p>Yes, you&rsquo;re right, but that&rsquo;s the only point where we have to add some code. Fortunately, half of the code is already there. Remember the LogContextMiddleware we talked about in the last article? The one that reads the headers updates the list of correlation IDs, and sets the context of the logger with those values? We just need to throw most of its code and get the correlation IDs from the <code>Activity.Baggage</code> object.</p>
-<pre tabindex="0"><code>public class LogContextMiddleware  
-{
-  
-    private readonly RequestDelegate next;	 
-    private readonly ILogger&lt;LogContextMiddleware&gt; logger;	 
-   	 
-    public LogContextMiddleware(RequestDelegate next, ILogger&lt;LogContextMiddleware&gt; logger)	 
-    {	 
-        this.next = next;	 
-        this.logger = logger;	 
-    }	 
-    
-    public Task InvokeAsync(HttpContext context)	 
-    {	 
-        var correlationHeaders = Activity.Current.Baggage.ToDictionary(b =&gt; b.Key, b =&gt; (object) b.Value);	 
-   
-        // ensures all entries are tagged with some values	 
-        using (logger.BeginScope(correlationHeaders))	 
-        {	 
-            // Call the next delegate/middleware in the pipeline	 
-            return next(context);	 
-        }	 
-    }	 
-}
-</code></pre><p>Easy peasy! Now, if you rerun the application, we&rsquo;ll see the logs populated with the properties defined in the Correlation-Context header.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">public class LogContextMiddleware  
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    private readonly RequestDelegate next;	 
+</span></span><span class="line"><span class="cl">    private readonly ILogger&lt;LogContextMiddleware&gt; logger;	 
+</span></span><span class="line"><span class="cl">   	 
+</span></span><span class="line"><span class="cl">    public LogContextMiddleware(RequestDelegate next, ILogger&lt;LogContextMiddleware&gt; logger)	 
+</span></span><span class="line"><span class="cl">    {	 
+</span></span><span class="line"><span class="cl">        this.next = next;	 
+</span></span><span class="line"><span class="cl">        this.logger = logger;	 
+</span></span><span class="line"><span class="cl">    }	 
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    public Task InvokeAsync(HttpContext context)	 
+</span></span><span class="line"><span class="cl">    {	 
+</span></span><span class="line"><span class="cl">        var correlationHeaders = Activity.Current.Baggage.ToDictionary(b =&gt; b.Key, b =&gt; (object) b.Value);	 
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl">        // ensures all entries are tagged with some values	 
+</span></span><span class="line"><span class="cl">        using (logger.BeginScope(correlationHeaders))	 
+</span></span><span class="line"><span class="cl">        {	 
+</span></span><span class="line"><span class="cl">            // Call the next delegate/middleware in the pipeline	 
+</span></span><span class="line"><span class="cl">            return next(context);	 
+</span></span><span class="line"><span class="cl">        }	 
+</span></span><span class="line"><span class="cl">    }	 
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Easy peasy! Now, if you rerun the application, we&rsquo;ll see the logs populated with the properties defined in the Correlation-Context header.</p>
 <h2 id="summary">Summary</h2>
 <p>In this article, we&rsquo;ve seen how from ASP .NET Core 3.0 correlating traces between our (micro)services, it&rsquo;s easier than ever. Hope it helps!</p>
 

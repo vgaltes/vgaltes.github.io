@@ -52,7 +52,7 @@ First of all we&rsquo;ll need a MySQL server connected to the same network than 
 <meta itemprop="description" content="In the previous article we saw how we can configure Vault and write and read static secrets. Today, we&rsquo;re going to see how we can use Vault to generate temporary users on a MySQL server so we can control access in a more secure way.
 First of all we&rsquo;ll need a MySQL server connected to the same network than the Vault server. Let&rsquo;s change the docker-compose.yml file to accomplish this."><meta itemprop="datePublished" content="2017-12-17T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2017-12-17T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1094">
+<meta itemprop="wordCount" content="1222">
 <meta itemprop="keywords" content="vault,security,mysql," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Dynamic secrets with Vault"/>
 <meta name="twitter:description" content="In the previous article we saw how we can configure Vault and write and read static secrets. Today, we&rsquo;re going to see how we can use Vault to generate temporary users on a MySQL server so we can control access in a more secure way.
@@ -136,7 +136,7 @@ First of all we&rsquo;ll need a MySQL server connected to the same network than 
         <div class="post-category">
             <a href="/categories/devops/"> devops </a>
             </div>
-          <span class="more-meta"> 1094 words </span>
+          <span class="more-meta"> 1222 words </span>
           <span class="more-meta"> 6 mins read </span>
         
       </div>
@@ -147,9 +147,13 @@ First of all we&rsquo;ll need a MySQL server connected to the same network than 
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#setting-up-mysql">Setting up MySQL</a></li>
-    <li><a href="#setting-up-the-database-backend">Setting up the database backend</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#setting-up-mysql">Setting up MySQL</a></li>
+        <li><a href="#setting-up-the-database-backend">Setting up the database backend</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -157,154 +161,366 @@ First of all we&rsquo;ll need a MySQL server connected to the same network than 
     <div class="post-content">
       <p>In the <a href="http://vgaltes.com/devops/vault-basics">previous</a> article we saw how we can configure <a href="https://vaultproject.io">Vault</a> and write and read static secrets. Today, we&rsquo;re going to see how we can use Vault to generate temporary users on a MySQL server so we can control access in a more secure way.</p>
 <p>First of all we&rsquo;ll need a MySQL server connected to the same network than the Vault server. Let&rsquo;s change the <em>docker-compose.yml</em> file to accomplish this.</p>
-<pre tabindex="0"><code>version: &#39;3&#39;
- 
-services:
-  mysql:
-    image: mysql
-    container_name: mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: &#34;mypassword&#34;
-      MYSQL_DATABASE: &#34;test&#34;
-    ports:
-      - 6603:3306
-    volumes:
-      - ./etc/mysql/mysql_data:/var/lib/mysql
-    restart: always
-    networks:
-      - vault_mysql_net
- 
-  vault:
-    depends_on:
-      - mysql
-    image: vault
-    container_name: vault.server
-    ports:
-      - 8200:8200
-    volumes:
-      - ./etc/vault.server/config:/mnt/vault/config
-      - ./etc/vault.server/data:/mnt/vault/data
-      - ./etc/vault.server/logs:/mnt/vault/logs
-    restart: always
-    networks:
-      - vault_mysql_net
-    cap_add:
-      - IPC_LOCK
-    environment:
-      VAULT_ADDR: http://127.0.0.1:8200
-    entrypoint: vault server -config=&#34;/mnt/vault/config/config.hcl&#34;
- 
-networks:
-  vault_mysql_net:
-    driver: bridge
-</code></pre><p>What are we doing here is add another container based on the mysql image and put them on the same network. To know the IPs of the two containers run <em>docker inspect mysql</em> and <em>docker inspect vault.server</em>. In my case, the two IPs are <em>172.18.0.2</em> and <em>172.18.0.3</em> respectively.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">version: &#39;3&#39;
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">services:
+</span></span><span class="line"><span class="cl">  mysql:
+</span></span><span class="line"><span class="cl">    image: mysql
+</span></span><span class="line"><span class="cl">    container_name: mysql
+</span></span><span class="line"><span class="cl">    environment:
+</span></span><span class="line"><span class="cl">      MYSQL_ROOT_PASSWORD: &#34;mypassword&#34;
+</span></span><span class="line"><span class="cl">      MYSQL_DATABASE: &#34;test&#34;
+</span></span><span class="line"><span class="cl">    ports:
+</span></span><span class="line"><span class="cl">      - 6603:3306
+</span></span><span class="line"><span class="cl">    volumes:
+</span></span><span class="line"><span class="cl">      - ./etc/mysql/mysql_data:/var/lib/mysql
+</span></span><span class="line"><span class="cl">    restart: always
+</span></span><span class="line"><span class="cl">    networks:
+</span></span><span class="line"><span class="cl">      - vault_mysql_net
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">  vault:
+</span></span><span class="line"><span class="cl">    depends_on:
+</span></span><span class="line"><span class="cl">      - mysql
+</span></span><span class="line"><span class="cl">    image: vault
+</span></span><span class="line"><span class="cl">    container_name: vault.server
+</span></span><span class="line"><span class="cl">    ports:
+</span></span><span class="line"><span class="cl">      - 8200:8200
+</span></span><span class="line"><span class="cl">    volumes:
+</span></span><span class="line"><span class="cl">      - ./etc/vault.server/config:/mnt/vault/config
+</span></span><span class="line"><span class="cl">      - ./etc/vault.server/data:/mnt/vault/data
+</span></span><span class="line"><span class="cl">      - ./etc/vault.server/logs:/mnt/vault/logs
+</span></span><span class="line"><span class="cl">    restart: always
+</span></span><span class="line"><span class="cl">    networks:
+</span></span><span class="line"><span class="cl">      - vault_mysql_net
+</span></span><span class="line"><span class="cl">    cap_add:
+</span></span><span class="line"><span class="cl">      - IPC_LOCK
+</span></span><span class="line"><span class="cl">    environment:
+</span></span><span class="line"><span class="cl">      VAULT_ADDR: http://127.0.0.1:8200
+</span></span><span class="line"><span class="cl">    entrypoint: vault server -config=&#34;/mnt/vault/config/config.hcl&#34;
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">networks:
+</span></span><span class="line"><span class="cl">  vault_mysql_net:
+</span></span><span class="line"><span class="cl">    driver: bridge
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>What are we doing here is add another container based on the mysql image and put them on the same network. To know the IPs of the two containers run <em>docker inspect mysql</em> and <em>docker inspect vault.server</em>. In my case, the two IPs are <em>172.18.0.2</em> and <em>172.18.0.3</em> respectively.</p>
 <h2 id="setting-up-mysql">Setting up MySQL</h2>
 <p>Remember that what are we doing is to setup Vault so that we can ask it to create a temporary user and password to acces a MySQL instance. We&rsquo;re not setting up MySQL as a storage backend to Vault.</p>
 <p>We&rsquo;ll need a user in MySQL able to create new users. Vault, will use this user to create (and drop, after the TTL) the temporary user it will bring us to connect to MySQL. To increase the security of our system, we want that only Vault could connect using this user. Let&rsquo;s configure MySQL first.</p>
 <p>Connect to MySQL using the root account. As we&rsquo;re exporting the MySQL port, we can do this from our laptop:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ mysql -uroot -pmypassword -h 127.0.0.1 -P 6603
-mysql: [Warning] Using a password on the command line interface can be insecure.
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 3
-Server version: 5.7.20 MySQL Community Server (GPL)
-
-Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
-
-mysql&gt; 
-</code></pre><p>Let&rsquo;s create a test user that can only connect from Vault server:</p>
-<pre tabindex="0"><code>mysql&gt; CREATE USER &#39;test&#39;@&#39;172.18.0.3&#39;;
-Query OK, 0 rows affected (0.02 sec)
-</code></pre><p>Set a password for that user:</p>
-<pre tabindex="0"><code>mysql&gt; set password for &#39;test&#39;@&#39;172.18.0.3&#39; = &#39;test&#39;;
-Query OK, 0 rows affected (0.00 sec)
-</code></pre><p>And now, grant privileges to the user. As we want Vault to just create readonly users (in this example), just give it the create user and select privileges:</p>
-<pre tabindex="0"><code>mysql&gt; grant create user, select on *.* to &#39;test&#39;@&#39;172.18.0.3&#39; with grant option;
-Query OK, 0 rows affected (0.00 sec)
-</code></pre><p>We&rsquo;re done with MySQL. Let&rsquo;s move to Vault again.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ mysql -uroot -pmypassword -h 127.0.0.1 -P 6603
+</span></span><span class="line"><span class="cl">mysql: [Warning] Using a password on the command line interface can be insecure.
+</span></span><span class="line"><span class="cl">Welcome to the MySQL monitor.  Commands end with ; or \g.
+</span></span><span class="line"><span class="cl">Your MySQL connection id is 3
+</span></span><span class="line"><span class="cl">Server version: 5.7.20 MySQL Community Server (GPL)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Oracle is a registered trademark of Oracle Corporation and/or its
+</span></span><span class="line"><span class="cl">affiliates. Other names may be trademarks of their respective
+</span></span><span class="line"><span class="cl">owners.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">mysql&gt; 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Let&rsquo;s create a test user that can only connect from Vault server:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">mysql&gt; CREATE USER &#39;test&#39;@&#39;172.18.0.3&#39;;
+</span></span><span class="line"><span class="cl">Query OK, 0 rows affected (0.02 sec)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Set a password for that user:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">mysql&gt; set password for &#39;test&#39;@&#39;172.18.0.3&#39; = &#39;test&#39;;
+</span></span><span class="line"><span class="cl">Query OK, 0 rows affected (0.00 sec)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And now, grant privileges to the user. As we want Vault to just create readonly users (in this example), just give it the create user and select privileges:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">mysql&gt; grant create user, select on *.* to &#39;test&#39;@&#39;172.18.0.3&#39; with grant option;
+</span></span><span class="line"><span class="cl">Query OK, 0 rows affected (0.00 sec)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>We&rsquo;re done with MySQL. Let&rsquo;s move to Vault again.</p>
 <h2 id="setting-up-the-database-backend">Setting up the database backend</h2>
 <p>To be able to create dynamic secrets, we need to setup the database backend. So, let&rsquo;s login to Vault as an admin:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault auth -method=userpass username=admin password=abcd
-Error making API request.
-
-URL: PUT http://127.0.0.1:8200/v1/auth/userpass/login/admin
-Code: 503. Errors:
-
-* Vault is sealed
-</code></pre><p>Ooops! As we discussed in the previous article, every time we restart Vault it becomes sealed. Unseal it and login as admin again. Now it&rsquo;s time to mount the database backend. To do that, run the following command:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault mount -path=mysql1 database
-Mount error: Error making API request.
-
-URL: POST http://127.0.0.1:8200/v1/sys/mounts/mysql1
-Code: 403. Errors:
-
-* permission denied
-</code></pre><p>Woooot! We don&rsquo;t have permissions to mount the backend. We need to change the policy and rewrite it. Let&rsquo;s change the adminpolicy.hcl file from the previous article to something like this:</p>
-<pre tabindex="0"><code>#authorization
-path &#34;auth/userpass/*&#34; {
-    capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
-}
-
-#policies
-path &#34;sys/policy/*&#34; {
-    capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
-}
-
-#mounts
-path &#34;/sys/mounts/*&#34; {
-    capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
-}
-
-#mysql1
-path &#34;mysql1/*&#34; {
-    capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
-}
-</code></pre><p>And rewrite it:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault write sys/policy/admins policy=@&#34;adminpolicy.hcl&#34;
-Success! Data written to: sys/policy/admins
-</code></pre><p>Cool, let&rsquo;s try to mount the database backend:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault mount -path=mysql1 database
-Successfully mounted &#39;database&#39; at &#39;mysql1&#39;!
-</code></pre><p>Awesome, we&rsquo;ve mounted the database backend in the path mysql1. Now it&rsquo;s time to configure the role we&rsquo;ll be using in this example. Configuring the role we are defining a couple of things: first, the name of the credentials we&rsquo;re going to read in order to create the user. And second, the query Vault will use to create the user. Let&rsquo;s run the following command:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault write mysql1/roles/readonly db_name=mysql creation_statements=&#34;CREATE USER &#39;{{page.lcb}}name{{page.rcb}}&#39;@&#39;%&#39; IDENTIFIED BY &#39;{{page.lcb}}password{{page.rcb}}&#39;;GRANT SELECT ON *.* TO &#39;{{page.lcb}}name{{page.rcb}}&#39;@&#39;%&#39;;&#34; default_ttl=&#34;1h&#34; max_ttl=&#34;24h&#34;
-Success! Data written to: mysql1/roles/readonly
-</code></pre><p>And finally, we need to configure the connection to the MySQL where we want to create the users. Let&rsquo;s do it:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault write mysql1/config/mysql plugin_name=mysql-database-plugin connection_url=&#34;test:test@tcp(172.18.0.2:3306)/&#34; allowed_roles=&#34;readonly&#34;
-
-
-The following warnings were returned from the Vault server:
-* Read access to this endpoint should be controlled via ACLs as it will return the connection details as is, including passwords, if any.
-</code></pre><p>Cool, we&rsquo;re ready to go. Let&rsquo;s read the credentials for the readonly role in mysql1 and see what happens:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ vault read mysql1/creds/readonly
-Key            	Value
----            	-----
-lease_id       	mysql1/creds/readonly/977e3682-1f02-7165-43d3-919ba4512223
-lease_duration 	1h0m0s
-lease_renewable	true
-password       	A1a-wq10q1qp3v1055up
-username       	v-userpass-a-readonly-v5941vstst
-</code></pre><p>Wow! It looks like that Vault has created a user and give us its username and password. Let&rsquo;s try to login into MySQL with those credentials:</p>
-<pre tabindex="0"><code>MacBook-Pro:TestVault vga$ mysql -uv-userpass-a-readonly-v5941vstst -p&#34;A1a-wq10q1qp3v1055up&#34; -h 127.0.0.1 -P 6603
-mysql: [Warning] Using a password on the command line interface can be insecure.
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 5
-Server version: 5.7.20 MySQL Community Server (GPL)
-
-Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
-
-mysql&gt; 
-</code></pre><h2 id="summary">Summary</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault auth -method=userpass username=admin password=abcd
+</span></span><span class="line"><span class="cl">Error making API request.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">URL: PUT http://127.0.0.1:8200/v1/auth/userpass/login/admin
+</span></span><span class="line"><span class="cl">Code: 503. Errors:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">* Vault is sealed
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Ooops! As we discussed in the previous article, every time we restart Vault it becomes sealed. Unseal it and login as admin again. Now it&rsquo;s time to mount the database backend. To do that, run the following command:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-zed" data-lang="zed"><span class="line"><span class="cl"><span class="n">MacBook</span><span class="o">-</span><span class="n">Pro</span><span class="o">:</span><span class="n">TestVault</span><span class="w"> </span><span class="n">vga</span><span class="err">$</span><span class="w"> </span><span class="n">vault</span><span class="w"> </span><span class="n">mount</span><span class="w"> </span><span class="o">-</span><span class="n">path</span><span class="o">=</span><span class="n">mysql1</span><span class="w"> </span><span class="n">database</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">Mount</span><span class="w"> </span><span class="n">error</span><span class="o">:</span><span class="w"> </span><span class="n">Error</span><span class="w"> </span><span class="n">making</span><span class="w"> </span><span class="n">API</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">URL</span><span class="o">:</span><span class="w"> </span><span class="n">POST</span><span class="w"> </span><span class="n">http</span><span class="o">:</span><span class="c1">//127.0.0.1:8200/v1/sys/mounts/mysql1
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">Code</span><span class="o">:</span><span class="w"> </span><span class="err">403</span><span class="p">.</span><span class="w"> </span><span class="n">Errors</span><span class="o">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="o">*</span><span class="w"> </span><span class="kd">permission</span><span class="w"> </span><span class="n">denied</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Woooot! We don&rsquo;t have permissions to mount the backend. We need to change the policy and rewrite it. Let&rsquo;s change the adminpolicy.hcl file from the previous article to something like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">#authorization
+</span></span><span class="line"><span class="cl">path &#34;auth/userpass/*&#34; {
+</span></span><span class="line"><span class="cl">    capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#policies
+</span></span><span class="line"><span class="cl">path &#34;sys/policy/*&#34; {
+</span></span><span class="line"><span class="cl">    capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#mounts
+</span></span><span class="line"><span class="cl">path &#34;/sys/mounts/*&#34; {
+</span></span><span class="line"><span class="cl">    capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">#mysql1
+</span></span><span class="line"><span class="cl">path &#34;mysql1/*&#34; {
+</span></span><span class="line"><span class="cl">    capabilities = [&#34;create&#34;, &#34;read&#34;, &#34;update&#34;, &#34;delete&#34;, &#34;list&#34;]
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And rewrite it:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault write sys/policy/admins policy=@&#34;adminpolicy.hcl&#34;
+</span></span><span class="line"><span class="cl">Success! Data written to: sys/policy/admins
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Cool, let&rsquo;s try to mount the database backend:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault mount -path=mysql1 database
+</span></span><span class="line"><span class="cl">Successfully mounted &#39;database&#39; at &#39;mysql1&#39;!
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Awesome, we&rsquo;ve mounted the database backend in the path mysql1. Now it&rsquo;s time to configure the role we&rsquo;ll be using in this example. Configuring the role we are defining a couple of things: first, the name of the credentials we&rsquo;re going to read in order to create the user. And second, the query Vault will use to create the user. Let&rsquo;s run the following command:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault write mysql1/roles/readonly db_name=mysql creation_statements=&#34;CREATE USER &#39;{{page.lcb}}name{{page.rcb}}&#39;@&#39;%&#39; IDENTIFIED BY &#39;{{page.lcb}}password{{page.rcb}}&#39;;GRANT SELECT ON *.* TO &#39;{{page.lcb}}name{{page.rcb}}&#39;@&#39;%&#39;;&#34; default_ttl=&#34;1h&#34; max_ttl=&#34;24h&#34;
+</span></span><span class="line"><span class="cl">Success! Data written to: mysql1/roles/readonly
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And finally, we need to configure the connection to the MySQL where we want to create the users. Let&rsquo;s do it:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault write mysql1/config/mysql plugin_name=mysql-database-plugin connection_url=&#34;test:test@tcp(172.18.0.2:3306)/&#34; allowed_roles=&#34;readonly&#34;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">The following warnings were returned from the Vault server:
+</span></span><span class="line"><span class="cl">* Read access to this endpoint should be controlled via ACLs as it will return the connection details as is, including passwords, if any.
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Cool, we&rsquo;re ready to go. Let&rsquo;s read the credentials for the readonly role in mysql1 and see what happens:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ vault read mysql1/creds/readonly
+</span></span><span class="line"><span class="cl">Key            	Value
+</span></span><span class="line"><span class="cl">---            	-----
+</span></span><span class="line"><span class="cl">lease_id       	mysql1/creds/readonly/977e3682-1f02-7165-43d3-919ba4512223
+</span></span><span class="line"><span class="cl">lease_duration 	1h0m0s
+</span></span><span class="line"><span class="cl">lease_renewable	true
+</span></span><span class="line"><span class="cl">password       	A1a-wq10q1qp3v1055up
+</span></span><span class="line"><span class="cl">username       	v-userpass-a-readonly-v5941vstst
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Wow! It looks like that Vault has created a user and give us its username and password. Let&rsquo;s try to login into MySQL with those credentials:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">MacBook-Pro:TestVault vga$ mysql -uv-userpass-a-readonly-v5941vstst -p&#34;A1a-wq10q1qp3v1055up&#34; -h 127.0.0.1 -P 6603
+</span></span><span class="line"><span class="cl">mysql: [Warning] Using a password on the command line interface can be insecure.
+</span></span><span class="line"><span class="cl">Welcome to the MySQL monitor.  Commands end with ; or \g.
+</span></span><span class="line"><span class="cl">Your MySQL connection id is 5
+</span></span><span class="line"><span class="cl">Server version: 5.7.20 MySQL Community Server (GPL)
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Oracle is a registered trademark of Oracle Corporation and/or its
+</span></span><span class="line"><span class="cl">affiliates. Other names may be trademarks of their respective
+</span></span><span class="line"><span class="cl">owners.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">mysql&gt; 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="summary">Summary</h2>
 <p>Magic!!!! It worked! We can connect to the MySQL instance using the temporary user Vault has created for us. We no longer have to maintain users for different applications or usages, we just need to give our clients access to this endpoint. And thanks to the power of policies, we can give access to this endpoint only to the users we want. Also, the user used to create users, is only accessible via the Vault IP, so it&rsquo;s quite secure.</p>
 
     </div>

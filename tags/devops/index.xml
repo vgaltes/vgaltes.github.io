@@ -34,7 +34,7 @@ As far as I know (correct me in the comments if I&amp;rsquo;m wrong, please), wh
       <guid>http://example.org/post/enabling-application-insights/</guid>
       <description>In our previous articles we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI or Terraform. Once we have a function deployed and accepting traffic, the next obvious thing to do is to monitor it.
 Adding some logs to the function is fairly easy. If you take a look at the signature of the function
-[FunctionName(&amp;#34;HelloWorld&amp;#34;)]public static async Task&amp;lt;IActionResult&amp;gt; Run([HttpTrigger(AuthorizationLevel.Anonymous, &amp;#34;get&amp;#34;, &amp;#34;post&amp;#34;, Route = null)] HttpRequest req,ILogger log) you&amp;rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.</description>
+1 2 3 4 [FunctionName(&amp;#34;HelloWorld&amp;#34;)] public static async Task&amp;lt;IActionResult&amp;gt; Run( [HttpTrigger(AuthorizationLevel.Anonymous, &amp;#34;get&amp;#34;, &amp;#34;post&amp;#34;, Route = null)] HttpRequest req, ILogger log) you&amp;rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.</description>
     </item>
     
     <item>
@@ -56,7 +56,7 @@ Enable A/B testing Enable blue/green deployments No downtime deployments Easy ro
       <guid>http://example.org/post/deploying-azure-functions-using-zip-deploy/</guid>
       <description>In a previous article we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
-#!/bin/bashlocation=$2stage=$3serviceName=$1-$stageresourceGroupName=$serviceName&amp;#34;-rg&amp;#34;serviceNameToLower=&amp;#34;$(echo $serviceName | tr &amp;#39;[:upper:]&amp;#39; &amp;#39;[:lower:]&amp;#39;)&amp;#34;storageAccountName=&amp;#34;$(echo ${serviceNameToLower//&amp;#34;-&amp;#34;/&amp;#34;&amp;#34;})&amp;#34;echo &amp;#34;Creating resource group&amp;#34;az group create --name $resourceGroupName --location $locationecho &amp;#34;Creating storage account&amp;#34;az storage account create --name $storageAccountName --location $location --resource-group $resourceGroupName --sku Standard_LRSecho &amp;#34;Creating function app&amp;#34;az functionapp create --name $serviceName --storage-account $storageAccountName --consumption-plan-location westeurope --resource-group $resourceGroupNameecho &amp;#34;Publishing function locally&amp;#34;dotnet buildecho &amp;#34;Publisihng function to Azure&amp;#34;func azure functionapp publish $serviceName What are we going to do is to change the last two steps.</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 #!</description>
     </item>
     
     <item>

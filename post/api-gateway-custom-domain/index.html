@@ -52,7 +52,7 @@ Disclaimer This article is a summary of two articles (this one and this one) fro
 <meta itemprop="description" content="If you&rsquo;re doing something more than a few tests with Lambda and API Gateway, there will be a time where you will like to stop using the AWS-created endpoints for your APIs and start using your own domain. You know, instead of telling your clients, &ldquo;please, go to https://lk7z14x78h.execute-api.eu-west-1.amazonaws.com/dev/helloWorld&quot;, you will like to point them to something like &ldquo;api.authenticatedservices.net/helloWorld&rdquo;. In this article, we&rsquo;ll see how to do that.
 Disclaimer This article is a summary of two articles (this one and this one) from Alex DeBrie (who you should follow if you&rsquo;re interested in serverless)."><meta itemprop="datePublished" content="2019-11-06T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2019-11-06T00:00:00+00:00" />
-<meta itemprop="wordCount" content="985">
+<meta itemprop="wordCount" content="1016">
 <meta itemprop="keywords" content="api gateway,serverless framework," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Set up a custom domain for your API Gateway"/>
 <meta name="twitter:description" content="If you&rsquo;re doing something more than a few tests with Lambda and API Gateway, there will be a time where you will like to stop using the AWS-created endpoints for your APIs and start using your own domain. You know, instead of telling your clients, &ldquo;please, go to https://lk7z14x78h.execute-api.eu-west-1.amazonaws.com/dev/helloWorld&quot;, you will like to point them to something like &ldquo;api.authenticatedservices.net/helloWorld&rdquo;. In this article, we&rsquo;ll see how to do that.
@@ -136,7 +136,7 @@ Disclaimer This article is a summary of two articles (this one and this one) fro
         <div class="post-category">
             <a href="/categories/serverless/"> serverless </a>
             </div>
-          <span class="more-meta"> 985 words </span>
+          <span class="more-meta"> 1016 words </span>
           <span class="more-meta"> 5 mins read </span>
         
       </div>
@@ -147,11 +147,15 @@ Disclaimer This article is a summary of two articles (this one and this one) fro
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#domain">Domain</a></li>
-    <li><a href="#certificate">Certificate</a></li>
-    <li><a href="#custom-domain-in-api-gateway">Custom domain in API Gateway</a></li>
-    <li><a href="#domain-per-environment-and-wildcard-certificates">Domain per environment and wildcard certificates</a></li>
-    <li><a href="#summary">Summary</a></li>
+    <li>
+      <ul>
+        <li><a href="#domain">Domain</a></li>
+        <li><a href="#certificate">Certificate</a></li>
+        <li><a href="#custom-domain-in-api-gateway">Custom domain in API Gateway</a></li>
+        <li><a href="#domain-per-environment-and-wildcard-certificates">Domain per environment and wildcard certificates</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
   </div>
@@ -173,52 +177,113 @@ This article is a summary of two articles (<a href="https://serverless.com/blog/
 <h2 id="custom-domain-in-api-gateway">Custom domain in API Gateway</h2>
 <p>It&rsquo;s time to create the custom domain in API Gateway. As often happens, we won&rsquo;t need to do it manually as a plugin of the <a href="https://serverless.com">serverless framework</a> exists that will help us. So, go to your serverless proyect and install the plugin <a href="https://github.com/amplify-education/serverless-domain-manager">serverless-domain-manager</a>: <code>yarn add serverless-domain-manager --dev</code>. Thanks to the people of Amplify Education for this!</p>
 <p>Now we need to configure the plugin. The way the plugin gets configured is adding an new section on the <em>Custom</em> section of the <code>serverless.yml</code> file:</p>
-<pre tabindex="0"><code>customDomain:
-  domainName: apiv2.authenticatedservices.net
-  basePath: &#39;another-service&#39;
-  stage: ${self:provider.stage}
-  createRoute53Record: true
-</code></pre><p>Assuming you have an API in the path helloWorld, the URL of the endpoint will be <code>https://${domainName}/${basePath}/helloWorld</code>, in our case <code>https://apiv2.authenticatedservices.net/another-service/helloWorld</code>. We will see later why is useful to set the <em>basePath</em> to something.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">customDomain:
+</span></span><span class="line"><span class="cl">  domainName: apiv2.authenticatedservices.net
+</span></span><span class="line"><span class="cl">  basePath: &#39;another-service&#39;
+</span></span><span class="line"><span class="cl">  stage: ${self:provider.stage}
+</span></span><span class="line"><span class="cl">  createRoute53Record: true
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Assuming you have an API in the path helloWorld, the URL of the endpoint will be <code>https://${domainName}/${basePath}/helloWorld</code>, in our case <code>https://apiv2.authenticatedservices.net/another-service/helloWorld</code>. We will see later why is useful to set the <em>basePath</em> to something.</p>
 <p>Now it&rsquo;s time to create the domain. To do that, run the command <code>serverless create_domain</code>. As usual, my recommendation is to create a script in the <code>package.json</code> file and run it via <em>npm</em> or <em>yarn</em>. Don&rsquo;t forget to specify the AWS profile in case you use them.</p>
 <p>As you&rsquo;ll see in the console, it can take up to 40 minutes for the domain to be initialised, so grab a good book and wait a little bit.</p>
 <p><img src="/images/reading.jpg" alt="Serverless developer reading a book"></p>
 <p>We&rsquo;re back!! It&rsquo;s time to deploy our api. Just run the usual deployment command. Again, much better if you have this in a script.</p>
 <p>When you deploy, you will see a new section at the botton of the command&rsquo;s output. You should see something like this:</p>
-<pre tabindex="0"><code>Serverless Domain Manager Summary
-Domain Name
-  apiv2.authenticatedservices.net
-Distribution Domain Name
-  Target Domain: d3gxio5f2chaid.cloudfront.net
-  Hosted Zone Id: Z2FDTNDATAQYW2
-</code></pre><p>And now, you can go to your endpoint and see that is working perfectly.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Serverless Domain Manager Summary
+</span></span><span class="line"><span class="cl">Domain Name
+</span></span><span class="line"><span class="cl">  apiv2.authenticatedservices.net
+</span></span><span class="line"><span class="cl">Distribution Domain Name
+</span></span><span class="line"><span class="cl">  Target Domain: d3gxio5f2chaid.cloudfront.net
+</span></span><span class="line"><span class="cl">  Hosted Zone Id: Z2FDTNDATAQYW2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And now, you can go to your endpoint and see that is working perfectly.</p>
 <p><img src="/images/newendpoint.png" alt="New endpoint"></p>
 <h2 id="domain-per-environment-and-wildcard-certificates">Domain per environment and wildcard certificates</h2>
 <p>Creating new environments in Serverless is easy and cheap, so we usually have more than environment (or stage, you choose the name). Can we have a custom domain for each environment and use a wildcard certificate on those domains? Yes, we can!</p>
 <p>When using a certificate with a different name from the domain, we need to set the <code>certificateName</code> property of the <em>customDomain</em> section. We can hardcode the values there easily, but if we want those values to change depending on the stage, we need to do a bit of work (I promise, it&rsquo;s just a bit!). So, add this variables to the <em>custom</em> section of your <code>serverless.yml</code>:</p>
-<pre tabindex="0"><code>domains:
-  prod: apiv2.authenticatedservices.net
-  staging: staging-api.authenticatedservices.net
-  dev: dev-api.authenticatedservices.net
-certificateNames:
-  prod: apiv2.authenticatedservices.net
-  staging: &#39;*.authenticatedservices.net&#39;
-  dev: &#39;*.authenticatedservices.net&#39;
-</code></pre><p>As you can see, we&rsquo;re defining three stages (prod, staging and dev), each of them with their own custom domain name and their certificate. Staging and dev will share the wildcard certificate.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">domains:
+</span></span><span class="line"><span class="cl">  prod: apiv2.authenticatedservices.net
+</span></span><span class="line"><span class="cl">  staging: staging-api.authenticatedservices.net
+</span></span><span class="line"><span class="cl">  dev: dev-api.authenticatedservices.net
+</span></span><span class="line"><span class="cl">certificateNames:
+</span></span><span class="line"><span class="cl">  prod: apiv2.authenticatedservices.net
+</span></span><span class="line"><span class="cl">  staging: &#39;*.authenticatedservices.net&#39;
+</span></span><span class="line"><span class="cl">  dev: &#39;*.authenticatedservices.net&#39;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>As you can see, we&rsquo;re defining three stages (prod, staging and dev), each of them with their own custom domain name and their certificate. Staging and dev will share the wildcard certificate.</p>
 <p>Now, change de <em>customDomain</em> section to use those values. We&rsquo;ll be taking advantage of the beautiful variable interpolation that the Serverless Framework give us:</p>
-<pre tabindex="0"><code>customDomain:
-  domainName: ${self:custom.domains.${self:provider.stage}}
-  basePath: &#39;another-service&#39;
-  stage: ${self:provider.stage}
-  createRoute53Record: true
-  certificateName: ${self:custom.certificateNames.${self:provider.stage}}
-</code></pre><p>And finally, let&rsquo;s add some script to help us with the deployment. Add these lines to the <code>package.json</code> file.:</p>
-<pre tabindex="0"><code>&#34;deploy&#34;: &#34;serverless deploy --aws-profile serverless-local&#34;,
-&#34;deploy:staging&#34;: &#34;serverless deploy --aws-profile serverless-local --stage staging&#34;,
-&#34;deploy:prod&#34;: &#34;serverless deploy --aws-profile serverless-local --stage prod&#34;,
-&#34;create_domain&#34;: &#34;serverless create_domain --aws-profile serverless-local&#34;,
-&#34;create_domain:staging&#34;: &#34;serverless create_domain --aws-profile serverless-local --stage staging&#34;,
-&#34;create_domain:prod&#34;: &#34;serverless create_domain --aws-profile serverless-local --stage prod&#34;
-</code></pre><p>Now, you will need to do what we did before for each environment: call the <code>create_domain</code> command first, and then call the <code>deploy</code> command.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">customDomain:
+</span></span><span class="line"><span class="cl">  domainName: ${self:custom.domains.${self:provider.stage}}
+</span></span><span class="line"><span class="cl">  basePath: &#39;another-service&#39;
+</span></span><span class="line"><span class="cl">  stage: ${self:provider.stage}
+</span></span><span class="line"><span class="cl">  createRoute53Record: true
+</span></span><span class="line"><span class="cl">  certificateName: ${self:custom.certificateNames.${self:provider.stage}}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>And finally, let&rsquo;s add some script to help us with the deployment. Add these lines to the <code>package.json</code> file.:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&#34;deploy&#34;: &#34;serverless deploy --aws-profile serverless-local&#34;,
+</span></span><span class="line"><span class="cl">&#34;deploy:staging&#34;: &#34;serverless deploy --aws-profile serverless-local --stage staging&#34;,
+</span></span><span class="line"><span class="cl">&#34;deploy:prod&#34;: &#34;serverless deploy --aws-profile serverless-local --stage prod&#34;,
+</span></span><span class="line"><span class="cl">&#34;create_domain&#34;: &#34;serverless create_domain --aws-profile serverless-local&#34;,
+</span></span><span class="line"><span class="cl">&#34;create_domain:staging&#34;: &#34;serverless create_domain --aws-profile serverless-local --stage staging&#34;,
+</span></span><span class="line"><span class="cl">&#34;create_domain:prod&#34;: &#34;serverless create_domain --aws-profile serverless-local --stage prod&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Now, you will need to do what we did before for each environment: call the <code>create_domain</code> command first, and then call the <code>deploy</code> command.</p>
 <p>And that&rsquo;s it! Now you have your beautiful API behind your custom domain.</p>
 <h2 id="summary">Summary</h2>
 <p>In this article, we&rsquo;ve seen how we can have a serverless API behind a custom domain. Hope it helps!!</p>
