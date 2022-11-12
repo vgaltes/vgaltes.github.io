@@ -164,54 +164,54 @@ Abstract classes With abstract classes, using the keyword abstract you can decla
 <p>So, let&rsquo;s see what are they and what are the difference amongst them.</p>
 <h2 id="abstract-classes">Abstract classes</h2>
 <p>With abstract classes, using the keyword <em>abstract</em> you can declare members without implementation. That implementation will be provided by the class that derives from the abstract class, using the keyword override.</p>
-<pre tabindex="0"><code>abstract class Vehicle {
-    abstract fun honk()
-}
-
-class Car: Vehicle {
-    override fun honk() = prinln(&#34;meeeek&#34;)
-}
-</code></pre><p>But you can also, and this is something you can&rsquo;t do with interfaces, define functions that have an implementation and that can&rsquo;t be overriden in the derived classes.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Vehicle</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">honk</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Car</span>: Vehicle {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">honk</span>() = prinln(<span style="color:#e6db74">&#34;meeeek&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>But you can also, and this is something you can&rsquo;t do with interfaces, define functions that have an implementation and that can&rsquo;t be overriden in the derived classes.</p>
 <p>You can&rsquo;t create a new instance of an abstract class, but you can create constructors and init blocks. The order of execution is the same that would be if the class wasn&rsquo;t abstract. Let&rsquo;s take a look. Imagine that we have these classes:</p>
-<pre tabindex="0"><code>abstract class Person(val name: String) {
-    var surname: String = &#34;&#34;
-    var messages: MutableList&lt;String&gt; = mutableListOf()
-
-    constructor(name: String, surname: String): this(name) {
-        this.surname = surname
-        this.messages.add(&#34;Call to first secondary constructor in Person&#34;)
-    }
-
-    init {
-        this.messages.add(&#34;Call to first init block in Person. Primary constructor was already called with $name&#34;)
-    }
-
-    init {
-        this.messages.add(&#34;Call to second init block in Person&#34;)
-    }
-}
-
-class Spaniard : Person {
-    var secondSurname = &#34;&#34;
-
-    constructor(name: String, surname: String, secondSurname: String) : super(name, surname) {
-        this.secondSurname = secondSurname
-        this.messages.add(&#34;Call to first secondary constructor in Spaniard&#34;)
-    }
-
-    constructor(name: String) : this(name, &#34;no surname&#34;, &#34;no surname&#34;) {
-        this.messages.add(&#34;Call to second secondary constructor in Spaniard&#34;)
-    }
-
-    init {
-        this.messages.add(&#34;Call to first init block in Spaniard&#34;)
-    }
-
-    init {
-        this.messages.add(&#34;Call to second init block in Spaniard&#34;)
-    }
-}
-</code></pre><p>If we now create a new object of the <code>Spaniard</code> class with &ldquo;Jose&rdquo; as parameter, the message that we&rsquo;ll have in the message list would be:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span>(<span style="color:#66d9ef">val</span> name: String) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> surname: String = <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> messages: MutableList&lt;String&gt; = mutableListOf()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">constructor</span>(name: String, surname: String): <span style="color:#66d9ef">this</span>(name) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.surname = surname
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.messages.add(<span style="color:#e6db74">&#34;Call to first secondary constructor in Person&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.messages.add(<span style="color:#e6db74">&#34;Call to first init block in Person. Primary constructor was already called with </span><span style="color:#e6db74">$name</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.messages.add(<span style="color:#e6db74">&#34;Call to second init block in Person&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Spaniard</span> : Person {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> secondSurname = <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">constructor</span>(name: String, surname: String, secondSurname: String) : <span style="color:#66d9ef">super</span>(name, surname) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.secondSurname = secondSurname
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.messages.add(<span style="color:#e6db74">&#34;Call to first secondary constructor in Spaniard&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">constructor</span>(name: String) : <span style="color:#66d9ef">this</span>(name, <span style="color:#e6db74">&#34;no surname&#34;</span>, <span style="color:#e6db74">&#34;no surname&#34;</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.messages.add(<span style="color:#e6db74">&#34;Call to second secondary constructor in Spaniard&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.messages.add(<span style="color:#e6db74">&#34;Call to first init block in Spaniard&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">init</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.messages.add(<span style="color:#e6db74">&#34;Call to second init block in Spaniard&#34;</span>)
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>If we now create a new object of the <code>Spaniard</code> class with &ldquo;Jose&rdquo; as parameter, the message that we&rsquo;ll have in the message list would be:</p>
 <pre tabindex="0"><code>Call to first init block in Person. Primary constructor was already called with Jose
 Call to second init block in Person
 Call to first secondary constructor in Person
@@ -224,56 +224,56 @@ Call to second secondary constructor in Spaniard
 <h2 id="interfaces">Interfaces</h2>
 <p>We can do something similar with interfaces. There are some differences between abstract classes and interfaces though.</p>
 <p>In an interface, by default everything is open and we can override everything. We can have default method implementations in interfaces. If we do that, we don&rsquo;t need to override those methods. Let&rsquo;s have a look to an example:</p>
-<pre tabindex="0"><code>interface OnlyNamePerson {
-    val name: String
-    fun sayHello(name: String): String
-    fun sayGoodBye() : String {
-        return &#34;Bye from $name&#34;
-    }
-}
-
-class NoFamilyPerson(override val name: String) : OnlyNamePerson {
-    override fun sayHello(name: String): String {
-        return &#34;Hello $name, my name is ${this.name} and I have no surname&#34;
-    }
-}
-</code></pre><p>As you can see, we need to override the sayHello method because it has no body in the interface declaration, but we don&rsquo;t need to override the sayGoodBye method because it has already an implementation.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">OnlyNamePerson</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> name: String
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">sayHello</span>(name: String): String
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">sayGoodBye</span>() : String {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Bye from </span><span style="color:#e6db74">$name</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NoFamilyPerson</span>(<span style="color:#66d9ef">override</span> <span style="color:#66d9ef">val</span> name: String) : OnlyNamePerson {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">sayHello</span>(name: String): String {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Hello </span><span style="color:#e6db74">$name</span><span style="color:#e6db74">, my name is </span><span style="color:#e6db74">${this.name}</span><span style="color:#e6db74"> and I have no surname&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>As you can see, we need to override the sayHello method because it has no body in the interface declaration, but we don&rsquo;t need to override the sayGoodBye method because it has already an implementation.</p>
 <p>Interfaces don&rsquo;t have constructors or fields. They only can have properties and functions.</p>
 <p>One big difference between an abstract class and an interface is that, as an abstract class is just another type of class, you can only inherit from one abstract class, but you can implement as many interfaces as you want.</p>
 <h2 id="traits">Traits</h2>
 <p>One interesting capability of interfaces in Kotlin is that you can implement <a href="https://en.wikipedia.org/wiki/Trait_(computer_programming)">traits</a> with them. This allow us to compose objects with behaviors defined in interfaces. Let&rsquo;s take a look to an example:</p>
 <p>Imagine that we&rsquo;re developing a game and we need a way to create players. Let&rsquo;s start with some generic interfaces:</p>
-<pre tabindex="0"><code>interface Level {
-    fun getLevel(): Int
-}
-
-interface Enemy {
-    fun isEnemy(): Boolean
-}
-
-interface Class {
-    fun getClass(): String
-}
-</code></pre><p>Without traits, if we wanted to create a NotDangerousFriendlyWizard we&rsquo;d needed to do something like this:</p>
-<pre tabindex="0"><code>class NotDangerousFriendlyWizard : Class, Level, Enemy {
-    override fun getLevel(): Int = 1
-    override fun isEnemy(): Boolean = false
-    override fun getClass(): String = &#34;Wizard&#34;
-}
-</code></pre><p>And what happens if we want to create a NotDangerousFriendlyElf? That we need to create something like this:</p>
-<pre tabindex="0"><code>class NotDangerousFriendlyElf : Class, Level, Enemy {
-    override fun getLevel(): Int = 1
-    override fun isEnemy(): Boolean = false
-    override fun getClass(): String = &#34;Wizard&#34;
-}
-</code></pre><p>As you can see, our classes are quite big and there&rsquo;s a lot of code duplication.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Level</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getLevel</span>(): Int
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Enemy</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">isEnemy</span>(): Boolean
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Class</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getClass</span>(): String
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Without traits, if we wanted to create a NotDangerousFriendlyWizard we&rsquo;d needed to do something like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NotDangerousFriendlyWizard</span> : Class, Level, Enemy {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getLevel</span>(): Int = <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">isEnemy</span>(): Boolean = <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getClass</span>(): String = <span style="color:#e6db74">&#34;Wizard&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>And what happens if we want to create a NotDangerousFriendlyElf? That we need to create something like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NotDangerousFriendlyElf</span> : Class, Level, Enemy {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getLevel</span>(): Int = <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">isEnemy</span>(): Boolean = <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getClass</span>(): String = <span style="color:#e6db74">&#34;Wizard&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>As you can see, our classes are quite big and there&rsquo;s a lot of code duplication.</p>
 <p>Let&rsquo;s use traits (via interfaces with default implementations) in order to have a more concise code. First, we need to create the interfaces with the default implementations:</p>
-<pre tabindex="0"><code>interface NotDangerous : Level { override fun getLevel(): Int { return 1 } }
-interface Friend : Enemy { override fun isEnemy(): Boolean { return false } }
-interface Wizard : Class { override fun getClass(): String { return &#34;Wizard&#34;}}
-</code></pre><p>Now, we can declare our NotDangerousFriendlyWizard like this:</p>
-<pre tabindex="0"><code>class NotDangerousFriendlyWizard : NotDangerous, Friend, Wizard
-</code></pre><p>As the class is implementing those interfaces but those interfaces have those methods already declared with a default implementation, we can use those implementations. Nice, uh?</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">NotDangerous</span> : Level { <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getLevel</span>(): Int { <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span> } }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Friend</span> : Enemy { <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">isEnemy</span>(): Boolean { <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span> } }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Wizard</span> : Class { <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getClass</span>(): String { <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Wizard&#34;</span>}}
+</span></span></code></pre></div><p>Now, we can declare our NotDangerousFriendlyWizard like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NotDangerousFriendlyWizard</span> : NotDangerous, Friend, Wizard
+</span></span></code></pre></div><p>As the class is implementing those interfaces but those interfaces have those methods already declared with a default implementation, we can use those implementations. Nice, uh?</p>
 <p>(we can accomplish the same thing with object declaration and object delegation, by the way)</p>
 <h2 id="summary">Summary</h2>
 <p>In this article, we&rsquo;ve seen the differences between abstract classes and interfaces.</p>

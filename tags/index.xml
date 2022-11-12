@@ -6,7 +6,34 @@
     <description>Recent content in Tags on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 06 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 12 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>covariance</title>
+      <link>http://example.org/tags/covariance/</link>
+      <pubDate>Sat, 12 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/tags/covariance/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>generics</title>
+      <link>http://example.org/tags/generics/</link>
+      <pubDate>Sat, 12 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/tags/generics/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>variance</title>
+      <link>http://example.org/tags/variance/</link>
+      <pubDate>Sat, 12 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://example.org/tags/variance/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>enum</title>
       <link>http://example.org/tags/enum/</link>

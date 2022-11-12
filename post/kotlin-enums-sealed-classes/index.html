@@ -165,84 +165,84 @@ One of the differences between a sealed class and an enum is that a subclass of 
 <p>One of the differences between a sealed class and an enum is that a subclass of a sealed class can have multiple instances, each with its own state.</p>
 <p>A subclass of a sealed class can have its own methods and properties.</p>
 <p>Let&rsquo;s take a look to an example:</p>
-<pre tabindex="0"><code>sealed class Error
-class FileError(val fileName: String, val severity: Int): Error() {
-    fun changeDrive(): String = &#34;Changing drive&#34;
-}
-class NetworkError(val address: String, val severity: Int): Error() {
-    fun retry(): String = &#34;Retrying&#34;
-}
-class EsotericError(val reason: String, val severity: Int): Error() {
-    fun pray(): String = &#34;Praying&#34;
-}
-</code></pre><p>Here we have a sealed class and three subclasses, each of them with their own method. How can we use them?</p>
-<pre tabindex="0"><code>fun process(error: Error) {
-    val action = when (error) {
-        is FileError -&gt; {
-            error.changeDrive()
-        }
-        is NetworkError -&gt; {
-            error.retry()
-        }
-        is EsotericError -&gt; {
-            error.pray()
-        }
-    }
-
-    println(action)
-}
-</code></pre><p>One interesting benefit of sealed classes is that when you use them in a when expression, if the expression is an expression and not an statement (so, you are using the result), you don&rsquo;t need to use the else clause in the expression if it covers all the cases (like in the previous example).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">sealed</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Error</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FileError</span>(<span style="color:#66d9ef">val</span> fileName: String, <span style="color:#66d9ef">val</span> severity: Int): Error() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">changeDrive</span>(): String = <span style="color:#e6db74">&#34;Changing drive&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NetworkError</span>(<span style="color:#66d9ef">val</span> address: String, <span style="color:#66d9ef">val</span> severity: Int): Error() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">retry</span>(): String = <span style="color:#e6db74">&#34;Retrying&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EsotericError</span>(<span style="color:#66d9ef">val</span> reason: String, <span style="color:#66d9ef">val</span> severity: Int): Error() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">pray</span>(): String = <span style="color:#e6db74">&#34;Praying&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Here we have a sealed class and three subclasses, each of them with their own method. How can we use them?</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">process</span>(error: Error) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> action = <span style="color:#66d9ef">when</span> (error) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">is</span> FileError <span style="color:#f92672">-&gt;</span> {
+</span></span><span style="display:flex;"><span>            error.changeDrive()
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">is</span> NetworkError <span style="color:#f92672">-&gt;</span> {
+</span></span><span style="display:flex;"><span>            error.retry()
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">is</span> EsotericError <span style="color:#f92672">-&gt;</span> {
+</span></span><span style="display:flex;"><span>            error.pray()
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    println(action)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>One interesting benefit of sealed classes is that when you use them in a when expression, if the expression is an expression and not an statement (so, you are using the result), you don&rsquo;t need to use the else clause in the expression if it covers all the cases (like in the previous example).</p>
 <p>We can use sealed classes when we are dealing with a set of alternative classes. One important characteristic is that they can hold instance-specific data.</p>
 <h2 id="enums">Enums</h2>
 <p>It&rsquo;s a way to represent a constant set of possible options.</p>
-<pre tabindex="0"><code>enum class DangerLevel {
-    HIGH, MEDIUM, LOW
-}
-</code></pre><p>We can use enums easily in a when expression</p>
-<pre tabindex="0"><code>fun process(d: DangerLevel){
-    when(d) {
-        DangerLevel.HIGH -&gt; { /* Do something */}
-        DangerLevel.MEDIUM -&gt; { /* Do something */}
-        DangerLevel.LOW -&gt; { /* Do something */}
-    }
-}
-</code></pre><p>We can add properties and functions to an enum if we like</p>
-<pre tabindex="0"><code>enum class DangerLevel (val level: Int){
-    HIGH(3),
-    MEDIUM(2),
-    LOW(1);
-
-    fun getLevel() = &#34;Level is $level&#34;
-}
-</code></pre><p>And we can even have functions inside each value</p>
-<pre tabindex="0"><code>enum class DangerLevel (val level: Int){
-    HIGH(3) {
-        override fun getLevel(): String = &#34;This is dangerous&#34;
-    },
-    MEDIUM(2) {
-        override fun getLevel(): String = &#34;This is not that dangerous&#34;
-    },
-    LOW(1){
-        override fun getLevel(): String = &#34;This is not dangerous&#34;
-    };
-
-    abstract fun getLevel(): String
-}
-</code></pre><p>This is kind of nice, but it would be more elegant to define this as an extension function</p>
-<pre tabindex="0"><code>enum class DangerLevel (val level: Int){
-    HIGH(3),
-    MEDIUM(2),
-    LOW(1)
-}
-
-fun DangerLevel.getLevel(): String {
-    return when(this) {
-        DangerLevel.HIGH -&gt; &#34;This is dangerous&#34;
-        DangerLevel.MEDIUM -&gt; &#34;This is not that dangerous&#34;
-        DangerLevel.LOW -&gt; &#34;This is not dangerous&#34;
-    }
-}
-</code></pre><p>Enums have convenient properties and methods that help us to work with them:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DangerLevel</span> {
+</span></span><span style="display:flex;"><span>    HIGH, MEDIUM, LOW
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We can use enums easily in a when expression</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">process</span>(d: DangerLevel){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">when</span>(d) {
+</span></span><span style="display:flex;"><span>        DangerLevel.HIGH <span style="color:#f92672">-&gt;</span> { <span style="color:#75715e">/* Do something */</span>}
+</span></span><span style="display:flex;"><span>        DangerLevel.MEDIUM <span style="color:#f92672">-&gt;</span> { <span style="color:#75715e">/* Do something */</span>}
+</span></span><span style="display:flex;"><span>        DangerLevel.LOW <span style="color:#f92672">-&gt;</span> { <span style="color:#75715e">/* Do something */</span>}
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We can add properties and functions to an enum if we like</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DangerLevel</span> (<span style="color:#66d9ef">val</span> level: Int){
+</span></span><span style="display:flex;"><span>    HIGH(<span style="color:#ae81ff">3</span>),
+</span></span><span style="display:flex;"><span>    MEDIUM(<span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>    LOW(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getLevel</span>() = <span style="color:#e6db74">&#34;Level is </span><span style="color:#e6db74">$level</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>And we can even have functions inside each value</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DangerLevel</span> (<span style="color:#66d9ef">val</span> level: Int){
+</span></span><span style="display:flex;"><span>    HIGH(<span style="color:#ae81ff">3</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getLevel</span>(): String = <span style="color:#e6db74">&#34;This is dangerous&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    MEDIUM(<span style="color:#ae81ff">2</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getLevel</span>(): String = <span style="color:#e6db74">&#34;This is not that dangerous&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    LOW(<span style="color:#ae81ff">1</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">override</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getLevel</span>(): String = <span style="color:#e6db74">&#34;This is not dangerous&#34;</span>
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">getLevel</span>(): String
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This is kind of nice, but it would be more elegant to define this as an extension function</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DangerLevel</span> (<span style="color:#66d9ef">val</span> level: Int){
+</span></span><span style="display:flex;"><span>    HIGH(<span style="color:#ae81ff">3</span>),
+</span></span><span style="display:flex;"><span>    MEDIUM(<span style="color:#ae81ff">2</span>),
+</span></span><span style="display:flex;"><span>    LOW(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">DangerLevel</span>.getLevel(): String {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">when</span>(<span style="color:#66d9ef">this</span>) {
+</span></span><span style="display:flex;"><span>        DangerLevel.HIGH <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#34;This is dangerous&#34;</span>
+</span></span><span style="display:flex;"><span>        DangerLevel.MEDIUM <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#34;This is not that dangerous&#34;</span>
+</span></span><span style="display:flex;"><span>        DangerLevel.LOW <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#34;This is not dangerous&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Enums have convenient properties and methods that help us to work with them:</p>
 <ul>
 <li>name: returns the name of Enum&rsquo;s instance</li>
 <li>values(): returns an array of all items of Enum</li>
@@ -276,7 +276,11 @@ fun DangerLevel.getLevel(): String {
           <a href="/tags/enum/">enum</a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/kotlin-variance-covariance/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Learning Kotlin: variance and covariance</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
         <a class="next" href="/post/kotlin-abstract-classes-interfaces/">
             <span class="next-text nav-default">Learning Kotlin: abstract classes and interfaces</span>
             <span class="next-text nav-mobile">Next</span>

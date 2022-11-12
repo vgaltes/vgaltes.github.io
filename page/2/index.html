@@ -122,6 +122,30 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/serverless-patterns-implemented-sls-dlq/">Serverless Patterns implemented: using an SQS queue as a DLQ for a SNS topic</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 26-11-2019 </span>
+      <div class="post-category">
+          <a href="/categories/serverless/"> serverless </a>
+          </div>
+        <span class="more-meta"> 1033 words </span>
+        <span class="more-meta"> 5 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      In the last two articles (here and here) we implemented some of the Serverless Patterns described in this article from Jeremy Daly. In this article, we&rsquo;re going to concentrate in just one pattern, the Notifier. We&rsquo;re going to do this, because of the [recent announcement] from AWS that you can now use an SQS queue as a Dead Letter Queue for an SNS topic.
+If you read the article, you will see that this DLQ is complementary to the DLQ you might define in a function that is triggered by an SNS topic, as Otavio Ferreira explains here.
+    </div>
+    <div class="read-more">
+      <a href="/post/serverless-patterns-implemented-sls-dlq/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/serverless-patterns-implemented-part2/">Serverless Patterns implemented, part 2</a></h1>
     <div class="post-meta">
       <span class="post-time"> 14-11-2019 </span>
@@ -329,30 +353,6 @@ Amazon Cognito User Pools As the documentation says, a user pool is a user direc
     </div>
     <div class="read-more">
       <a href="/post/using-key-vault-secret-in-appsettings/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/securing-azure-functions/">Securing Azure Functions</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 23-11-2018 </span>
-      <div class="post-category">
-          <a href="/categories/serverless/"> serverless </a>
-          </div>
-        <span class="more-meta"> 1140 words </span>
-        <span class="more-meta"> 6 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      (Thanks to Francesc Ribera, Alex Casquete and Jerry Liu for their guidance on this topic)
-As far as I know (correct me in the comments if I&rsquo;m wrong, please), when you create a brand new Azure Function, it has access to everything in your subscription as a contributor. That&rsquo;s really not great. When you develop a new Lambda function you have to specify all the permissions that the function has to have.
-    </div>
-    <div class="read-more">
-      <a href="/post/securing-azure-functions/" class="read-more-link">Read more...</a>
     </div>
   </div>
 </article>
