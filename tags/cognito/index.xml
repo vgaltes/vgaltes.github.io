@@ -2,27 +2,27 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>cognito on VGALTES blog</title>
-    <link>http://example.org/tags/cognito/</link>
+    <link>https://vgaltes.com/tags/cognito/</link>
     <description>Recent content in cognito on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 31 Oct 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/tags/cognito/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 31 Oct 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vgaltes.com/tags/cognito/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cognito User Pools, Google federation and AWS Amplify</title>
-      <link>http://example.org/post/cognito-user-pools-google/</link>
+      <link>https://vgaltes.com/post/cognito-user-pools-google/</link>
       <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/cognito-user-pools-google/</guid>
+      <guid>https://vgaltes.com/post/cognito-user-pools-google/</guid>
       <description>In the previous article, we saw how to secure an API Gateway endpoint using Cognito user pools. We used the built-in capabilities of the user pools to create the users, sign them up, etc. But many applications nowadays don&amp;rsquo;t create users on their own; they use [social login] and rely on third-party social services such as Facebook or Google to manage users for them.
 In this article, we&amp;rsquo;ll see how we can adapt our previous code to allow users to sign-up and sign-in to our service using their Google account.</description>
     </item>
     
     <item>
       <title>Basic API Gateway endpoint authentication with Cognito User Pools</title>
-      <link>http://example.org/post/api-gw-basic-auth/</link>
+      <link>https://vgaltes.com/post/api-gw-basic-auth/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/api-gw-basic-auth/</guid>
+      <guid>https://vgaltes.com/post/api-gw-basic-auth/</guid>
       <description>In many occasions, you don&amp;rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated users. In this article we&amp;rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&amp;rsquo;s start!
 Amazon Cognito User Pools As the documentation says, a user pool is a user directory in Amazon Cognito. You can allow your users to sign-up, sign-in, etc.</description>
     </item>

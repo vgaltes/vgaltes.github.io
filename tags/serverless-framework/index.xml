@@ -2,47 +2,47 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>serverless framework on VGALTES blog</title>
-    <link>http://example.org/tags/serverless-framework/</link>
+    <link>https://vgaltes.com/tags/serverless-framework/</link>
     <description>Recent content in serverless framework on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 14 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/tags/serverless-framework/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 14 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://vgaltes.com/tags/serverless-framework/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Lambda in .NET Core and SNS</title>
-      <link>http://example.org/post/lamda-dotnet/</link>
+      <link>https://vgaltes.com/post/lamda-dotnet/</link>
       <pubDate>Sun, 14 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/lamda-dotnet/</guid>
+      <guid>https://vgaltes.com/post/lamda-dotnet/</guid>
       <description>This week I wanted to investigate how to use a Pub/Sub mechanism in an on-premise environment without needing to install anything else in our infrastructure, so using a managed service. I also wanted to make my first tests with CDK. Let me show you what I did.
 Goal What I want to accomplish is that a system that lives in our infrastructure communicates asynchronously with another system on it. It&amp;rsquo;s easy to simulate the sender of the message with a console application, but for the receiver I&amp;rsquo;ll need a public HTTP endpoint.</description>
     </item>
     
     <item>
       <title>Lambda destinations</title>
-      <link>http://example.org/post/lambda-destinations/</link>
+      <link>https://vgaltes.com/post/lambda-destinations/</link>
       <pubDate>Sun, 29 Mar 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/lambda-destinations/</guid>
+      <guid>https://vgaltes.com/post/lambda-destinations/</guid>
       <description>AWS recently introduced lambda destinations for asynchronous invocations. So, if you have, let&amp;rsquo;s say, a lambda function attached to an SNS event, you can configure a destination when the execution is successful and a destination when the execution fails. The destination can be either an SQS queue, an SNS topic, EventBridge or another Lambda function.
 As usual, the serverless framework implemented this feature quickly. Let&amp;rsquo;s take a look how to do it and what&amp;rsquo;s the difference with a DLQ.</description>
     </item>
     
     <item>
       <title>Serverless Patterns implemented: using an SQS queue as a DLQ for a SNS topic</title>
-      <link>http://example.org/post/serverless-patterns-implemented-sls-dlq/</link>
+      <link>https://vgaltes.com/post/serverless-patterns-implemented-sls-dlq/</link>
       <pubDate>Tue, 26 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/serverless-patterns-implemented-sls-dlq/</guid>
+      <guid>https://vgaltes.com/post/serverless-patterns-implemented-sls-dlq/</guid>
       <description>In the last two articles (here and here) we implemented some of the Serverless Patterns described in this article from Jeremy Daly. In this article, we&amp;rsquo;re going to concentrate in just one pattern, the Notifier. We&amp;rsquo;re going to do this, because of the [recent announcement] from AWS that you can now use an SQS queue as a Dead Letter Queue for an SNS topic.
 If you read the article, you will see that this DLQ is complementary to the DLQ you might define in a function that is triggered by an SNS topic, as Otavio Ferreira explains here.</description>
     </item>
     
     <item>
       <title>Serverless Patterns implemented, part 2</title>
-      <link>http://example.org/post/serverless-patterns-implemented-part2/</link>
+      <link>https://vgaltes.com/post/serverless-patterns-implemented-part2/</link>
       <pubDate>Thu, 14 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/serverless-patterns-implemented-part2/</guid>
+      <guid>https://vgaltes.com/post/serverless-patterns-implemented-part2/</guid>
       <description>In this article I will continue with the implementation of some Serverless Patterns described in this article from Jeremy Daly about [Serverless Patterns]. Check the first post here Let&amp;rsquo;s start!
 Common setup All the projects will have a common setup, which is fairly simple. First, initialize a NodeJS project:
 1 yarn init Then install the serverless framework as a dev dependency
@@ -51,48 +51,48 @@ Common setup All the projects will have a common setup, which is fairly simple. 
     
     <item>
       <title>Serverless Patterns implemented, part 1</title>
-      <link>http://example.org/post/serverless-patterns-implemented-part1/</link>
+      <link>https://vgaltes.com/post/serverless-patterns-implemented-part1/</link>
       <pubDate>Wed, 13 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/serverless-patterns-implemented-part1/</guid>
+      <guid>https://vgaltes.com/post/serverless-patterns-implemented-part1/</guid>
       <description>I think that the best way to learn something is to practice it and to try to explain it, so this is what I&amp;rsquo;m going to do in the next series of posts. These posts will be based on the amazing article from Jeremy Daly about Serverless Patterns. I&amp;rsquo;m not going to copy Jeremy&amp;rsquo;s words here, so for each pattern, go to the article and read it. I&amp;rsquo;ll provide a technical implementation here and I will mention more resources I found interesting.</description>
     </item>
     
     <item>
       <title>Set up a multi-region active-active backend</title>
-      <link>http://example.org/post/multi-region-backend/</link>
+      <link>https://vgaltes.com/post/multi-region-backend/</link>
       <pubDate>Fri, 08 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/multi-region-backend/</guid>
+      <guid>https://vgaltes.com/post/multi-region-backend/</guid>
       <description>Congratulations! Your startup is starting to bring attention to many people and you&amp;rsquo;re starting to have clients from different countries and continents. But your lambdas and API gateway are still in your initial region, and that might add some latency to some users. Apart from that, you want to increase the reliability of your system. So, you decide to go multi-region. Can you do that easily? In this article, we&amp;rsquo;ll see how to do that.</description>
     </item>
     
     <item>
       <title>Set up a custom domain for your API Gateway</title>
-      <link>http://example.org/post/api-gateway-custom-domain/</link>
+      <link>https://vgaltes.com/post/api-gateway-custom-domain/</link>
       <pubDate>Wed, 06 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/api-gateway-custom-domain/</guid>
+      <guid>https://vgaltes.com/post/api-gateway-custom-domain/</guid>
       <description>If you&amp;rsquo;re doing something more than a few tests with Lambda and API Gateway, there will be a time where you will like to stop using the AWS-created endpoints for your APIs and start using your own domain. You know, instead of telling your clients, &amp;ldquo;please, go to https://lk7z14x78h.execute-api.eu-west-1.amazonaws.com/dev/helloWorld&amp;quot;, you will like to point them to something like &amp;ldquo;api.authenticatedservices.net/helloWorld&amp;rdquo;. In this article, we&amp;rsquo;ll see how to do that.
 Disclaimer This article is a summary of two articles (this one and this one) from Alex DeBrie (who you should follow if you&amp;rsquo;re interested in serverless).</description>
     </item>
     
     <item>
       <title>Cognito User Pools, Google federation and AWS Amplify</title>
-      <link>http://example.org/post/cognito-user-pools-google/</link>
+      <link>https://vgaltes.com/post/cognito-user-pools-google/</link>
       <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/cognito-user-pools-google/</guid>
+      <guid>https://vgaltes.com/post/cognito-user-pools-google/</guid>
       <description>In the previous article, we saw how to secure an API Gateway endpoint using Cognito user pools. We used the built-in capabilities of the user pools to create the users, sign them up, etc. But many applications nowadays don&amp;rsquo;t create users on their own; they use [social login] and rely on third-party social services such as Facebook or Google to manage users for them.
 In this article, we&amp;rsquo;ll see how we can adapt our previous code to allow users to sign-up and sign-in to our service using their Google account.</description>
     </item>
     
     <item>
       <title>Basic API Gateway endpoint authentication with Cognito User Pools</title>
-      <link>http://example.org/post/api-gw-basic-auth/</link>
+      <link>https://vgaltes.com/post/api-gw-basic-auth/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/api-gw-basic-auth/</guid>
+      <guid>https://vgaltes.com/post/api-gw-basic-auth/</guid>
       <description>In many occasions, you don&amp;rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated users. In this article we&amp;rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&amp;rsquo;s start!
 Amazon Cognito User Pools As the documentation says, a user pool is a user directory in Amazon Cognito. You can allow your users to sign-up, sign-in, etc.</description>
     </item>

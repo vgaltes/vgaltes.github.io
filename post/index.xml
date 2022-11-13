@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on VGALTES blog</title>
-    <link>http://example.org/post/</link>
+    <link>https://vgaltes.com/post/</link>
     <description>Recent content in Posts on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 12 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 12 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://vgaltes.com/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Learning Kotlin: covariance and contravariance</title>
-      <link>http://example.org/post/kotlin-variance-covariance/</link>
+      <link>https://vgaltes.com/post/kotlin-variance-covariance/</link>
       <pubDate>Sat, 12 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/kotlin-variance-covariance/</guid>
+      <guid>https://vgaltes.com/post/kotlin-variance-covariance/</guid>
       <description>When we work with generics, sometimes we need to help the compiler in order to accomplish what we want. By doing that, we&amp;rsquo;ll be telling the compiler if two classes are covariant or contravariant. Let&amp;rsquo;s see a couple of examples to help understand these concepts.
 Covariance Imagine that we want to model a factory of toys. Let&amp;rsquo;s start by creating an interface that will take a generic type:
 1 2 3 interface Factory&amp;lt;T&amp;gt; { fun create(name: String): T } Now we need to define what we want to produce</description>
@@ -20,10 +20,10 @@ Covariance Imagine that we want to model a factory of toys. Let&amp;rsquo;s star
     
     <item>
       <title>Learning Kotlin: sealed classes and enums</title>
-      <link>http://example.org/post/kotlin-enums-sealed-classes/</link>
+      <link>https://vgaltes.com/post/kotlin-enums-sealed-classes/</link>
       <pubDate>Sun, 06 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/kotlin-enums-sealed-classes/</guid>
+      <guid>https://vgaltes.com/post/kotlin-enums-sealed-classes/</guid>
       <description>In Kotlin we have two constructs that alow us to create a closed typed hierarchy: sealed classes and enums. Let&amp;rsquo;s take a look to them and see the differences amongst them.
 Sealed classes A sealed class is a class that we know all its subclasses at compile time. We can&amp;rsquo;t declare a subclass of a sealed class outside the module where it&amp;rsquo;s defined.
 One of the differences between a sealed class and an enum is that a subclass of a sealed class can have multiple instances, each with its own state.</description>
@@ -31,10 +31,10 @@ One of the differences between a sealed class and an enum is that a subclass of 
     
     <item>
       <title>Learning Kotlin: abstract classes and interfaces</title>
-      <link>http://example.org/post/kotlin-abstract-classes-interfaces/</link>
+      <link>https://vgaltes.com/post/kotlin-abstract-classes-interfaces/</link>
       <pubDate>Sat, 05 Nov 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/kotlin-abstract-classes-interfaces/</guid>
+      <guid>https://vgaltes.com/post/kotlin-abstract-classes-interfaces/</guid>
       <description>When you&amp;rsquo;re studying Kotlin and take a look at abstract classes and interfaces, your first impression is that they are two very similar constructs, or at least that was my first impression. You can use both of them to share state and behavior.
 So, let&amp;rsquo;s see what are they and what are the difference amongst them.
 Abstract classes With abstract classes, using the keyword abstract you can declare members without implementation.</description>
@@ -42,87 +42,87 @@ Abstract classes With abstract classes, using the keyword abstract you can decla
     
     <item>
       <title>Learning Kotlin: configuring Kotest with Gradle</title>
-      <link>http://example.org/post/learning-kotlin-gradle-kotest/</link>
+      <link>https://vgaltes.com/post/learning-kotlin-gradle-kotest/</link>
       <pubDate>Sat, 29 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/learning-kotlin-gradle-kotest/</guid>
+      <guid>https://vgaltes.com/post/learning-kotlin-gradle-kotest/</guid>
       <description>I&amp;rsquo;m about to start a new job. This will be a huge challenge for me, as I&amp;rsquo;m going to be developing in Kotlin. I&amp;rsquo;ve spent all of my professional life working with .Net, so I need to learn LOTS of things. As I believe that writing down what you learn is the best way to solidify it, I&amp;rsquo;ll be documenting all that I learn (maybe not all, but a bing chunk of it :D).</description>
     </item>
     
     <item>
       <title>Retrospectiva 2020</title>
-      <link>http://example.org/post/retrospectiva-2020/</link>
+      <link>https://vgaltes.com/post/retrospectiva-2020/</link>
       <pubDate>Wed, 30 Dec 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/retrospectiva-2020/</guid>
+      <guid>https://vgaltes.com/post/retrospectiva-2020/</guid>
       <description>No se donde va a llegar este artículo, pero empecemos rememorando lo que ha sido este 2020.
 El 2020 empezó como había acabado el 2019, es decir, trabajando como Technical Coach en Voxel. Esto quería decir trabajar 4 días a la semana, de 9 a 17, haciendo algo que me gusta como ayudar a un equipo a crecer, y trabajando desde casa. Respecto a mi último trabajo había perdido algo de poder adquisitivo (mismo rate pero en euros en lugar de libras y 4 días a la semana en lugar de cinco), pero había ganado mucha calidad de vida.</description>
     </item>
     
     <item>
       <title>Lambda in .NET Core and SNS</title>
-      <link>http://example.org/post/lamda-dotnet/</link>
+      <link>https://vgaltes.com/post/lamda-dotnet/</link>
       <pubDate>Sun, 14 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/lamda-dotnet/</guid>
+      <guid>https://vgaltes.com/post/lamda-dotnet/</guid>
       <description>This week I wanted to investigate how to use a Pub/Sub mechanism in an on-premise environment without needing to install anything else in our infrastructure, so using a managed service. I also wanted to make my first tests with CDK. Let me show you what I did.
 Goal What I want to accomplish is that a system that lives in our infrastructure communicates asynchronously with another system on it. It&amp;rsquo;s easy to simulate the sender of the message with a console application, but for the receiver I&amp;rsquo;ll need a public HTTP endpoint.</description>
     </item>
     
     <item>
       <title>Lambda destinations</title>
-      <link>http://example.org/post/lambda-destinations/</link>
+      <link>https://vgaltes.com/post/lambda-destinations/</link>
       <pubDate>Sun, 29 Mar 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/lambda-destinations/</guid>
+      <guid>https://vgaltes.com/post/lambda-destinations/</guid>
       <description>AWS recently introduced lambda destinations for asynchronous invocations. So, if you have, let&amp;rsquo;s say, a lambda function attached to an SNS event, you can configure a destination when the execution is successful and a destination when the execution fails. The destination can be either an SQS queue, an SNS topic, EventBridge or another Lambda function.
 As usual, the serverless framework implemented this feature quickly. Let&amp;rsquo;s take a look how to do it and what&amp;rsquo;s the difference with a DLQ.</description>
     </item>
     
     <item>
       <title>Using MediatR as a refactoring strategy</title>
-      <link>http://example.org/post/using-mediatr-as-a-refactoring-strategy/</link>
+      <link>https://vgaltes.com/post/using-mediatr-as-a-refactoring-strategy/</link>
       <pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/using-mediatr-as-a-refactoring-strategy/</guid>
+      <guid>https://vgaltes.com/post/using-mediatr-as-a-refactoring-strategy/</guid>
       <description>Let me introduce you to Rachel, the new developer of the team. Rachel is an excellent developer eager to make a huge impact on the team and the organisation. When Rachel lands in the team, they treat them very well. They show her all the facilities, they teach her on how to make a good coffee with the new and shiny coffee machine and they even deploy to production in her first day.</description>
     </item>
     
     <item>
       <title>Capturing and forwarding correlation IDs in ASP.NET Core, the easy way</title>
-      <link>http://example.org/post/forwarding-correlation-ids-in-aspnetcore-version-2/</link>
+      <link>https://vgaltes.com/post/forwarding-correlation-ids-in-aspnetcore-version-2/</link>
       <pubDate>Wed, 29 Jan 2020 21:03:26 +0100</pubDate>
       
-      <guid>http://example.org/post/forwarding-correlation-ids-in-aspnetcore-version-2/</guid>
+      <guid>https://vgaltes.com/post/forwarding-correlation-ids-in-aspnetcore-version-2/</guid>
       <description>The minute after I published my last article about Capturing and forwarding correlation IDs, my very good friend Hugo Biarge send me a Direct Message telling me: &amp;ldquo;Hey man! Have you read this article? This is new from ASP .NET Core 3, and it&amp;rsquo;s an easier solution than the one you explain in the article.&amp;rdquo; So, I took a look, not only at the article but also at the traces that I was already generating, and voilà, everything was already there.</description>
     </item>
     
     <item>
       <title>Capturing and forwarding correlation IDs in ASP.NET Core</title>
-      <link>http://example.org/post/forwarding-correlation-ids-in-aspnetcore/</link>
+      <link>https://vgaltes.com/post/forwarding-correlation-ids-in-aspnetcore/</link>
       <pubDate>Tue, 28 Jan 2020 15:03:26 +0100</pubDate>
       
-      <guid>http://example.org/post/forwarding-correlation-ids-in-aspnetcore/</guid>
+      <guid>https://vgaltes.com/post/forwarding-correlation-ids-in-aspnetcore/</guid>
       <description>When you have different services that communicate amongst them, you need to be able to correlate those calls to perform effective analysis of any problem you might have. The way to do this is using correlation ids and pass them along in all your call to the different services you use. In this article, I´m going to explain you a way to do this in ASP.NET Core.
 Correlation IDs Why do you need more than one correlation ID?</description>
     </item>
     
     <item>
       <title>Serverless Patterns implemented: using an SQS queue as a DLQ for a SNS topic</title>
-      <link>http://example.org/post/serverless-patterns-implemented-sls-dlq/</link>
+      <link>https://vgaltes.com/post/serverless-patterns-implemented-sls-dlq/</link>
       <pubDate>Tue, 26 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/serverless-patterns-implemented-sls-dlq/</guid>
+      <guid>https://vgaltes.com/post/serverless-patterns-implemented-sls-dlq/</guid>
       <description>In the last two articles (here and here) we implemented some of the Serverless Patterns described in this article from Jeremy Daly. In this article, we&amp;rsquo;re going to concentrate in just one pattern, the Notifier. We&amp;rsquo;re going to do this, because of the [recent announcement] from AWS that you can now use an SQS queue as a Dead Letter Queue for an SNS topic.
 If you read the article, you will see that this DLQ is complementary to the DLQ you might define in a function that is triggered by an SNS topic, as Otavio Ferreira explains here.</description>
     </item>
     
     <item>
       <title>Serverless Patterns implemented, part 2</title>
-      <link>http://example.org/post/serverless-patterns-implemented-part2/</link>
+      <link>https://vgaltes.com/post/serverless-patterns-implemented-part2/</link>
       <pubDate>Thu, 14 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/serverless-patterns-implemented-part2/</guid>
+      <guid>https://vgaltes.com/post/serverless-patterns-implemented-part2/</guid>
       <description>In this article I will continue with the implementation of some Serverless Patterns described in this article from Jeremy Daly about [Serverless Patterns]. Check the first post here Let&amp;rsquo;s start!
 Common setup All the projects will have a common setup, which is fairly simple. First, initialize a NodeJS project:
 1 yarn init Then install the serverless framework as a dev dependency
@@ -131,95 +131,95 @@ Common setup All the projects will have a common setup, which is fairly simple. 
     
     <item>
       <title>Serverless Patterns implemented, part 1</title>
-      <link>http://example.org/post/serverless-patterns-implemented-part1/</link>
+      <link>https://vgaltes.com/post/serverless-patterns-implemented-part1/</link>
       <pubDate>Wed, 13 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/serverless-patterns-implemented-part1/</guid>
+      <guid>https://vgaltes.com/post/serverless-patterns-implemented-part1/</guid>
       <description>I think that the best way to learn something is to practice it and to try to explain it, so this is what I&amp;rsquo;m going to do in the next series of posts. These posts will be based on the amazing article from Jeremy Daly about Serverless Patterns. I&amp;rsquo;m not going to copy Jeremy&amp;rsquo;s words here, so for each pattern, go to the article and read it. I&amp;rsquo;ll provide a technical implementation here and I will mention more resources I found interesting.</description>
     </item>
     
     <item>
       <title>Set up a multi-region active-active backend</title>
-      <link>http://example.org/post/multi-region-backend/</link>
+      <link>https://vgaltes.com/post/multi-region-backend/</link>
       <pubDate>Fri, 08 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/multi-region-backend/</guid>
+      <guid>https://vgaltes.com/post/multi-region-backend/</guid>
       <description>Congratulations! Your startup is starting to bring attention to many people and you&amp;rsquo;re starting to have clients from different countries and continents. But your lambdas and API gateway are still in your initial region, and that might add some latency to some users. Apart from that, you want to increase the reliability of your system. So, you decide to go multi-region. Can you do that easily? In this article, we&amp;rsquo;ll see how to do that.</description>
     </item>
     
     <item>
       <title>Set up a custom domain for your API Gateway</title>
-      <link>http://example.org/post/api-gateway-custom-domain/</link>
+      <link>https://vgaltes.com/post/api-gateway-custom-domain/</link>
       <pubDate>Wed, 06 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/api-gateway-custom-domain/</guid>
+      <guid>https://vgaltes.com/post/api-gateway-custom-domain/</guid>
       <description>If you&amp;rsquo;re doing something more than a few tests with Lambda and API Gateway, there will be a time where you will like to stop using the AWS-created endpoints for your APIs and start using your own domain. You know, instead of telling your clients, &amp;ldquo;please, go to https://lk7z14x78h.execute-api.eu-west-1.amazonaws.com/dev/helloWorld&amp;quot;, you will like to point them to something like &amp;ldquo;api.authenticatedservices.net/helloWorld&amp;rdquo;. In this article, we&amp;rsquo;ll see how to do that.
 Disclaimer This article is a summary of two articles (this one and this one) from Alex DeBrie (who you should follow if you&amp;rsquo;re interested in serverless).</description>
     </item>
     
     <item>
       <title>Cognito User Pools, Google federation and AWS Amplify</title>
-      <link>http://example.org/post/cognito-user-pools-google/</link>
+      <link>https://vgaltes.com/post/cognito-user-pools-google/</link>
       <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/cognito-user-pools-google/</guid>
+      <guid>https://vgaltes.com/post/cognito-user-pools-google/</guid>
       <description>In the previous article, we saw how to secure an API Gateway endpoint using Cognito user pools. We used the built-in capabilities of the user pools to create the users, sign them up, etc. But many applications nowadays don&amp;rsquo;t create users on their own; they use [social login] and rely on third-party social services such as Facebook or Google to manage users for them.
 In this article, we&amp;rsquo;ll see how we can adapt our previous code to allow users to sign-up and sign-in to our service using their Google account.</description>
     </item>
     
     <item>
       <title>Basic API Gateway endpoint authentication with Cognito User Pools</title>
-      <link>http://example.org/post/api-gw-basic-auth/</link>
+      <link>https://vgaltes.com/post/api-gw-basic-auth/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/api-gw-basic-auth/</guid>
+      <guid>https://vgaltes.com/post/api-gw-basic-auth/</guid>
       <description>In many occasions, you don&amp;rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated users. In this article we&amp;rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&amp;rsquo;s start!
 Amazon Cognito User Pools As the documentation says, a user pool is a user directory in Amazon Cognito. You can allow your users to sign-up, sign-in, etc.</description>
     </item>
     
     <item>
       <title>Interesting reads - June 2019</title>
-      <link>http://example.org/post/random-stuff-june/</link>
+      <link>https://vgaltes.com/post/random-stuff-june/</link>
       <pubDate>Thu, 13 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/random-stuff-june/</guid>
+      <guid>https://vgaltes.com/post/random-stuff-june/</guid>
       <description>My good friend Edu Ferro has a very nice blog called eferro&amp;rsquo;s random stuff in which he posts the most interesting blogs, talks and podcasts he&amp;rsquo;s read, viewed and heard lately. I like the idea and, now that I have a bit more free time, I&amp;rsquo;ll try to do the same, at least once every month. I&amp;rsquo;m not going to post here podcasts and talks, basically because all the ones I listen I get them from Edu&amp;rsquo;s blog, so I&amp;rsquo;m just going to concentrate in blogs.</description>
     </item>
     
     <item>
       <title>Mentoring</title>
-      <link>http://example.org/post/mentoring/</link>
+      <link>https://vgaltes.com/post/mentoring/</link>
       <pubDate>Fri, 31 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/mentoring/</guid>
+      <guid>https://vgaltes.com/post/mentoring/</guid>
       <description>Last September I turned 40. You know, in the movies, when someone turns forty he buys a new brand card, gets divorced and tries something new. I still don&amp;rsquo;t have a car and, although I&amp;rsquo;m not married, I still live with my partner, but I did start something new. In my case, was an old &amp;ldquo;aspiration&amp;rdquo; (I tried it 7 years ago): learning to play guitar. Not that I want to be the next Angus Young but I never had any musical education and I always wanted to be able to play an instrument, especially guitar.</description>
     </item>
     
     <item>
       <title>Using Key Vault secrets in AppSettings</title>
-      <link>http://example.org/post/using-key-vault-secret-in-appsettings/</link>
+      <link>https://vgaltes.com/post/using-key-vault-secret-in-appsettings/</link>
       <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/using-key-vault-secret-in-appsettings/</guid>
+      <guid>https://vgaltes.com/post/using-key-vault-secret-in-appsettings/</guid>
       <description>In the last article we talked about securing Azure Functions and we saw how to insert a message into an Event Hub. To insert the message, we needed the connection string to be in an application setting. This is not the most secure way to store a connection string. We talked that it would be a much better option to store it in Key Vault. Until a couple of days ago, to do that we needed to use a library to get the secret from Key Vault and then use an imperative binding to be able to insert the message into the Event Hub.</description>
     </item>
     
     <item>
       <title>Securing Azure Functions</title>
-      <link>http://example.org/post/securing-azure-functions/</link>
+      <link>https://vgaltes.com/post/securing-azure-functions/</link>
       <pubDate>Fri, 23 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/securing-azure-functions/</guid>
+      <guid>https://vgaltes.com/post/securing-azure-functions/</guid>
       <description>(Thanks to Francesc Ribera, Alex Casquete and Jerry Liu for their guidance on this topic)
 As far as I know (correct me in the comments if I&amp;rsquo;m wrong, please), when you create a brand new Azure Function, it has access to everything in your subscription as a contributor. That&amp;rsquo;s really not great. When you develop a new Lambda function you have to specify all the permissions that the function has to have.</description>
     </item>
     
     <item>
       <title>Deploying Azure Functions - Enabling Application Insights</title>
-      <link>http://example.org/post/enabling-application-insights/</link>
+      <link>https://vgaltes.com/post/enabling-application-insights/</link>
       <pubDate>Tue, 20 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/enabling-application-insights/</guid>
+      <guid>https://vgaltes.com/post/enabling-application-insights/</guid>
       <description>In our previous articles we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI or Terraform. Once we have a function deployed and accepting traffic, the next obvious thing to do is to monitor it.
 Adding some logs to the function is fairly easy. If you take a look at the signature of the function
 1 2 3 4 [FunctionName(&amp;#34;HelloWorld&amp;#34;)] public static async Task&amp;lt;IActionResult&amp;gt; Run( [HttpTrigger(AuthorizationLevel.Anonymous, &amp;#34;get&amp;#34;, &amp;#34;post&amp;#34;, Route = null)] HttpRequest req, ILogger log) you&amp;rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.</description>
@@ -227,10 +227,10 @@ Adding some logs to the function is fairly easy. If you take a look at the signa
     
     <item>
       <title>Deploying Azure Functions using slots</title>
-      <link>http://example.org/post/deploying-azure-functions-using-slots/</link>
+      <link>https://vgaltes.com/post/deploying-azure-functions-using-slots/</link>
       <pubDate>Sun, 18 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploying-azure-functions-using-slots/</guid>
+      <guid>https://vgaltes.com/post/deploying-azure-functions-using-slots/</guid>
       <description>In previous articles we&amp;rsquo;ve seen how to deploy a Function App using Azure Functions Core Tools, Terraform and Azure CLI with Zip Deploy. In this article we&amp;rsquo;re going to take a look on how to deploy Function apps using deployment slots.
 Why deployment slots Being able to deploy into slots and decide which slot you use in production has many benefits. To name some of them:
 Enable A/B testing Enable blue/green deployments No downtime deployments Easy rollback system So, let&amp;rsquo;s take a look on how can we use them in Function apps.</description>
@@ -238,10 +238,10 @@ Enable A/B testing Enable blue/green deployments No downtime deployments Easy ro
     
     <item>
       <title>Deploying Azure Functions using Zip Deploy</title>
-      <link>http://example.org/post/deploying-azure-functions-using-zip-deploy/</link>
+      <link>https://vgaltes.com/post/deploying-azure-functions-using-zip-deploy/</link>
       <pubDate>Sat, 17 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploying-azure-functions-using-zip-deploy/</guid>
+      <guid>https://vgaltes.com/post/deploying-azure-functions-using-zip-deploy/</guid>
       <description>In a previous article we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 #!</description>
@@ -249,10 +249,10 @@ Fixing the script. We already have a deployment script. It is something like thi
     
     <item>
       <title>Deploying Azure Functions using Terraform</title>
-      <link>http://example.org/post/deploying-azure-functions-using-terraform/</link>
+      <link>https://vgaltes.com/post/deploying-azure-functions-using-terraform/</link>
       <pubDate>Fri, 16 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploying-azure-functions-using-terraform/</guid>
+      <guid>https://vgaltes.com/post/deploying-azure-functions-using-terraform/</guid>
       <description>In previous articles (I, II) we&amp;rsquo;ve seen how to deploy an Azure Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to deploy it using Terraform.
 Prerequisites In order to follow this article you will need the .Net SDK 2.1, the Azure CLI and Terraform installed in your laptop/container/VM/whatever.
 Building the package What Terraform is going to do is take advantage of the Zip deployment capability (More on this in a future article).</description>
@@ -260,78 +260,78 @@ Building the package What Terraform is going to do is take advantage of the Zip 
     
     <item>
       <title>Deploying Azure Functions using CircleCI</title>
-      <link>http://example.org/post/deploying-azure-functions-using-cirecleci/</link>
+      <link>https://vgaltes.com/post/deploying-azure-functions-using-cirecleci/</link>
       <pubDate>Thu, 15 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploying-azure-functions-using-cirecleci/</guid>
+      <guid>https://vgaltes.com/post/deploying-azure-functions-using-cirecleci/</guid>
       <description>In the last article we saw how to deploy an azure function from the CLI. In this article we&amp;rsquo;ll see how we can use the same script to deploy the function from a continuous integration environment. In this case we&amp;rsquo;ll use CircleCI.
 Creating a new docker image As we saw, if we want to deploy the Function App using the same script we&amp;rsquo;d need to use the Azure CLI and the Azure Functions Core Tools.</description>
     </item>
     
     <item>
       <title>Deploying Azure Functions, an introduction</title>
-      <link>http://example.org/post/deploying-azure-functions-an-introduction/</link>
+      <link>https://vgaltes.com/post/deploying-azure-functions-an-introduction/</link>
       <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploying-azure-functions-an-introduction/</guid>
+      <guid>https://vgaltes.com/post/deploying-azure-functions-an-introduction/</guid>
       <description>In the last few days, I&amp;rsquo;ve been tinkering with Azure Functions, reading the documentation a bit and doing a Pluralsight course. As it happens quite offten, these introductory courses use easy techniques to deploy the code, focusing on showing what you can do with the platform. Although obviously this has some value, I don&amp;rsquo;t think it&amp;rsquo;s a good idea because, at the end, it will be something that you won&amp;rsquo;t be able to use in a serious test.</description>
     </item>
     
     <item>
       <title>Using different configuration per stage</title>
-      <link>http://example.org/post/using-different-configuration-per-stage/</link>
+      <link>https://vgaltes.com/post/using-different-configuration-per-stage/</link>
       <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/using-different-configuration-per-stage/</guid>
+      <guid>https://vgaltes.com/post/using-different-configuration-per-stage/</guid>
       <description>In the previous article we saw how to create a basic deployment pipeline for a serverless application. In this article, we&amp;rsquo;re going to enrich the deployment by allowing to have different values for configuration settings in each stage.
 Background The moment your application starts to be a little bit more complex, you need to use configuration settings. These settings can be things like the log level, addresses of external services, usernames and (encrypted) passwords, etc.</description>
     </item>
     
     <item>
       <title>Deploying a serverless application</title>
-      <link>http://example.org/post/deploy-serverless-app/</link>
+      <link>https://vgaltes.com/post/deploy-serverless-app/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploy-serverless-app/</guid>
+      <guid>https://vgaltes.com/post/deploy-serverless-app/</guid>
       <description>Starting with AWS Lambda is really easy. You can even write a function in the browser! But that&amp;rsquo;s not how you should work on a daily basis. You must have a CI/CD pipeline set up, you probably have two accounts (one for production and another one for development), you need a repeatable and reliable way to create your infrastructure and so on. In this article I&amp;rsquo;ll show you how to create a simple continuous delivery pipeline that brings us closer to a professional application development.</description>
     </item>
     
     <item>
       <title>Dynamic secrets with Vault</title>
-      <link>http://example.org/post/vault-dynamic-secrets/</link>
+      <link>https://vgaltes.com/post/vault-dynamic-secrets/</link>
       <pubDate>Sun, 17 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/vault-dynamic-secrets/</guid>
+      <guid>https://vgaltes.com/post/vault-dynamic-secrets/</guid>
       <description>In the previous article we saw how we can configure Vault and write and read static secrets. Today, we&amp;rsquo;re going to see how we can use Vault to generate temporary users on a MySQL server so we can control access in a more secure way.
 First of all we&amp;rsquo;ll need a MySQL server connected to the same network than the Vault server. Let&amp;rsquo;s change the docker-compose.yml file to accomplish this.</description>
     </item>
     
     <item>
       <title>Vault basics</title>
-      <link>http://example.org/post/vault-basics/</link>
+      <link>https://vgaltes.com/post/vault-basics/</link>
       <pubDate>Sat, 16 Dec 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/vault-basics/</guid>
+      <guid>https://vgaltes.com/post/vault-basics/</guid>
       <description>Vault from HashiCorp is an amazing tool to manage the secrets on your organisation. It not only can help you to manage what they call static secrets that you can write and read, but also allows you to manage dynamic secrets to, for example, create temporary users in a MySQL database with certain permissions. It helps you to have a more secure organization.
 Today we&amp;rsquo;re going to see how can we configure and use the basics of Vault.</description>
     </item>
     
     <item>
       <title>Analysing hotspots using CrystalGazer and NDepend</title>
-      <link>http://example.org/post/analysing-hotspots/</link>
+      <link>https://vgaltes.com/post/analysing-hotspots/</link>
       <pubDate>Tue, 07 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/analysing-hotspots/</guid>
+      <guid>https://vgaltes.com/post/analysing-hotspots/</guid>
       <description>When you start working on a new project, there are a couple of things that you should try to discover as fast as you can: the shape of the code and the internals of the team you&amp;rsquo;re working with.
 You can (and should) try to discover both of them using conversations (at the end, developing software is having conversations (link in spanish)). But it&amp;rsquo;s also useful to try to discover this things for yourself, to confirm what the conversations are saying, or to bo a little bit faster.</description>
     </item>
     
     <item>
       <title>ANTLR and JavaScript</title>
-      <link>http://example.org/post/antlr-and-javascript/</link>
+      <link>https://vgaltes.com/post/antlr-and-javascript/</link>
       <pubDate>Wed, 06 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/antlr-and-javascript/</guid>
+      <guid>https://vgaltes.com/post/antlr-and-javascript/</guid>
       <description>In the last few weeks I&amp;rsquo;ve been working on Crystal Gazer, a nodejs console application to gather information from your Git repository. You can find it on GitHub and on NPM.
 One of the things I&amp;rsquo;d like to do is to track the evolution of a function. Has it been modified a lot? How many people has been working on it? Is the function too long?
 To answer the first question, what we could do is rely on the git log -L:function:file command to give us all the changes a function has suffered.</description>
@@ -339,40 +339,40 @@ To answer the first question, what we could do is rely on the git log -L:functio
     
     <item>
       <title>Calling a Step Function</title>
-      <link>http://example.org/post/calling-a-step-function/</link>
+      <link>https://vgaltes.com/post/calling-a-step-function/</link>
       <pubDate>Sun, 09 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/calling-a-step-function/</guid>
+      <guid>https://vgaltes.com/post/calling-a-step-function/</guid>
       <description>Until now we&amp;rsquo;ve seen how to create a Step Function, but we&amp;rsquo;ve always called them using the serverless framework. In this article we&amp;rsquo;re going to see how to call them programatically.
 We have two options to call a Step Function: the first one is to use the API Gateway and create an HTTP endpoint as the Event source of the Step Function. The second one is to call the step function from a Lambda function using the AWS SDK.</description>
     </item>
     
     <item>
       <title>Choice, pass, fail and succeed states in AWS Step Functions</title>
-      <link>http://example.org/post/step-functions-choice-pass-fail-succeed-states/</link>
+      <link>https://vgaltes.com/post/step-functions-choice-pass-fail-succeed-states/</link>
       <pubDate>Thu, 29 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/step-functions-choice-pass-fail-succeed-states/</guid>
+      <guid>https://vgaltes.com/post/step-functions-choice-pass-fail-succeed-states/</guid>
       <description>This will be the last article explaining the different states we can use in a step function. We&amp;rsquo;ll see three simple states like Pass, Fail and Succeed and finally, we&amp;rsquo;re going to a see a more complex state like Choice. And obviously, we&amp;rsquo;re going to use the http://serverless.com framework to deploy them.
 Pass state The pass state is a simple state that just passes its input to its output, without performing any work.</description>
     </item>
     
     <item>
       <title>Handling errors in AWS Step Functions</title>
-      <link>http://example.org/post/handling-errors-in-step-functions/</link>
+      <link>https://vgaltes.com/post/handling-errors-in-step-functions/</link>
       <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/handling-errors-in-step-functions/</guid>
+      <guid>https://vgaltes.com/post/handling-errors-in-step-functions/</guid>
       <description>As we&amp;rsquo;ve seen in previous articles, Step Functions helps us to orchestrate lambda functions. One of the most important aspects when we&amp;rsquo;re developing a system, distributed or not, is handling errors and retries. In this articles we&amp;rsquo;ll see how easy is to do it using Step Functions and the serverless framework.
 Catching errors Coding the lambda First of all we&amp;rsquo;re going to catch some errors. Let&amp;rsquo;s create a new project with one lambda inside it named ErrorLambda with the following code:</description>
     </item>
     
     <item>
       <title>Wait state in AWS Step Functions using the serverless framework</title>
-      <link>http://example.org/post/step-functions-wait-state/</link>
+      <link>https://vgaltes.com/post/step-functions-wait-state/</link>
       <pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/step-functions-wait-state/</guid>
+      <guid>https://vgaltes.com/post/step-functions-wait-state/</guid>
       <description>In the last article we&amp;rsquo;ve seen how to the parallel state in a State function. In this article we&amp;rsquo;ll see how we can use the Wait state using the serverless framework.
 The wait state delays the execution of the state function for a certain amount of time. By default, it returns the same object that it receives.
 What are we going to code We are going to code the following state function As you can see we&amp;rsquo;re going to have an initial function that creates a result with a field called DelaySeconds.</description>
@@ -380,20 +380,20 @@ What are we going to code We are going to code the following state function As y
     
     <item>
       <title>Parallel state in AWS Step Functions using .Net Core</title>
-      <link>http://example.org/post/step-functions-parallel-state/</link>
+      <link>https://vgaltes.com/post/step-functions-parallel-state/</link>
       <pubDate>Tue, 20 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/step-functions-parallel-state/</guid>
+      <guid>https://vgaltes.com/post/step-functions-parallel-state/</guid>
       <description>In the last article we&amp;rsquo;ve seen how to create a very basic step function using .Net Core and the serverless framework. Today we&amp;rsquo;ll see how to create one of the more useful states in a Step Function: the parallel state.
 The parallel state allows you to create parallel branches of execution in your state machine. Using it, you&amp;rsquo;ll be able to run several tasks in parallel and then collect the results in another task, that will be executed only if all the parallel tasks finish correctly.</description>
     </item>
     
     <item>
       <title>AWS Step Functions using .Net Core</title>
-      <link>http://example.org/post/step-functions-using-net-core/</link>
+      <link>https://vgaltes.com/post/step-functions-using-net-core/</link>
       <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/step-functions-using-net-core/</guid>
+      <guid>https://vgaltes.com/post/step-functions-using-net-core/</guid>
       <description>If my good friend Alan Gorton is right
 Functions will eat servers. #serverless https://t.co/4Rc1cDnM73
 &amp;mdash; Alan Gorton (@develogue) February 19, 2017we&amp;rsquo;d better be prepared. In this article we&amp;rsquo;ll see how we can develop AWS Lambda Functions using .Net Core and deploy them and Step Functions using the serverless framework.
@@ -402,67 +402,67 @@ Installing dependencies You should be able to follow this tutorial using a Windo
     
     <item>
       <title>A simple Azure Function using F#</title>
-      <link>http://example.org/post/a-simple-azure-function-using-f-sharp/</link>
+      <link>https://vgaltes.com/post/a-simple-azure-function-using-f-sharp/</link>
       <pubDate>Sat, 01 Apr 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/a-simple-azure-function-using-f-sharp/</guid>
+      <guid>https://vgaltes.com/post/a-simple-azure-function-using-f-sharp/</guid>
       <description>The other day my friend Jero wrote an article explaining how to write a Google Function using Javascript. The goal of this article is to do the same exercise but using Azure Functions and F#.
 First steps First of all, you will need to set up a couple of things. Don&amp;rsquo;t worry, both of them are free. First of all you&amp;rsquo;ll need an Azure account. You can create one for free and have £150 credit (and you&amp;rsquo;re not going to spend a single pound doing this exercise).</description>
     </item>
     
     <item>
       <title>Definition of X</title>
-      <link>http://example.org/post/definition-of-x/</link>
+      <link>https://vgaltes.com/post/definition-of-x/</link>
       <pubDate>Fri, 24 Mar 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/definition-of-x/</guid>
+      <guid>https://vgaltes.com/post/definition-of-x/</guid>
       <description>When you&amp;rsquo;re not sure about how to do something, you generally do a checklist of steps to follow. The first day I went to my current client, I had a list of steps: buy the train ticket, go to Kings Cross, collect the train ticket, take the train, take a cab, ask for Mr X, etc. I&amp;rsquo;m not using that list anymore because I now know how to do it.</description>
     </item>
     
     <item>
       <title>Cargo cult</title>
-      <link>http://example.org/post/cargo-cult/</link>
+      <link>https://vgaltes.com/post/cargo-cult/</link>
       <pubDate>Thu, 16 Mar 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/cargo-cult/</guid>
+      <guid>https://vgaltes.com/post/cargo-cult/</guid>
       <description>Cargo cult is a movement that is found in societies that believe in often-apocalyptic religious prophecies that predict a return to power, the defeat of enemies, and/or the accumulation of wealth. This movement often occurs in colonial societies.
 The first occurrences date from the end of the 19th century in Fiji, but the most important ones are the ones in the Melanesian islands after the World War II. During the war, both sides airdropped supplies and military equipment for their troops that often shared it with the local population.</description>
     </item>
     
     <item>
       <title>Cowboys</title>
-      <link>http://example.org/post/cowboys/</link>
+      <link>https://vgaltes.com/post/cowboys/</link>
       <pubDate>Tue, 14 Mar 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/cowboys/</guid>
+      <guid>https://vgaltes.com/post/cowboys/</guid>
       <description>According to the Wikipedia, a cowboy (and a cowgirl) is an animal herder who tends cattle on ranches in North America, traditionally on horseback, and often performs a multitude of other ranch-related tasks. They were quite famous in the 19th century and we can still find them in ranches.
 Hollywood adapted the cowboy lifestyle to create some stereotypes, both positive and negative. But, in general, a cowboy was a guy with a gun killing people, either because they were bad guys or because they were defending a good cause.</description>
     </item>
     
     <item>
       <title>Avoid pull requests</title>
-      <link>http://example.org/post/avoid-pull-requests/</link>
+      <link>https://vgaltes.com/post/avoid-pull-requests/</link>
       <pubDate>Sun, 12 Mar 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/avoid-pull-requests/</guid>
+      <guid>https://vgaltes.com/post/avoid-pull-requests/</guid>
       <description>Pull requests are a common way to integrate your changes in another repository or branch in an Open Source project. They allow the receiver of the pull request to easily view and review the changes you made. Pull requests are great, especially when your team is not colocated, but also in different time zones. It seems that their popularity has extended to enterprise projects as well, even when the team is co-located.</description>
     </item>
     
     <item>
       <title>Beyond Event Storming</title>
-      <link>http://example.org/post/beyond-event-storming/</link>
+      <link>https://vgaltes.com/post/beyond-event-storming/</link>
       <pubDate>Sun, 11 Dec 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/beyond-event-storming/</guid>
+      <guid>https://vgaltes.com/post/beyond-event-storming/</guid>
       <description>On 1st and 2nd of December, the last edition of Conferencia Agile Spain was held in Vitoria. I was part of the oragnisation and both as a organiser and as attendee I think it was awesome (post with some of the internals will come soon). I held a workshop about Event Storming there, which went great. Chris Matts did the opening keynote and he attended my workshop too. In the middle of the workshop he approached to me and told me: &amp;ldquo;If you want, after the workshop I can explain you how can you join Event Storming and Real Options.</description>
     </item>
     
     <item>
       <title>Partial classification active pattern</title>
-      <link>http://example.org/post/partial-classification-active-pattern/</link>
+      <link>https://vgaltes.com/post/partial-classification-active-pattern/</link>
       <pubDate>Mon, 17 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/partial-classification-active-pattern/</guid>
+      <guid>https://vgaltes.com/post/partial-classification-active-pattern/</guid>
       <description>Pattern matching is a powerful and amazing characteristic of F#. Actually, is so amazing that Microsoft is starting to port it to C#.
 There are different kinds of pattern matching. In this post we&amp;rsquo;re going to take a look at a partial classification active pattern that takes an argument and returns a value.
 As its name denotes, is a pattern that partially classificates what you match with it. That means that doesn&amp;rsquo;t try to define all possible options but just one.</description>
@@ -470,10 +470,10 @@ As its name denotes, is a pattern that partially classificates what you match wi
     
     <item>
       <title>Running NUnit3 tests using fake</title>
-      <link>http://example.org/post/run-nunit3-tests-using-fake/</link>
+      <link>https://vgaltes.com/post/run-nunit3-tests-using-fake/</link>
       <pubDate>Thu, 13 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/run-nunit3-tests-using-fake/</guid>
+      <guid>https://vgaltes.com/post/run-nunit3-tests-using-fake/</guid>
       <description>When you have some unit tests developed using NUnit 2.x your FAKE script looks like something like this:
 Target &amp;quot;RunUnitTests&amp;quot; (fun _ -&amp;gt;!! (testDir + &amp;quot;/*.Tests.dll&amp;quot;)|&amp;gt; NUnit (fun p -&amp;gt;{p with ToolPath = &amp;quot;packages/NUnit.Runners/tools/&amp;quot;}))
 But NUnit3 works slightly different. Instead of having a single NUnit.Runners package, that package references some other packages (runner, extensions, etc). One of those packages is NUnit.ConsoleRunner that has the exe inside the tools folder.</description>
@@ -481,20 +481,20 @@ But NUnit3 works slightly different. Instead of having a single NUnit.Runners pa
     
     <item>
       <title>Deadlines are not that bad</title>
-      <link>http://example.org/post/deadlines-are-not-that-bad/</link>
+      <link>https://vgaltes.com/post/deadlines-are-not-that-bad/</link>
       <pubDate>Thu, 18 Aug 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deadlines-are-not-that-bad/</guid>
+      <guid>https://vgaltes.com/post/deadlines-are-not-that-bad/</guid>
       <description>In my current project we had a hard deadline: we had to go to public beta on August and finish the transition of all users to the new system by the end of August. When we knew those dates our first reaction was this one:
 Depending on the environment you work the reaction to these news are usually some combination of a lot of pressure from management, working a lot of hours, drop the quality of your code, hysteria, etc.</description>
     </item>
     
     <item>
       <title>RPG Combat Kata</title>
-      <link>http://example.org/post/rpg-combat-kata/</link>
+      <link>https://vgaltes.com/post/rpg-combat-kata/</link>
       <pubDate>Mon, 04 Jul 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/rpg-combat-kata/</guid>
+      <guid>https://vgaltes.com/post/rpg-combat-kata/</guid>
       <description>A couple of weeks ago I saw these tweets (in Spanish):
 Hoy en la ofi hemos empezado la mañana con la RPG Combat kata de @SuuiGD que hicimos en el #scpna :-D https://t.co/vsK0OucncD
 &amp;mdash; Xabi Sáez de Ocáriz (@ziraco) June 22, 2016@SuuiGD @ziraco a mi me flipó tanto que estoy haciendo la versión &amp;quot;Extended&amp;quot;.si sigo así, le pongo UI y al store! ;)
@@ -503,10 +503,10 @@ Hoy en la ofi hemos empezado la mañana con la RPG Combat kata de @SuuiGD que hi
     
     <item>
       <title>Extracting information from your code repository using F# – Part 2: Basic statistics</title>
-      <link>http://example.org/post/extracting-information-from-your-code-repository-using-f-part-2-basic-statistics/</link>
+      <link>https://vgaltes.com/post/extracting-information-from-your-code-repository-using-f-part-2-basic-statistics/</link>
       <pubDate>Sat, 19 Dec 2015 17:56:14 +0000</pubDate>
       
-      <guid>http://example.org/post/extracting-information-from-your-code-repository-using-f-part-2-basic-statistics/</guid>
+      <guid>https://vgaltes.com/post/extracting-information-from-your-code-repository-using-f-part-2-basic-statistics/</guid>
       <description>&lt;p&gt;In the &lt;a href=&#34;http://vgaltes.com/index.php/2015/12/13/extracting-information-from-your-code-repository-using-fsharp-part-1-parsing-the-log-file/&#34; target=&#34;_blank&#34;&gt;previous article&lt;/a&gt; we&#39;ve seen how to parse a git log file. We ended up having an array of commits:&lt;/p&gt;
 &lt;p&gt;&lt;script src=&#34;https://gist.github.com/vgaltes/90748124970e5f17159b.js&#34;&gt;&lt;/script&gt;
 &lt;noscript&gt;
@@ -520,49 +520,49 @@ Hoy en la ofi hemos empezado la mañana con la RPG Combat kata de @SuuiGD que hi
     
     <item>
       <title>Extracting information from your code repository using F# - Part 1: parsing the log file</title>
-      <link>http://example.org/post/extracting-information-from-your-code-repository-using-fsharp-part-1-parsing-the-log-file/</link>
+      <link>https://vgaltes.com/post/extracting-information-from-your-code-repository-using-fsharp-part-1-parsing-the-log-file/</link>
       <pubDate>Sun, 13 Dec 2015 12:16:30 +0000</pubDate>
       
-      <guid>http://example.org/post/extracting-information-from-your-code-repository-using-fsharp-part-1-parsing-the-log-file/</guid>
+      <guid>https://vgaltes.com/post/extracting-information-from-your-code-repository-using-fsharp-part-1-parsing-the-log-file/</guid>
       <description>I&#39;ve recently read the excellent book Your Code as Crime Scene by Adam Tornhill. In this book, Adam explain several techniques to extract very useful information from the commits in the code repository to help you to understand your code, your dependencies and your organisation. If you haven&#39;t read the book, please do yourself a favor and get a copy as a Christmas present.
 On the othe hand, this week I&#39;ve attended the fantastic Progressive F# Tutorials at Skills Matter.</description>
     </item>
     
     <item>
       <title>Dealing with forms in ASP.Net MVC without using JavaScript</title>
-      <link>http://example.org/post/dealing-with-forms-in-asp-net-mvc-without-using-javascript/</link>
+      <link>https://vgaltes.com/post/dealing-with-forms-in-asp-net-mvc-without-using-javascript/</link>
       <pubDate>Sun, 06 Dec 2015 22:12:40 +0000</pubDate>
       
-      <guid>http://example.org/post/dealing-with-forms-in-asp-net-mvc-without-using-javascript/</guid>
+      <guid>https://vgaltes.com/post/dealing-with-forms-in-asp-net-mvc-without-using-javascript/</guid>
       <description>In the era of JavaScript it&#39;s a good idea to support users that aren&#39;t getting JavaScript enhancements, specially if you work for UK&#39;s goverment. If you are using simple forms you don&#39;t have any problems, but as long as you start adding complexity to your page supporting this scenario can be a bit tricky. Obviously your first thought should be: &#34;Can I provide a similar experience using a less complex view?</description>
     </item>
     
     <item>
       <title>XP Day 2015</title>
-      <link>http://example.org/post/xp-day-2015/</link>
+      <link>https://vgaltes.com/post/xp-day-2015/</link>
       <pubDate>Wed, 28 Oct 2015 07:45:55 +0000</pubDate>
       
-      <guid>http://example.org/post/xp-day-2015/</guid>
+      <guid>https://vgaltes.com/post/xp-day-2015/</guid>
       <description>Yesterday I attended XPDay 2015, an event organized by the people of the eXtreme Tuesday club. It was the first time I was there and it was great to share a day with such a bunch of talented people like Allan Kelly, Nat Pryce, Steve Freeman, Giovanni Asproni or Liz Keogh among others.
 In this time where a lot of people talk about agile hangover and say that agile doesn&#39;t work it&#39;s good to return to the origins and talk about eXtreme Programming.</description>
     </item>
     
     <item>
       <title>My point of view about the #NoEstimates movement</title>
-      <link>http://example.org/post/my-point-of-view-about-the-noestimates-movement/</link>
+      <link>https://vgaltes.com/post/my-point-of-view-about-the-noestimates-movement/</link>
       <pubDate>Tue, 06 Oct 2015 21:41:49 +0100</pubDate>
       
-      <guid>http://example.org/post/my-point-of-view-about-the-noestimates-movement/</guid>
+      <guid>https://vgaltes.com/post/my-point-of-view-about-the-noestimates-movement/</guid>
       <description>The #NoEstimates movement is an interesting thing. If you haven&#39;t heard about it, take a look at #NoEstimates hashtag on Twitter, read these articles from Ron Jeffries (article 1, article 2, article 3) or buy (and read) the excellent book written by Vasco Duarte.
 Let me make a summary for you: we fail making estimations. A lot. Take a look at famous CHAOS report if you need more evidence. Agile methodologies improved the numbers a bit but not too much (I bet the numbers are going down again because everybody is &#34;</description>
     </item>
     
     <item>
       <title>F# by example: FizzBuzz kata rivisited - More on Pattern-Matching</title>
-      <link>http://example.org/post/fsharp-by-example-fizzbuzz-kata-rivisited-more-on-pattern-matching/</link>
+      <link>https://vgaltes.com/post/fsharp-by-example-fizzbuzz-kata-rivisited-more-on-pattern-matching/</link>
       <pubDate>Sun, 10 May 2015 18:30:19 +0100</pubDate>
       
-      <guid>http://example.org/post/fsharp-by-example-fizzbuzz-kata-rivisited-more-on-pattern-matching/</guid>
+      <guid>https://vgaltes.com/post/fsharp-by-example-fizzbuzz-kata-rivisited-more-on-pattern-matching/</guid>
       <description>In the first post of this series we&#39;ve seen a possible implementation for the FizzBuzz kata. In particular, we&#39;ve finished the article with this code for the fizzBuzz function:
 https://gist.github.com/vgaltes/edafb6efc55273543a1d
 We&#39;ve applied a Tuple pattern to match the tuple created in the match part. We&#39;ve also applied Wildcard matching to discard the values we are not interested in.
@@ -571,10 +571,10 @@ In this article we&#39;re going to see how we can solve this problem using anoth
     
     <item>
       <title>F# by example: discriminated unions, record types, tuples and operators.</title>
-      <link>http://example.org/post/fsharp-by-example-discriminated-unions-record-types-tuples-and-operators/</link>
+      <link>https://vgaltes.com/post/fsharp-by-example-discriminated-unions-record-types-tuples-and-operators/</link>
       <pubDate>Mon, 04 May 2015 14:46:40 +0100</pubDate>
       
-      <guid>http://example.org/post/fsharp-by-example-discriminated-unions-record-types-tuples-and-operators/</guid>
+      <guid>https://vgaltes.com/post/fsharp-by-example-discriminated-unions-record-types-tuples-and-operators/</guid>
       <description>Last week I continued learning F# with my friends Samir and Pedro. The first week we learned some of the F# basics and this week we learned some of the functional characteristics of F#. To do that we started doing a custom interpretation of the Bank kata from Sandro Mancuso. You can find the code here: https://github.com/vgaltes/FSharpByExample/tree/master/BankKata
 As usual, let&#39;s start with a test an its implementation:
 https://gist.github.com/vgaltes/a9c109919fe7e5555c27
@@ -583,40 +583,40 @@ In this piece of code we can see some of the functional characteristics of F# we
     
     <item>
       <title>F# by example: FizzBuzz Kata</title>
-      <link>http://example.org/post/f-example-fizzbuzz-kata/</link>
+      <link>https://vgaltes.com/post/f-example-fizzbuzz-kata/</link>
       <pubDate>Fri, 24 Apr 2015 15:03:26 +0100</pubDate>
       
-      <guid>http://example.org/post/f-example-fizzbuzz-kata/</guid>
+      <guid>https://vgaltes.com/post/f-example-fizzbuzz-kata/</guid>
       <description>Last Tuesday I started a book club with my friends Samir Talwar and Pedro Moreira Santos (both of them working at Codurance). The book we&#39;ve choseen is &#34;The book of F#&#34;, because we want to learn F#.
 After reading the first three chapters we decided to make the FizzBuzz kata to start practicing. In this article I&#39;m going to explain you how we solved the kata trying to explain all the F# syntax we use.</description>
     </item>
     
     <item>
       <title>The architect</title>
-      <link>http://example.org/post/architect/</link>
+      <link>https://vgaltes.com/post/architect/</link>
       <pubDate>Fri, 27 Feb 2015 17:23:12 +0000</pubDate>
       
-      <guid>http://example.org/post/architect/</guid>
+      <guid>https://vgaltes.com/post/architect/</guid>
       <description>Last Wednesday was my last day in the project I worked on the last six months. I&#39;ve spent a great time working there, learning a lot of things and improving as a professional.
 One of the members of the team, Mark, has the role of technical architect. If you have an agile mindset when you listen the word architect is not unusual that a look of disgust appears on your face.</description>
     </item>
     
     <item>
       <title>Testing: DAMP vs DRY</title>
-      <link>http://example.org/post/testing-damp-vs-dry/</link>
+      <link>https://vgaltes.com/post/testing-damp-vs-dry/</link>
       <pubDate>Sun, 15 Feb 2015 23:13:27 +0000</pubDate>
       
-      <guid>http://example.org/post/testing-damp-vs-dry/</guid>
+      <guid>https://vgaltes.com/post/testing-damp-vs-dry/</guid>
       <description>When we write unit tests we usually try to apply our great object oriented knowledge, so we try to apply the well known DRY principle (Don&#39;t Repeat Yourself). One visible consequence of this effort is that the test code is considerably shorter than the previous version. A less visible consequence, but much more important, is that is harder to understand what the hell the test is trying to do.
 For that reason, when writing tests, I&#39;m more inclined to apply a non so well know principle called DAMP (Descriptive And Maintainable Procedures).</description>
     </item>
     
     <item>
       <title>Command-Query Separation</title>
-      <link>http://example.org/post/command-query-separation/</link>
+      <link>https://vgaltes.com/post/command-query-separation/</link>
       <pubDate>Wed, 04 Feb 2015 10:00:55 +0000</pubDate>
       
-      <guid>http://example.org/post/command-query-separation/</guid>
+      <guid>https://vgaltes.com/post/command-query-separation/</guid>
       <description>No, I&#39;m not going to talk about CQRS, but the ideas behind both concepts are similar.
 The Command-Query Separation principle was first introduced by Bertrand Meyer in his book Object-Oriented Software Construction. Mr Meyer states as follows:
 Functions should no produce abstract side effects.
@@ -626,10 +626,10 @@ Commands: those functions which produce abstract side effects (change the observ
     
     <item>
       <title>Bilbostack</title>
-      <link>http://example.org/post/bilbostack/</link>
+      <link>https://vgaltes.com/post/bilbostack/</link>
       <pubDate>Sun, 18 Jan 2015 23:32:46 +0000</pubDate>
       
-      <guid>http://example.org/post/bilbostack/</guid>
+      <guid>https://vgaltes.com/post/bilbostack/</guid>
       <description>Last Saturday (January 17th) the Bilbostack conference was held in Bilbao. It was the fourth edition of this conference and it was a complete success. I&#39;m really glad to be part of the organisation of Bilbostack, sharing this responsibility with Ibon Landa, Asier Marqués and Fran Mosteiro.
 I like to organize Bilbostack for many reasons:
 It&#39;s &#34;easy&#34; to organize. We don&#39;t open a Call for Papers. We meet one day in a beer, take some beers and make a list of the people we would like to speak at the conference.</description>
@@ -637,20 +637,20 @@ It&#39;s &#34;easy&#34; to organize. We don&#39;t open a Call for Papers. We mee
     
     <item>
       <title>Professionalism</title>
-      <link>http://example.org/post/professionalism/</link>
+      <link>https://vgaltes.com/post/professionalism/</link>
       <pubDate>Mon, 08 Dec 2014 23:51:50 +0000</pubDate>
       
-      <guid>http://example.org/post/professionalism/</guid>
+      <guid>https://vgaltes.com/post/professionalism/</guid>
       <description>According to Wikipedia, in some cultures the term professional is used as shorthand to describe a particular social stratum of well-educated workers who enjoy considerable work autonomy and who are commonly engaged in creative and intellectually challenging work. According to Google Analytics you probably come from one of these cultures.
 I have to admit that when I started to hear the term Craftsmanship I was distrusting, maybe because some of the people that used it tried to use it as a label to put themselves in a higher level than the rest of us.</description>
     </item>
     
     <item>
       <title>Test Driving ASP.Net routing</title>
-      <link>http://example.org/post/test-driving-asp-net-routing/</link>
+      <link>https://vgaltes.com/post/test-driving-asp-net-routing/</link>
       <pubDate>Tue, 29 Jul 2014 17:36:20 +0100</pubDate>
       
-      <guid>http://example.org/post/test-driving-asp-net-routing/</guid>
+      <guid>https://vgaltes.com/post/test-driving-asp-net-routing/</guid>
       <description>In this article we will see how can we test drive the routing configuration of an ASP.Net web application.
 Let&#39;s start with our first test:
 [TestMethod]public void TestSimpleRoute(){RouteCollection routes = new RouteCollection();RouteConfig.RegisterRoutes(routes);// Act - process the routeRouteData result= routes.GetRouteData(CreateHttpContext(&#34;~/Admin/Index&#34;));// AssertAssert.IsNotNull(result);Assert.AreEqual(&#34;controller&#34;, result.Values[&#34;controller&#34;]);Assert.AreEqual(&#34;action&#34;, result.Values[&#34;action&#34;]);}private HttpContextBase CreateHttpContext(string targetUrl = null){var mockRequest = new Mock&amp;lt;HttpRequestBase&amp;gt;();mockRequest.Setup(m =&amp;gt; m.AppRelativeCurrentExecutionFilePath).Returns(targetUrl);mockRequest.</description>
@@ -658,39 +658,39 @@ Let&#39;s start with our first test:
     
     <item>
       <title>Don&#39;t do experiments with your client&#39;s money</title>
-      <link>http://example.org/post/dont-do-experiments-with-your-clients-money/</link>
+      <link>https://vgaltes.com/post/dont-do-experiments-with-your-clients-money/</link>
       <pubDate>Wed, 16 Jul 2014 14:33:56 +0100</pubDate>
       
-      <guid>http://example.org/post/dont-do-experiments-with-your-clients-money/</guid>
+      <guid>https://vgaltes.com/post/dont-do-experiments-with-your-clients-money/</guid>
       <description>Imagine you &#34;manage&#34; a development team. Imagine you reach to have a product that your client is reasonably happy with it. Imagine that the architecture of the application is a mess. Imagine that you don&#39;t have any test. Imagine that the performance of the application is clearly improvable. Imagine that you can improve the user experience a lot. Imagine that you UI layer is made in a 14 years old technology.</description>
     </item>
     
     <item>
       <title>Agile Dev Practices</title>
-      <link>http://example.org/post/agile-dev-practices/</link>
+      <link>https://vgaltes.com/post/agile-dev-practices/</link>
       <pubDate>Wed, 13 Mar 2013 22:36:01 +0000</pubDate>
       
-      <guid>http://example.org/post/agile-dev-practices/</guid>
+      <guid>https://vgaltes.com/post/agile-dev-practices/</guid>
       <description>Last week I attended to Agile Dev Practices, a brand-new conference done in Postdam, organized by Diaz Hilterscheid, the people behind the renowned Agile Testing Days. It was my third international conference (the first outside Spain) and the first one I have gone as a speaker.
 I had the good fortune to assist to Carlos Blé tutorial about “Practical BDD for RIAs with JavaScript”. It was a great tutorial, more suitable to do in two days (or at least, one and a half) but equally great.</description>
     </item>
     
     <item>
       <title>A Premier League team will win the Champions League this year</title>
-      <link>http://example.org/post/a-premier-league-team-will-win-the-champions/</link>
+      <link>https://vgaltes.com/post/a-premier-league-team-will-win-the-champions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/a-premier-league-team-will-win-the-champions/</guid>
+      <guid>https://vgaltes.com/post/a-premier-league-team-will-win-the-champions/</guid>
       <description>Spain and Germany are dominating with an iron fist last Champions League editions. After a lot of investment, a Premier League team is ready to conquer the longed for trophy. In this article we&amp;rsquo;ll demonstrate this fact.
 The data We&amp;rsquo;ve borrowed the data for this study from the UEFA&amp;rsquo;s official page. If you go to this address http://www.uefa.com/uefachampionsleague/season=2011/matches/all/index.html# you&amp;rsquo;ll see all the matches played in the season 2010/2011. Change the year in the query string to see another year&amp;rsquo;s results.</description>
     </item>
     
     <item>
       <title>Arrays in F#</title>
-      <link>http://example.org/post/arrays-in-fsharp/</link>
+      <link>https://vgaltes.com/post/arrays-in-fsharp/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/arrays-in-fsharp/</guid>
+      <guid>https://vgaltes.com/post/arrays-in-fsharp/</guid>
       <description>Arrays are one of the basic data structures in F#. In this article we&amp;rsquo;re going to see an introduction of what can we do with them.
 Creation There are several ways to create an array in F#
 Create from a literal We can create an array with a predefined set of values. To do that, we just need to specify the values separated by semicolons and wrapped between [| and |]</description>
@@ -698,20 +698,20 @@ Create from a literal We can create an array with a predefined set of values. To
     
     <item>
       <title>Decorator pattern in F#</title>
-      <link>http://example.org/post/decorator-pattern-in-fsharp/</link>
+      <link>https://vgaltes.com/post/decorator-pattern-in-fsharp/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/decorator-pattern-in-fsharp/</guid>
+      <guid>https://vgaltes.com/post/decorator-pattern-in-fsharp/</guid>
       <description>Introduction A couple of weeks ago my friend Ian Russell explained the decorator pattern at work. For those who don&amp;rsquo;t know exactly how it works, the decorator pattern allows us to add behavior to an individual object without affecting the behavior of other objects of that class (Wikipedia).
 The object oriented solution There are a couple of typical implementations of the pattern in C#. The &amp;ldquo;lightweight&amp;rdquo; version is &amp;ldquo;just&amp;rdquo; to create decorators implementing the same interface of the decorated class, and passing the decorated object in the constructor of the decorator.</description>
     </item>
     
     <item>
       <title>Function composition and pipeline operator</title>
-      <link>http://example.org/post/function-composition-and-pipeline-operator/</link>
+      <link>https://vgaltes.com/post/function-composition-and-pipeline-operator/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/function-composition-and-pipeline-operator/</guid>
+      <guid>https://vgaltes.com/post/function-composition-and-pipeline-operator/</guid>
       <description>As Scott Wlaschin points out in his excellent article function composition it&amp;rsquo;s not the same as using the pipeline operator.
 The definition of the pipeline operator is this one:
 let (|&amp;gt;) x f = f xSo, take the thing on the left hand side of the operator and use it as the last parameter on the function in the right hand side.
@@ -720,40 +720,40 @@ On the other hand, we have this definition for the forward composition operator 
     
     <item>
       <title>My learning patterns</title>
-      <link>http://example.org/post/learning-patterns/</link>
+      <link>https://vgaltes.com/post/learning-patterns/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/learning-patterns/</guid>
+      <guid>https://vgaltes.com/post/learning-patterns/</guid>
       <description>In the last days I stumbled upon some articles about how to improve, be more productive, etc. Usually you can separate this kind of articles in two categories:
 the articles that talk about non work-related activities you must do if you want to increase your productivity. Eat the right food, sleep the right amount of time, do exercise, etc. the articles that talk about work-related activities. Go to meetups, read, do pet projects, etc.</description>
     </item>
     
     <item>
       <title>Sending forms with Suave, Suave.DotLiquid and Suave.Forms</title>
-      <link>http://example.org/post/forms-with-suave-dotliquid-and-suave-forms/</link>
+      <link>https://vgaltes.com/post/forms-with-suave-dotliquid-and-suave-forms/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/forms-with-suave-dotliquid-and-suave-forms/</guid>
+      <guid>https://vgaltes.com/post/forms-with-suave-dotliquid-and-suave-forms/</guid>
       <description>In the previous article we saw how to send forms using Suave.Experimental as view engine. In this article we&amp;rsquo;re going to use Suave.DotLiquid as view engine. We&amp;rsquo;ll see how we&amp;rsquo;re going to be able to reuse most of the work done previously.
 Suave.DotLiquid DotLiquid is a port of the Ruby template engine Liquid. Suave is able to use this library thanks to the pakage Suave.DotLiquid. So, the first thing we need to do is install these packages in our project.</description>
     </item>
     
     <item>
       <title>Sending forms with Suave, Suave.Experimental and Suave.Forms</title>
-      <link>http://example.org/post/forms-with-suave-experimental-and-suave-forms/</link>
+      <link>https://vgaltes.com/post/forms-with-suave-experimental-and-suave-forms/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/forms-with-suave-experimental-and-suave-forms/</guid>
+      <guid>https://vgaltes.com/post/forms-with-suave-experimental-and-suave-forms/</guid>
       <description>Sending data to a web server is a very common task when developing a website. From registering a new user to filling some personal details in a web commerce application, we usually have to deal with filling a form and send its data to the web server. In this series of articles, we are going to see how to send data using different view engines.
 Suave.Experimental Experimental is a component available via NuGet that allows us to write the views using F# code.</description>
     </item>
     
     <item>
       <title>Sequences in F#</title>
-      <link>http://example.org/post/sequences-in-fsharp/</link>
+      <link>https://vgaltes.com/post/sequences-in-fsharp/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/sequences-in-fsharp/</guid>
+      <guid>https://vgaltes.com/post/sequences-in-fsharp/</guid>
       <description>A sequence is a list of potential values (all of them of the same type) computed on demand.
 Sequence creation As with arrays there are several ways to create a sequence.
 Create from a range expression

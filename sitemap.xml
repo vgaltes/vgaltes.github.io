@@ -1,1240 +1,1240 @@
-<?xml-stylesheet type="text/xsl" href="http://example.org/sitemap.xsl"?>
+<?xml-stylesheet type="text/xsl" href="https://vgaltes.com/sitemap.xsl"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://example.org/categories/</loc>
+    <loc>https://vgaltes.com/categories/</loc>
     <lastmod>2022-11-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/contravariance/</loc>
+    <loc>https://vgaltes.com/tags/contravariance/</loc>
     <lastmod>2022-11-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/covariance/</loc>
+    <loc>https://vgaltes.com/tags/covariance/</loc>
     <lastmod>2022-11-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/generics/</loc>
+    <loc>https://vgaltes.com/tags/generics/</loc>
     <lastmod>2022-11-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/kotlin/</loc>
+    <loc>https://vgaltes.com/categories/kotlin/</loc>
     <lastmod>2022-11-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/kotlin-variance-covariance/</loc>
+    <loc>https://vgaltes.com/post/kotlin-variance-covariance/</loc>
     <lastmod>2022-11-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/</loc>
+    <loc>https://vgaltes.com/post/</loc>
     <lastmod>2022-11-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/</loc>
+    <loc>https://vgaltes.com/tags/</loc>
     <lastmod>2022-11-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/</loc>
+    <loc>https://vgaltes.com/</loc>
     <lastmod>2022-11-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/enum/</loc>
+    <loc>https://vgaltes.com/tags/enum/</loc>
     <lastmod>2022-11-06T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/kotlin-enums-sealed-classes/</loc>
+    <loc>https://vgaltes.com/post/kotlin-enums-sealed-classes/</loc>
     <lastmod>2022-11-06T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/sealed-class/</loc>
+    <loc>https://vgaltes.com/tags/sealed-class/</loc>
     <lastmod>2022-11-06T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/abstract-class/</loc>
+    <loc>https://vgaltes.com/tags/abstract-class/</loc>
     <lastmod>2022-11-05T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/interface/</loc>
+    <loc>https://vgaltes.com/tags/interface/</loc>
     <lastmod>2022-11-05T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/kotlin-abstract-classes-interfaces/</loc>
+    <loc>https://vgaltes.com/post/kotlin-abstract-classes-interfaces/</loc>
     <lastmod>2022-11-05T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/gradle/</loc>
+    <loc>https://vgaltes.com/tags/gradle/</loc>
     <lastmod>2022-10-29T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/kotest/</loc>
+    <loc>https://vgaltes.com/tags/kotest/</loc>
     <lastmod>2022-10-29T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/learning-kotlin-gradle-kotest/</loc>
+    <loc>https://vgaltes.com/post/learning-kotlin-gradle-kotest/</loc>
     <lastmod>2022-10-29T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/personal/</loc>
+    <loc>https://vgaltes.com/tags/personal/</loc>
     <lastmod>2020-12-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/personal/</loc>
+    <loc>https://vgaltes.com/categories/personal/</loc>
     <lastmod>2020-12-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/retrospectiva-2020/</loc>
+    <loc>https://vgaltes.com/post/retrospectiva-2020/</loc>
     <lastmod>2020-12-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/lamda-dotnet/</loc>
+    <loc>https://vgaltes.com/post/lamda-dotnet/</loc>
     <lastmod>2020-06-14T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/patterns/</loc>
+    <loc>https://vgaltes.com/tags/patterns/</loc>
     <lastmod>2020-06-14T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/serverless/</loc>
+    <loc>https://vgaltes.com/categories/serverless/</loc>
     <lastmod>2020-06-14T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/serverless-framework/</loc>
+    <loc>https://vgaltes.com/tags/serverless-framework/</loc>
     <lastmod>2020-06-14T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/lambda-destinations/</loc>
+    <loc>https://vgaltes.com/post/lambda-destinations/</loc>
     <lastmod>2020-03-29T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/agile/</loc>
+    <loc>https://vgaltes.com/categories/agile/</loc>
     <lastmod>2020-02-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/aspnet-core/</loc>
+    <loc>https://vgaltes.com/categories/aspnet-core/</loc>
     <lastmod>2020-02-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/refactoring/</loc>
+    <loc>https://vgaltes.com/tags/refactoring/</loc>
     <lastmod>2020-02-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/using-mediatr-as-a-refactoring-strategy/</loc>
+    <loc>https://vgaltes.com/post/using-mediatr-as-a-refactoring-strategy/</loc>
     <lastmod>2020-02-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/forwarding-correlation-ids-in-aspnetcore-version-2/</loc>
+    <loc>https://vgaltes.com/post/forwarding-correlation-ids-in-aspnetcore-version-2/</loc>
     <lastmod>2020-01-29T21:03:26+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/microservices/</loc>
+    <loc>https://vgaltes.com/tags/microservices/</loc>
     <lastmod>2020-01-29T21:03:26+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/forwarding-correlation-ids-in-aspnetcore/</loc>
+    <loc>https://vgaltes.com/post/forwarding-correlation-ids-in-aspnetcore/</loc>
     <lastmod>2020-01-28T15:03:26+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/serverless-patterns-implemented-sls-dlq/</loc>
+    <loc>https://vgaltes.com/post/serverless-patterns-implemented-sls-dlq/</loc>
     <lastmod>2019-11-26T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/serverless-patterns-implemented-part2/</loc>
+    <loc>https://vgaltes.com/post/serverless-patterns-implemented-part2/</loc>
     <lastmod>2019-11-14T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/serverless-patterns-implemented-part1/</loc>
+    <loc>https://vgaltes.com/post/serverless-patterns-implemented-part1/</loc>
     <lastmod>2019-11-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/api-gateway/</loc>
+    <loc>https://vgaltes.com/tags/api-gateway/</loc>
     <lastmod>2019-11-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/route-53/</loc>
+    <loc>https://vgaltes.com/tags/route-53/</loc>
     <lastmod>2019-11-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/multi-region-backend/</loc>
+    <loc>https://vgaltes.com/post/multi-region-backend/</loc>
     <lastmod>2019-11-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/api-gateway-custom-domain/</loc>
+    <loc>https://vgaltes.com/post/api-gateway-custom-domain/</loc>
     <lastmod>2019-11-06T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/amplify/</loc>
+    <loc>https://vgaltes.com/tags/amplify/</loc>
     <lastmod>2019-10-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/authentication/</loc>
+    <loc>https://vgaltes.com/tags/authentication/</loc>
     <lastmod>2019-10-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/cognito/</loc>
+    <loc>https://vgaltes.com/tags/cognito/</loc>
     <lastmod>2019-10-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/cognito-user-pools-google/</loc>
+    <loc>https://vgaltes.com/post/cognito-user-pools-google/</loc>
     <lastmod>2019-10-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/federation/</loc>
+    <loc>https://vgaltes.com/tags/federation/</loc>
     <lastmod>2019-10-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/api-gw-basic-auth/</loc>
+    <loc>https://vgaltes.com/post/api-gw-basic-auth/</loc>
     <lastmod>2019-10-18T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/random-stuff-june/</loc>
+    <loc>https://vgaltes.com/post/random-stuff-june/</loc>
     <lastmod>2019-06-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/random-stuff/</loc>
+    <loc>https://vgaltes.com/tags/random-stuff/</loc>
     <lastmod>2019-06-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/random-stuff/</loc>
+    <loc>https://vgaltes.com/categories/random-stuff/</loc>
     <lastmod>2019-06-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/mentoring/</loc>
+    <loc>https://vgaltes.com/tags/mentoring/</loc>
     <lastmod>2019-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/mentoring/</loc>
+    <loc>https://vgaltes.com/post/mentoring/</loc>
     <lastmod>2019-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/random-thoughts/</loc>
+    <loc>https://vgaltes.com/tags/random-thoughts/</loc>
     <lastmod>2019-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/random-thoughts/</loc>
+    <loc>https://vgaltes.com/categories/random-thoughts/</loc>
     <lastmod>2019-05-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/azure/</loc>
+    <loc>https://vgaltes.com/tags/azure/</loc>
     <lastmod>2018-11-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/azure-functions/</loc>
+    <loc>https://vgaltes.com/tags/azure-functions/</loc>
     <lastmod>2018-11-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/devops/</loc>
+    <loc>https://vgaltes.com/tags/devops/</loc>
     <lastmod>2018-11-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/using-key-vault-secret-in-appsettings/</loc>
+    <loc>https://vgaltes.com/post/using-key-vault-secret-in-appsettings/</loc>
     <lastmod>2018-11-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/securing-azure-functions/</loc>
+    <loc>https://vgaltes.com/post/securing-azure-functions/</loc>
     <lastmod>2018-11-23T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/enabling-application-insights/</loc>
+    <loc>https://vgaltes.com/post/enabling-application-insights/</loc>
     <lastmod>2018-11-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/deploying-azure-functions-using-slots/</loc>
+    <loc>https://vgaltes.com/post/deploying-azure-functions-using-slots/</loc>
     <lastmod>2018-11-18T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/deploying-azure-functions-using-zip-deploy/</loc>
+    <loc>https://vgaltes.com/post/deploying-azure-functions-using-zip-deploy/</loc>
     <lastmod>2018-11-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/deploying-azure-functions-using-terraform/</loc>
+    <loc>https://vgaltes.com/post/deploying-azure-functions-using-terraform/</loc>
     <lastmod>2018-11-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/deploying-azure-functions-using-cirecleci/</loc>
+    <loc>https://vgaltes.com/post/deploying-azure-functions-using-cirecleci/</loc>
     <lastmod>2018-11-15T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/deploying-azure-functions-an-introduction/</loc>
+    <loc>https://vgaltes.com/post/deploying-azure-functions-an-introduction/</loc>
     <lastmod>2018-11-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/aws/</loc>
+    <loc>https://vgaltes.com/tags/aws/</loc>
     <lastmod>2018-05-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/circleci/</loc>
+    <loc>https://vgaltes.com/tags/circleci/</loc>
     <lastmod>2018-05-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/lambda/</loc>
+    <loc>https://vgaltes.com/tags/lambda/</loc>
     <lastmod>2018-05-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/using-different-configuration-per-stage/</loc>
+    <loc>https://vgaltes.com/post/using-different-configuration-per-stage/</loc>
     <lastmod>2018-05-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/deploy-serverless-app/</loc>
+    <loc>https://vgaltes.com/post/deploy-serverless-app/</loc>
     <lastmod>2018-04-19T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/devops/</loc>
+    <loc>https://vgaltes.com/categories/devops/</loc>
     <lastmod>2017-12-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/vault-dynamic-secrets/</loc>
+    <loc>https://vgaltes.com/post/vault-dynamic-secrets/</loc>
     <lastmod>2017-12-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/mysql/</loc>
+    <loc>https://vgaltes.com/tags/mysql/</loc>
     <lastmod>2017-12-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/security/</loc>
+    <loc>https://vgaltes.com/tags/security/</loc>
     <lastmod>2017-12-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/vault/</loc>
+    <loc>https://vgaltes.com/tags/vault/</loc>
     <lastmod>2017-12-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/vault-basics/</loc>
+    <loc>https://vgaltes.com/post/vault-basics/</loc>
     <lastmod>2017-12-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/analysing-hotspots/</loc>
+    <loc>https://vgaltes.com/post/analysing-hotspots/</loc>
     <lastmod>2017-11-07T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/code-analysis/</loc>
+    <loc>https://vgaltes.com/tags/code-analysis/</loc>
     <lastmod>2017-11-07T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/crystalgazer/</loc>
+    <loc>https://vgaltes.com/categories/crystalgazer/</loc>
     <lastmod>2017-11-07T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/ndepend/</loc>
+    <loc>https://vgaltes.com/tags/ndepend/</loc>
     <lastmod>2017-11-07T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/antlr/</loc>
+    <loc>https://vgaltes.com/tags/antlr/</loc>
     <lastmod>2017-09-06T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/antlr-and-javascript/</loc>
+    <loc>https://vgaltes.com/post/antlr-and-javascript/</loc>
     <lastmod>2017-09-06T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/javascript/</loc>
+    <loc>https://vgaltes.com/tags/javascript/</loc>
     <lastmod>2017-09-06T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/calling-a-step-function/</loc>
+    <loc>https://vgaltes.com/post/calling-a-step-function/</loc>
     <lastmod>2017-07-09T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/serverless/</loc>
+    <loc>https://vgaltes.com/tags/serverless/</loc>
     <lastmod>2017-07-09T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/step-functions/</loc>
+    <loc>https://vgaltes.com/tags/step-functions/</loc>
     <lastmod>2017-07-09T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/step-functions-choice-pass-fail-succeed-states/</loc>
+    <loc>https://vgaltes.com/post/step-functions-choice-pass-fail-succeed-states/</loc>
     <lastmod>2017-06-29T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/handling-errors-in-step-functions/</loc>
+    <loc>https://vgaltes.com/post/handling-errors-in-step-functions/</loc>
     <lastmod>2017-06-22T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/step-functions-wait-state/</loc>
+    <loc>https://vgaltes.com/post/step-functions-wait-state/</loc>
     <lastmod>2017-06-21T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/net-core/</loc>
+    <loc>https://vgaltes.com/tags/net-core/</loc>
     <lastmod>2017-06-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/step-functions-parallel-state/</loc>
+    <loc>https://vgaltes.com/post/step-functions-parallel-state/</loc>
     <lastmod>2017-06-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/step-functions-using-net-core/</loc>
+    <loc>https://vgaltes.com/post/step-functions-using-net-core/</loc>
     <lastmod>2017-06-15T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/fsharp/</loc>
+    <loc>https://vgaltes.com/tags/fsharp/</loc>
     <lastmod>2017-06-15T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/a-simple-azure-function-using-f-sharp/</loc>
+    <loc>https://vgaltes.com/post/a-simple-azure-function-using-f-sharp/</loc>
     <lastmod>2017-04-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/fsharp/</loc>
+    <loc>https://vgaltes.com/categories/fsharp/</loc>
     <lastmod>2017-04-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/definition-of-x/</loc>
+    <loc>https://vgaltes.com/post/definition-of-x/</loc>
     <lastmod>2017-03-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/teamwork/</loc>
+    <loc>https://vgaltes.com/tags/teamwork/</loc>
     <lastmod>2017-03-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/teamwork/</loc>
+    <loc>https://vgaltes.com/categories/teamwork/</loc>
     <lastmod>2017-03-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/antipatterns/</loc>
+    <loc>https://vgaltes.com/tags/antipatterns/</loc>
     <lastmod>2017-03-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/cargo-cult/</loc>
+    <loc>https://vgaltes.com/post/cargo-cult/</loc>
     <lastmod>2017-03-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/cowboys/</loc>
+    <loc>https://vgaltes.com/post/cowboys/</loc>
     <lastmod>2017-03-14T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/avoid-pull-requests/</loc>
+    <loc>https://vgaltes.com/post/avoid-pull-requests/</loc>
     <lastmod>2017-03-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/beyond-event-storming/</loc>
+    <loc>https://vgaltes.com/post/beyond-event-storming/</loc>
     <lastmod>2016-12-11T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/business-analisys/</loc>
+    <loc>https://vgaltes.com/tags/business-analisys/</loc>
     <lastmod>2016-12-11T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/ddd/</loc>
+    <loc>https://vgaltes.com/tags/ddd/</loc>
     <lastmod>2016-12-11T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/event-storming/</loc>
+    <loc>https://vgaltes.com/categories/event-storming/</loc>
     <lastmod>2016-12-11T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/active-patterns/</loc>
+    <loc>https://vgaltes.com/tags/active-patterns/</loc>
     <lastmod>2016-10-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/f#/</loc>
+    <loc>https://vgaltes.com/tags/f#/</loc>
     <lastmod>2016-10-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/partial-classification-active-pattern/</loc>
+    <loc>https://vgaltes.com/post/partial-classification-active-pattern/</loc>
     <lastmod>2016-10-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/pattern-matching/</loc>
+    <loc>https://vgaltes.com/tags/pattern-matching/</loc>
     <lastmod>2016-10-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/ci/</loc>
+    <loc>https://vgaltes.com/tags/ci/</loc>
     <lastmod>2016-10-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/run-nunit3-tests-using-fake/</loc>
+    <loc>https://vgaltes.com/post/run-nunit3-tests-using-fake/</loc>
     <lastmod>2016-10-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/unit-testing/</loc>
+    <loc>https://vgaltes.com/tags/unit-testing/</loc>
     <lastmod>2016-10-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/agile/</loc>
+    <loc>https://vgaltes.com/tags/agile/</loc>
     <lastmod>2016-08-18T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/deadlines-are-not-that-bad/</loc>
+    <loc>https://vgaltes.com/post/deadlines-are-not-that-bad/</loc>
     <lastmod>2016-08-18T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/mvs/</loc>
+    <loc>https://vgaltes.com/tags/mvs/</loc>
     <lastmod>2016-08-18T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/scope-management/</loc>
+    <loc>https://vgaltes.com/tags/scope-management/</loc>
     <lastmod>2016-08-18T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/f#/</loc>
+    <loc>https://vgaltes.com/categories/f#/</loc>
     <lastmod>2016-07-04T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/functional-design-patterns/</loc>
+    <loc>https://vgaltes.com/tags/functional-design-patterns/</loc>
     <lastmod>2016-07-04T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/rpg-combat-kata/</loc>
+    <loc>https://vgaltes.com/post/rpg-combat-kata/</loc>
     <lastmod>2016-07-04T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/extracting-information-from-your-code-repository-using-f-part-2-basic-statistics/</loc>
+    <loc>https://vgaltes.com/post/extracting-information-from-your-code-repository-using-f-part-2-basic-statistics/</loc>
     <lastmod>2015-12-19T17:56:14+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/git/</loc>
+    <loc>https://vgaltes.com/tags/git/</loc>
     <lastmod>2015-12-19T17:56:14+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/statistics/</loc>
+    <loc>https://vgaltes.com/tags/statistics/</loc>
     <lastmod>2015-12-19T17:56:14+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/csv-type-provider/</loc>
+    <loc>https://vgaltes.com/tags/csv-type-provider/</loc>
     <lastmod>2015-12-13T12:16:30+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/extracting-information-from-your-code-repository-using-fsharp-part-1-parsing-the-log-file/</loc>
+    <loc>https://vgaltes.com/post/extracting-information-from-your-code-repository-using-fsharp-part-1-parsing-the-log-file/</loc>
     <lastmod>2015-12-13T12:16:30+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/type-providers/</loc>
+    <loc>https://vgaltes.com/tags/type-providers/</loc>
     <lastmod>2015-12-13T12:16:30+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/asp.net/</loc>
+    <loc>https://vgaltes.com/categories/asp.net/</loc>
     <lastmod>2015-12-06T22:12:40+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/asp.net/</loc>
+    <loc>https://vgaltes.com/tags/asp.net/</loc>
     <lastmod>2015-12-06T22:12:40+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/dealing-with-forms-in-asp-net-mvc-without-using-javascript/</loc>
+    <loc>https://vgaltes.com/post/dealing-with-forms-in-asp-net-mvc-without-using-javascript/</loc>
     <lastmod>2015-12-06T22:12:40+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/javascript/</loc>
+    <loc>https://vgaltes.com/categories/javascript/</loc>
     <lastmod>2015-12-06T22:12:40+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/mvc/</loc>
+    <loc>https://vgaltes.com/tags/mvc/</loc>
     <lastmod>2015-12-06T22:12:40+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/conferences/</loc>
+    <loc>https://vgaltes.com/categories/conferences/</loc>
     <lastmod>2015-10-28T07:45:55+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/xp-day-2015/</loc>
+    <loc>https://vgaltes.com/post/xp-day-2015/</loc>
     <lastmod>2015-10-28T07:45:55+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/my-point-of-view-about-the-noestimates-movement/</loc>
+    <loc>https://vgaltes.com/post/my-point-of-view-about-the-noestimates-movement/</loc>
     <lastmod>2015-10-06T21:41:49+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/noestimates/</loc>
+    <loc>https://vgaltes.com/tags/noestimates/</loc>
     <lastmod>2015-10-06T21:41:49+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/active-pattern/</loc>
+    <loc>https://vgaltes.com/tags/active-pattern/</loc>
     <lastmod>2015-05-10T18:30:19+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/fsharp-by-example-fizzbuzz-kata-rivisited-more-on-pattern-matching/</loc>
+    <loc>https://vgaltes.com/post/fsharp-by-example-fizzbuzz-kata-rivisited-more-on-pattern-matching/</loc>
     <lastmod>2015-05-10T18:30:19+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/discriminated-unions/</loc>
+    <loc>https://vgaltes.com/tags/discriminated-unions/</loc>
     <lastmod>2015-05-04T14:46:40+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/fsharp-by-example-discriminated-unions-record-types-tuples-and-operators/</loc>
+    <loc>https://vgaltes.com/post/fsharp-by-example-discriminated-unions-record-types-tuples-and-operators/</loc>
     <lastmod>2015-05-04T14:46:40+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/operator-overloading/</loc>
+    <loc>https://vgaltes.com/tags/operator-overloading/</loc>
     <lastmod>2015-05-04T14:46:40+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/record-types/</loc>
+    <loc>https://vgaltes.com/tags/record-types/</loc>
     <lastmod>2015-05-04T14:46:40+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/tuples/</loc>
+    <loc>https://vgaltes.com/tags/tuples/</loc>
     <lastmod>2015-05-04T14:46:40+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/code/</loc>
+    <loc>https://vgaltes.com/categories/code/</loc>
     <lastmod>2015-04-24T15:03:26+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/currying/</loc>
+    <loc>https://vgaltes.com/tags/currying/</loc>
     <lastmod>2015-04-24T15:03:26+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/f-example-fizzbuzz-kata/</loc>
+    <loc>https://vgaltes.com/post/f-example-fizzbuzz-kata/</loc>
     <lastmod>2015-04-24T15:03:26+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/nunit/</loc>
+    <loc>https://vgaltes.com/tags/nunit/</loc>
     <lastmod>2015-04-24T15:03:26+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/tdd/</loc>
+    <loc>https://vgaltes.com/tags/tdd/</loc>
     <lastmod>2015-04-24T15:03:26+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/architect/</loc>
+    <loc>https://vgaltes.com/tags/architect/</loc>
     <lastmod>2015-02-27T17:23:12+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/architect/</loc>
+    <loc>https://vgaltes.com/post/architect/</loc>
     <lastmod>2015-02-27T17:23:12+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/damp/</loc>
+    <loc>https://vgaltes.com/tags/damp/</loc>
     <lastmod>2015-02-15T23:13:27+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/dry/</loc>
+    <loc>https://vgaltes.com/tags/dry/</loc>
     <lastmod>2015-02-15T23:13:27+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/testing/</loc>
+    <loc>https://vgaltes.com/tags/testing/</loc>
     <lastmod>2015-02-15T23:13:27+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/testing/</loc>
+    <loc>https://vgaltes.com/categories/testing/</loc>
     <lastmod>2015-02-15T23:13:27+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/testing-damp-vs-dry/</loc>
+    <loc>https://vgaltes.com/post/testing-damp-vs-dry/</loc>
     <lastmod>2015-02-15T23:13:27+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/command-query-separation/</loc>
+    <loc>https://vgaltes.com/post/command-query-separation/</loc>
     <lastmod>2015-02-04T10:00:55+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/design/</loc>
+    <loc>https://vgaltes.com/tags/design/</loc>
     <lastmod>2015-02-04T10:00:55+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/oop/</loc>
+    <loc>https://vgaltes.com/tags/oop/</loc>
     <lastmod>2015-02-04T10:00:55+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/bilbostack/</loc>
+    <loc>https://vgaltes.com/post/bilbostack/</loc>
     <lastmod>2015-01-18T23:32:46+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/professionalism/</loc>
+    <loc>https://vgaltes.com/post/professionalism/</loc>
     <lastmod>2014-12-08T23:51:50+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/test-driving-asp-net-routing/</loc>
+    <loc>https://vgaltes.com/post/test-driving-asp-net-routing/</loc>
     <lastmod>2014-07-29T17:36:20+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/dont-do-experiments-with-your-clients-money/</loc>
+    <loc>https://vgaltes.com/post/dont-do-experiments-with-your-clients-money/</loc>
     <lastmod>2014-07-16T14:33:56+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/agile-dev-practices/</loc>
+    <loc>https://vgaltes.com/tags/agile-dev-practices/</loc>
     <lastmod>2013-03-13T22:36:01+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/agile-dev-practices/</loc>
+    <loc>https://vgaltes.com/post/agile-dev-practices/</loc>
     <lastmod>2013-03-13T22:36:01+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/bdd/</loc>
+    <loc>https://vgaltes.com/tags/bdd/</loc>
     <lastmod>2013-03-13T22:36:01+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/specflow/</loc>
+    <loc>https://vgaltes.com/tags/specflow/</loc>
     <lastmod>2013-03-13T22:36:01+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/a-premier-league-team-will-win-the-champions/</loc>
+    <loc>https://vgaltes.com/post/a-premier-league-team-will-win-the-champions/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/aprils-fools-day/</loc>
+    <loc>https://vgaltes.com/tags/aprils-fools-day/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/arrays-in-fsharp/</loc>
+    <loc>https://vgaltes.com/post/arrays-in-fsharp/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/data-structures/</loc>
+    <loc>https://vgaltes.com/tags/data-structures/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/decorator-pattern-in-fsharp/</loc>
+    <loc>https://vgaltes.com/post/decorator-pattern-in-fsharp/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/design-patterns/</loc>
+    <loc>https://vgaltes.com/tags/design-patterns/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/forms/</loc>
+    <loc>https://vgaltes.com/tags/forms/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/function-composition-and-pipeline-operator/</loc>
+    <loc>https://vgaltes.com/post/function-composition-and-pipeline-operator/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/learning/</loc>
+    <loc>https://vgaltes.com/tags/learning/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/learning-patterns/</loc>
+    <loc>https://vgaltes.com/post/learning-patterns/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/forms-with-suave-dotliquid-and-suave-forms/</loc>
+    <loc>https://vgaltes.com/post/forms-with-suave-dotliquid-and-suave-forms/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/forms-with-suave-experimental-and-suave-forms/</loc>
+    <loc>https://vgaltes.com/post/forms-with-suave-experimental-and-suave-forms/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/post/sequences-in-fsharp/</loc>
+    <loc>https://vgaltes.com/post/sequences-in-fsharp/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/tags/suave/</loc>
+    <loc>https://vgaltes.com/tags/suave/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>http://example.org/categories/suave/</loc>
+    <loc>https://vgaltes.com/categories/suave/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

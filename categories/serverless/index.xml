@@ -2,47 +2,47 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>serverless on VGALTES blog</title>
-    <link>http://example.org/categories/serverless/</link>
+    <link>https://vgaltes.com/categories/serverless/</link>
     <description>Recent content in serverless on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 14 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/categories/serverless/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 14 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://vgaltes.com/categories/serverless/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Lambda in .NET Core and SNS</title>
-      <link>http://example.org/post/lamda-dotnet/</link>
+      <link>https://vgaltes.com/post/lamda-dotnet/</link>
       <pubDate>Sun, 14 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/lamda-dotnet/</guid>
+      <guid>https://vgaltes.com/post/lamda-dotnet/</guid>
       <description>This week I wanted to investigate how to use a Pub/Sub mechanism in an on-premise environment without needing to install anything else in our infrastructure, so using a managed service. I also wanted to make my first tests with CDK. Let me show you what I did.
 Goal What I want to accomplish is that a system that lives in our infrastructure communicates asynchronously with another system on it. It&amp;rsquo;s easy to simulate the sender of the message with a console application, but for the receiver I&amp;rsquo;ll need a public HTTP endpoint.</description>
     </item>
     
     <item>
       <title>Lambda destinations</title>
-      <link>http://example.org/post/lambda-destinations/</link>
+      <link>https://vgaltes.com/post/lambda-destinations/</link>
       <pubDate>Sun, 29 Mar 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/lambda-destinations/</guid>
+      <guid>https://vgaltes.com/post/lambda-destinations/</guid>
       <description>AWS recently introduced lambda destinations for asynchronous invocations. So, if you have, let&amp;rsquo;s say, a lambda function attached to an SNS event, you can configure a destination when the execution is successful and a destination when the execution fails. The destination can be either an SQS queue, an SNS topic, EventBridge or another Lambda function.
 As usual, the serverless framework implemented this feature quickly. Let&amp;rsquo;s take a look how to do it and what&amp;rsquo;s the difference with a DLQ.</description>
     </item>
     
     <item>
       <title>Serverless Patterns implemented: using an SQS queue as a DLQ for a SNS topic</title>
-      <link>http://example.org/post/serverless-patterns-implemented-sls-dlq/</link>
+      <link>https://vgaltes.com/post/serverless-patterns-implemented-sls-dlq/</link>
       <pubDate>Tue, 26 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/serverless-patterns-implemented-sls-dlq/</guid>
+      <guid>https://vgaltes.com/post/serverless-patterns-implemented-sls-dlq/</guid>
       <description>In the last two articles (here and here) we implemented some of the Serverless Patterns described in this article from Jeremy Daly. In this article, we&amp;rsquo;re going to concentrate in just one pattern, the Notifier. We&amp;rsquo;re going to do this, because of the [recent announcement] from AWS that you can now use an SQS queue as a Dead Letter Queue for an SNS topic.
 If you read the article, you will see that this DLQ is complementary to the DLQ you might define in a function that is triggered by an SNS topic, as Otavio Ferreira explains here.</description>
     </item>
     
     <item>
       <title>Serverless Patterns implemented, part 2</title>
-      <link>http://example.org/post/serverless-patterns-implemented-part2/</link>
+      <link>https://vgaltes.com/post/serverless-patterns-implemented-part2/</link>
       <pubDate>Thu, 14 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/serverless-patterns-implemented-part2/</guid>
+      <guid>https://vgaltes.com/post/serverless-patterns-implemented-part2/</guid>
       <description>In this article I will continue with the implementation of some Serverless Patterns described in this article from Jeremy Daly about [Serverless Patterns]. Check the first post here Let&amp;rsquo;s start!
 Common setup All the projects will have a common setup, which is fairly simple. First, initialize a NodeJS project:
 1 yarn init Then install the serverless framework as a dev dependency
@@ -51,77 +51,77 @@ Common setup All the projects will have a common setup, which is fairly simple. 
     
     <item>
       <title>Serverless Patterns implemented, part 1</title>
-      <link>http://example.org/post/serverless-patterns-implemented-part1/</link>
+      <link>https://vgaltes.com/post/serverless-patterns-implemented-part1/</link>
       <pubDate>Wed, 13 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/serverless-patterns-implemented-part1/</guid>
+      <guid>https://vgaltes.com/post/serverless-patterns-implemented-part1/</guid>
       <description>I think that the best way to learn something is to practice it and to try to explain it, so this is what I&amp;rsquo;m going to do in the next series of posts. These posts will be based on the amazing article from Jeremy Daly about Serverless Patterns. I&amp;rsquo;m not going to copy Jeremy&amp;rsquo;s words here, so for each pattern, go to the article and read it. I&amp;rsquo;ll provide a technical implementation here and I will mention more resources I found interesting.</description>
     </item>
     
     <item>
       <title>Set up a multi-region active-active backend</title>
-      <link>http://example.org/post/multi-region-backend/</link>
+      <link>https://vgaltes.com/post/multi-region-backend/</link>
       <pubDate>Fri, 08 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/multi-region-backend/</guid>
+      <guid>https://vgaltes.com/post/multi-region-backend/</guid>
       <description>Congratulations! Your startup is starting to bring attention to many people and you&amp;rsquo;re starting to have clients from different countries and continents. But your lambdas and API gateway are still in your initial region, and that might add some latency to some users. Apart from that, you want to increase the reliability of your system. So, you decide to go multi-region. Can you do that easily? In this article, we&amp;rsquo;ll see how to do that.</description>
     </item>
     
     <item>
       <title>Set up a custom domain for your API Gateway</title>
-      <link>http://example.org/post/api-gateway-custom-domain/</link>
+      <link>https://vgaltes.com/post/api-gateway-custom-domain/</link>
       <pubDate>Wed, 06 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/api-gateway-custom-domain/</guid>
+      <guid>https://vgaltes.com/post/api-gateway-custom-domain/</guid>
       <description>If you&amp;rsquo;re doing something more than a few tests with Lambda and API Gateway, there will be a time where you will like to stop using the AWS-created endpoints for your APIs and start using your own domain. You know, instead of telling your clients, &amp;ldquo;please, go to https://lk7z14x78h.execute-api.eu-west-1.amazonaws.com/dev/helloWorld&amp;quot;, you will like to point them to something like &amp;ldquo;api.authenticatedservices.net/helloWorld&amp;rdquo;. In this article, we&amp;rsquo;ll see how to do that.
 Disclaimer This article is a summary of two articles (this one and this one) from Alex DeBrie (who you should follow if you&amp;rsquo;re interested in serverless).</description>
     </item>
     
     <item>
       <title>Cognito User Pools, Google federation and AWS Amplify</title>
-      <link>http://example.org/post/cognito-user-pools-google/</link>
+      <link>https://vgaltes.com/post/cognito-user-pools-google/</link>
       <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/cognito-user-pools-google/</guid>
+      <guid>https://vgaltes.com/post/cognito-user-pools-google/</guid>
       <description>In the previous article, we saw how to secure an API Gateway endpoint using Cognito user pools. We used the built-in capabilities of the user pools to create the users, sign them up, etc. But many applications nowadays don&amp;rsquo;t create users on their own; they use [social login] and rely on third-party social services such as Facebook or Google to manage users for them.
 In this article, we&amp;rsquo;ll see how we can adapt our previous code to allow users to sign-up and sign-in to our service using their Google account.</description>
     </item>
     
     <item>
       <title>Basic API Gateway endpoint authentication with Cognito User Pools</title>
-      <link>http://example.org/post/api-gw-basic-auth/</link>
+      <link>https://vgaltes.com/post/api-gw-basic-auth/</link>
       <pubDate>Fri, 18 Oct 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/api-gw-basic-auth/</guid>
+      <guid>https://vgaltes.com/post/api-gw-basic-auth/</guid>
       <description>In many occasions, you don&amp;rsquo;t want your whole API open to the public. Maybe you want to make some endpoints available to authenticated users. In this article we&amp;rsquo;re going to see how to do that using Amazon Cognito User Pools and AWS Amplify. Let&amp;rsquo;s start!
 Amazon Cognito User Pools As the documentation says, a user pool is a user directory in Amazon Cognito. You can allow your users to sign-up, sign-in, etc.</description>
     </item>
     
     <item>
       <title>Using Key Vault secrets in AppSettings</title>
-      <link>http://example.org/post/using-key-vault-secret-in-appsettings/</link>
+      <link>https://vgaltes.com/post/using-key-vault-secret-in-appsettings/</link>
       <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/using-key-vault-secret-in-appsettings/</guid>
+      <guid>https://vgaltes.com/post/using-key-vault-secret-in-appsettings/</guid>
       <description>In the last article we talked about securing Azure Functions and we saw how to insert a message into an Event Hub. To insert the message, we needed the connection string to be in an application setting. This is not the most secure way to store a connection string. We talked that it would be a much better option to store it in Key Vault. Until a couple of days ago, to do that we needed to use a library to get the secret from Key Vault and then use an imperative binding to be able to insert the message into the Event Hub.</description>
     </item>
     
     <item>
       <title>Securing Azure Functions</title>
-      <link>http://example.org/post/securing-azure-functions/</link>
+      <link>https://vgaltes.com/post/securing-azure-functions/</link>
       <pubDate>Fri, 23 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/securing-azure-functions/</guid>
+      <guid>https://vgaltes.com/post/securing-azure-functions/</guid>
       <description>(Thanks to Francesc Ribera, Alex Casquete and Jerry Liu for their guidance on this topic)
 As far as I know (correct me in the comments if I&amp;rsquo;m wrong, please), when you create a brand new Azure Function, it has access to everything in your subscription as a contributor. That&amp;rsquo;s really not great. When you develop a new Lambda function you have to specify all the permissions that the function has to have.</description>
     </item>
     
     <item>
       <title>Deploying Azure Functions - Enabling Application Insights</title>
-      <link>http://example.org/post/enabling-application-insights/</link>
+      <link>https://vgaltes.com/post/enabling-application-insights/</link>
       <pubDate>Tue, 20 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/enabling-application-insights/</guid>
+      <guid>https://vgaltes.com/post/enabling-application-insights/</guid>
       <description>In our previous articles we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI or Terraform. Once we have a function deployed and accepting traffic, the next obvious thing to do is to monitor it.
 Adding some logs to the function is fairly easy. If you take a look at the signature of the function
 1 2 3 4 [FunctionName(&amp;#34;HelloWorld&amp;#34;)] public static async Task&amp;lt;IActionResult&amp;gt; Run( [HttpTrigger(AuthorizationLevel.Anonymous, &amp;#34;get&amp;#34;, &amp;#34;post&amp;#34;, Route = null)] HttpRequest req, ILogger log) you&amp;rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.</description>
@@ -129,10 +129,10 @@ Adding some logs to the function is fairly easy. If you take a look at the signa
     
     <item>
       <title>Deploying Azure Functions using slots</title>
-      <link>http://example.org/post/deploying-azure-functions-using-slots/</link>
+      <link>https://vgaltes.com/post/deploying-azure-functions-using-slots/</link>
       <pubDate>Sun, 18 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploying-azure-functions-using-slots/</guid>
+      <guid>https://vgaltes.com/post/deploying-azure-functions-using-slots/</guid>
       <description>In previous articles we&amp;rsquo;ve seen how to deploy a Function App using Azure Functions Core Tools, Terraform and Azure CLI with Zip Deploy. In this article we&amp;rsquo;re going to take a look on how to deploy Function apps using deployment slots.
 Why deployment slots Being able to deploy into slots and decide which slot you use in production has many benefits. To name some of them:
 Enable A/B testing Enable blue/green deployments No downtime deployments Easy rollback system So, let&amp;rsquo;s take a look on how can we use them in Function apps.</description>
@@ -140,10 +140,10 @@ Enable A/B testing Enable blue/green deployments No downtime deployments Easy ro
     
     <item>
       <title>Deploying Azure Functions using Zip Deploy</title>
-      <link>http://example.org/post/deploying-azure-functions-using-zip-deploy/</link>
+      <link>https://vgaltes.com/post/deploying-azure-functions-using-zip-deploy/</link>
       <pubDate>Sat, 17 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploying-azure-functions-using-zip-deploy/</guid>
+      <guid>https://vgaltes.com/post/deploying-azure-functions-using-zip-deploy/</guid>
       <description>In a previous article we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 #!</description>
@@ -151,10 +151,10 @@ Fixing the script. We already have a deployment script. It is something like thi
     
     <item>
       <title>Deploying Azure Functions using Terraform</title>
-      <link>http://example.org/post/deploying-azure-functions-using-terraform/</link>
+      <link>https://vgaltes.com/post/deploying-azure-functions-using-terraform/</link>
       <pubDate>Fri, 16 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploying-azure-functions-using-terraform/</guid>
+      <guid>https://vgaltes.com/post/deploying-azure-functions-using-terraform/</guid>
       <description>In previous articles (I, II) we&amp;rsquo;ve seen how to deploy an Azure Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to deploy it using Terraform.
 Prerequisites In order to follow this article you will need the .Net SDK 2.1, the Azure CLI and Terraform installed in your laptop/container/VM/whatever.
 Building the package What Terraform is going to do is take advantage of the Zip deployment capability (More on this in a future article).</description>
@@ -162,78 +162,78 @@ Building the package What Terraform is going to do is take advantage of the Zip 
     
     <item>
       <title>Deploying Azure Functions using CircleCI</title>
-      <link>http://example.org/post/deploying-azure-functions-using-cirecleci/</link>
+      <link>https://vgaltes.com/post/deploying-azure-functions-using-cirecleci/</link>
       <pubDate>Thu, 15 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploying-azure-functions-using-cirecleci/</guid>
+      <guid>https://vgaltes.com/post/deploying-azure-functions-using-cirecleci/</guid>
       <description>In the last article we saw how to deploy an azure function from the CLI. In this article we&amp;rsquo;ll see how we can use the same script to deploy the function from a continuous integration environment. In this case we&amp;rsquo;ll use CircleCI.
 Creating a new docker image As we saw, if we want to deploy the Function App using the same script we&amp;rsquo;d need to use the Azure CLI and the Azure Functions Core Tools.</description>
     </item>
     
     <item>
       <title>Deploying Azure Functions, an introduction</title>
-      <link>http://example.org/post/deploying-azure-functions-an-introduction/</link>
+      <link>https://vgaltes.com/post/deploying-azure-functions-an-introduction/</link>
       <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploying-azure-functions-an-introduction/</guid>
+      <guid>https://vgaltes.com/post/deploying-azure-functions-an-introduction/</guid>
       <description>In the last few days, I&amp;rsquo;ve been tinkering with Azure Functions, reading the documentation a bit and doing a Pluralsight course. As it happens quite offten, these introductory courses use easy techniques to deploy the code, focusing on showing what you can do with the platform. Although obviously this has some value, I don&amp;rsquo;t think it&amp;rsquo;s a good idea because, at the end, it will be something that you won&amp;rsquo;t be able to use in a serious test.</description>
     </item>
     
     <item>
       <title>Using different configuration per stage</title>
-      <link>http://example.org/post/using-different-configuration-per-stage/</link>
+      <link>https://vgaltes.com/post/using-different-configuration-per-stage/</link>
       <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/using-different-configuration-per-stage/</guid>
+      <guid>https://vgaltes.com/post/using-different-configuration-per-stage/</guid>
       <description>In the previous article we saw how to create a basic deployment pipeline for a serverless application. In this article, we&amp;rsquo;re going to enrich the deployment by allowing to have different values for configuration settings in each stage.
 Background The moment your application starts to be a little bit more complex, you need to use configuration settings. These settings can be things like the log level, addresses of external services, usernames and (encrypted) passwords, etc.</description>
     </item>
     
     <item>
       <title>Deploying a serverless application</title>
-      <link>http://example.org/post/deploy-serverless-app/</link>
+      <link>https://vgaltes.com/post/deploy-serverless-app/</link>
       <pubDate>Thu, 19 Apr 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploy-serverless-app/</guid>
+      <guid>https://vgaltes.com/post/deploy-serverless-app/</guid>
       <description>Starting with AWS Lambda is really easy. You can even write a function in the browser! But that&amp;rsquo;s not how you should work on a daily basis. You must have a CI/CD pipeline set up, you probably have two accounts (one for production and another one for development), you need a repeatable and reliable way to create your infrastructure and so on. In this article I&amp;rsquo;ll show you how to create a simple continuous delivery pipeline that brings us closer to a professional application development.</description>
     </item>
     
     <item>
       <title>Calling a Step Function</title>
-      <link>http://example.org/post/calling-a-step-function/</link>
+      <link>https://vgaltes.com/post/calling-a-step-function/</link>
       <pubDate>Sun, 09 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/calling-a-step-function/</guid>
+      <guid>https://vgaltes.com/post/calling-a-step-function/</guid>
       <description>Until now we&amp;rsquo;ve seen how to create a Step Function, but we&amp;rsquo;ve always called them using the serverless framework. In this article we&amp;rsquo;re going to see how to call them programatically.
 We have two options to call a Step Function: the first one is to use the API Gateway and create an HTTP endpoint as the Event source of the Step Function. The second one is to call the step function from a Lambda function using the AWS SDK.</description>
     </item>
     
     <item>
       <title>Choice, pass, fail and succeed states in AWS Step Functions</title>
-      <link>http://example.org/post/step-functions-choice-pass-fail-succeed-states/</link>
+      <link>https://vgaltes.com/post/step-functions-choice-pass-fail-succeed-states/</link>
       <pubDate>Thu, 29 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/step-functions-choice-pass-fail-succeed-states/</guid>
+      <guid>https://vgaltes.com/post/step-functions-choice-pass-fail-succeed-states/</guid>
       <description>This will be the last article explaining the different states we can use in a step function. We&amp;rsquo;ll see three simple states like Pass, Fail and Succeed and finally, we&amp;rsquo;re going to a see a more complex state like Choice. And obviously, we&amp;rsquo;re going to use the http://serverless.com framework to deploy them.
 Pass state The pass state is a simple state that just passes its input to its output, without performing any work.</description>
     </item>
     
     <item>
       <title>Handling errors in AWS Step Functions</title>
-      <link>http://example.org/post/handling-errors-in-step-functions/</link>
+      <link>https://vgaltes.com/post/handling-errors-in-step-functions/</link>
       <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/handling-errors-in-step-functions/</guid>
+      <guid>https://vgaltes.com/post/handling-errors-in-step-functions/</guid>
       <description>As we&amp;rsquo;ve seen in previous articles, Step Functions helps us to orchestrate lambda functions. One of the most important aspects when we&amp;rsquo;re developing a system, distributed or not, is handling errors and retries. In this articles we&amp;rsquo;ll see how easy is to do it using Step Functions and the serverless framework.
 Catching errors Coding the lambda First of all we&amp;rsquo;re going to catch some errors. Let&amp;rsquo;s create a new project with one lambda inside it named ErrorLambda with the following code:</description>
     </item>
     
     <item>
       <title>Wait state in AWS Step Functions using the serverless framework</title>
-      <link>http://example.org/post/step-functions-wait-state/</link>
+      <link>https://vgaltes.com/post/step-functions-wait-state/</link>
       <pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/step-functions-wait-state/</guid>
+      <guid>https://vgaltes.com/post/step-functions-wait-state/</guid>
       <description>In the last article we&amp;rsquo;ve seen how to the parallel state in a State function. In this article we&amp;rsquo;ll see how we can use the Wait state using the serverless framework.
 The wait state delays the execution of the state function for a certain amount of time. By default, it returns the same object that it receives.
 What are we going to code We are going to code the following state function As you can see we&amp;rsquo;re going to have an initial function that creates a result with a field called DelaySeconds.</description>
@@ -241,20 +241,20 @@ What are we going to code We are going to code the following state function As y
     
     <item>
       <title>Parallel state in AWS Step Functions using .Net Core</title>
-      <link>http://example.org/post/step-functions-parallel-state/</link>
+      <link>https://vgaltes.com/post/step-functions-parallel-state/</link>
       <pubDate>Tue, 20 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/step-functions-parallel-state/</guid>
+      <guid>https://vgaltes.com/post/step-functions-parallel-state/</guid>
       <description>In the last article we&amp;rsquo;ve seen how to create a very basic step function using .Net Core and the serverless framework. Today we&amp;rsquo;ll see how to create one of the more useful states in a Step Function: the parallel state.
 The parallel state allows you to create parallel branches of execution in your state machine. Using it, you&amp;rsquo;ll be able to run several tasks in parallel and then collect the results in another task, that will be executed only if all the parallel tasks finish correctly.</description>
     </item>
     
     <item>
       <title>AWS Step Functions using .Net Core</title>
-      <link>http://example.org/post/step-functions-using-net-core/</link>
+      <link>https://vgaltes.com/post/step-functions-using-net-core/</link>
       <pubDate>Thu, 15 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/step-functions-using-net-core/</guid>
+      <guid>https://vgaltes.com/post/step-functions-using-net-core/</guid>
       <description>If my good friend Alan Gorton is right
 Functions will eat servers. #serverless https://t.co/4Rc1cDnM73
 &amp;mdash; Alan Gorton (@develogue) February 19, 2017we&amp;rsquo;d better be prepared. In this article we&amp;rsquo;ll see how we can develop AWS Lambda Functions using .Net Core and deploy them and Step Functions using the serverless framework.

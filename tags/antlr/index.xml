@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>antlr on VGALTES blog</title>
-    <link>http://example.org/tags/antlr/</link>
+    <link>https://vgaltes.com/tags/antlr/</link>
     <description>Recent content in antlr on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 06 Sep 2017 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/tags/antlr/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 06 Sep 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://vgaltes.com/tags/antlr/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ANTLR and JavaScript</title>
-      <link>http://example.org/post/antlr-and-javascript/</link>
+      <link>https://vgaltes.com/post/antlr-and-javascript/</link>
       <pubDate>Wed, 06 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/antlr-and-javascript/</guid>
+      <guid>https://vgaltes.com/post/antlr-and-javascript/</guid>
       <description>In the last few weeks I&amp;rsquo;ve been working on Crystal Gazer, a nodejs console application to gather information from your Git repository. You can find it on GitHub and on NPM.
 One of the things I&amp;rsquo;d like to do is to track the evolution of a function. Has it been modified a lot? How many people has been working on it? Is the function too long?
 To answer the first question, what we could do is rely on the git log -L:function:file command to give us all the changes a function has suffered.</description>

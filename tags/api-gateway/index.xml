@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>api gateway on VGALTES blog</title>
-    <link>http://example.org/tags/api-gateway/</link>
+    <link>https://vgaltes.com/tags/api-gateway/</link>
     <description>Recent content in api gateway on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 08 Nov 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/tags/api-gateway/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 08 Nov 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vgaltes.com/tags/api-gateway/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Set up a multi-region active-active backend</title>
-      <link>http://example.org/post/multi-region-backend/</link>
+      <link>https://vgaltes.com/post/multi-region-backend/</link>
       <pubDate>Fri, 08 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/multi-region-backend/</guid>
+      <guid>https://vgaltes.com/post/multi-region-backend/</guid>
       <description>Congratulations! Your startup is starting to bring attention to many people and you&amp;rsquo;re starting to have clients from different countries and continents. But your lambdas and API gateway are still in your initial region, and that might add some latency to some users. Apart from that, you want to increase the reliability of your system. So, you decide to go multi-region. Can you do that easily? In this article, we&amp;rsquo;ll see how to do that.</description>
     </item>
     
     <item>
       <title>Set up a custom domain for your API Gateway</title>
-      <link>http://example.org/post/api-gateway-custom-domain/</link>
+      <link>https://vgaltes.com/post/api-gateway-custom-domain/</link>
       <pubDate>Wed, 06 Nov 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/api-gateway-custom-domain/</guid>
+      <guid>https://vgaltes.com/post/api-gateway-custom-domain/</guid>
       <description>If you&amp;rsquo;re doing something more than a few tests with Lambda and API Gateway, there will be a time where you will like to stop using the AWS-created endpoints for your APIs and start using your own domain. You know, instead of telling your clients, &amp;ldquo;please, go to https://lk7z14x78h.execute-api.eu-west-1.amazonaws.com/dev/helloWorld&amp;quot;, you will like to point them to something like &amp;ldquo;api.authenticatedservices.net/helloWorld&amp;rdquo;. In this article, we&amp;rsquo;ll see how to do that.
 Disclaimer This article is a summary of two articles (this one and this one) from Alex DeBrie (who you should follow if you&amp;rsquo;re interested in serverless).</description>
     </item>

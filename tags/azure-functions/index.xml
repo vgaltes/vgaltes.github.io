@@ -2,36 +2,36 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>azure functions on VGALTES blog</title>
-    <link>http://example.org/tags/azure-functions/</link>
+    <link>https://vgaltes.com/tags/azure-functions/</link>
     <description>Recent content in azure functions on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 30 Nov 2018 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/tags/azure-functions/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 30 Nov 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://vgaltes.com/tags/azure-functions/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Using Key Vault secrets in AppSettings</title>
-      <link>http://example.org/post/using-key-vault-secret-in-appsettings/</link>
+      <link>https://vgaltes.com/post/using-key-vault-secret-in-appsettings/</link>
       <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/using-key-vault-secret-in-appsettings/</guid>
+      <guid>https://vgaltes.com/post/using-key-vault-secret-in-appsettings/</guid>
       <description>In the last article we talked about securing Azure Functions and we saw how to insert a message into an Event Hub. To insert the message, we needed the connection string to be in an application setting. This is not the most secure way to store a connection string. We talked that it would be a much better option to store it in Key Vault. Until a couple of days ago, to do that we needed to use a library to get the secret from Key Vault and then use an imperative binding to be able to insert the message into the Event Hub.</description>
     </item>
     
     <item>
       <title>Securing Azure Functions</title>
-      <link>http://example.org/post/securing-azure-functions/</link>
+      <link>https://vgaltes.com/post/securing-azure-functions/</link>
       <pubDate>Fri, 23 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/securing-azure-functions/</guid>
+      <guid>https://vgaltes.com/post/securing-azure-functions/</guid>
       <description>(Thanks to Francesc Ribera, Alex Casquete and Jerry Liu for their guidance on this topic)
 As far as I know (correct me in the comments if I&amp;rsquo;m wrong, please), when you create a brand new Azure Function, it has access to everything in your subscription as a contributor. That&amp;rsquo;s really not great. When you develop a new Lambda function you have to specify all the permissions that the function has to have.</description>
     </item>
     
     <item>
       <title>Deploying Azure Functions - Enabling Application Insights</title>
-      <link>http://example.org/post/enabling-application-insights/</link>
+      <link>https://vgaltes.com/post/enabling-application-insights/</link>
       <pubDate>Tue, 20 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/enabling-application-insights/</guid>
+      <guid>https://vgaltes.com/post/enabling-application-insights/</guid>
       <description>In our previous articles we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI or Terraform. Once we have a function deployed and accepting traffic, the next obvious thing to do is to monitor it.
 Adding some logs to the function is fairly easy. If you take a look at the signature of the function
 1 2 3 4 [FunctionName(&amp;#34;HelloWorld&amp;#34;)] public static async Task&amp;lt;IActionResult&amp;gt; Run( [HttpTrigger(AuthorizationLevel.Anonymous, &amp;#34;get&amp;#34;, &amp;#34;post&amp;#34;, Route = null)] HttpRequest req, ILogger log) you&amp;rsquo;ll see that we hava a parameter of type ILogger that we can use to, yes, you guessed it right, log.</description>
@@ -39,10 +39,10 @@ Adding some logs to the function is fairly easy. If you take a look at the signa
     
     <item>
       <title>Deploying Azure Functions using slots</title>
-      <link>http://example.org/post/deploying-azure-functions-using-slots/</link>
+      <link>https://vgaltes.com/post/deploying-azure-functions-using-slots/</link>
       <pubDate>Sun, 18 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploying-azure-functions-using-slots/</guid>
+      <guid>https://vgaltes.com/post/deploying-azure-functions-using-slots/</guid>
       <description>In previous articles we&amp;rsquo;ve seen how to deploy a Function App using Azure Functions Core Tools, Terraform and Azure CLI with Zip Deploy. In this article we&amp;rsquo;re going to take a look on how to deploy Function apps using deployment slots.
 Why deployment slots Being able to deploy into slots and decide which slot you use in production has many benefits. To name some of them:
 Enable A/B testing Enable blue/green deployments No downtime deployments Easy rollback system So, let&amp;rsquo;s take a look on how can we use them in Function apps.</description>
@@ -50,10 +50,10 @@ Enable A/B testing Enable blue/green deployments No downtime deployments Easy ro
     
     <item>
       <title>Deploying Azure Functions using Zip Deploy</title>
-      <link>http://example.org/post/deploying-azure-functions-using-zip-deploy/</link>
+      <link>https://vgaltes.com/post/deploying-azure-functions-using-zip-deploy/</link>
       <pubDate>Sat, 17 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploying-azure-functions-using-zip-deploy/</guid>
+      <guid>https://vgaltes.com/post/deploying-azure-functions-using-zip-deploy/</guid>
       <description>In a previous article we&amp;rsquo;ve seen how to deploy a Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to get rid of the help of the latter and use the Zip Deploy feauture.
 Fixing the script. We already have a deployment script. It is something like this:
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 #!</description>
@@ -61,10 +61,10 @@ Fixing the script. We already have a deployment script. It is something like thi
     
     <item>
       <title>Deploying Azure Functions using Terraform</title>
-      <link>http://example.org/post/deploying-azure-functions-using-terraform/</link>
+      <link>https://vgaltes.com/post/deploying-azure-functions-using-terraform/</link>
       <pubDate>Fri, 16 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploying-azure-functions-using-terraform/</guid>
+      <guid>https://vgaltes.com/post/deploying-azure-functions-using-terraform/</guid>
       <description>In previous articles (I, II) we&amp;rsquo;ve seen how to deploy an Azure Function App using the Azure CLI and the Azure Functions Core Tools. In this article we&amp;rsquo;ll see how to deploy it using Terraform.
 Prerequisites In order to follow this article you will need the .Net SDK 2.1, the Azure CLI and Terraform installed in your laptop/container/VM/whatever.
 Building the package What Terraform is going to do is take advantage of the Zip deployment capability (More on this in a future article).</description>
@@ -72,20 +72,20 @@ Building the package What Terraform is going to do is take advantage of the Zip 
     
     <item>
       <title>Deploying Azure Functions using CircleCI</title>
-      <link>http://example.org/post/deploying-azure-functions-using-cirecleci/</link>
+      <link>https://vgaltes.com/post/deploying-azure-functions-using-cirecleci/</link>
       <pubDate>Thu, 15 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploying-azure-functions-using-cirecleci/</guid>
+      <guid>https://vgaltes.com/post/deploying-azure-functions-using-cirecleci/</guid>
       <description>In the last article we saw how to deploy an azure function from the CLI. In this article we&amp;rsquo;ll see how we can use the same script to deploy the function from a continuous integration environment. In this case we&amp;rsquo;ll use CircleCI.
 Creating a new docker image As we saw, if we want to deploy the Function App using the same script we&amp;rsquo;d need to use the Azure CLI and the Azure Functions Core Tools.</description>
     </item>
     
     <item>
       <title>Deploying Azure Functions, an introduction</title>
-      <link>http://example.org/post/deploying-azure-functions-an-introduction/</link>
+      <link>https://vgaltes.com/post/deploying-azure-functions-an-introduction/</link>
       <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/deploying-azure-functions-an-introduction/</guid>
+      <guid>https://vgaltes.com/post/deploying-azure-functions-an-introduction/</guid>
       <description>In the last few days, I&amp;rsquo;ve been tinkering with Azure Functions, reading the documentation a bit and doing a Pluralsight course. As it happens quite offten, these introductory courses use easy techniques to deploy the code, focusing on showing what you can do with the platform. Although obviously this has some value, I don&amp;rsquo;t think it&amp;rsquo;s a good idea because, at the end, it will be something that you won&amp;rsquo;t be able to use in a serious test.</description>
     </item>
     

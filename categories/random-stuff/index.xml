@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Random Stuff on VGALTES blog</title>
-    <link>http://example.org/categories/random-stuff/</link>
+    <link>https://vgaltes.com/categories/random-stuff/</link>
     <description>Recent content in Random Stuff on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 13 Jun 2019 00:00:00 +0000</lastBuildDate><atom:link href="http://example.org/categories/random-stuff/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 13 Jun 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://vgaltes.com/categories/random-stuff/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Interesting reads - June 2019</title>
-      <link>http://example.org/post/random-stuff-june/</link>
+      <link>https://vgaltes.com/post/random-stuff-june/</link>
       <pubDate>Thu, 13 Jun 2019 00:00:00 +0000</pubDate>
       
-      <guid>http://example.org/post/random-stuff-june/</guid>
+      <guid>https://vgaltes.com/post/random-stuff-june/</guid>
       <description>My good friend Edu Ferro has a very nice blog called eferro&amp;rsquo;s random stuff in which he posts the most interesting blogs, talks and podcasts he&amp;rsquo;s read, viewed and heard lately. I like the idea and, now that I have a bit more free time, I&amp;rsquo;ll try to do the same, at least once every month. I&amp;rsquo;m not going to post here podcasts and talks, basically because all the ones I listen I get them from Edu&amp;rsquo;s blog, so I&amp;rsquo;m just going to concentrate in blogs.</description>
     </item>
     

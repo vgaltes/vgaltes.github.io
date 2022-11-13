@@ -28,7 +28,7 @@ Let&#39;s start with our first test:
 <meta name="generator" content="Hugo 0.105.0 with theme even" />
 
 
-<link rel="canonical" href="http://example.org/post/test-driving-asp-net-routing/" />
+<link rel="canonical" href="https://vgaltes.com/post/test-driving-asp-net-routing/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -46,7 +46,7 @@ Let&#39;s start with our first test:
 Let&#39;s start with our first test:
 [TestMethod]public void TestSimpleRoute(){RouteCollection routes = new RouteCollection();RouteConfig.RegisterRoutes(routes);// Act - process the routeRouteData result= routes.GetRouteData(CreateHttpContext(&#34;~/Admin/Index&#34;));// AssertAssert.IsNotNull(result);Assert.AreEqual(&#34;controller&#34;, result.Values[&#34;controller&#34;]);Assert.AreEqual(&#34;action&#34;, result.Values[&#34;action&#34;]);}private HttpContextBase CreateHttpContext(string targetUrl = null){var mockRequest = new Mock&lt;HttpRequestBase&gt;();mockRequest.Setup(m =&gt; m.AppRelativeCurrentExecutionFilePath).Returns(targetUrl);mockRequest." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://example.org/post/test-driving-asp-net-routing/" /><meta property="article:section" content="post" />
+<meta property="og:url" content="https://vgaltes.com/post/test-driving-asp-net-routing/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2014-07-29T17:36:20+01:00" />
 <meta property="article:modified_time" content="2014-07-29T17:36:20+01:00" />
 
@@ -399,7 +399,7 @@ public void TestVariableLengthRoute()
       <a href="https://linkedin.com/in/vgaltes" class="iconfont icon-linkedin" title="linkedin"></a>
       <a href="https://twitter.com/vgaltes" class="iconfont icon-twitter" title="twitter"></a>
       <a href="https://github.com/vgaltes" class="iconfont icon-github" title="github"></a>
-  <a href="http://example.org/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+  <a href="https://vgaltes.com/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
 </div>
 
 <div class="copyright">
