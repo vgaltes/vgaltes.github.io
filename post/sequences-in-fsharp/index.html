@@ -27,7 +27,7 @@ You can create a new sequence from a range expression. In this case, instead of 
 
 
 
-<meta name="generator" content="Hugo 0.105.0 with theme even" />
+<meta name="generator" content="Hugo 0.109.0 with theme even" />
 
 
 <link rel="canonical" href="https://vgaltes.com/post/sequences-in-fsharp/" />
@@ -51,7 +51,6 @@ You can create a new sequence from a range expression. In this case, instead of 
 1 let numbers = {1..20} Create from a sequence expression" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://vgaltes.com/post/sequences-in-fsharp/" /><meta property="article:section" content="post" />
-
 
 
 <meta itemprop="name" content="Sequences in F#">
@@ -184,7 +183,7 @@ You can create a new sequence from a range expression. In this case, instead of 
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">{</span><span class="n">1</span><span class="o">..</span><span class="n">20</span><span class="o">}</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">{</span><span class="mi">1</span><span class="o">..</span><span class="mi">20</span><span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><strong>Create from a sequence expression</strong></p>
@@ -194,7 +193,7 @@ You can create a new sequence from a range expression. In this case, instead of 
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">{</span><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">1</span><span class="o">..</span><span class="n">20</span> <span class="k">do</span> <span class="k">yield</span> <span class="n">i</span><span class="o">}</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">{</span><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">..</span><span class="mi">20</span> <span class="k">do</span> <span class="k">yield</span> <span class="n">i</span><span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We can write a compacted version using the forward arrow followed by the value to yield:</p>
@@ -203,7 +202,7 @@ You can create a new sequence from a range expression. In this case, instead of 
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">{</span><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">1</span><span class="o">..</span><span class="n">20</span> <span class="o">-&gt;</span> <span class="n">i</span><span class="o">}</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">{</span><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">..</span><span class="mi">20</span> <span class="o">-&gt;</span> <span class="n">i</span><span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><strong>Create using a function in the Seq module</strong></p>
@@ -214,7 +213,7 @@ You can create a new sequence from a range expression. In this case, instead of 
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">init</span> <span class="n">20</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">init</span> <span class="mi">20</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">2</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Or we can use initInifinite to create an infinite sequence.</p>
@@ -223,7 +222,7 @@ You can create a new sequence from a range expression. In this case, instead of 
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">initInfinite</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">*</span> <span class="n">2</span><span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">initInfinite</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">2</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Finally, we can also create a sequence directly from an IEnumerable</p>
@@ -255,11 +254,11 @@ You can create a new sequence from a range expression. In this case, instead of 
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">squareUpTo</span> <span class="o">(</span><span class="n">top</span><span class="o">)</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">        <span class="n">1</span>
+</span></span><span class="line"><span class="cl">        <span class="mi">1</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">unfold</span><span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="o">(</span> <span class="n">i</span><span class="o">*</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">top</span> <span class="o">)</span> <span class="k">then</span> <span class="n">None</span>
-</span></span><span class="line"><span class="cl">                                <span class="k">else</span> <span class="n">Some</span><span class="o">(</span><span class="n">i</span><span class="o">*</span><span class="n">i</span><span class="o">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">1</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">                                <span class="k">else</span> <span class="n">Some</span><span class="o">(</span><span class="n">i</span><span class="o">*</span><span class="n">i</span><span class="o">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl">                                
-</span></span><span class="line"><span class="cl">    <span class="n">1</span> <span class="n">4</span> <span class="n">9</span> <span class="n">16</span> <span class="n">25</span> <span class="n">36</span> <span class="n">49</span> <span class="n">64</span> <span class="n">81</span> <span class="n">100</span> <span class="n">121</span> <span class="n">144</span> <span class="n">169</span> <span class="n">196</span> <span class="n">225</span> <span class="n">256</span> <span class="n">289</span> <span class="n">324</span> <span class="n">361</span> <span class="n">400</span> <span class="n">441</span> <span class="n">484</span> <span class="n">529</span> <span class="n">576</span> <span class="n">625</span> <span class="n">676</span> <span class="n">729</span> <span class="n">784</span> <span class="n">841</span> <span class="n">900</span> <span class="n">961</span> 
+</span></span><span class="line"><span class="cl">    <span class="mi">1</span> <span class="mi">4</span> <span class="mi">9</span> <span class="mi">16</span> <span class="mi">25</span> <span class="mi">36</span> <span class="mi">49</span> <span class="mi">64</span> <span class="mi">81</span> <span class="mi">100</span> <span class="mi">121</span> <span class="mi">144</span> <span class="mi">169</span> <span class="mi">196</span> <span class="mi">225</span> <span class="mi">256</span> <span class="mi">289</span> <span class="mi">324</span> <span class="mi">361</span> <span class="mi">400</span> <span class="mi">441</span> <span class="mi">484</span> <span class="mi">529</span> <span class="mi">576</span> <span class="mi">625</span> <span class="mi">676</span> <span class="mi">729</span> <span class="mi">784</span> <span class="mi">841</span> <span class="mi">900</span> <span class="mi">961</span> 
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>The first 1 is the initial state, in this case 1. This initial state is passed to unfold function. The generator checks if the result will be greater than the threshold and, if it is, returns None. If it isn&rsquo;t, returns a tuple with the next element of the sequence (in this case de square) and the next state to be passed to unfold (in this case the next number).</p>
@@ -275,7 +274,7 @@ You can create a new sequence from a range expression. In this case, instead of 
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">j</span> <span class="o">=</span> 
 </span></span><span class="line"><span class="cl">        <span class="n">squares</span>
-</span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">find</span><span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">find</span><span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We get the following error
@@ -290,7 +289,7 @@ System.Collections.Generic.KeyNotFoundException: Exception of type &lsquo;System
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">j</span> <span class="o">=</span> 
 </span></span><span class="line"><span class="cl">        <span class="n">squares</span>
-</span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">find</span><span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">200</span> <span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">find</span><span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">200</span> <span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We get</p>
@@ -299,7 +298,7 @@ System.Collections.Generic.KeyNotFoundException: Exception of type &lsquo;System
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">j</span> <span class="o">:</span> <span class="n">int</span> <span class="o">=</span> <span class="n">225</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">j</span> <span class="o">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">225</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>If we don&rsquo;t want to get an exception, we can use the tryFind function, which returns an option type. Then, the follwing code</p>
@@ -312,7 +311,7 @@ System.Collections.Generic.KeyNotFoundException: Exception of type &lsquo;System
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">j</span> <span class="o">=</span> 
 </span></span><span class="line"><span class="cl">        <span class="n">squares</span>
-</span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">tryFind</span><span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">tryFind</span><span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Returns</p>
@@ -337,9 +336,9 @@ System.Collections.Generic.KeyNotFoundException: Exception of type &lsquo;System
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">j</span> <span class="o">=</span> 
 </span></span><span class="line"><span class="cl">        <span class="n">squares</span>
-</span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">pick</span><span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">200</span><span class="o">)</span> <span class="k">then</span> <span class="n">Some</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="k">else</span> <span class="n">None</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">pick</span><span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">200</span><span class="o">)</span> <span class="k">then</span> <span class="n">Some</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="k">else</span> <span class="n">None</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">j</span> <span class="o">:</span> <span class="n">int</span> <span class="o">=</span> <span class="n">225</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">j</span> <span class="o">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">225</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>If there isn&rsquo;t any valid value, it throws an exception. If you want to avoid this, use tryPick.</p>
@@ -356,9 +355,9 @@ System.Collections.Generic.KeyNotFoundException: Exception of type &lsquo;System
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">j</span> <span class="o">=</span> 
 </span></span><span class="line"><span class="cl">        <span class="n">squares</span>
-</span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">findIndex</span><span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">200</span> <span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">findIndex</span><span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">200</span> <span class="o">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">j</span> <span class="o">:</span> <span class="n">int</span> <span class="o">=</span> <span class="n">14</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">j</span> <span class="o">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">14</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><strong>Seq.exists</strong></p>
@@ -374,7 +373,7 @@ System.Collections.Generic.KeyNotFoundException: Exception of type &lsquo;System
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">j</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">        <span class="n">squares</span>
-</span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">exists</span><span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">=</span> <span class="n">100</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">exists</span><span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">100</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">j</span> <span class="o">:</span> <span class="kt">bool</span> <span class="o">=</span> <span class="k">true</span>
 </span></span></code></pre></td></tr></table>
@@ -394,8 +393,8 @@ System.Collections.Generic.KeyNotFoundException: Exception of type &lsquo;System
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">howBigIsTheNumber</span> <span class="n">i</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">100</span> <span class="k">then</span> <span class="s">&#34;Small&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">500</span> <span class="k">then</span> <span class="s">&#34;Medium&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span> <span class="k">then</span> <span class="s">&#34;Small&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">elif</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">500</span> <span class="k">then</span> <span class="s">&#34;Medium&#34;</span>
 </span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="s">&#34;Big&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">groupedSquares</span> <span class="o">=</span>
@@ -418,13 +417,13 @@ System.Collections.Generic.KeyNotFoundException: Exception of type &lsquo;System
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">random</span> <span class="o">=</span> <span class="nn">System</span><span class="p">.</span><span class="n">Random</span><span class="bp">()</span>
-</span></span><span class="line"><span class="cl">     <span class="k">let</span> <span class="nv">randomNumbers</span> <span class="o">=</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">init</span> <span class="n">50</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">random</span><span class="o">.</span><span class="n">Next</span><span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">5</span><span class="o">))</span>
+</span></span><span class="line"><span class="cl">     <span class="k">let</span> <span class="nv">randomNumbers</span> <span class="o">=</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">init</span> <span class="mi">50</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">random</span><span class="o">.</span><span class="n">Next</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">5</span><span class="o">))</span>
 </span></span><span class="line"><span class="cl">     <span class="k">let</span> <span class="nv">disctintNumbers</span> <span class="o">=</span>
 </span></span><span class="line"><span class="cl">        <span class="n">randomNumbers</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">distinct</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">iter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">printf</span> <span class="s">&#34;%d &#34;</span> <span class="n">i</span> <span class="o">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="n">3</span> <span class="n">2</span> <span class="n">1</span> <span class="n">4</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">4</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>If we need to get the disctint elements given a function, we can use disctintBy</p>
@@ -441,13 +440,13 @@ System.Collections.Generic.KeyNotFoundException: Exception of type &lsquo;System
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">{</span><span class="n">1</span><span class="o">..</span><span class="n">5</span><span class="o">}</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">{</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="o">}</span>
 </span></span><span class="line"><span class="cl">    <span class="k">let</span> <span class="nv">tNumbers</span> <span class="o">=</span> 
 </span></span><span class="line"><span class="cl">    <span class="n">numbers</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">pairwise</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">iter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">printf</span> <span class="s">&#34;(%d, %d) &#34;</span> <span class="o">(</span><span class="n">fst</span> <span class="n">i</span><span class="o">)</span> <span class="o">(</span><span class="n">snd</span> <span class="n">i</span><span class="o">)</span> <span class="o">)</span>
 </span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="o">(</span><span class="n">1</span><span class="o">,</span> <span class="n">2</span><span class="o">)</span> <span class="o">(</span><span class="n">2</span><span class="o">,</span> <span class="n">3</span><span class="o">)</span> <span class="o">(</span><span class="n">3</span><span class="o">,</span> <span class="n">4</span><span class="o">)</span> <span class="o">(</span><span class="n">4</span><span class="o">,</span> <span class="n">5</span><span class="o">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">)</span> <span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span> <span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">)</span> <span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span> 
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><strong>Seq.windowed</strong></p>
@@ -468,18 +467,18 @@ System.Collections.Generic.KeyNotFoundException: Exception of type &lsquo;System
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">{</span><span class="n">1</span><span class="o">..</span><span class="n">10</span><span class="o">}</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">{</span><span class="mi">1</span><span class="o">..</span><span class="mi">10</span><span class="o">}</span>
 </span></span><span class="line"><span class="cl">     <span class="k">let</span> <span class="nv">tNumbers</span> <span class="o">=</span> 
 </span></span><span class="line"><span class="cl">        <span class="n">numbers</span>
-</span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">windowed</span> <span class="n">5</span>
+</span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">windowed</span> <span class="mi">5</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">iter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">printf</span> <span class="s">&#34;%s</span><span class="se">\n</span><span class="s">&#34;</span> <span class="o">(</span> <span class="nn">String</span><span class="p">.</span><span class="n">Join</span><span class="o">(</span><span class="s">&#34;,&#34;</span><span class="o">,</span> <span class="n">i</span><span class="o">))</span> <span class="o">)</span>
 </span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">    <span class="n">1</span><span class="o">,</span><span class="n">2</span><span class="o">,</span><span class="n">3</span><span class="o">,</span><span class="n">4</span><span class="o">,</span><span class="n">5</span>
-</span></span><span class="line"><span class="cl">    <span class="n">2</span><span class="o">,</span><span class="n">3</span><span class="o">,</span><span class="n">4</span><span class="o">,</span><span class="n">5</span><span class="o">,</span><span class="n">6</span>
-</span></span><span class="line"><span class="cl">    <span class="n">3</span><span class="o">,</span><span class="n">4</span><span class="o">,</span><span class="n">5</span><span class="o">,</span><span class="n">6</span><span class="o">,</span><span class="n">7</span>
-</span></span><span class="line"><span class="cl">    <span class="n">4</span><span class="o">,</span><span class="n">5</span><span class="o">,</span><span class="n">6</span><span class="o">,</span><span class="n">7</span><span class="o">,</span><span class="n">8</span>
-</span></span><span class="line"><span class="cl">    <span class="n">5</span><span class="o">,</span><span class="n">6</span><span class="o">,</span><span class="n">7</span><span class="o">,</span><span class="n">8</span><span class="o">,</span><span class="n">9</span>
-</span></span><span class="line"><span class="cl">    <span class="n">6</span><span class="o">,</span><span class="n">7</span><span class="o">,</span><span class="n">8</span><span class="o">,</span><span class="n">9</span><span class="o">,</span><span class="n">10</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">7</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">7</span><span class="o">,</span><span class="mi">8</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">7</span><span class="o">,</span><span class="mi">8</span><span class="o">,</span><span class="mi">9</span>
+</span></span><span class="line"><span class="cl">    <span class="mi">6</span><span class="o">,</span><span class="mi">7</span><span class="o">,</span><span class="mi">8</span><span class="o">,</span><span class="mi">9</span><span class="o">,</span><span class="mi">10</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><strong>Seq.collect</strong></p>
@@ -494,12 +493,12 @@ System.Collections.Generic.KeyNotFoundException: Exception of type &lsquo;System
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">{</span><span class="n">1</span><span class="o">..</span><span class="n">5</span><span class="o">}</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">{</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="o">}</span>
 </span></span><span class="line"><span class="cl">    <span class="n">numbers</span>
-</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">collect</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="o">{</span><span class="n">i</span><span class="o">*</span><span class="n">10</span><span class="o">..</span><span class="n">i</span><span class="o">*</span><span class="n">10</span><span class="o">+</span><span class="n">5</span><span class="o">}</span> <span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">collect</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="o">{</span><span class="n">i</span><span class="o">*</span><span class="mi">10</span><span class="o">..</span><span class="n">i</span><span class="o">*</span><span class="mi">10</span><span class="o">+</span><span class="mi">5</span><span class="o">}</span> <span class="o">)</span>
 </span></span><span class="line"><span class="cl">    <span class="o">|&gt;</span> <span class="nn">Seq</span><span class="p">.</span><span class="n">iter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">printf</span> <span class="s">&#34;%d &#34;</span> <span class="n">i</span> <span class="o">)</span>
 </span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="n">10</span> <span class="n">11</span> <span class="n">12</span> <span class="n">13</span> <span class="n">14</span> <span class="n">15</span> <span class="n">20</span> <span class="n">21</span> <span class="n">22</span> <span class="n">23</span> <span class="n">24</span> <span class="n">25</span> <span class="n">30</span> <span class="n">31</span> <span class="n">32</span> <span class="n">33</span> <span class="n">34</span> <span class="n">35</span> <span class="n">40</span> <span class="n">41</span> <span class="n">42</span> <span class="n">43</span> <span class="n">44</span> <span class="n">45</span> <span class="n">50</span> <span class="n">51</span> <span class="n">52</span> <span class="n">53</span> <span class="n">54</span> <span class="n">55</span> 
+</span></span><span class="line"><span class="cl">    <span class="mi">10</span> <span class="mi">11</span> <span class="mi">12</span> <span class="mi">13</span> <span class="mi">14</span> <span class="mi">15</span> <span class="mi">20</span> <span class="mi">21</span> <span class="mi">22</span> <span class="mi">23</span> <span class="mi">24</span> <span class="mi">25</span> <span class="mi">30</span> <span class="mi">31</span> <span class="mi">32</span> <span class="mi">33</span> <span class="mi">34</span> <span class="mi">35</span> <span class="mi">40</span> <span class="mi">41</span> <span class="mi">42</span> <span class="mi">43</span> <span class="mi">44</span> <span class="mi">45</span> <span class="mi">50</span> <span class="mi">51</span> <span class="mi">52</span> <span class="mi">53</span> <span class="mi">54</span> <span class="mi">55</span> 
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h4 id="summary">Summary</h4>
@@ -584,7 +583,7 @@ System.Collections.Generic.KeyNotFoundException: Exception of type &lsquo;System
   <span class="copyright-year">
     &copy; 
     2013 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
   </span>
 </div>
 

@@ -25,7 +25,7 @@ Create from a literal We can create an array with a predefined set of values. To
 
 
 
-<meta name="generator" content="Hugo 0.105.0 with theme even" />
+<meta name="generator" content="Hugo 0.109.0 with theme even" />
 
 
 <link rel="canonical" href="https://vgaltes.com/post/arrays-in-fsharp/" />
@@ -47,7 +47,6 @@ Creation There are several ways to create an array in F#
 Create from a literal We can create an array with a predefined set of values. To do that, we just need to specify the values separated by semicolons and wrapped between [| and |]" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://vgaltes.com/post/arrays-in-fsharp/" /><meta property="article:section" content="post" />
-
 
 
 <meta itemprop="name" content="Arrays in F#">
@@ -182,9 +181,9 @@ Create from a literal We can create an array with a predefined set of values. To
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[|</span><span class="n">1</span><span class="o">;</span><span class="n">2</span><span class="o">;</span><span class="n">3</span><span class="o">;</span><span class="n">4</span><span class="o">|]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[|</span><span class="mi">1</span><span class="o">;</span><span class="mi">2</span><span class="o">;</span><span class="mi">3</span><span class="o">;</span><span class="mi">4</span><span class="o">|]</span>
 </span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">numbers</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span> <span class="o">[|</span><span class="n">1</span><span class="o">;</span> <span class="n">2</span><span class="o">;</span> <span class="n">3</span><span class="o">;</span> <span class="n">4</span><span class="o">|]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">numbers</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span> <span class="o">[|</span><span class="mi">1</span><span class="o">;</span> <span class="mi">2</span><span class="o">;</span> <span class="mi">3</span><span class="o">;</span> <span class="mi">4</span><span class="o">|]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="create-a-range">Create a range</h3>
@@ -197,10 +196,10 @@ Create from a literal We can create an array with a predefined set of values. To
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[|</span><span class="n">100</span><span class="o">..</span><span class="n">120</span><span class="o">|]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[|</span><span class="mi">100</span><span class="o">..</span><span class="mi">120</span><span class="o">|]</span>
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">numbers</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">        <span class="o">[|</span><span class="n">100</span><span class="o">;</span> <span class="n">101</span><span class="o">;</span> <span class="n">102</span><span class="o">;</span> <span class="n">103</span><span class="o">;</span> <span class="n">104</span><span class="o">;</span> <span class="n">105</span><span class="o">;</span> <span class="n">106</span><span class="o">;</span> <span class="n">107</span><span class="o">;</span> <span class="n">108</span><span class="o">;</span> <span class="n">109</span><span class="o">;</span> <span class="n">110</span><span class="o">;</span> <span class="n">111</span><span class="o">;</span> <span class="n">112</span><span class="o">;</span> <span class="n">113</span><span class="o">;</span> <span class="n">114</span><span class="o">;</span> <span class="n">115</span><span class="o">;</span> <span class="n">116</span><span class="o">;</span> <span class="n">117</span><span class="o">;</span> <span class="n">118</span><span class="o">;</span> <span class="n">119</span><span class="o">;</span> <span class="n">120</span><span class="o">|]</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[|</span><span class="mi">100</span><span class="o">;</span> <span class="mi">101</span><span class="o">;</span> <span class="mi">102</span><span class="o">;</span> <span class="mi">103</span><span class="o">;</span> <span class="mi">104</span><span class="o">;</span> <span class="mi">105</span><span class="o">;</span> <span class="mi">106</span><span class="o">;</span> <span class="mi">107</span><span class="o">;</span> <span class="mi">108</span><span class="o">;</span> <span class="mi">109</span><span class="o">;</span> <span class="mi">110</span><span class="o">;</span> <span class="mi">111</span><span class="o">;</span> <span class="mi">112</span><span class="o">;</span> <span class="mi">113</span><span class="o">;</span> <span class="mi">114</span><span class="o">;</span> <span class="mi">115</span><span class="o">;</span> <span class="mi">116</span><span class="o">;</span> <span class="mi">117</span><span class="o">;</span> <span class="mi">118</span><span class="o">;</span> <span class="mi">119</span><span class="o">;</span> <span class="mi">120</span><span class="o">|]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>In the previous code, we are creating an array of numbers between 100 and 120.</p>
@@ -212,9 +211,9 @@ Create from a literal We can create an array with a predefined set of values. To
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[|</span><span class="n">100</span><span class="o">..</span><span class="n">3</span><span class="o">..</span><span class="n">120</span><span class="o">|]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[|</span><span class="mi">100</span><span class="o">..</span><span class="mi">3</span><span class="o">..</span><span class="mi">120</span><span class="o">|]</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">numbers</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span> <span class="o">[|</span><span class="n">100</span><span class="o">;</span> <span class="n">103</span><span class="o">;</span> <span class="n">106</span><span class="o">;</span> <span class="n">109</span><span class="o">;</span> <span class="n">112</span><span class="o">;</span> <span class="n">115</span><span class="o">;</span> <span class="n">118</span><span class="o">|]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">numbers</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span> <span class="o">[|</span><span class="mi">100</span><span class="o">;</span> <span class="mi">103</span><span class="o">;</span> <span class="mi">106</span><span class="o">;</span> <span class="mi">109</span><span class="o">;</span> <span class="mi">112</span><span class="o">;</span> <span class="mi">115</span><span class="o">;</span> <span class="mi">118</span><span class="o">|]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>And we can use an expression inside the brackets too:</p>
@@ -227,11 +226,11 @@ Create from a literal We can create an array with a predefined set of values. To
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[|</span><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">100</span><span class="o">..</span><span class="n">120</span> <span class="k">do</span>
-</span></span><span class="line"><span class="cl">                    <span class="k">yield</span> <span class="n">i</span> <span class="o">*</span> <span class="n">2</span><span class="o">|]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[|</span><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">100</span><span class="o">..</span><span class="mi">120</span> <span class="k">do</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">yield</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">2</span><span class="o">|]</span>
 </span></span><span class="line"><span class="cl">                    
 </span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">numbers</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span>
-</span></span><span class="line"><span class="cl">    <span class="o">[|</span><span class="n">200</span><span class="o">;</span> <span class="n">202</span><span class="o">;</span> <span class="n">204</span><span class="o">;</span> <span class="n">206</span><span class="o">;</span> <span class="n">208</span><span class="o">;</span> <span class="n">210</span><span class="o">;</span> <span class="n">212</span><span class="o">;</span> <span class="n">214</span><span class="o">;</span> <span class="n">216</span><span class="o">;</span> <span class="n">218</span><span class="o">;</span> <span class="n">220</span><span class="o">;</span> <span class="n">222</span><span class="o">;</span> <span class="n">224</span><span class="o">;</span> <span class="n">226</span><span class="o">;</span> <span class="n">228</span><span class="o">;</span> <span class="n">230</span><span class="o">;</span> <span class="n">232</span><span class="o">;</span> <span class="n">234</span><span class="o">;</span> <span class="n">236</span><span class="o">;</span> <span class="n">238</span><span class="o">;</span> <span class="n">240</span><span class="o">|]</span>
+</span></span><span class="line"><span class="cl">    <span class="o">[|</span><span class="mi">200</span><span class="o">;</span> <span class="mi">202</span><span class="o">;</span> <span class="mi">204</span><span class="o">;</span> <span class="mi">206</span><span class="o">;</span> <span class="mi">208</span><span class="o">;</span> <span class="mi">210</span><span class="o">;</span> <span class="mi">212</span><span class="o">;</span> <span class="mi">214</span><span class="o">;</span> <span class="mi">216</span><span class="o">;</span> <span class="mi">218</span><span class="o">;</span> <span class="mi">220</span><span class="o">;</span> <span class="mi">222</span><span class="o">;</span> <span class="mi">224</span><span class="o">;</span> <span class="mi">226</span><span class="o">;</span> <span class="mi">228</span><span class="o">;</span> <span class="mi">230</span><span class="o">;</span> <span class="mi">232</span><span class="o">;</span> <span class="mi">234</span><span class="o">;</span> <span class="mi">236</span><span class="o">;</span> <span class="mi">238</span><span class="o">;</span> <span class="mi">240</span><span class="o">|]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="create-from-a-function-in-the-array-module">Create from a function in the Array module</h3>
@@ -243,9 +242,9 @@ Create from a literal We can create an array with a predefined set of values. To
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">create</span> <span class="n">4</span> <span class="n">5</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">create</span> <span class="mi">4</span> <span class="mi">5</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">numbers</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span> <span class="o">[|</span><span class="n">5</span><span class="o">;</span> <span class="n">5</span><span class="o">;</span> <span class="n">5</span><span class="o">;</span> <span class="n">5</span><span class="o">|]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">numbers</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span> <span class="o">[|</span><span class="mi">5</span><span class="o">;</span> <span class="mi">5</span><span class="o">;</span> <span class="mi">5</span><span class="o">;</span> <span class="mi">5</span><span class="o">|]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Another function we can use is init, which is very similar to create but instead of taking the value it takes a function to create the different values</p>
@@ -256,9 +255,9 @@ Create from a literal We can create an array with a predefined set of values. To
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">init</span> <span class="n">4</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">*</span> <span class="n">2</span> <span class="o">)</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">init</span> <span class="mi">4</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">)</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">numbers</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span> <span class="o">[|</span><span class="n">0</span><span class="o">;</span> <span class="n">2</span><span class="o">;</span> <span class="n">4</span><span class="o">;</span> <span class="n">6</span><span class="o">|]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">numbers</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span> <span class="o">[|</span><span class="mi">0</span><span class="o">;</span> <span class="mi">2</span><span class="o">;</span> <span class="mi">4</span><span class="o">;</span> <span class="mi">6</span><span class="o">|]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>We can also use zeroCreate to create an array filled with zeros</p>
@@ -269,9 +268,9 @@ Create from a literal We can create an array with a predefined set of values. To
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">:</span> <span class="n">int</span><span class="bp">[]</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">zeroCreate</span> <span class="n">4</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">:</span> <span class="n">int</span><span class="bp">[]</span> <span class="o">=</span> <span class="nn">Array</span><span class="p">.</span><span class="n">zeroCreate</span> <span class="mi">4</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">numbers</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span> <span class="o">[|</span><span class="n">0</span><span class="o">;</span> <span class="n">0</span><span class="o">;</span> <span class="n">0</span><span class="o">;</span> <span class="n">0</span><span class="o">|]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">numbers</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span> <span class="o">[|</span><span class="mi">0</span><span class="o">;</span> <span class="mi">0</span><span class="o">;</span> <span class="mi">0</span><span class="o">;</span> <span class="mi">0</span><span class="o">|]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Finally we can create an array from other array or IEnumerable</p>
@@ -294,7 +293,7 @@ Create from a literal We can create an array with a predefined set of values. To
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">number</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.[</span><span class="n">0</span><span class="o">]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">number</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.[</span><span class="mi">0</span><span class="o">]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>You must take into account that arrays are 0 based.</p>
@@ -312,12 +311,12 @@ Create from a literal We can create an array with a predefined set of values. To
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[|</span><span class="n">1</span><span class="o">..</span><span class="n">5</span><span class="o">|]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[|</span><span class="mi">1</span><span class="o">..</span><span class="mi">5</span><span class="o">|]</span>
 </span></span><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">squares</span> <span class="o">=</span> 
 </span></span><span class="line"><span class="cl">        <span class="n">numbers</span> 
 </span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Array</span><span class="p">.</span><span class="n">map</span> <span class="o">(</span><span class="k">fun</span> <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">i</span> <span class="o">*</span> <span class="n">i</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">    
-</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">squares</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span> <span class="o">[|</span><span class="n">1</span><span class="o">;</span> <span class="n">4</span><span class="o">;</span> <span class="n">9</span><span class="o">;</span> <span class="n">16</span><span class="o">;</span> <span class="n">25</span><span class="o">|]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">squares</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span> <span class="o">[|</span><span class="mi">1</span><span class="o">;</span> <span class="mi">4</span><span class="o">;</span> <span class="mi">9</span><span class="o">;</span> <span class="mi">16</span><span class="o">;</span> <span class="mi">25</span><span class="o">|]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><strong>Array.mapi</strong></p>
@@ -364,12 +363,12 @@ Create from a literal We can create an array with a predefined set of values. To
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[|</span><span class="n">1</span><span class="o">..</span><span class="n">20</span><span class="o">|]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[|</span><span class="mi">1</span><span class="o">..</span><span class="mi">20</span><span class="o">|]</span>
 </span></span><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">evenNumbers</span> <span class="o">=</span> 
 </span></span><span class="line"><span class="cl">      <span class="n">numbers</span>
-</span></span><span class="line"><span class="cl">      <span class="o">|&gt;</span> <span class="nn">Array</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">n</span> <span class="o">-&gt;</span> <span class="n">n</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">|&gt;</span> <span class="nn">Array</span><span class="p">.</span><span class="n">filter</span> <span class="o">(</span><span class="k">fun</span> <span class="n">n</span> <span class="o">-&gt;</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">0</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">evenNumbers</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span> <span class="o">[|</span><span class="n">2</span><span class="o">;</span> <span class="n">4</span><span class="o">;</span> <span class="n">6</span><span class="o">;</span> <span class="n">8</span><span class="o">;</span> <span class="n">10</span><span class="o">;</span> <span class="n">12</span><span class="o">;</span> <span class="n">14</span><span class="o">;</span> <span class="n">16</span><span class="o">;</span> <span class="n">18</span><span class="o">;</span> <span class="n">20</span><span class="o">|]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">evenNumbers</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span> <span class="o">[|</span><span class="mi">2</span><span class="o">;</span> <span class="mi">4</span><span class="o">;</span> <span class="mi">6</span><span class="o">;</span> <span class="mi">8</span><span class="o">;</span> <span class="mi">10</span><span class="o">;</span> <span class="mi">12</span><span class="o">;</span> <span class="mi">14</span><span class="o">;</span> <span class="mi">16</span><span class="o">;</span> <span class="mi">18</span><span class="o">;</span> <span class="mi">20</span><span class="o">|]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><strong>Array.choose</strong></p>
@@ -384,12 +383,12 @@ Create from a literal We can create an array with a predefined set of values. To
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[|</span><span class="n">1</span><span class="o">..</span><span class="n">20</span><span class="o">|]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[|</span><span class="mi">1</span><span class="o">..</span><span class="mi">20</span><span class="o">|]</span>
 </span></span><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">evenNumbers</span> <span class="o">=</span> 
 </span></span><span class="line"><span class="cl">      <span class="n">numbers</span>
-</span></span><span class="line"><span class="cl">      <span class="o">|&gt;</span> <span class="nn">Array</span><span class="p">.</span><span class="n">choose</span> <span class="o">(</span><span class="k">fun</span> <span class="n">n</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="o">(</span> <span class="n">n</span> <span class="o">%</span> <span class="n">2</span> <span class="o">=</span> <span class="n">0</span> <span class="o">)</span> <span class="k">then</span> <span class="n">Some</span><span class="o">(</span><span class="n">n</span><span class="o">)</span> <span class="k">else</span> <span class="n">None</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">      <span class="o">|&gt;</span> <span class="nn">Array</span><span class="p">.</span><span class="n">choose</span> <span class="o">(</span><span class="k">fun</span> <span class="n">n</span> <span class="o">-&gt;</span> <span class="k">if</span> <span class="o">(</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">)</span> <span class="k">then</span> <span class="n">Some</span><span class="o">(</span><span class="n">n</span><span class="o">)</span> <span class="k">else</span> <span class="n">None</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">evenNumbers</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span> <span class="o">[|</span><span class="n">2</span><span class="o">;</span> <span class="n">4</span><span class="o">;</span> <span class="n">6</span><span class="o">;</span> <span class="n">8</span><span class="o">;</span> <span class="n">10</span><span class="o">;</span> <span class="n">12</span><span class="o">;</span> <span class="n">14</span><span class="o">;</span> <span class="n">16</span><span class="o">;</span> <span class="n">18</span><span class="o">;</span> <span class="n">20</span><span class="o">|]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">evenNumbers</span> <span class="o">:</span> <span class="n">int</span> <span class="bp">[]</span> <span class="o">=</span> <span class="o">[|</span><span class="mi">2</span><span class="o">;</span> <span class="mi">4</span><span class="o">;</span> <span class="mi">6</span><span class="o">;</span> <span class="mi">8</span><span class="o">;</span> <span class="mi">10</span><span class="o">;</span> <span class="mi">12</span><span class="o">;</span> <span class="mi">14</span><span class="o">;</span> <span class="mi">16</span><span class="o">;</span> <span class="mi">18</span><span class="o">;</span> <span class="mi">20</span><span class="o">|]</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><strong>Array.sum</strong></p>
@@ -404,12 +403,12 @@ Create from a literal We can create an array with a predefined set of values. To
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[|</span><span class="n">1</span><span class="o">..</span><span class="n">20</span><span class="o">|]</span>
+<pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">numbers</span> <span class="o">=</span> <span class="o">[|</span><span class="mi">1</span><span class="o">..</span><span class="mi">20</span><span class="o">|]</span>
 </span></span><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">sum</span> <span class="o">=</span> 
 </span></span><span class="line"><span class="cl">        <span class="n">numbers</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Array</span><span class="p">.</span><span class="n">sum</span>
 </span></span><span class="line"><span class="cl">  
-</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">sum</span> <span class="o">:</span> <span class="n">int</span> <span class="o">=</span> <span class="n">210</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">sum</span> <span class="o">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">210</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><strong>Array.sumBy</strong></p>
@@ -433,7 +432,7 @@ Create from a literal We can create an array with a predefined set of values. To
 </span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">chars</span> <span class="o">=</span> <span class="s">&#34;ABCDEFGHIJKLMNOPQRSTUVWUXYZ0123456789&#34;</span>
 </span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">charsLen</span> <span class="o">=</span> <span class="n">chars</span><span class="o">.</span><span class="n">Length</span>
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">randomChars</span> <span class="o">=</span> <span class="o">[|</span><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">0</span><span class="o">..</span><span class="n">len</span> <span class="o">-&gt;</span> <span class="n">chars</span><span class="o">.[</span><span class="n">random</span><span class="o">.</span><span class="n">Next</span><span class="o">(</span><span class="n">charsLen</span><span class="o">)]|]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">let</span> <span class="nv">randomChars</span> <span class="o">=</span> <span class="o">[|</span><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">0</span><span class="o">..</span><span class="n">len</span> <span class="o">-&gt;</span> <span class="n">chars</span><span class="o">.[</span><span class="n">random</span><span class="o">.</span><span class="n">Next</span><span class="o">(</span><span class="n">charsLen</span><span class="o">)]|]</span>
 </span></span><span class="line"><span class="cl">        <span class="k">new</span> <span class="nn">System</span><span class="p">.</span><span class="n">String</span><span class="o">(</span><span class="n">randomChars</span><span class="o">)`</span>
 </span></span><span class="line"><span class="cl">    
 </span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">randomStr</span> <span class="o">:</span> <span class="n">len</span><span class="o">:</span><span class="n">int</span> <span class="o">-&gt;</span> <span class="nn">System</span><span class="p">.</span><span class="n">String</span>  
@@ -452,7 +451,7 @@ Create from a literal We can create an array with a predefined set of values. To
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-fsharp" data-lang="fsharp"><span class="line"><span class="cl">    <span class="o">&gt;</span><span class="k">let</span> <span class="nv">strings</span> <span class="o">=</span> 
-</span></span><span class="line"><span class="cl">        <span class="o">[|</span><span class="n">10</span><span class="o">..</span><span class="n">15</span><span class="o">|]</span>
+</span></span><span class="line"><span class="cl">        <span class="o">[|</span><span class="mi">10</span><span class="o">..</span><span class="mi">15</span><span class="o">|]</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Array</span><span class="p">.</span><span class="n">map</span> <span class="n">randomStr</span>
 </span></span><span class="line"><span class="cl">        
 </span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">strings</span> <span class="o">:</span> <span class="nn">System</span><span class="p">.</span><span class="n">String</span> <span class="bp">[]</span> <span class="o">=</span>
@@ -474,7 +473,7 @@ Create from a literal We can create an array with a predefined set of values. To
 </span></span><span class="line"><span class="cl">        <span class="n">strings</span>
 </span></span><span class="line"><span class="cl">        <span class="o">|&gt;</span> <span class="nn">Array</span><span class="p">.</span><span class="n">sumBy</span> <span class="o">(</span><span class="k">fun</span> <span class="n">s</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">Length</span><span class="o">)</span>
 </span></span><span class="line"><span class="cl">        
-</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">sum</span> <span class="o">:</span> <span class="n">int</span> <span class="o">=</span> <span class="n">81</span>
+</span></span><span class="line"><span class="cl">    <span class="k">val</span> <span class="n">sum</span> <span class="o">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">81</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p><strong>Array.sort</strong></p>
@@ -668,7 +667,7 @@ Create from a literal We can create an array with a predefined set of values. To
   <span class="copyright-year">
     &copy; 
     2013 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
   </span>
 </div>
 

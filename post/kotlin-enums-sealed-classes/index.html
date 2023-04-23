@@ -25,7 +25,7 @@ One of the differences between a sealed class and an enum is that a subclass of 
 
 
 
-<meta name="generator" content="Hugo 0.105.0 with theme even" />
+<meta name="generator" content="Hugo 0.109.0 with theme even" />
 
 
 <link rel="canonical" href="https://vgaltes.com/post/kotlin-enums-sealed-classes/" />
@@ -49,7 +49,6 @@ One of the differences between a sealed class and an enum is that a subclass of 
 <meta property="og:url" content="https://vgaltes.com/post/kotlin-enums-sealed-classes/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-11-06T00:00:00+00:00" />
 <meta property="article:modified_time" content="2022-11-06T00:00:00+00:00" />
-
 <meta itemprop="name" content="Learning Kotlin: sealed classes and enums">
 <meta itemprop="description" content="In Kotlin we have two constructs that alow us to create a closed typed hierarchy: sealed classes and enums. Let&rsquo;s take a look to them and see the differences amongst them.
 Sealed classes A sealed class is a class that we know all its subclasses at compile time. We can&rsquo;t declare a subclass of a sealed class outside the module where it&rsquo;s defined.
@@ -262,9 +261,9 @@ One of the differences between a sealed class and an enum is that a subclass of 
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-kotlin" data-lang="kotlin"><span class="line"><span class="cl"><span class="k">fun</span> <span class="nf">process</span><span class="p">(</span><span class="n">d</span><span class="p">:</span> <span class="n">DangerLevel</span><span class="p">){</span>
 </span></span><span class="line"><span class="cl">    <span class="k">when</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">DangerLevel</span><span class="p">.</span><span class="n">HIGH</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="cm">/* Do something */</span><span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="n">DangerLevel</span><span class="p">.</span><span class="n">MEDIUM</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="cm">/* Do something */</span><span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="n">DangerLevel</span><span class="p">.</span><span class="n">LOW</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="cm">/* Do something */</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">DangerLevel</span><span class="p">.</span><span class="n">HIGH</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="cm">/* Do something */</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">DangerLevel</span><span class="p">.</span><span class="n">MEDIUM</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="cm">/* Do something */</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">DangerLevel</span><span class="p">.</span><span class="n">LOW</span> <span class="o">-&gt;</span> <span class="p">{</span> <span class="cm">/* Do something */</span><span class="p">}</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
@@ -349,9 +348,9 @@ One of the differences between a sealed class and an enum is that a subclass of 
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl"><span class="k">fun</span> <span class="nf">DangerLevel</span><span class="p">.</span><span class="n">getLevel</span><span class="p">():</span> <span class="n">String</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">when</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">DangerLevel</span><span class="p">.</span><span class="n">HIGH</span> <span class="o">-&gt;</span> <span class="s2">&#34;This is dangerous&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">DangerLevel</span><span class="p">.</span><span class="n">MEDIUM</span> <span class="o">-&gt;</span> <span class="s2">&#34;This is not that dangerous&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">DangerLevel</span><span class="p">.</span><span class="n">LOW</span> <span class="o">-&gt;</span> <span class="s2">&#34;This is not dangerous&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">DangerLevel</span><span class="p">.</span><span class="n">HIGH</span> <span class="o">-&gt;</span> <span class="s2">&#34;This is dangerous&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">DangerLevel</span><span class="p">.</span><span class="n">MEDIUM</span> <span class="o">-&gt;</span> <span class="s2">&#34;This is not that dangerous&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="nc">DangerLevel</span><span class="p">.</span><span class="n">LOW</span> <span class="o">-&gt;</span> <span class="s2">&#34;This is not dangerous&#34;</span>
 </span></span><span class="line"><span class="cl">    <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
@@ -450,7 +449,7 @@ One of the differences between a sealed class and an enum is that a subclass of 
   <span class="copyright-year">
     &copy; 
     2013 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>Vicenç García</span>
   </span>
 </div>
 
