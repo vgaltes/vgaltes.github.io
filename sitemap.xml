@@ -3,7 +3,49 @@
   
   <url>
     <loc>https://vgaltes.com/categories/</loc>
-    <lastmod>2022-11-12T00:00:00+00:00</lastmod>
+    <lastmod>2023-04-23T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://vgaltes.com/post/</loc>
+    <lastmod>2023-04-23T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://vgaltes.com/tags/</loc>
+    <lastmod>2023-04-23T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://vgaltes.com/tags/teamwork/</loc>
+    <lastmod>2023-04-23T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://vgaltes.com/categories/teamwork/</loc>
+    <lastmod>2023-04-23T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://vgaltes.com/post/ambassador/</loc>
+    <lastmod>2023-04-23T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://vgaltes.com/</loc>
+    <lastmod>2023-04-23T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -38,27 +80,6 @@
   
   <url>
     <loc>https://vgaltes.com/post/kotlin-variance-covariance/</loc>
-    <lastmod>2022-11-12T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://vgaltes.com/post/</loc>
-    <lastmod>2022-11-12T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://vgaltes.com/tags/</loc>
-    <lastmod>2022-11-12T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://vgaltes.com/</loc>
     <lastmod>2022-11-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -661,20 +682,6 @@
   
   <url>
     <loc>https://vgaltes.com/post/definition-of-x/</loc>
-    <lastmod>2017-03-24T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://vgaltes.com/tags/teamwork/</loc>
-    <lastmod>2017-03-24T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://vgaltes.com/categories/teamwork/</loc>
     <lastmod>2017-03-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

@@ -122,6 +122,30 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/forwarding-correlation-ids-in-aspnetcore/">Capturing and forwarding correlation IDs in ASP.NET Core</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 28-01-2020 </span>
+      <div class="post-category">
+          <a href="/categories/aspnet-core/"> aspnet core </a>
+          </div>
+        <span class="more-meta"> 875 words </span>
+        <span class="more-meta"> 5 mins read </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      When you have different services that communicate amongst them, you need to be able to correlate those calls to perform effective analysis of any problem you might have. The way to do this is using correlation ids and pass them along in all your call to the different services you use. In this article, I´m going to explain you a way to do this in ASP.NET Core.
+Correlation IDs Why do you need more than one correlation ID?
+    </div>
+    <div class="read-more">
+      <a href="/post/forwarding-correlation-ids-in-aspnetcore/" class="read-more-link">Read more...</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/serverless-patterns-implemented-sls-dlq/">Serverless Patterns implemented: using an SQS queue as a DLQ for a SNS topic</a></h1>
     <div class="post-meta">
       <span class="post-time"> 26-11-2019 </span>
@@ -330,29 +354,6 @@ Amazon Cognito User Pools As the documentation says, a user pool is a user direc
     </div>
     <div class="read-more">
       <a href="/post/mentoring/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/using-key-vault-secret-in-appsettings/">Using Key Vault secrets in AppSettings</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 30-11-2018 </span>
-      <div class="post-category">
-          <a href="/categories/serverless/"> serverless </a>
-          </div>
-        <span class="more-meta"> 1068 words </span>
-        <span class="more-meta"> 6 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      In the last article we talked about securing Azure Functions and we saw how to insert a message into an Event Hub. To insert the message, we needed the connection string to be in an application setting. This is not the most secure way to store a connection string. We talked that it would be a much better option to store it in Key Vault. Until a couple of days ago, to do that we needed to use a library to get the secret from Key Vault and then use an imperative binding to be able to insert the message into the Event Hub.
-    </div>
-    <div class="read-more">
-      <a href="/post/using-key-vault-secret-in-appsettings/" class="read-more-link">Read more...</a>
     </div>
   </div>
 </article>

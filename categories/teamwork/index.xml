@@ -6,7 +6,18 @@
     <description>Recent content in Teamwork on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 24 Mar 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://vgaltes.com/categories/teamwork/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 23 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vgaltes.com/categories/teamwork/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Ambassador</title>
+      <link>https://vgaltes.com/post/ambassador/</link>
+      <pubDate>Sun, 23 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://vgaltes.com/post/ambassador/</guid>
+      <description>If you have a service in production (congratulations, by the way) you probably have a lot of questions from other parts of the company.
+Customer Service Customer Service can come to you with some weird scenario that a customer has suffered, or ask you to do that manual task that you still don&amp;rsquo;t have automated. Or maybe thay complain because the website they use is slow today.
+Operations Operations can ask you to import some new data in production.</description>
+    </item>
+    
     <item>
       <title>Definition of X</title>
       <link>https://vgaltes.com/post/definition-of-x/</link>

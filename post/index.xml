@@ -6,7 +6,18 @@
     <description>Recent content in Posts on VGALTES blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 12 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://vgaltes.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 23 Apr 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://vgaltes.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Ambassador</title>
+      <link>https://vgaltes.com/post/ambassador/</link>
+      <pubDate>Sun, 23 Apr 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://vgaltes.com/post/ambassador/</guid>
+      <description>If you have a service in production (congratulations, by the way) you probably have a lot of questions from other parts of the company.
+Customer Service Customer Service can come to you with some weird scenario that a customer has suffered, or ask you to do that manual task that you still don&amp;rsquo;t have automated. Or maybe thay complain because the website they use is slow today.
+Operations Operations can ask you to import some new data in production.</description>
+    </item>
+    
     <item>
       <title>Learning Kotlin: covariance and contravariance</title>
       <link>https://vgaltes.com/post/kotlin-variance-covariance/</link>
@@ -193,15 +204,6 @@ Amazon Cognito User Pools As the documentation says, a user pool is a user direc
       
       <guid>https://vgaltes.com/post/mentoring/</guid>
       <description>Last September I turned 40. You know, in the movies, when someone turns forty he buys a new brand card, gets divorced and tries something new. I still don&amp;rsquo;t have a car and, although I&amp;rsquo;m not married, I still live with my partner, but I did start something new. In my case, was an old &amp;ldquo;aspiration&amp;rdquo; (I tried it 7 years ago): learning to play guitar. Not that I want to be the next Angus Young but I never had any musical education and I always wanted to be able to play an instrument, especially guitar.</description>
-    </item>
-    
-    <item>
-      <title>Using Key Vault secrets in AppSettings</title>
-      <link>https://vgaltes.com/post/using-key-vault-secret-in-appsettings/</link>
-      <pubDate>Fri, 30 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://vgaltes.com/post/using-key-vault-secret-in-appsettings/</guid>
-      <description>In the last article we talked about securing Azure Functions and we saw how to insert a message into an Event Hub. To insert the message, we needed the connection string to be in an application setting. This is not the most secure way to store a connection string. We talked that it would be a much better option to store it in Key Vault. Until a couple of days ago, to do that we needed to use a library to get the secret from Key Vault and then use an imperative binding to be able to insert the message into the Event Hub.</description>
     </item>
     
   </channel>
